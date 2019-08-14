@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">废宝2</string>
+
+    <string name="ok">ok</string>
+
+    <!--Homepage errorData dialog-->
+
+    <string name="homepage_dialog_button_setting">设置wifi</string>
+
+    <!--Homepage errorData dialog - No wifi-->
+    <string name="net_unavailable">网络错误</string>
+
+    <string name="homepage_dialog_title_no_wife">没有WIFI网络</string>
+    <string name="homepage_dialog_msg_no_wife">请检查wifi设置</string>
+
+    <!--Homepage errorData dialog - unexpected-->
+    <string name="homepage_dialog_title_unexpected">未知错误</string>
+</resources>

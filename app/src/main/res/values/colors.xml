@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#009688</color>
+    <color name="colorPrimaryDark">#009688</color>
+    <color name="colorAccent">#009688</color>
+
+    <color name="colorApp">#009688</color>
+    <color name="colorCard">#83FFFFFF</color>
+
+    <color name="white">#fff</color>
+    <color name="black">#000</color>
+    <color name="colorTrans">#00FFFFFF</color>
+
+    <color name="bg_title">#F5A623</color>
+    <color name="text_title">#FFFFFF</color>
+
+    <color name="bg_tab_selected">#F5A623</color>
+    <color name="bg_tab_nor">#FFFFFF</color>
+
+
+    <color name="text_tip">#FFFFFF</color>
+    <color name="text_first">#333333</color>
+    <color name="text_second">#999999</color>
+
+    <color name="text_warning">#D93D1E</color>
+    <color name="text_btn_blue">#75B4D9</color>
+    <color name="text_btn_blue_back">#F3F3F3</color>
+
+
+    <color name="bg_inputLin_correct">#C8C7CC</color>
+    <color name="bg_inputLin_idle">#C8C7CC</color>
+    <color name="bg_inputLin_selected">#F5A623</color>
+    <color name="bg_inputLin_error">#EA5050</color>
+
+    <color name="text_inputLin_idle">#FF999999</color>
+    <color name="text_inputLin_error">#EA5050</color>
+
+
+    <color name="colorCellClick">#85EEEEEE</color>
+    <color name="colorBackClick">#90F5A623</color>
+    <color name="colorBg">#59F7F7F7</color>
+
+    <color name="colorTransparent">#00FFFFFF</color>
+    <color name="colorWhite">#FFFFFF</color>
+
+
+    <color name="gang">#F3F3F3</color>
+    <color name="star">#FFCC00</color>
+    <color name="cell_idel">#ffffff</color>
+    <color name="cell_touch">#A1C0C0C0</color>
+
+
+
+
+
+</resources>

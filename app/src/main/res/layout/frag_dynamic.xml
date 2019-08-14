@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+    <data class="DynamicBinding">
+        <variable name="vm"
+                  type="com.example.rubbishcommunity.mainac.ui.find.dynamic.DynamicViewModel"/>
+
+    </data>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/refreshlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srlAccentColor="@color/colorApp"
+                app:srlPrimaryColor="@color/white">
+
+
+            <com.scwang.smartrefresh.header.StoreHouseHeader
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:shhText="Environmental Life"/>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rec_find"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </LinearLayout>
+</layout>
