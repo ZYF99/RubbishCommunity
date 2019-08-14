@@ -5,7 +5,7 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
-import com.example.rubbishcommunity.mainac.ui.find.dynamic.DynamicFragment
+import com.example.rubbishcommunity.mainac.ui.find.FindFragment
 import com.example.fenrir_stage4.mainac.utils.ErrorType
 import com.example.fenrir_stage4.mainac.utils.getErrorObs
 import com.example.fenrir_stage4.mainac.utils.showNoWifiDialog
@@ -14,26 +14,21 @@ import com.example.rubbishcommunity.base.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MainBinding
 import com.example.rubbishcommunity.mainac.ui.homepage.HomepageFragment
+import com.example.rubbishcommunity.mainac.ui.message.MessageFragment
 import com.example.rubbishcommunity.mainac.ui.mine.MineFragment
 import com.jakewharton.rxbinding2.support.design.widget.RxBottomNavigationView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
 
 @Suppress("UNCHECKED_CAST")
 class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
-
-
     override val clazz: Class<MainViewModel> = MainViewModel::class.java
     override val layRes: Int = R.layout.activity_main
-
     private var errorDisposable: Disposable? = null
     private var errorDialog: AlertDialog? = null
-
     private var fragment: Fragment? = null
-
 
     override fun initBefore() {
 
@@ -43,29 +38,23 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
     override fun initWidget() {
         RxBottomNavigationView.itemSelections(binding.bottomnavigation)
             .doOnNext {
-                when(it.itemId){
-                    R.id.navigation_home ->{
+                when (it.itemId) {
+                    R.id.navigation_home -> {
                         changeTab(0)
                     }
-                    R.id.navigation_find ->{
+                    R.id.navigation_find -> {
                         changeTab(1)
                     }
-                    R.id.navigation_message ->{
+                    R.id.navigation_message -> {
                         changeTab(2)
                     }
-                    R.id.navigation_mine ->{
+                    R.id.navigation_mine -> {
                         changeTab(3)
                     }
-
                 }
             }.bindLife()
-
-
-
         //resolve error
         handleError()
-
-
     }
 
     override fun initData() {
@@ -76,26 +65,18 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
     private fun changeTab(tab: Int) {
         when (tab) {
             0 -> {
-
                 fragment = HomepageFragment()
-
             }
             1 -> {
-
-                fragment = DynamicFragment()
+                fragment = FindFragment()
             }
             2 -> {
-
-                fragment = DynamicFragment()
+                fragment = MessageFragment()
             }
 
             3 -> {
-
                 fragment = MineFragment()
             }
-
-
-
         }
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.maincontainer, fragment!!)
@@ -107,7 +88,6 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 
     //实际'异常'处理者
     private fun handleError() {
-
         errorDisposable = getErrorObs()
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext {
@@ -132,9 +112,9 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
             .startIntent(Intent(this, CollectionActivity::class.java))
             .map { result -> result.data() }
             .doOnNext {
-                if (fragment is DynamicFragment) {
+                if (fragment is FindFragment) {
                     val deleteArray: MutableList<String> = it.getSerializableExtra("deleteArray") as MutableList<String>
-                    (fragment as DynamicFragment).updateListFromDeletes(deleteArray)
+                    (fragment as FindFragment).updateListFromDeletes(deleteArray)
                 }
             }.bindLife()
     }*/

@@ -1,16 +1,16 @@
-package com.example.rubbishcommunity.mainac.ui.find.dynamic
+package com.example.rubbishcommunity.mainac.ui.find.vote
 
 import android.annotation.SuppressLint
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.base.BindingFragment
 import com.example.rubbishcommunity.R
-import com.example.rubbishcommunity.databinding.DynamicBinding
-import com.example.rubbishcommunity.mainac.ui.find.vote.VoteListAdapter
+import com.example.rubbishcommunity.databinding.VoteBinding
+import com.example.rubbishcommunity.mainac.ui.find.dynamic.FindViewModel
 
 
-class DynamicFragment : BindingFragment<DynamicBinding, DynamicViewModel>(
-    DynamicViewModel::class.java, R.layout.frag_dynamic
+class VoteFragment : BindingFragment<VoteBinding, VoteViewModel>(
+    VoteViewModel::class.java, R.layout.frag_vote
 ) {
     override fun initBefore() {
 

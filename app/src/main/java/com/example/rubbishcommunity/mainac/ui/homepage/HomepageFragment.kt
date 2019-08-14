@@ -5,11 +5,11 @@ import android.view.View
 import com.example.rubbishcommunity.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.HomepageBinding
-import com.example.rubbishcommunity.mainac.ui.find.dynamic.DynamicViewModel
+import com.example.rubbishcommunity.mainac.ui.find.dynamic.FindViewModel
 
 
-class HomepageFragment : BindingFragment<HomepageBinding, DynamicViewModel>(
-    DynamicViewModel::class.java, R.layout.frag_homepage
+class HomepageFragment : BindingFragment<HomepageBinding, HomepageViewModel>(
+    HomepageViewModel::class.java, R.layout.frag_homepage
 ) {
     override fun initBefore() {
 

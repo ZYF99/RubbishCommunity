@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
-    <data class="MineBinding">
-        <variable name="vm" type="com.example.rubbishcommunity.mainac.ui.mine.MineViewModel"/>
+    <data class="MessageBinding">
+        <variable name="vm" type="com.example.rubbishcommunity.mainac.ui.message.MessageViewModel"/>
 
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,7 +15,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mine"
+                android:text="Message"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
