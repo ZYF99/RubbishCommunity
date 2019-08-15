@@ -2,9 +2,8 @@ package com.example.rubbishcommunity.mainac.ui.homepage
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.example.fenrir_stage4.manager.api.DynamicService
+import com.example.rubbishcommunity.manager.api.ApiService
 import com.example.rubbishcommunity.base.BaseViewModel
-import io.reactivex.SingleTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.kodein.di.generic.instance
@@ -13,7 +12,7 @@ import org.kodein.di.generic.instance
 class HomepageViewModel(application: Application) : BaseViewModel(application) {
 
 
-    private val apiService by instance<DynamicService>()
+    private val apiService by instance<ApiService>()
 
     private val hotWrodList = MutableLiveData<MutableList<String>>()
 

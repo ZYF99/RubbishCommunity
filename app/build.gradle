@@ -107,6 +107,7 @@ dependencies {
     //SmartRefreshLayout
     implementation "com.scwang.smartrefresh:SmartRefreshLayout:$rootProject.ext.smartrefreshlayoutVersion"
     //没有使用特殊Header，可以不加这行
+    implementation 'com.github.recruit-lifestyle:WaveSwipeRefreshLayout:1.6'
     implementation "com.scwang.smartrefresh:SmartRefreshHeader:$rootProject.ext.smartrefreshlayoutVersion"
     //BRVAH 强大的recyclerView框架
     implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$rootProject.ext.brvahVersion"

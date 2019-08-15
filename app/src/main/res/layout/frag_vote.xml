@@ -8,31 +8,34 @@
     </data>
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="vertical">
 
-
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
-                android:id="@+id/refreshlayout"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/refreshLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 app:srlAccentColor="@color/colorApp"
+                app:srlEnablePreviewInEditMode="true"
+                app:srlHeaderTriggerRate="0.3"
                 app:srlPrimaryColor="@color/white">
 
-
+            <!--srlAccentColor srlPrimaryColor 将会改变 Header 和 Footer 的主题颜色-->
+            <!--srlEnablePreviewInEditMode 可以开启和关闭预览功能-->
             <com.scwang.smartrefresh.header.StoreHouseHeader
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:shhText="Environmental Life"/>
-
-
+                    app:shhText="@string/brief" />
             <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rec_find"
+                    android:id="@+id/rec_vote"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
     </LinearLayout>
 </layout>

@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.VoteBinding
-import com.example.rubbishcommunity.mainac.ui.find.dynamic.FindViewModel
 
 
 class VoteFragment : BindingFragment<VoteBinding, VoteViewModel>(
@@ -21,39 +20,39 @@ class VoteFragment : BindingFragment<VoteBinding, VoteViewModel>(
     override fun initWidget(view: View) {
         binding.vm = viewModel
 
-       // viewModel.refreshing.observe { binding.refreshlayout. = it!! }
+        //viewModel.refreshing.observe { binding.refreshlayout.isRefreshing = it!! }
 
         viewModel.init()
 
-
-
-        binding.recFind.run {
+        binding.recVote.run {
             layoutManager = LinearLayoutManager(context)
-            adapter = VoteListAdapter(R.layout.cell_dynamic,viewModel.dynamicList.value)
-
+            adapter = VoteListAdapter(R.layout.cell_vote,viewModel.voteList.value)
         }
 
 
-
-        binding.refreshlayout.setOnRefreshListener {
+        binding.refreshLayout.setOnRefreshListener {
             when {
                 !isNetworkAvailable() -> {
                     showNetErrorSnackBar()
                 }
                 else -> {
-                    viewModel.getDynamicList()
+                    viewModel.getVoteList()
                 }
             }
         }
 
 
-
-
-    viewModel.dynamicList.observe {
-        binding.recFind.run {
+    viewModel.voteList.observe {
+        binding.recVote.run {
             (adapter as VoteListAdapter).replaceData(it!!)
         }
     }
+
+        viewModel.refreshing.observe { isRefreshing ->
+            binding.refreshLayout.run {
+                if (!isRefreshing!!) finishRefresh()
+            }
+        }
 
 
 }

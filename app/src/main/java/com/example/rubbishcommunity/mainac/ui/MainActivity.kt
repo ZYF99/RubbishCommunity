@@ -20,6 +20,7 @@ import com.jakewharton.rxbinding2.support.design.widget.RxBottomNavigationView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
+import kotlin.math.min
 
 
 @Suppress("UNCHECKED_CAST")
@@ -28,7 +29,20 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
     override val layRes: Int = R.layout.activity_main
     private var errorDisposable: Disposable? = null
     private var errorDialog: AlertDialog? = null
-    private var fragment: Fragment? = null
+
+
+
+
+    private val homepageFragment: HomepageFragment = HomepageFragment()
+    private val findFragment: FindFragment? = FindFragment()
+    private val messageFragment: MessageFragment = MessageFragment()
+    private val mineFragment: MineFragment = MineFragment()
+
+    private var currentFragment: Fragment? = homepageFragment
+    private var targetFragment: Fragment? = null
+
+
+
 
     override fun initBefore() {
 
@@ -36,6 +50,23 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 
     @SuppressLint("ResourceType")
     override fun initWidget() {
+
+        supportFragmentManager.beginTransaction().apply {
+
+
+            add(R.id.maincontainer, homepageFragment as Fragment)
+            add(R.id.maincontainer, findFragment as Fragment)
+            add(R.id.maincontainer, messageFragment as Fragment)
+            add(R.id.maincontainer, mineFragment as Fragment)
+            hide(homepageFragment)
+            hide(mineFragment)
+            hide(messageFragment)
+            hide(findFragment)
+            show(homepageFragment)
+            commit()
+        }
+
+
         RxBottomNavigationView.itemSelections(binding.bottomnavigation)
             .doOnNext {
                 when (it.itemId) {
@@ -65,21 +96,24 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
     private fun changeTab(tab: Int) {
         when (tab) {
             0 -> {
-                fragment = HomepageFragment()
+                targetFragment = homepageFragment
             }
             1 -> {
-                fragment = FindFragment()
+                targetFragment = findFragment
             }
             2 -> {
-                fragment = MessageFragment()
+                targetFragment = messageFragment
             }
-
             3 -> {
-                fragment = MineFragment()
+                targetFragment = mineFragment
             }
         }
+
+
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.maincontainer, fragment!!)
+            hide(currentFragment!!)
+            show(targetFragment!!)
+            currentFragment = targetFragment
             setTransition(TRANSIT_FRAGMENT_FADE)
             commit()
         }
@@ -112,9 +146,9 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
             .startIntent(Intent(this, CollectionActivity::class.java))
             .map { result -> result.data() }
             .doOnNext {
-                if (fragment is FindFragment) {
+                if (targetFragment is FindFragment) {
                     val deleteArray: MutableList<String> = it.getSerializableExtra("deleteArray") as MutableList<String>
-                    (fragment as FindFragment).updateListFromDeletes(deleteArray)
+                    (targetFragment as FindFragment).updateListFromDeletes(deleteArray)
                 }
             }.bindLife()
     }*/

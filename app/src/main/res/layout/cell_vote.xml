@@ -49,11 +49,11 @@
                     android:layout_marginLeft="8dp">
 
                 <TextView
-                    android:id="@+id/tv_dynamic_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="张日天"
-                    android:textColor="@color/black" />
+                        android:id="@+id/tv_dynamic_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="bbb"
+                        android:textColor="@color/black"/>
 
                 <TextView
                     android:id="@+id/tv_vote_date"
@@ -146,7 +146,8 @@
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" android:layout_marginRight="24dp">
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                    android:layout_marginRight="24dp">
 
 
                 <ImageView

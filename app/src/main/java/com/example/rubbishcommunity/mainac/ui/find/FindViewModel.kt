@@ -2,7 +2,7 @@ package com.example.rubbishcommunity.mainac.ui.find.dynamic
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.example.fenrir_stage4.manager.api.DynamicService
+import com.example.rubbishcommunity.manager.api.ApiService
 import com.example.rubbishcommunity.base.BaseViewModel
 import com.example.rubbishcommunity.model.Dynamic
 import io.reactivex.SingleTransformer
@@ -14,7 +14,7 @@ import org.kodein.di.generic.instance
 class FindViewModel(application: Application) : BaseViewModel(application) {
 
 
-    private val dynamicService by instance<DynamicService>()
+    private val dynamicService by instance<ApiService>()
 
     val dynamicList = MutableLiveData<MutableList<Dynamic>>()
 

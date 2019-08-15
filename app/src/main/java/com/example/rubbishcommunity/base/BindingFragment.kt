@@ -62,9 +62,12 @@ constructor(
     //do when view created
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initBefore()
-        initWidget(view)
-        initData()
+
+            initBefore()
+            initWidget(view)
+            initData()
+
+
     }
 
 

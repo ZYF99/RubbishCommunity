@@ -1,6 +1,6 @@
 package com.example.fenrir_stage4.manager.base
 
-import com.example.fenrir_stage4.manager.api.DynamicService
+import com.example.rubbishcommunity.manager.api.ApiService
 import com.example.rubbishcommunity.BuildConfig
 import okhttp3.logging.HttpLoggingInterceptor
 import org.kodein.di.Kodein
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 
 val apiModule = Kodein.Module {
     bind<ApiClient>() with singleton { provideApiClient() }
-    bind<DynamicService>() with singleton { instance<ApiClient>().createService(DynamicService::class.java) }
+    bind<ApiService>() with singleton { instance<ApiClient>().createService(ApiService::class.java) }
 }
 
 
