@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll"
-            android:background="@color/white"
+            android:background="@color/colorLayoutBg"
             android:orientation="vertical">
 
 
@@ -20,7 +20,7 @@
                 android:id="@+id/refreshLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/colorLayoutBg"
                 app:srlAccentColor="@color/colorApp"
                 app:srlEnablePreviewInEditMode="true"
                 app:srlHeaderTriggerRate="0.3"
@@ -37,6 +37,7 @@
                     android:id="@+id/rec_dynamic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
+
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
   </LinearLayout>

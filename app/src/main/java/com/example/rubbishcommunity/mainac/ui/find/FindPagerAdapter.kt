@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentPagerAdapter
  * @version 1.0
  */
 
-class FindPagerAdapter(val fragmentManager: FragmentManager,val fragList:List<Pair<Fragment,String>>) :FragmentPagerAdapter(fragmentManager){
+class FindPagerAdapter(fragmentManager: FragmentManager, private val fragList:List<Pair<Fragment,String>>) :FragmentPagerAdapter(fragmentManager){
     override fun getItem(position: Int): Fragment {
         return fragList[position].first
     }

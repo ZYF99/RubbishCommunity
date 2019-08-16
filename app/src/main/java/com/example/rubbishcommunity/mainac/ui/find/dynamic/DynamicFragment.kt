@@ -39,7 +39,7 @@ class DynamicFragment : BindingFragment<DynamicBinding, DynamicViewModel>(
 
 
 
-/*
+
         binding.refreshLayout.setOnRefreshListener {
             when {
                 !isNetworkAvailable() -> {
@@ -50,7 +50,7 @@ class DynamicFragment : BindingFragment<DynamicBinding, DynamicViewModel>(
                 }
             }
         }
-*/
+
 
 
 
@@ -60,11 +60,11 @@ class DynamicFragment : BindingFragment<DynamicBinding, DynamicViewModel>(
             }
         }
 
-/*        viewModel.refreshing.observe { isRefreshing ->
+        viewModel.refreshing.observe { isRefreshing ->
             binding.refreshLayout.run {
                 if (!isRefreshing!!) finishRefresh()
             }
-        }*/
+        }
 
 
     }

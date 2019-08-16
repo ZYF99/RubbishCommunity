@@ -5,7 +5,6 @@ import android.view.View
 import com.example.rubbishcommunity.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.mainac.ui.find.dynamic.DynamicFragment
-import com.example.rubbishcommunity.mainac.ui.find.dynamic.FindViewModel
 import com.example.rubbishcommunity.mainac.ui.find.vote.VoteFragment
 
 
@@ -21,11 +20,6 @@ class FindFragment : BindingFragment<com.example.rubbishcommunity.databinding.Fi
     override fun initWidget(view: View) {
 
         binding.vm = viewModel
-
-        // viewModel.refreshing.observe { binding.refreshlayout. = it!! }
-
-        viewModel.init()
-
         binding.findpager.run {
             val dynamicFragment = DynamicFragment()
             val voteFragment = VoteFragment()

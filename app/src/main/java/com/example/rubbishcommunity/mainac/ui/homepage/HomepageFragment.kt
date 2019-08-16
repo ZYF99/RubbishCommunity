@@ -5,7 +5,6 @@ import android.view.View
 import com.example.rubbishcommunity.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.HomepageBinding
-import com.example.rubbishcommunity.mainac.ui.find.dynamic.FindViewModel
 
 
 class HomepageFragment : BindingFragment<HomepageBinding, HomepageViewModel>(

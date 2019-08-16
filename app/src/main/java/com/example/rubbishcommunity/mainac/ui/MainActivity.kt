@@ -16,6 +16,7 @@ import com.example.rubbishcommunity.databinding.MainBinding
 import com.example.rubbishcommunity.mainac.ui.homepage.HomepageFragment
 import com.example.rubbishcommunity.mainac.ui.message.MessageFragment
 import com.example.rubbishcommunity.mainac.ui.mine.MineFragment
+import com.example.rubbishcommunity.mainac.ui.widget.statushelper.StatusBarUtil
 import com.jakewharton.rxbinding2.support.design.widget.RxBottomNavigationView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -50,10 +51,9 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 
     @SuppressLint("ResourceType")
     override fun initWidget() {
-
+        //状态栏字体黑色
+        StatusBarUtil.setStatusTextColor(true, this)
         supportFragmentManager.beginTransaction().apply {
-
-
             add(R.id.maincontainer, homepageFragment as Fragment)
             add(R.id.maincontainer, findFragment as Fragment)
             add(R.id.maincontainer, messageFragment as Fragment)
@@ -109,14 +109,17 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
             }
         }
 
+        if(currentFragment!!::class != targetFragment!!::class){
+            supportFragmentManager.beginTransaction().apply {
+                hide(currentFragment!!)
+                show(targetFragment!!)
+                currentFragment = targetFragment
+                setTransition(TRANSIT_FRAGMENT_FADE)
+                commit()
+            }
 
-        supportFragmentManager.beginTransaction().apply {
-            hide(currentFragment!!)
-            show(targetFragment!!)
-            currentFragment = targetFragment
-            setTransition(TRANSIT_FRAGMENT_FADE)
-            commit()
         }
+
 
     }
 

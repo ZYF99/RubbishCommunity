@@ -9,7 +9,7 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@color/colorLayoutBg"
             android:orientation="vertical">
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -17,7 +17,7 @@
                 android:id="@+id/refreshLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/colorLayoutBg"
                 app:srlAccentColor="@color/colorApp"
                 app:srlEnablePreviewInEditMode="true"
                 app:srlHeaderTriggerRate="0.3"
