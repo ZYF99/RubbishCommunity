@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#009688</color>
     <color name="colorAccent">#009688</color>
 
-    <color name="colorLayoutBg">#fff</color>
+    <color name="colorLayoutBg">#FFFFFF</color>
 
     <color name="colorApp">#009688</color>
     <color name="colorCard">#83FFFFFF</color>

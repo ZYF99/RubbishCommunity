@@ -21,7 +21,6 @@ import com.jakewharton.rxbinding2.support.design.widget.RxBottomNavigationView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
-import kotlin.math.min
 
 
 @Suppress("UNCHECKED_CAST")
@@ -32,8 +31,6 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
     private var errorDialog: AlertDialog? = null
 
 
-
-
     private val homepageFragment: HomepageFragment = HomepageFragment()
     private val findFragment: FindFragment? = FindFragment()
     private val messageFragment: MessageFragment = MessageFragment()
@@ -41,8 +38,6 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 
     private var currentFragment: Fragment? = homepageFragment
     private var targetFragment: Fragment? = null
-
-
 
 
     override fun initBefore() {
@@ -109,7 +104,7 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
             }
         }
 
-        if(currentFragment!!::class != targetFragment!!::class){
+        if (currentFragment!!::class != targetFragment!!::class) {
             supportFragmentManager.beginTransaction().apply {
                 hide(currentFragment!!)
                 show(targetFragment!!)
@@ -117,10 +112,7 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
                 setTransition(TRANSIT_FRAGMENT_FADE)
                 commit()
             }
-
         }
-
-
     }
 
     //实际'异常'处理者

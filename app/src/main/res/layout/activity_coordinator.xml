@@ -1,58 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical"
+        xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-    <com.google.android.material.appbar.AppBarLayout
+    <com.example.rubbishcommunity.mainac.ui.coordinator.MyBottomView
             android:layout_width="match_parent"
-            android:layout_height="256dp"
-            android:fitsSystemWindows="true">
-
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:expandedTitleMarginStart="20dp"
-                app:expandedTitleMarginBottom="@dimen/dp_40"
-                app:title="@string/brief"
-                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
-
-            <TextView
-                    android:text="TextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="20sp"
-                    android:gravity="center_horizontal|bottom"
-                    android:id="@+id/textView4"/>
-
-                <androidx.appcompat.widget.Toolbar
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:layout_marginBottom="@dimen/dp_40"
-                        app:layout_collapseMode="pin">
-                </androidx.appcompat.widget.Toolbar>
-
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-
-
-
-    </com.google.android.material.appbar.AppBarLayout>
-    <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="500dp">
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+            android:layout_height="wrap_content"
+            app:elevation="4dp"
+            android:background="@color/colorTransparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:menu="@menu/navigation"
+            android:id="@+id/myBottomView"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
