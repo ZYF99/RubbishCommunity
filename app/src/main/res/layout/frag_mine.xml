@@ -17,7 +17,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:maxLength="3"
-                android:background="@color/colorLayoutBg"
+                android:background="@color/white"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -37,7 +37,6 @@
                 <de.hdodenhof.circleimageview.CircleImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:background="@color/colorLayoutBg"
                         android:layout_marginBottom="10dp"
                         app:layout_collapseMode="parallax"
                         app:layout_collapseParallaxMultiplier="0.5"
@@ -58,7 +57,6 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorLayoutBg"
                     android:orientation="vertical">
 
 
@@ -215,6 +213,10 @@
                             android:textColor="@color/white"
                             android:textSize="18sp"/>
                 </androidx.cardview.widget.CardView>
+
+                <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"/>
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

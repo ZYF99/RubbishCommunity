@@ -11,6 +11,7 @@
             tools:ignore="ProtectedPermissions"/>
 
     <application
+
             android:name="com.example.fenrir_stage4.MyApplication"
             android:allowBackup="true"
             android:hardwareAccelerated="true"
@@ -20,8 +21,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".mainac.ui.coordinator.CoordinatorActivity">
-
+        <activity android:name="com.example.rubbishcommunity.coordinator.CoordinatorActivity">
 
 
         </activity>
@@ -31,6 +31,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
         </activity>
     </application>
 

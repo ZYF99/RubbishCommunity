@@ -22,52 +22,40 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@color/colorLayoutBg"
-                    app:layout_constraintBottom_toTopOf="@id/bottomnavigation"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginBottom="0dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/bottomnavigation">
 
             </FrameLayout>
-            <com.google.android.material.bottomnavigation.BottomNavigationView
+
+            <com.example.rubbishcommunity.mainac.ui.widget.MyBottomView
                     android:id="@+id/bottomnavigation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:itemBackground="@null"
-                    app:elevation="1dp"
-                    android:background="@color/colorLayoutBg"
+                    android:elevation="5dp"
                     app:itemTextColor="@color/black"
                     app:itemIconTint="@color/black"
-                    app:menu="@menu/navigation"
-                    android:layout_weight="0"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-
-            <androidx.cardview.widget.CardView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/bottomnavigation"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:cardCornerRadius="50dp"
-                    app:cardElevation="4dp"
-                    android:layout_marginBottom="16dp">
-            </androidx.cardview.widget.CardView>
+                    android:background="@color/colorTransparent"
+                    app:menu="@menu/navigation"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:targetApi="lollipop"/>
 
 
-            <!--        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:elevation="2dp"
-                            android:background="@color/colorTransparent"
-                            android:src="@drawable/icon_messasge_selected"
-                            android:clickable="true"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintBottom_toBottomOf="@+id/bottomnavigation"
-                            app:layout_constraintTop_toTopOf="@+id/bottomnavigation"/>-->
-
+            <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/icon_add"
+                    android:clickable="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/bottomnavigation"
+                    app:layout_constraintBottom_toTopOf="@+id/bottomnavigation"
+                    android:id="@+id/btn_add"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,16 +3,21 @@
         xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#00BCD4">
 
-    <com.example.rubbishcommunity.mainac.ui.coordinator.MyBottomView
+
+    <com.example.rubbishcommunity.mainac.ui.widget.MyBottomView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:elevation="4dp"
-            android:background="@color/colorTransparent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/colorTransparent"
             app:menu="@menu/navigation"
-            android:id="@+id/myBottomView"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0">
+
+    </com.example.rubbishcommunity.mainac.ui.widget.MyBottomView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

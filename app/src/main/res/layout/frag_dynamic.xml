@@ -22,6 +22,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorLayoutBg"
                 app:srlAccentColor="@color/colorApp"
+
                 app:srlEnablePreviewInEditMode="true"
                 app:srlHeaderTriggerRate="0.3"
                 app:srlPrimaryColor="@color/white">
@@ -38,7 +39,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
+            <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"/>
+
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-  </LinearLayout>
+    </LinearLayout>
 </layout>

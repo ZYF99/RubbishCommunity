@@ -2,6 +2,7 @@ package com.example.rubbishcommunity.mainac.ui
 
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
@@ -18,6 +19,7 @@ import com.example.rubbishcommunity.mainac.ui.message.MessageFragment
 import com.example.rubbishcommunity.mainac.ui.mine.MineFragment
 import com.example.rubbishcommunity.mainac.ui.widget.statushelper.StatusBarUtil
 import com.jakewharton.rxbinding2.support.design.widget.RxBottomNavigationView
+import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
@@ -62,6 +64,17 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
         }
 
 
+        RxView.clicks(binding.btnAdd).doOnNext {
+
+            Toast.makeText(this,"添加",Toast.LENGTH_SHORT).show()
+
+        }.bindLife()
+
+
+        binding.bottomnavigation.setOnNavigationItemReselectedListener {
+
+        }
+
         RxBottomNavigationView.itemSelections(binding.bottomnavigation)
             .doOnNext {
                 when (it.itemId) {
@@ -79,6 +92,9 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
                     }
                 }
             }.bindLife()
+
+
+
         //resolve error
         handleError()
     }

@@ -9,7 +9,7 @@
             android:paddingTop="18dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white">
+            android:background="@color/colorLayoutBg">
 
         <TextView
                 android:id="@+id/textView2"

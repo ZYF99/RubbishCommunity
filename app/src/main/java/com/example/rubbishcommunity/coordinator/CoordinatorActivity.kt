@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.mainac.ui.coordinator
+package com.example.rubbishcommunity.coordinator
 
 
 import androidx.appcompat.app.AppCompatActivity
