@@ -7,7 +7,7 @@
         android:background="#00BCD4">
 
 
-    <com.example.rubbishcommunity.mainac.ui.widget.MyBottomView
+    <com.example.rubbishcommunity.mainac.ui.widget.GapBottomNavigationView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
@@ -17,7 +17,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.0">
 
-    </com.example.rubbishcommunity.mainac.ui.widget.MyBottomView>
+    </com.example.rubbishcommunity.mainac.ui.widget.GapBottomNavigationView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

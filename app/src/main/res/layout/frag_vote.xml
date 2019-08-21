@@ -6,41 +6,52 @@
                   type="com.example.rubbishcommunity.mainac.ui.find.vote.VoteViewModel"/>
 
     </data>
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorLayoutBg"
-            android:orientation="vertical">
 
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/refreshLayout"
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll"
                 android:background="@color/colorLayoutBg"
-                app:srlAccentColor="@color/colorApp"
-                app:srlEnablePreviewInEditMode="true"
-                app:srlHeaderTriggerRate="0.3"
-                app:srlPrimaryColor="@color/white">
+                android:orientation="vertical">
 
-            <!--srlAccentColor srlPrimaryColor 将会改变 Header 和 Footer 的主题颜色-->
-            <!--srlEnablePreviewInEditMode 可以开启和关闭预览功能-->
-            <com.scwang.smartrefresh.header.StoreHouseHeader
+
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                    android:id="@+id/refreshLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:shhText="@string/brief" />
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rec_vote"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:background="@color/colorLayoutBg"
+                    app:srlAccentColor="@color/colorApp"
+                    app:srlEnablePreviewInEditMode="true"
+                    app:srlHeaderTriggerRate="0.3"
+                    app:srlPrimaryColor="@color/white">
 
-            <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"/>
+                <!--            &lt;!&ndash;srlAccentColor srlPrimaryColor 将会改变 Header 和 Footer 的主题颜色&ndash;&gt;
+                            &lt;!&ndash;srlEnablePreviewInEditMode 可以开启和关闭预览功能&ndash;&gt;-->
+                <com.scwang.smartrefresh.header.StoreHouseHeader
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:shhText="@string/brief"/>
 
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rec_vote"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
 
 
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    </LinearLayout>
+            <Space android:layout_width="match_parent"
+                   android:layout_height="80dp"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
 </layout>

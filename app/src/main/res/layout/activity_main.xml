@@ -30,7 +30,7 @@
 
             </FrameLayout>
 
-            <com.example.rubbishcommunity.mainac.ui.widget.MyBottomView
+            <com.example.rubbishcommunity.mainac.ui.widget.GapBottomNavigationView
                     android:id="@+id/bottomnavigation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -47,9 +47,10 @@
 
 
             <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:src="@drawable/icon_add"
+                    android:elevation="6dp"
                     android:clickable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

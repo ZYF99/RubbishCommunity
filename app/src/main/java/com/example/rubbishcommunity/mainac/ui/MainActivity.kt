@@ -18,6 +18,7 @@ import com.example.rubbishcommunity.mainac.ui.homepage.HomepageFragment
 import com.example.rubbishcommunity.mainac.ui.message.MessageFragment
 import com.example.rubbishcommunity.mainac.ui.mine.MineFragment
 import com.example.rubbishcommunity.mainac.ui.widget.statushelper.StatusBarUtil
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.rxbinding2.support.design.widget.RxBottomNavigationView
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -75,23 +76,32 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 
         }
 
+        binding.bottomnavigation.setOnNavigationItemSelectedListener {
+
+            when (it.itemId) {
+                R.id.navigation_home -> {
+                    changeTab(0)
+                }
+                R.id.navigation_find -> {
+                    changeTab(1)
+                }
+                R.id.navigation_message -> {
+                    changeTab(2)
+                }
+                R.id.navigation_mine -> {
+                    changeTab(3)
+                }
+            }
+            true
+
+        }
+
+/*
         RxBottomNavigationView.itemSelections(binding.bottomnavigation)
             .doOnNext {
-                when (it.itemId) {
-                    R.id.navigation_home -> {
-                        changeTab(0)
-                    }
-                    R.id.navigation_find -> {
-                        changeTab(1)
-                    }
-                    R.id.navigation_message -> {
-                        changeTab(2)
-                    }
-                    R.id.navigation_mine -> {
-                        changeTab(3)
-                    }
-                }
+
             }.bindLife()
+*/
 
 
 

@@ -1,6 +1,7 @@
 package com.example.rubbishcommunity.mainac.ui.message
 
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MessageBinding
@@ -11,15 +12,57 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
 
     override fun initBefore() {
 
+
     }
 
     override fun initWidget(view: View) {
+        binding.vm = viewModel
 
-/*        RxView.clicks(binding.tvDate)
-            .doOnNext {
-                createDatePop()
-            }.bindLife()*/
+        //viewModel.refreshing.observe { binding.refreshlayout.isRefreshing = it!! }
 
+        viewModel.init()
+
+
+
+        binding.recMessage.run {
+
+            layoutManager = LinearLayoutManager(context)
+
+
+            adapter = MessageListAdapter(R.layout.cell_msg, viewModel.messageList.value,viewModel)
+
+        }
+
+
+
+
+        binding.refreshLayout.setOnRefreshListener {
+            when {
+                !isNetworkAvailable() -> {
+                    showNetErrorSnackBar()
+                }
+                else -> {
+                    viewModel.getMessageList()
+                }
+            }
+        }
+
+
+
+
+        viewModel.messageList.observe {
+            binding.recMessage.run {
+                if (it != null) {
+                    (adapter as MessageListAdapter).replaceData(it)
+                }
+            }
+        }
+
+        viewModel.refreshing.observe { isRefreshing ->
+            binding.refreshLayout.run {
+                if (!isRefreshing!!) finishRefresh()
+            }
+        }
 
     }
 

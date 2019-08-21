@@ -24,7 +24,6 @@ class DynamicViewModel(application: Application) : BaseViewModel(application) {
     fun init() {
         dynamicList.value = mutableListOf()
         getDynamicList()
-
     }
 
 
