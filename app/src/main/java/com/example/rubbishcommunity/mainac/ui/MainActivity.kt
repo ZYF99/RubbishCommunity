@@ -18,8 +18,7 @@ import com.example.rubbishcommunity.mainac.ui.homepage.HomepageFragment
 import com.example.rubbishcommunity.mainac.ui.message.MessageFragment
 import com.example.rubbishcommunity.mainac.ui.mine.MineFragment
 import com.example.rubbishcommunity.mainac.ui.widget.statushelper.StatusBarUtil
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.jakewharton.rxbinding2.support.design.widget.RxBottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -32,7 +31,6 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
     override val layRes: Int = R.layout.activity_main
     private var errorDisposable: Disposable? = null
     private var errorDialog: AlertDialog? = null
-
 
     private val homepageFragment: HomepageFragment = HomepageFragment()
     private val findFragment: FindFragment? = FindFragment()
@@ -67,7 +65,7 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 
         RxView.clicks(binding.btnAdd).doOnNext {
 
-            Toast.makeText(this,"添加",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "添加", Toast.LENGTH_SHORT).show()
 
         }.bindLife()
 
@@ -83,6 +81,9 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
                     changeTab(0)
                 }
                 R.id.navigation_find -> {
+                    changeTab(1)
+                }
+                R.id.navigation_null -> {
                     changeTab(1)
                 }
                 R.id.navigation_message -> {
@@ -102,7 +103,6 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 
             }.bindLife()
 */
-
 
 
         //resolve error
@@ -173,5 +173,16 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
                 }
             }.bindLife()
     }*/
+
+
+    fun showNetErrorSnackBar() {
+        Snackbar.make(
+            binding.root,
+            R.string.net_unavailable,
+            Snackbar.LENGTH_LONG
+        ).show()
+    }
+
+
 
 }

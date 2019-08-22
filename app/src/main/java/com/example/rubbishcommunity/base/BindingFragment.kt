@@ -115,14 +115,6 @@ constructor(
     protected fun isNetworkAvailable() =
         (context?.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager)?.activeNetworkInfo?.isConnected ?: false
 
-    protected fun showNetErrorSnackBar() {
-        Snackbar.make(
-            binding.root,
-            R.string.net_unavailable,
-            Snackbar.LENGTH_LONG
-        ).show()
-    }
-
 
 }
 

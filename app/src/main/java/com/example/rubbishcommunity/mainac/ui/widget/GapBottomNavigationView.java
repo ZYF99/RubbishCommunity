@@ -138,7 +138,7 @@ public class GapBottomNavigationView extends FrameLayout {
         });
     }
 
-    public void setOnNavigationItemSelectedListener(@Nullable BottomNavigationView.OnNavigationItemSelectedListener listener) {
+    public void  setOnNavigationItemSelectedListener(@Nullable BottomNavigationView.OnNavigationItemSelectedListener listener) {
         this.selectedListener = listener;
     }
 

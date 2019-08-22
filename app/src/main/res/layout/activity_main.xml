@@ -50,7 +50,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:src="@drawable/icon_add"
-                    android:elevation="6dp"
+                    android:elevation="8dp"
                     android:clickable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

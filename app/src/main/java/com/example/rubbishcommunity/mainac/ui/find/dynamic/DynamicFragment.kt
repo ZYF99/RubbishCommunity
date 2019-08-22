@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.DynamicBinding
+import com.example.rubbishcommunity.mainac.ui.MainActivity
 import com.example.rubbishcommunity.mainac.ui.find.vote.VoteListAdapter
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 
@@ -43,7 +44,8 @@ class DynamicFragment : BindingFragment<DynamicBinding, DynamicViewModel>(
         binding.refreshLayout.setOnRefreshListener {
             when {
                 !isNetworkAvailable() -> {
-                    showNetErrorSnackBar()
+                    (activity as MainActivity).showNetErrorSnackBar()
+                    viewModel.refreshing.postValue(false)
                 }
                 else -> {
                     viewModel.getDynamicList()
@@ -57,6 +59,7 @@ class DynamicFragment : BindingFragment<DynamicBinding, DynamicViewModel>(
         viewModel.dynamicList.observe {
             binding.recDynamic.run {
                 (adapter as DynamicListAdapter).replaceData(it!!)
+
             }
         }
 

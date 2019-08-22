@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MessageBinding
+import com.example.rubbishcommunity.mainac.ui.MainActivity
 
 class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
     MessageViewModel::class.java, R.layout.frag_message
@@ -39,7 +40,8 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
         binding.refreshLayout.setOnRefreshListener {
             when {
                 !isNetworkAvailable() -> {
-                    showNetErrorSnackBar()
+                    (activity as MainActivity).showNetErrorSnackBar()
+                    viewModel.refreshing.postValue(false)
                 }
                 else -> {
                     viewModel.getMessageList()

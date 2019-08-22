@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.VoteBinding
+import com.example.rubbishcommunity.mainac.ui.MainActivity
 
 
 class VoteFragment : BindingFragment<VoteBinding, VoteViewModel>(
@@ -33,7 +34,8 @@ class VoteFragment : BindingFragment<VoteBinding, VoteViewModel>(
         binding.refreshLayout.setOnRefreshListener {
             when {
                 !isNetworkAvailable() -> {
-                    showNetErrorSnackBar()
+                    (activity as MainActivity).showNetErrorSnackBar()
+                    viewModel.refreshing.postValue(false)
                 }
                 else -> {
                     viewModel.getVoteList()
