@@ -10,8 +10,7 @@
 
         <!--设置没有Title-->
         <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
-        <item name="android:fitsSystemWindows">true</item>
-<!--        <item name="windowActionBar">false</item>
+<!--        <item name="android:fitsSystemWindows">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowNoTitle">true</item>-->
 

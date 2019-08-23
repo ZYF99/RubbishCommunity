@@ -10,12 +10,13 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingTop="10dp">
 
         <com.google.android.material.appbar.AppBarLayout
 
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="120dp"
                 android:maxLength="3"
                 android:background="@color/white"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -24,7 +25,6 @@
                     android:id="@+id/mCollapsingToolbarLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:expandedTitleMarginBottom="80dp"
                     app:title="消息"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 

@@ -21,7 +21,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 import androidx.annotation.*;
 import androidx.appcompat.view.SupportMenuInflater;
 import androidx.appcompat.view.menu.MenuBuilder;
@@ -117,7 +116,7 @@ public class GapBottomNavigationView extends FrameLayout {
                 //menu必须为奇数个
                 if (menu.size() % 2 != 0) {
                     //屏蔽中间按钮的点击事件
-                    if ( menu.getItem(menu.size()/2).equals(item)) {
+                    if (menu.getItem(menu.size() / 2).equals(item)) {
                         return true;
                     }
                 }
@@ -138,7 +137,7 @@ public class GapBottomNavigationView extends FrameLayout {
         });
     }
 
-    public void  setOnNavigationItemSelectedListener(@Nullable BottomNavigationView.OnNavigationItemSelectedListener listener) {
+    public void setOnNavigationItemSelectedListener(@Nullable BottomNavigationView.OnNavigationItemSelectedListener listener) {
         this.selectedListener = listener;
     }
 
