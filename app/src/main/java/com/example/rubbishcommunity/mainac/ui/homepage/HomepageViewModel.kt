@@ -14,12 +14,12 @@ class HomepageViewModel(application: Application) : BaseViewModel(application) {
 
     private val apiService by instance<ApiService>()
 
-    private val hotWrodList = MutableLiveData<MutableList<String>>()
+    private val hotWordList = MutableLiveData<MutableList<String>>()
 
 
 
     fun init() {
-        hotWrodList.value = mutableListOf()
+        hotWordList.value = mutableListOf()
         getHotWordList()
     }
 
@@ -32,7 +32,7 @@ class HomepageViewModel(application: Application) : BaseViewModel(application) {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSuccess {
-                hotWrodList.value = it as MutableList<String>?
+                hotWordList.value = it as MutableList<String>?
             }
             .compose(dealError())
             .bindLife()

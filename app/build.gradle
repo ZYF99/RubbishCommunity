@@ -16,6 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
 
@@ -56,6 +57,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
 
     implementation 'com.facebook.stetho:stetho:1.3.1'
+
+
+    implementation 'com.android.support:multidex:1.0.3'
     //  room
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
@@ -119,5 +123,7 @@ dependencies {
 
     //CircleImageView
     api "de.hdodenhof:circleimageview:$rootProject.ext.circleimageviewVersion"
+
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
 }

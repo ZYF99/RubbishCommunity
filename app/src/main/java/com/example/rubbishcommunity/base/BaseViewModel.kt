@@ -3,7 +3,7 @@ package com.example.rubbishcommunity.base
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.example.fenrir_stage4.MyApplication
+import com.example.rubbishcommunity.MyApplication
 import io.reactivex.SingleTransformer
 import io.reactivex.disposables.CompositeDisposable
 import org.kodein.di.Kodein

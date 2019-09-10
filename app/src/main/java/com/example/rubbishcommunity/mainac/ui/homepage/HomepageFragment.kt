@@ -31,9 +31,7 @@ class HomepageFragment : BindingFragment<HomepageBinding, HomepageViewModel>(
 
         }
 
-
-
-
+        
     }
 
     override fun initData() {
