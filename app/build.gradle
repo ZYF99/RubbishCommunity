@@ -24,10 +24,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "BASE_URL", '"http://192.168.100.99:8080/v1/"')
+            buildConfigField("String", "BASE_URL", '"https://api.itsc.cc:666/"')
         }
         debug {
-            buildConfigField("String", "BASE_URL", '"http://192.168.100.99:8080/v1/"')
+            buildConfigField("String", "BASE_URL", '"https://api.itsc.cc:666/"')
         }
     }
 
@@ -125,5 +125,6 @@ dependencies {
     api "de.hdodenhof:circleimageview:$rootProject.ext.circleimageviewVersion"
 
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
 }

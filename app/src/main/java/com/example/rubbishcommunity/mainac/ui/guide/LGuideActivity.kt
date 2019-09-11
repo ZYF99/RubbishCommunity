@@ -2,7 +2,6 @@ package com.example.rubbishcommunity.mainac.ui.guide
 
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
@@ -17,14 +16,13 @@ import com.example.rubbishcommunity.mainac.ui.guide.login.LoginFragment
 import com.example.rubbishcommunity.mainac.ui.guide.register.RegisterFragment
 import com.example.rubbishcommunity.mainac.ui.widget.statushelper.StatusBarUtil
 import com.google.android.material.snackbar.Snackbar
-import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
 
 
 @Suppress("UNCHECKED_CAST")
-class guideActivity : BindingActivity<GuideBinding, GuideViewModel>() {
+class LGuideActivity : BindingActivity<GuideBinding, GuideViewModel>() {
     override val clazz: Class<GuideViewModel> = GuideViewModel::class.java
     override val layRes: Int = R.layout.activity_guide
     
@@ -120,7 +118,7 @@ class guideActivity : BindingActivity<GuideBinding, GuideViewModel>() {
             Snackbar.LENGTH_LONG
         ).show()
     }
-
+    
 
 
 }

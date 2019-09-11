@@ -10,35 +10,15 @@ import org.kodein.di.generic.instance
 
 
 class RegisterViewModel(application: Application) : BaseViewModel(application) {
-
-
-    private val apiService by instance<ApiService>()
-
-    private val hotWrodList = MutableLiveData<MutableList<String>>()
-
-
-
-    fun init() {
-        hotWrodList.value = mutableListOf()
-        getHotWordList()
-    }
-
-
-
-    private fun getHotWordList() {
-
-        apiService.getHotWordList(0)
-           // .compose(dealRefresh())
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSuccess {
-                hotWrodList.value = it as MutableList<String>?
-            }
-            .compose(dealError())
-            .bindLife()
-    }
-
-
+	
+	
+	private val apiService by instance<ApiService>()
+	
+	
+	fun init() {
+	
+	
+	}
 
 
 /*    private fun <T> dealRefresh(): SingleTransformer<T, T> {
@@ -49,7 +29,6 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
                 .doOnError { refreshing.postValue(false) }
         }
     }*/
-
-
-
+	
+	
 }

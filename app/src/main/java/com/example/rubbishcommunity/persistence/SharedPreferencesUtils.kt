@@ -1,4 +1,4 @@
-package com.example.fenrir_stage4.utils
+package com.example.rubbishcommunity.persistence
 
 
 import android.content.Context
@@ -9,7 +9,7 @@ import com.google.gson.JsonParser
 
 import java.util.ArrayList
 
-class SharedPreferencesUtil private constructor(context: Context, name: String) {
+class SharedPreferencesUtils private constructor(context: Context, name: String) {
 
     init {
         sp = context.getSharedPreferences(name, Context.MODE_PRIVATE)
@@ -17,16 +17,16 @@ class SharedPreferencesUtil private constructor(context: Context, name: String) 
 
     companion object {
 
-        private var util: SharedPreferencesUtil? = null
+        private var utils: SharedPreferencesUtils? = null
         private lateinit var sp: SharedPreferences
 
         fun getInstance(context: Context, name: String) {
-            if (util == null) {
-                util =
-                    SharedPreferencesUtil(context, name)
+            if (utils == null) {
+                utils =
+                    SharedPreferencesUtils(context, name)
             }
         }
-
+    
         fun putData(key: String, value: Any): Boolean {
             var result: Boolean
             val editor = sp.edit()
@@ -49,11 +49,11 @@ class SharedPreferencesUtil private constructor(context: Context, name: String) 
                 result = false
                 e.printStackTrace()
             }
-
+        
             editor.apply()
             return result
         }
-
+    
         fun getData(key: String, defaultValue: Any): Any? {
             var result: Any?
             val type = defaultValue.javaClass.simpleName
@@ -78,10 +78,10 @@ class SharedPreferencesUtil private constructor(context: Context, name: String) 
                 result = null
                 e.printStackTrace()
             }
-
+        
             return result
         }
-
+    
         fun <T : Any> putListData(key: String, list: MutableList<T>): Boolean {
             var result: Boolean
             var type = "Boolean"
@@ -121,13 +121,13 @@ class SharedPreferencesUtil private constructor(context: Context, name: String) 
                 result = false
                 e.printStackTrace()
             }
-
+        
             editor.apply()
-
-
+        
+        
             return result
         }
-
+    
         fun <T> getListData(key: String, cls: Class<T>): MutableList<T> {
             val list = ArrayList<T>()
             val json = sp.getString(key, "")
@@ -140,7 +140,10 @@ class SharedPreferencesUtil private constructor(context: Context, name: String) 
             }
             return list
         }
+        
     }
+    
+   
 
 
 }
