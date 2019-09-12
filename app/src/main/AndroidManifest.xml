@@ -25,7 +25,7 @@
             tools:ignore="GoogleAppIndexingWarning"
             tools:targetApi="n">
 
-        <activity android:name=".mainac.ui.guide.LGuideActivity">
+        <activity android:name="com.example.rubbishcommunity.ui.guide.LGuideActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +33,7 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".mainac.ui.MainActivity">
+        <activity android:name="com.example.rubbishcommunity.ui.MainActivity">
 
 
         </activity>

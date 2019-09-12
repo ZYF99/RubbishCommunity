@@ -3,7 +3,7 @@
         xmlns:tools="http://schemas.android.com/tools">
     <data class="DynamicBinding">
         <variable name="vm"
-                  type="com.example.rubbishcommunity.mainac.ui.find.dynamic.DynamicViewModel"/>
+                  type="com.example.rubbishcommunity.ui.find.dynamic.DynamicViewModel"/>
 
     </data>
 

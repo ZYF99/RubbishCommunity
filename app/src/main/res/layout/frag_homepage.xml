@@ -3,7 +3,7 @@
         xmlns:tools="http://schemas.android.com/tools">
     <data class="HomepageBinding">
 
-        <variable name="vm" type="com.example.rubbishcommunity.mainac.ui.homepage.HomepageViewModel"/>
+        <variable name="vm" type="com.example.rubbishcommunity.ui.homepage.HomepageViewModel"/>
 
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout

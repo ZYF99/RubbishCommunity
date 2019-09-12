@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data class="MineBinding">
         <variable name="vm"
-                  type="com.example.rubbishcommunity.mainac.ui.mine.MineViewModel"/>
+                  type="com.example.rubbishcommunity.ui.mine.MineViewModel"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -153,7 +153,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:elevation="6dp"
-                app:layout_behavior=".mainac.ui.mine.TranslucentBehavior"
+                app:layout_behavior=".ui.mine.TranslucentBehavior"
                 app:layout_anchor="@id/iv"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -164,7 +164,7 @@
                 android:src="@drawable/bg"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:layout_behavior=".mainac.ui.mine.TransferHeaderBehavior"/>
+                app:layout_behavior=".ui.mine.TransferHeaderBehavior"/>
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

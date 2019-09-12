@@ -2,6 +2,7 @@ package com.example.fenrir_stage4.manager.base
 
 import com.example.rubbishcommunity.manager.api.ApiService
 import com.example.rubbishcommunity.BuildConfig
+import com.example.rubbishcommunity.manager.base.ApiClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind

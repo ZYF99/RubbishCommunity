@@ -3,7 +3,7 @@
 
     <data class="GuideBinding">
 
-        <variable name="vm" type="com.example.rubbishcommunity.mainac.ui.guide.login.LoginViewModel"/>
+        <variable name="vm" type="com.example.rubbishcommunity.ui.guide.GuideViewModel"/>
 
     </data>
 
@@ -13,9 +13,11 @@
             android:layout_height="match_parent">
 
         <FrameLayout
-                android:id="@+id/logincontainer"
+                android:id="@+id/guideContainer"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"></FrameLayout>
+                android:layout_width="match_parent">
+
+        </FrameLayout>
 
 
     </LinearLayout>

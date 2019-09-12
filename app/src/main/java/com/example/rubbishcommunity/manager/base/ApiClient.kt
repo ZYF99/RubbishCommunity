@@ -1,4 +1,4 @@
-package com.example.fenrir_stage4.manager.base
+package com.example.rubbishcommunity.manager.base
 
 
 import com.example.rubbishcommunity.BuildConfig
@@ -8,18 +8,20 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class ApiClient private constructor(private val retrofit: Retrofit, val okHttpClient: OkHttpClient) {
-
-    fun <S> createService(serviceClass: Class<S>): S = retrofit.create(serviceClass)
-
-    class Builder(
-        //val apiAuthorizations: MutableMap<String, Interceptor> = LinkedHashMap(),
-        val okBuilder: OkHttpClient.Builder = OkHttpClient.Builder(),
-        private val adapterBuilder: Retrofit.Builder = Retrofit.Builder()
-    ) {
-
-        fun build(url: String? = null): ApiClient {
-            val baseUrl = url ?: BuildConfig.BASE_URL
+class ApiClient private constructor(
+	private val retrofit: Retrofit,
+	val okHttpClient: OkHttpClient
+) {
+	
+	fun <S> createService(serviceClass: Class<S>): S = retrofit.create(serviceClass)
+	
+	class Builder(
+		//val apiAuthorizations: MutableMap<String, Interceptor> = LinkedHashMap(),
+		val okBuilder: OkHttpClient.Builder = OkHttpClient.Builder(),
+		private val adapterBuilder: Retrofit.Builder = Retrofit.Builder()
+	) {
+		fun build(url: String? = null): ApiClient {
+			val baseUrl = url ?: BuildConfig.BASE_URL
 /*                .let { url ->
                     if (!url.endsWith("/"))
                         "$url/"
@@ -32,16 +34,14 @@ class ApiClient private constructor(private val retrofit: Retrofit, val okHttpCl
                     else
                         url
                 }*/
-
-            adapterBuilder
-                .baseUrl(baseUrl)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-
-            val client = okBuilder.build()
-            val retrofit = adapterBuilder.client(client).build()
-            return ApiClient(retrofit, client)
-        }
-    }
-
+			adapterBuilder
+				.baseUrl(baseUrl)
+				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+				.addConverterFactory(GsonConverterFactory.create())
+			val client = okBuilder.build()
+			val retrofit = adapterBuilder.client(client).build()
+			return ApiClient(retrofit, client)
+		}
+	}
+	
 }

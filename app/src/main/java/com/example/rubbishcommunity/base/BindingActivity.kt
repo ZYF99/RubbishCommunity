@@ -75,8 +75,28 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
             }
         })
     }
-
-
+    
+    
+    override fun onBackPressed() {
+        //得到当前activity下的所有Fragment
+        val fragments = supportFragmentManager.fragments
+        //判断是否为空
+        if (fragments.size > 0) {
+            for (fragment in fragments) {
+                //判断是否为我们能处理的fragment类型
+                if (fragment is BindingFragment<*, *>) {
+                    //判断是否拦截了返回按钮事件
+                    if (fragment.onBackPressed()) {
+                        //如果被Fragment处理了就直接return
+                        return
+                    }
+                }
+            }
+        }
+        //没有Fragment，没有处理 就结束活动
+        super.onBackPressed()
+        finish()
+    }
 
     //hide keyBoard
     fun hideKeyboard() {

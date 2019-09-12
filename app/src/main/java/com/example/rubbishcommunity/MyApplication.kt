@@ -1,5 +1,6 @@
 package com.example.rubbishcommunity
 
+import android.widget.Toast
 import androidx.multidex.MultiDexApplication
 import com.example.fenrir_stage4.manager.base.apiModule
 import com.example.rubbishcommunity.persistence.SharedPreferencesUtils
@@ -16,6 +17,11 @@ class MyApplication :MultiDexApplication(),KodeinAware {
 
 companion object{
     lateinit var instance: MyApplication
+    
+    fun showToast(str :String){
+        Toast.makeText(instance, str, Toast.LENGTH_SHORT).show()
+    }
+    
 }
     override fun onCreate() {
         super.onCreate()

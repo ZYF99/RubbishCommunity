@@ -3,15 +3,15 @@ package com.example.rubbishcommunity.manager.api
 import com.example.rubbishcommunity.model.Dynamic
 import com.example.rubbishcommunity.model.Vote
 import com.example.rubbishcommunity.model.api.ResultModel
-import com.example.rubbishcommunity.model.api.login.LoginRequestModel
-import com.example.rubbishcommunity.model.api.login.LoginResultModel
+import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
+import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
 import io.reactivex.Single
 import retrofit2.http.*
 
 interface ApiService {
 	
 	@POST("api/account/login")
-	fun login(@Body loginRequestModel: LoginRequestModel): Single<ResultModel<LoginResultModel>>
+	fun loginOrRegister(@Body loginOrRegisterRequestModel: LoginOrRegisterRequestModel): Single<ResultModel<LoginOrRegisterResultModel>>
 	
 	
 	@Headers("accept: application/json;charset=UTF-8")

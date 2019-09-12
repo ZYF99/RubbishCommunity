@@ -41,4 +41,8 @@
         <!-- 还可以加入一些弹出和退出的动画 (lan)-->
     </style>
 
+    <style name="HintHelper" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/text_hint</item>
+    </style>
+
 </resources>
