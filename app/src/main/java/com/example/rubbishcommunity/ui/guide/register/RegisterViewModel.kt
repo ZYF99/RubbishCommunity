@@ -33,7 +33,7 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 	fun registerOrLogin(loginOrRegisterRequestModel: LoginOrRegisterRequestModel): Single<ResultModel<LoginOrRegisterResultModel>> {
 		return apiService.loginOrRegister(
 			loginOrRegisterRequestModel
-		).delay(3, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
+		).delay(2, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())
 			.compose(dealError())
 	}

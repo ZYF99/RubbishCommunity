@@ -29,7 +29,7 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 	RegisterViewModel::class.java, R.layout.frag_register
 ) {
 	
-	private lateinit var animationUtils:AnimatorUtils
+	private lateinit var animationUtils: AnimatorUtils
 	
 	override fun initBefore() {
 	
@@ -56,10 +56,6 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 			.throttleFirst(2, TimeUnit.SECONDS)
 			.doOnNext {
 				
-				animationUtils.startTransAnimation()
-
-				
-				
 				//IMEI权限检查
 				var phoneIMei: String
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -70,6 +66,7 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 								if (it) {
 									//申请权限通过直接登陆
 									phoneIMei = PhoneUtils.getPhoneIMEI(activity as Activity)
+									
 									registerAndLogin(phoneIMei)
 								} else {
 									MyApplication.showToast("您必须给予权限才能完成注册！")
@@ -85,7 +82,7 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 			}.bindLife()
 	}
 	
-	//登陆
+	//注册并登陆
 	private fun registerAndLogin(phoneIMei: String) {
 		val userName = viewModel.userName.value!!
 		val password = viewModel.password.value!!
@@ -93,12 +90,14 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 		if (password != rePassword) {
 			MyApplication.showToast("两次密码不一致")
 			return
+		} else {
+			animationUtils.startTransAnimation()
 		}
 		val versionName = AppUtils.getVersionName(context)
 		val deviceBrand = PhoneUtils.deviceBrand
 		val osVersion = PhoneUtils.systemVersion
 		val systemModel = PhoneUtils.systemModel
-
+		
 		//真实register
 		viewModel.registerOrLogin(
 			LoginOrRegisterRequestModel(
@@ -137,7 +136,7 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 							//binding.editPassword.edit_email.toString()
 						)
 					).doOnSuccess {
-						MyApplication.showToast(result.meta.msg)
+						animationUtils.complete()
 						when (result.meta.code) {
 							//登陆成功
 							GuideCallBackCode.success -> {
@@ -149,11 +148,9 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 							}
 							//登陆失败
 							else -> {
-								animationUtils.complete()
+								MyApplication.showToast(result.meta.msg)
 							}
 						}
-					}.doOnError {
-						MyApplication.showToast(it.toString())
 					}.bindLife()
 				}
 				//注册失败
@@ -161,9 +158,8 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 					animationUtils.complete()
 				}
 			}
-		}.doOnError {
-			MyApplication.showToast(it.toString())
 		}.bindLife()
+		
 		
 	}
 	

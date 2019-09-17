@@ -34,7 +34,7 @@ abstract class BaseViewModel(application: Application) :
 	protected fun <T> dealError(): SingleTransformer<T, T> {
 		return SingleTransformer { obs ->
 			obs.doOnError { error ->
-				//Toast.makeText(MyApplication.instance, error.toString(), Toast.LENGTH_SHORT).show()
+				MyApplication.showToast(error.toString())
 				when (error) {
 					//is ServerError -> sendError(ErrorData(ErrorType.SERVER_ERROR, it.code.toString()))
 					//is LoginException ->{}

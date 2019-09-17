@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.animation.addListener
 import com.example.rubbishcommunity.ui.guide.login.JellyInterpolator
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 //动画相关
 class AnimatorUtils(
@@ -19,7 +21,8 @@ class AnimatorUtils(
 
 ) {
 	@SuppressLint("ObjectAnimatorBinding")
-	public fun startTransAnimation() {
+	fun startTransAnimation() {
+		btnReact.isEnabled = false
 		val set = AnimatorSet()
 		val animator = ValueAnimator.ofFloat(0F, transView.measuredWidth.toFloat())
 		animator.addUpdateListener {
@@ -36,9 +39,14 @@ class AnimatorUtils(
 			transView,
 			"scaleX", 1f, 0f
 		)
-		set.duration = 600
+		val animator3 = ObjectAnimator.ofFloat(
+			transView,
+			"scaleY", 1f, 0f
+		)
+		
+		set.duration = 300
 		set.interpolator = AccelerateDecelerateInterpolator()
-		set.playTogether(animator, animator2)
+		set.playTogether(animator, animator2, animator3)
 		set.start()
 		
 		set.addListener(onEnd = {
@@ -65,28 +73,40 @@ class AnimatorUtils(
 			view,
 			animator, animator2
 		)
-		animator3.duration = 800
+		animator3.duration = 400
 		animator3.interpolator = JellyInterpolator()
 		animator3.start()
 		
 	}
 	
-	public fun complete() {
-		progressView.visibility = View.GONE
-		transView.visibility = View.VISIBLE
+	fun complete() {
 		
-		btnReact.isEnabled = true
+		Single.just(1).doOnSuccess {
+			
+			progressView.visibility = View.GONE
+			transView.visibility = View.VISIBLE
+			
+			btnReact.isEnabled = true
+			
+			val params = transView.layoutParams as ViewGroup.MarginLayoutParams
+			params.leftMargin = leftMargin
+			params.rightMargin = rightMargin
+			transView.layoutParams = params
+			
+			
+			val completedAnimator = ObjectAnimator.ofPropertyValuesHolder(
+				transView,
+				PropertyValuesHolder.ofFloat("scaleX", 0.5f, 1f),
+				PropertyValuesHolder.ofFloat("scaleY", 0.5f, 1f)
+			)
+			
+			completedAnimator.duration = 200
+			completedAnimator.interpolator = AccelerateDecelerateInterpolator()
+			completedAnimator.start()
+			
+		}.subscribeOn(AndroidSchedulers.mainThread()).subscribe()
 		
-		val params = transView.layoutParams as ViewGroup.MarginLayoutParams
-		params.leftMargin = leftMargin
-		params.rightMargin = rightMargin
-		transView.layoutParams = params
 		
-		
-		val animator2 = ObjectAnimator.ofFloat(transView, "scaleX", 0.5f, 1f)
-		animator2.duration = 200
-		animator2.interpolator = AccelerateDecelerateInterpolator()
-		animator2.start()
 	}
 	
 	
