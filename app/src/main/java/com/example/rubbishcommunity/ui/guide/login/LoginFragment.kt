@@ -10,14 +10,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import com.example.rubbishcommunity.MyApplication
-import com.example.rubbishcommunity.base.BindingFragment
+import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.LoginFragBinding
 import com.example.rubbishcommunity.ui.MainActivity
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
+import com.example.rubbishcommunity.persistence.saveLoginState
+import com.example.rubbishcommunity.persistence.saveVerifyInfo
 import com.example.rubbishcommunity.ui.guide.AnimatorUtils
 import com.example.rubbishcommunity.ui.guide.GuideCallBackCode
 import com.example.rubbishcommunity.ui.guide.IGuide
+import com.example.rubbishcommunity.ui.guide.LGuideActivity
 import com.example.rubbishcommunity.utils.AppUtils
 import com.example.rubbishcommunity.utils.PhoneUtils
 import com.jakewharton.rxbinding2.view.RxView
@@ -87,6 +90,16 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 			.doOnNext {
 				(activity as IGuide).jumpToRegister()
 			}.bindLife()
+		
+		
+		//服务协议按钮
+		RxView.clicks(binding.btnContract).throttleFirst(2, TimeUnit.SECONDS)
+			.doOnNext {
+				(activity as LGuideActivity).showContractDialog()
+			}.bindLife()
+		
+		
+		
 	}
 	
 	//登陆
@@ -97,8 +110,7 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 		val deviceBrand = PhoneUtils.deviceBrand
 		val osVersion = PhoneUtils.systemVersion
 		val systemModel = PhoneUtils.systemModel
-		
-		if(judgeLoginPrams(userName,password)){
+		if (judgeLoginPrams(userName, password)) {
 			//开始登陆的动画
 			animationUtils.startTransAnimation()
 			//真实login
@@ -124,7 +136,12 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 					//登录成功
 					GuideCallBackCode.success -> {
 						//持久化得到的token以及用户登录的信息
-						viewModel.saveVerifyInfo(result.data.token)
+						saveVerifyInfo(
+							viewModel.userName.value!!,
+							viewModel.password.value!!,
+							result.data.token
+						)
+						saveLoginState(true)
 						startActivity(Intent(context, MainActivity::class.java))
 						(context as Activity).finish()
 					}
@@ -136,31 +153,25 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 			}.bindLife()
 		}
 	}
-
 	
-	private fun judgeLoginPrams(userName:String,password:String):Boolean{
 	
-		if(userName.length>4){
-			if(password.length in 4..16){
+	private fun judgeLoginPrams(userName: String, password: String): Boolean {
+		if (userName.length > 4) {
+			if (password.length in 4..16) {
 				return true
-			}else{
+			} else {
 				MyApplication.showToast("密码长度为6-16位")
 			}
-		}else{
+		} else {
 			MyApplication.showToast("用户名必须大于4位")
 		}
-		
 		return false
-	
 	}
-	
-
 	
 	
 	override fun initData() {
 	
 	}
-	
 	
 	
 }

@@ -9,6 +9,7 @@
     <color name="colorApp">#48CED3</color>
     <color name="colorCard">#83FFFFFF</color>
     <color name="colorGuideBack">#77DDBD</color>
+    <color name="colorRed">#D93D1E</color>
 
     <color name="white">#fff</color>
     <color name="black">#000000</color>
@@ -28,7 +29,7 @@
     <color name="text_second">#999999</color>
     <color name="text_hint">#BEBEBE</color>
 
-    <color name="text_warning">#D93D1E</color>
+
     <color name="text_btn_blue">#75B4D9</color>
     <color name="text_btn_blue_back">#F3F3F3</color>
 

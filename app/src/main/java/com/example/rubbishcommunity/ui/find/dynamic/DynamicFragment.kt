@@ -3,7 +3,7 @@ package com.example.rubbishcommunity.ui.find.dynamic
 import android.annotation.SuppressLint
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.rubbishcommunity.base.BindingFragment
+import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.DynamicBinding
 import com.example.rubbishcommunity.ui.MainActivity

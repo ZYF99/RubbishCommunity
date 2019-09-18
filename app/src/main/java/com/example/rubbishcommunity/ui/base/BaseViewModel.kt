@@ -1,7 +1,6 @@
-package com.example.rubbishcommunity.base
+package com.example.rubbishcommunity.ui.base
 
 import android.app.Application
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.MyApplication
@@ -34,7 +33,7 @@ abstract class BaseViewModel(application: Application) :
 	protected fun <T> dealError(): SingleTransformer<T, T> {
 		return SingleTransformer { obs ->
 			obs.doOnError { error ->
-				MyApplication.showToast(error.toString())
+				MyApplication.showToast(error.message!!)
 				when (error) {
 					//is ServerError -> sendError(ErrorData(ErrorType.SERVER_ERROR, it.code.toString()))
 					//is LoginException ->{}

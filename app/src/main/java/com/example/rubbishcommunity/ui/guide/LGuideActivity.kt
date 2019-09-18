@@ -2,18 +2,25 @@ package com.example.rubbishcommunity.ui.guide
 
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.example.fenrir_stage4.mainac.ui.widget.ContractDialog
 import com.example.fenrir_stage4.mainac.utils.ErrorType
 import com.example.fenrir_stage4.mainac.utils.getErrorObs
 import com.example.fenrir_stage4.mainac.utils.showNoWifiDialog
 import com.example.fenrir_stage4.mainac.utils.showUnexpectedDialog
-import com.example.rubbishcommunity.base.BindingActivity
+import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.GuideBinding
+import com.example.rubbishcommunity.persistence.getLoginState
+import com.example.rubbishcommunity.ui.MainActivity
 import com.example.rubbishcommunity.ui.guide.login.LoginFragment
 import com.example.rubbishcommunity.ui.guide.register.RegisterFragment
+import com.example.rubbishcommunity.ui.widget.BottomDialogView
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -31,7 +38,7 @@ class LGuideActivity : BindingActivity<GuideBinding, GuideViewModel>(), IGuide {
 	//跳转至login
 	override fun jumpToLogin() {
 		replaceFragment("login")
-
+		
 		
 	}
 	
@@ -50,15 +57,21 @@ class LGuideActivity : BindingActivity<GuideBinding, GuideViewModel>(), IGuide {
 	
 	@SuppressLint("ResourceType")
 	override fun initWidget() {
-		//状态栏字体黑色
-		StatusBarUtil.setStatusTextColor(true, this)
-		
-		supportFragmentManager.beginTransaction().apply {
-			add(R.id.guideContainer, currentFragment as Fragment)
-			commit()
+		binding.vm = viewModel
+		if (getLoginState()) {
+			startActivity(Intent(this, MainActivity::class.java))
+			finish()
+		} else {
+			//状态栏字体黑色
+			StatusBarUtil.setStatusTextColor(true, this)
+			supportFragmentManager.beginTransaction().apply {
+				add(R.id.guideContainer, currentFragment as Fragment)
+				commit()
+			}
+			//resolve error
+			handleError()
+			
 		}
-		//resolve error
-		handleError()
 	}
 	
 	override fun initData() {
@@ -114,6 +127,22 @@ class LGuideActivity : BindingActivity<GuideBinding, GuideViewModel>(), IGuide {
 			R.string.net_unavailable,
 			Snackbar.LENGTH_LONG
 		).show()
+	}
+	
+	fun showContractDialog() {
+		hideKeyboard()
+		
+		val pop = ContractDialog(this)
+		pop.show()
+		//pop click listener
+		pop.setOnClickListener(object :BottomDialogView.OnMyClickListener{
+			override fun onFinishClick() {
+				pop.dismiss()
+			}
+			
+		})
+		
+		
 	}
 	
 	

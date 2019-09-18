@@ -1,7 +1,7 @@
 package com.example.rubbishcommunity.ui.find
 
 import android.app.Application
-import com.example.rubbishcommunity.base.BaseViewModel
+import com.example.rubbishcommunity.ui.base.BaseViewModel
 
 
 

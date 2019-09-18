@@ -2,7 +2,7 @@ package com.example.rubbishcommunity.ui.homepage
 
 import android.annotation.SuppressLint
 import android.view.View
-import com.example.rubbishcommunity.base.BindingFragment
+import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.HomepageBinding
 
@@ -18,7 +18,6 @@ class HomepageFragment : BindingFragment<HomepageBinding, HomepageViewModel>(
     @SuppressLint("CheckResult")
     override fun initWidget(view: View) {
         binding.vm = viewModel
-
         //viewModel.refreshing.observe { binding.refreshlayout.isRefreshing = it!! }
 
         viewModel.init()
@@ -26,9 +25,7 @@ class HomepageFragment : BindingFragment<HomepageBinding, HomepageViewModel>(
         binding.gridHotword.run {
             val hotWordList = listOf("苹果","苹果","苹果","苹果","苹果","苹果","苹果","苹果")
 
-            adapter = TagGridAdapter(getContext(),hotWordList)
-
-
+            adapter = TagGridAdapter(context,hotWordList)
         }
 
         

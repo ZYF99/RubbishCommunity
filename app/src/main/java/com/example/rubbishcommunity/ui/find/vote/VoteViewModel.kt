@@ -3,7 +3,7 @@ package com.example.rubbishcommunity.ui.find.vote
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.manager.api.ApiService
-import com.example.rubbishcommunity.base.BaseViewModel
+import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.model.Vote
 import io.reactivex.SingleTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -35,7 +35,7 @@ class VoteViewModel(application: Application) : BaseViewModel(application) {
 
         voteList.value = list
 
-        apiService.getVoteList(0)
+/*        apiService.getVoteList(0)
             .compose(dealRefresh())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -43,7 +43,9 @@ class VoteViewModel(application: Application) : BaseViewModel(application) {
                 voteList.value = it as MutableList<Vote>?
             }
             .compose(dealError())
-            .bindLife()
+            .bindLife()*/
+        
+        
     }
 
 

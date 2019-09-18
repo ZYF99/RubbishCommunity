@@ -26,8 +26,7 @@
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     android:gravity="center"
-                    android:orientation="vertical"
-            >
+                    android:orientation="vertical">
 
                 <LinearLayout
                         android:id="@+id/lin_search"
@@ -89,6 +88,7 @@
                         android:id="@+id/grid_hotword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        tools:listitem="@layout/griditem_hottag"
                         android:numColumns="4"/>
 
             </LinearLayout>

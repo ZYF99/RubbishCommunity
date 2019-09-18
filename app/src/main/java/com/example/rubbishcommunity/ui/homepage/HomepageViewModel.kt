@@ -3,7 +3,7 @@ package com.example.rubbishcommunity.ui.homepage
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.manager.api.ApiService
-import com.example.rubbishcommunity.base.BaseViewModel
+import com.example.rubbishcommunity.ui.base.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.kodein.di.generic.instance
@@ -27,7 +27,7 @@ class HomepageViewModel(application: Application) : BaseViewModel(application) {
 
     private fun getHotWordList() {
 
-        apiService.getHotWordList(0)
+/*        apiService.getHotWordList(0)
            // .compose(dealRefresh())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -35,7 +35,8 @@ class HomepageViewModel(application: Application) : BaseViewModel(application) {
                 hotWordList.value = it as MutableList<String>?
             }
             .compose(dealError())
-            .bindLife()
+            .bindLife()*/
+        
     }
 
 

@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data class="LoginFragBinding">
-
+        <import type="android.view.View" />
         <variable
                 name="vm"
                 type="com.example.rubbishcommunity.ui.guide.login.LoginViewModel" />

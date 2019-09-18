@@ -10,14 +10,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import com.example.rubbishcommunity.MyApplication
-import com.example.rubbishcommunity.base.BindingFragment
+import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.RegisterFragBinding
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
+import com.example.rubbishcommunity.persistence.saveLoginState
+import com.example.rubbishcommunity.persistence.saveVerifyInfo
 import com.example.rubbishcommunity.ui.MainActivity
 import com.example.rubbishcommunity.ui.guide.AnimatorUtils
 import com.example.rubbishcommunity.ui.guide.GuideCallBackCode
 import com.example.rubbishcommunity.ui.guide.IGuide
+import com.example.rubbishcommunity.ui.guide.LGuideActivity
 import com.example.rubbishcommunity.utils.AppUtils
 import com.example.rubbishcommunity.utils.PhoneUtils
 import com.jakewharton.rxbinding2.view.RxView
@@ -80,6 +83,14 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 					}
 				}
 			}.bindLife()
+		
+		
+		//服务协议按钮
+		RxView.clicks(binding.btnContract).throttleFirst(2, TimeUnit.SECONDS)
+			.doOnNext {
+				(activity as LGuideActivity).showContractDialog()
+			}.bindLife()
+		
 	}
 	
 	//注册并登陆
@@ -141,7 +152,13 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 							//登陆成功
 							GuideCallBackCode.success -> {
 								//持久化得到的token以及用户登录的信息
-								viewModel.saveVerifyInfo(result.data.token)
+								
+								saveVerifyInfo(
+									viewModel.userName.value!!,
+									viewModel.password.value!!,
+									result.data.token
+								)
+								saveLoginState(true)
 								//跳转到首页
 								startActivity(Intent(context, MainActivity::class.java))
 								(context as Activity).finish()

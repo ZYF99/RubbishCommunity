@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.base
+package com.example.rubbishcommunity.ui.base
 
 
 import android.app.Activity
@@ -18,8 +18,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.example.rubbishcommunity.R
-import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.support.closestKodein

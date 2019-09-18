@@ -2,7 +2,7 @@ package com.example.rubbishcommunity.ui.message
 
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.rubbishcommunity.base.BindingFragment
+import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MessageBinding
 import com.example.rubbishcommunity.ui.MainActivity
@@ -18,7 +18,6 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
 
     override fun initWidget(view: View) {
         binding.vm = viewModel
-
         //viewModel.refreshing.observe { binding.refreshlayout.isRefreshing = it!! }
 
         viewModel.init()
@@ -77,7 +76,7 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
     private fun createJobPop() {
         hideKeyboard()
         binding.btnjobdown.setImageResource(R.drawable.icn_chevron_down_black)
-        val pop = context?.let { JobPopView(it) }
+        val pop = context?.let { ContractDialog(it) }
         pop?.show()
         //pop click listener
         pop?.setOnClickListener(object : BottomDialogView.OnMyClickListener {

@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.base
+package com.example.rubbishcommunity.ui.base
 
 
 import android.content.Context

@@ -8,8 +8,7 @@
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appbar"
@@ -39,6 +38,7 @@
                         android:id="@+id/tab"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
                         android:layout_gravity="bottom"
                         android:background="@color/white"
                         app:tabRippleColor="@null"

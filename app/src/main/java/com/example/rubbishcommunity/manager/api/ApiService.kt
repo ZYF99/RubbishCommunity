@@ -5,6 +5,8 @@ import com.example.rubbishcommunity.model.Vote
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
+import com.example.rubbishcommunity.model.api.mine.UserInfoResultModel
+import com.example.rubbishcommunity.persistence.getLocalToken
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -14,9 +16,21 @@ interface ApiService {
 	fun loginOrRegister(@Body loginOrRegisterRequestModel: LoginOrRegisterRequestModel): Single<ResultModel<LoginOrRegisterResultModel>>
 	
 	
-	@Headers("accept: application/json;charset=UTF-8")
-	@GET("api/account/info/{userId}/get")
-	fun getUserInfo(@Path("userId")userId:String): Single<String>
+	
+	/*
+	* 未完成的接口
+	*
+	* */
+	@POST("api/account/logout")
+	fun logout(): Single<ResultModel<String>>
+	
+	
+	@GET("api/account/info/{uid}/get")
+	fun getUserInfo(@Path("uid")uid:String): Single<ResultModel<UserInfoResultModel>>
+	
+	
+	@GET("api/account/profile/{uid}/get")
+	fun getUserInfoDetail(@Path("uid")uid:String): Single<String>
 	
 	
 	

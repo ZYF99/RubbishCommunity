@@ -2,7 +2,7 @@ package com.example.rubbishcommunity.ui.message
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.example.rubbishcommunity.base.BaseViewModel
+import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.manager.api.ApiService
 import com.example.rubbishcommunity.model.Message
 import io.reactivex.SingleTransformer
@@ -49,7 +49,7 @@ class MessageViewModel(application: Application) : BaseViewModel(application), M
 
         messageList.value = list
 
-        dynamicService.getDynamicList(0)
+/*        dynamicService.getDynamicList(0)
             .compose(dealRefresh())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -57,7 +57,9 @@ class MessageViewModel(application: Application) : BaseViewModel(application), M
                 messageList.value = it as MutableList<Message>?
             }
             .compose(dealError())
-            .bindLife()
+            .bindLife()*/
+        
+        
     }
 
 

@@ -9,7 +9,7 @@ import com.example.fenrir_stage4.mainac.utils.ErrorType
 import com.example.fenrir_stage4.mainac.utils.getErrorObs
 import com.example.fenrir_stage4.mainac.utils.showNoWifiDialog
 import com.example.fenrir_stage4.mainac.utils.showUnexpectedDialog
-import com.example.rubbishcommunity.base.BindingActivity
+import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MainBinding
 import com.example.rubbishcommunity.ui.homepage.HomepageFragment

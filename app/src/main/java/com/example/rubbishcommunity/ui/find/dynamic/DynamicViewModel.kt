@@ -3,7 +3,7 @@ package com.example.rubbishcommunity.ui.find.dynamic
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.manager.api.ApiService
-import com.example.rubbishcommunity.base.BaseViewModel
+import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.model.Dynamic
 import io.reactivex.SingleTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -43,7 +43,7 @@ class DynamicViewModel(application: Application) : BaseViewModel(application) {
 
         dynamicList.value = list
 
-        dynamicService.getDynamicList(0)
+/*        dynamicService.getDynamicList(0)
             .compose(dealRefresh())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -51,7 +51,9 @@ class DynamicViewModel(application: Application) : BaseViewModel(application) {
                 dynamicList.value = it as MutableList<Dynamic>?
             }
             .compose(dealError())
-            .bindLife()
+            .bindLife()*/
+        
+        
     }
 
 
