@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Service
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.telephony.TelephonyManager
@@ -13,6 +14,9 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.disposables.Disposable
 import java.util.Locale
 import java.util.Objects
+import androidx.core.content.ContextCompat.getSystemService
+
+
 
 
 /**
@@ -66,11 +70,12 @@ object PhoneUtils {
 	 *
 	 * @return 手机IMEI
 	 */
+	
 	@RequiresApi(Build.VERSION_CODES.O)
 	@SuppressLint("HardwareIds", "MissingPermission")
-	fun getPhoneIMEI(activity: Activity): String{
-		val tm = Objects.requireNonNull(activity).getSystemService(Service.TELEPHONY_SERVICE) as TelephonyManager
-	return tm.imei
+	fun getPhoneIMEI(context: Context): String {
+		val tm = context.getSystemService(Service.TELEPHONY_SERVICE) as TelephonyManager
+		return tm.deviceId
 	}
 	
 }

@@ -18,7 +18,7 @@ class VoteFragment : BindingFragment<VoteBinding, VoteViewModel>(
     }
 
     @SuppressLint("CheckResult")
-    override fun initWidget(view: View) {
+    override fun initWidget() {
         binding.vm = viewModel
 
         //viewModel.refreshing.observe { binding.refreshlayout.isRefreshing = it!! }

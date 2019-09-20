@@ -18,7 +18,7 @@ class FindFragment :
 	}
 	
 	@SuppressLint("CheckResult")
-	override fun initWidget(view: View) {
+	override fun initWidget() {
 		
 		binding.vm = viewModel
 		binding.findpager.run {

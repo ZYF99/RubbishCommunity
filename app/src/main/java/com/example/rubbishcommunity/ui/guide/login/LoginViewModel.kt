@@ -1,15 +1,22 @@
 package com.example.rubbishcommunity.ui.guide.login
 
+
 import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
+import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.manager.api.ApiService
+import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
 import com.example.rubbishcommunity.persistence.getLocalPassword
 import com.example.rubbishcommunity.persistence.getLocalUserName
+import com.example.rubbishcommunity.utils.*
 import io.reactivex.Single
+import io.reactivex.SingleTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.kodein.di.generic.instance
@@ -18,8 +25,12 @@ import java.util.concurrent.TimeUnit
 
 class LoginViewModel(application: Application) : BaseViewModel(application) {
 	
+	//账号
 	val userName = MutableLiveData<String>()
+	//密码
 	val password = MutableLiveData<String>()
+	//是否正在登陆
+	val isLoading = MutableLiveData<Boolean>()
 	
 	private val apiService by instance<ApiService>()
 	
@@ -29,16 +40,59 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 		password.value = getLocalPassword()
 	}
 	
-	fun login(loginOrRegisterRequestModel: LoginOrRegisterRequestModel): Single<ResultModel<LoginOrRegisterResultModel>> {
-		return apiService.loginOrRegister(
-			loginOrRegisterRequestModel
-		).delay(2, TimeUnit.SECONDS)
-			.subscribeOn(Schedulers.io())
-			.observeOn(AndroidSchedulers.mainThread())
-			.compose(dealError())
+	@RequiresApi(Build.VERSION_CODES.O)
+	fun login(): Single<ResultModel<LoginOrRegisterResultModel>>? {
+		val versionName = AppUtils.getVersionName(MyApplication.instance)
+		val deviceBrand = PhoneUtils.deviceBrand
+		val osVersion = PhoneUtils.systemVersion
+		val systemModel = PhoneUtils.systemModel
+		
+		if (judgeLoginParams()) {
+			return apiService.loginOrRegister(
+				LoginOrRegisterRequestModel(
+					LoginOrRegisterRequestModel.DeviceInfo(
+						versionName,
+						deviceBrand,
+						PhoneUtils.getPhoneIMEI(MyApplication.instance),
+						osVersion,
+						systemModel
+					), 0,
+					password.value!!,
+					false,
+					userName.value!!
+				)
+			).delay(1, TimeUnit.SECONDS)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.compose(dealLoading())
+				.compose(dealError())
+		}
+		return null
 	}
-
-
 	
+	private fun judgeLoginParams(): Boolean {
+		if (userName.value!!.isNotEmpty() && password.value!!.isNotEmpty()) {
+			if (userName.value!!.length > 4) {
+				if (password.value!!.length in 4..16) {
+					return true
+				} else {
+					sendError(ErrorData(ErrorType.INPUT_ERROR, "密码长度为6-16位"))
+				}
+			} else {
+				sendError(ErrorData(ErrorType.INPUT_ERROR, "用户名必须大于4位"))
+			}
+		} else {
+			sendError(ErrorData(ErrorType.INPUT_ERROR, "用户名和密码不能为空"))
+		}
+		return false
+	}
+	
+	private fun <T> dealLoading(): SingleTransformer<T, T> {
+		return SingleTransformer { obs ->
+			obs.doOnSubscribe { isLoading.postValue(true) }
+				.doOnSuccess { isLoading.postValue(false) }
+				.doOnError { isLoading.postValue(false) }
+		}
+	}
 	
 }

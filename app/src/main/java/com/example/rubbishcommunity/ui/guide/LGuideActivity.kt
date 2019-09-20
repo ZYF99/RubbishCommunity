@@ -2,15 +2,10 @@ package com.example.rubbishcommunity.ui.guide
 
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.fenrir_stage4.mainac.ui.widget.ContractDialog
-import com.example.fenrir_stage4.mainac.utils.ErrorType
-import com.example.fenrir_stage4.mainac.utils.getErrorObs
-import com.example.fenrir_stage4.mainac.utils.showNoWifiDialog
-import com.example.fenrir_stage4.mainac.utils.showUnexpectedDialog
 import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.GuideBinding
@@ -20,11 +15,11 @@ import com.example.rubbishcommunity.ui.guide.login.LoginFragment
 import com.example.rubbishcommunity.ui.guide.register.RegisterFragment
 import com.example.rubbishcommunity.ui.widget.BottomDialogView
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.snackbar.Snackbar
+import com.example.rubbishcommunity.utils.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 
 class LGuideActivity : BindingActivity<GuideBinding, GuideViewModel>(), IGuide {
@@ -45,8 +40,7 @@ class LGuideActivity : BindingActivity<GuideBinding, GuideViewModel>(), IGuide {
 	override val clazz: Class<GuideViewModel> = GuideViewModel::class.java
 	override val layRes: Int = R.layout.activity_guide
 	
-	private var errorDisposable: Disposable? = null
-	private var errorDialog: AlertDialog? = null
+
 	
 	
 	private var currentFragment: Fragment? = LoginFragment()
@@ -70,7 +64,6 @@ class LGuideActivity : BindingActivity<GuideBinding, GuideViewModel>(), IGuide {
 			}
 			//resolve error
 			handleError()
-			
 		}
 	}
 	
@@ -100,34 +93,9 @@ class LGuideActivity : BindingActivity<GuideBinding, GuideViewModel>(), IGuide {
 	}
 	
 	
-	//实际'异常'处理者
-	private fun handleError() {
-		errorDisposable = getErrorObs()
-			.observeOn(AndroidSchedulers.mainThread())
-			.doOnNext {
-				if (!errorDialog!!.isShowing) {
-					errorDialog = when (it.errorType) {
-						ErrorType.NO_WIFI -> showNoWifiDialog(this) {}
-						else -> showUnexpectedDialog(this)
-					}
-				}
-			}.subscribe({}, { Timber.e(it) })
-	}
+
+
 	
-	override fun onDestroy() {
-		errorDialog?.dismiss()
-		errorDialog = null
-		errorDisposable?.dispose()
-		super.onDestroy()
-	}
-	
-	fun showNetErrorSnackBar() {
-		Snackbar.make(
-			binding.root,
-			R.string.net_unavailable,
-			Snackbar.LENGTH_LONG
-		).show()
-	}
 	
 	fun showContractDialog() {
 		hideKeyboard()
@@ -135,7 +103,7 @@ class LGuideActivity : BindingActivity<GuideBinding, GuideViewModel>(), IGuide {
 		val pop = ContractDialog(this)
 		pop.show()
 		//pop click listener
-		pop.setOnClickListener(object :BottomDialogView.OnMyClickListener{
+		pop.setOnClickListener(object : BottomDialogView.OnMyClickListener {
 			override fun onFinishClick() {
 				pop.dismiss()
 			}

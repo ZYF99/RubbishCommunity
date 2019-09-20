@@ -61,7 +61,7 @@ constructor(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
             initBefore()
-            initWidget(view)
+            initWidget()
             initData()
     }
 
@@ -70,7 +70,7 @@ constructor(
     abstract fun initBefore()
 
     //widget init
-    abstract fun initWidget(view: View)
+    abstract fun initWidget()
 
     //data init
     abstract fun initData()

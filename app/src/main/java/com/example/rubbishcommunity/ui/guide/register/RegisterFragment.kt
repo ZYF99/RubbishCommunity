@@ -6,14 +6,12 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.RegisterFragBinding
-import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
 import com.example.rubbishcommunity.persistence.saveLoginState
 import com.example.rubbishcommunity.persistence.saveVerifyInfo
 import com.example.rubbishcommunity.ui.MainActivity
@@ -21,8 +19,6 @@ import com.example.rubbishcommunity.ui.guide.AnimatorUtils
 import com.example.rubbishcommunity.ui.guide.GuideCallBackCode
 import com.example.rubbishcommunity.ui.guide.IGuide
 import com.example.rubbishcommunity.ui.guide.LGuideActivity
-import com.example.rubbishcommunity.utils.AppUtils
-import com.example.rubbishcommunity.utils.PhoneUtils
 import com.jakewharton.rxbinding2.view.RxView
 import com.tbruyelle.rxpermissions2.RxPermissions
 import java.util.concurrent.TimeUnit
@@ -35,16 +31,8 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 	private lateinit var animationUtils: AnimatorUtils
 	
 	override fun initBefore() {
-	
-	
-	}
-	
-	@RequiresApi(Build.VERSION_CODES.O)
-	@SuppressLint("CheckResult")
-	override fun initWidget(view: View) {
 		binding.vm = viewModel
 		viewModel.init()
-		
 		//初始化动画工具
 		animationUtils = AnimatorUtils(
 			(binding.linContent.layoutParams as ViewGroup.MarginLayoutParams).leftMargin,
@@ -53,37 +41,60 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 			binding.linContent,
 			binding.btnRegister
 		)
+	}
+	
+	@RequiresApi(Build.VERSION_CODES.O)
+	@SuppressLint("CheckResult")
+	override fun initWidget() {
+		
+		
+		//观测是否在Loading
+		viewModel.isLoading.observeNonNull {
+			if (it) {
+				//开始登陆的动画
+				animationUtils.startTransAnimation()
+			} else {
+				//结束登陆的动画
+				animationUtils.complete()
+			}
+		}
+		
+		//观察错误提示信息
+		viewModel.errorMsg.observeNonNull {
+			(activity as LGuideActivity).showErrorSnackBar(it)
+		}
+		
 		
 		//注册按钮
 		RxView.clicks(binding.btnRegister)
 			.throttleFirst(2, TimeUnit.SECONDS)
 			.doOnNext {
-				
 				//IMEI权限检查
-				var phoneIMei: String
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-					if (activity?.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-						//无权限时申请权限
-						RxPermissions(activity as Activity).request(Manifest.permission.READ_PHONE_STATE)
-							.subscribe {
-								if (it) {
-									//申请权限通过直接登陆
-									phoneIMei = PhoneUtils.getPhoneIMEI(activity as Activity)
-									
-									registerAndLogin(phoneIMei)
-								} else {
-									MyApplication.showToast("您必须给予权限才能完成注册！")
-									animationUtils.complete()
-								}
+				
+				if (activity?.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+					//无权限时申请权限
+					RxPermissions(activity as Activity).request(Manifest.permission.READ_PHONE_STATE)
+						.subscribe {
+							if (it) {
+								//申请权限通过直接登陆
+								registerAndLogin()
+							} else {
+								MyApplication.showToast("您必须给予权限才能完成注册！")
 							}
-					} else {
-						//有权限，直接注册
-						phoneIMei = PhoneUtils.getPhoneIMEI(activity as Activity)
-						registerAndLogin(phoneIMei)
-					}
+						}
+				} else {
+					//有权限，直接注册
+					registerAndLogin()
 				}
+				
 			}.bindLife()
 		
+		
+		//返回登陆按钮
+		RxView.clicks(binding.btnBack).throttleFirst(2, TimeUnit.SECONDS)
+			.doOnNext {
+				(activity as IGuide).jumpToLogin()
+			}.bindLife()
 		
 		//服务协议按钮
 		RxView.clicks(binding.btnContract).throttleFirst(2, TimeUnit.SECONDS)
@@ -94,88 +105,35 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 	}
 	
 	//注册并登陆
-	private fun registerAndLogin(phoneIMei: String) {
-		val userName = viewModel.userName.value!!
-		val password = viewModel.password.value!!
-		val rePassword = viewModel.rePassword.value!!
-		if (password != rePassword) {
-			MyApplication.showToast("两次密码不一致")
+	private fun registerAndLogin() {
+		
+		if (!isNetworkAvailable()) {
+			(activity as LGuideActivity).showNetErrorSnackBar()
 			return
-		} else {
-			animationUtils.startTransAnimation()
 		}
-		val versionName = AppUtils.getVersionName(context)
-		val deviceBrand = PhoneUtils.deviceBrand
-		val osVersion = PhoneUtils.systemVersion
-		val systemModel = PhoneUtils.systemModel
 		
 		//真实register
-		viewModel.registerOrLogin(
-			LoginOrRegisterRequestModel(
-				LoginOrRegisterRequestModel.DeviceInfo(
-					versionName,
-					deviceBrand,
-					phoneIMei,
-					osVersion,
-					systemModel
-				), 0,
-				password,
-				//binding.editPassword.text.toString()
-				true,
-				userName
-				//binding.editPassword.edit_email.toString()
-			)
-		).doOnSuccess { result ->
-			MyApplication.showToast(result.meta.msg)
-			when (result.meta.code) {
-				//注册成功
+		viewModel.registerOrLogin()?.doOnSuccess {
+			when (it.meta.code) {
+				//登陆成功
 				GuideCallBackCode.success -> {
-					//真实register
-					viewModel.registerOrLogin(
-						LoginOrRegisterRequestModel(
-							LoginOrRegisterRequestModel.DeviceInfo(
-								versionName,
-								deviceBrand,
-								phoneIMei,
-								osVersion,
-								systemModel
-							), 0,
-							password,
-							//binding.editPassword.text.toString()
-							false,
-							userName
-							//binding.editPassword.edit_email.toString()
-						)
-					).doOnSuccess {
-						animationUtils.complete()
-						when (result.meta.code) {
-							//登陆成功
-							GuideCallBackCode.success -> {
-								//持久化得到的token以及用户登录的信息
-								
-								saveVerifyInfo(
-									viewModel.userName.value!!,
-									viewModel.password.value!!,
-									result.data.token
-								)
-								saveLoginState(true)
-								//跳转到首页
-								startActivity(Intent(context, MainActivity::class.java))
-								(context as Activity).finish()
-							}
-							//登陆失败
-							else -> {
-								MyApplication.showToast(result.meta.msg)
-							}
-						}
-					}.bindLife()
+					//持久化得到的token以及用户登录的信息
+					saveVerifyInfo(
+						viewModel.userName.value!!,
+						viewModel.password.value!!,
+						it.data.token
+					)
+					saveLoginState(true)
+					//跳转到首页
+					startActivity(Intent(context, MainActivity::class.java))
+					(context as Activity).finish()
 				}
-				//注册失败
+				//登陆失败
 				else -> {
-					animationUtils.complete()
+					MyApplication.showToast(it.meta.msg)
 				}
 			}
-		}.bindLife()
+		}?.bindLife()
 		
 		
 	}
@@ -184,6 +142,7 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 	override fun initData() {
 	
 	}
+	
 	
 	override fun onBackPressed(): Boolean {
 		(activity as IGuide).jumpToLogin()

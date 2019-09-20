@@ -3,6 +3,7 @@ package com.example.fenrir_stage4.manager.base
 import com.example.rubbishcommunity.manager.api.ApiService
 import com.example.rubbishcommunity.BuildConfig
 import com.example.rubbishcommunity.manager.base.ApiClient
+import com.example.rubbishcommunity.manager.base.NetErrorInterceptor
 import okhttp3.logging.HttpLoggingInterceptor
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -22,8 +23,8 @@ fun provideApiClient(): ApiClient {
 	logInterceptor.level = HttpLoggingInterceptor.Level.BODY
 	
 	client.okBuilder
-/*    .addInterceptor(HeaderInterceptor())
-        .addInterceptor(NetErrorInterceptor(globalMoshi))*/
+    //.addInterceptor(HeaderInterceptor())
+        .addInterceptor(NetErrorInterceptor())
 		
 		.apply {
 			if (BuildConfig.DEBUG)

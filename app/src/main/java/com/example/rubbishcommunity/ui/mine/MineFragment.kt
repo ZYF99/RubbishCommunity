@@ -10,7 +10,10 @@ import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MineBinding
 import com.example.rubbishcommunity.persistence.saveLoginState
+import com.example.rubbishcommunity.ui.MainActivity
 import com.example.rubbishcommunity.ui.guide.LGuideActivity
+import com.google.android.material.snackbar.Snackbar
+import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 import com.jakewharton.rxbinding2.view.RxView
 
 class MineFragment : BindingFragment<MineBinding, MineViewModel>(
@@ -21,16 +24,14 @@ class MineFragment : BindingFragment<MineBinding, MineViewModel>(
 	
 	}
 	
-	override fun initWidget(view: View) {
+	override fun initWidget() {
 		binding.vm = viewModel
 		
-		viewModel
-			.getUserInfo()
-			.doOnSuccess {
-				viewModel.userInfo.postValue(it.data)
-			}.bindLife()
+		binding.collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE)
+		Glide.with(context).load(R.drawable.bg).crossFade().into(binding.iv)
+		Glide.with(context).load(R.drawable.bg).crossFade().into(binding.potrait)
 		
-		viewModel.userInfo.observe {
+		viewModel.userInfo.observeNonNull {
 			if (it != null) {
 				binding.userName = it.name
 				binding.content = it.content
@@ -40,30 +41,30 @@ class MineFragment : BindingFragment<MineBinding, MineViewModel>(
 			}
 		}
 		
-		
-		binding.collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE)
-		Glide.with(context).load(R.drawable.bg).crossFade().into(binding.iv)
-		Glide.with(context).load(R.drawable.bg).crossFade().into(binding.potrait)
+		viewModel.isRefreshing.observeNonNull {
+			binding.refreshLayout.isRefreshing = it
+			binding.rootLayout.isEnabled = it
+		}
 		
 		
 		RxView.clicks(binding.btnLogout)
 			.doOnNext {
-			
-/*				//注销流
-				viewModel.getUserInfo().doOnSuccess {
-					when (it.meta.code) {
-						200 -> {
-							//注销成功
-							saveLoginState(false)
-							startActivity(Intent(context, LGuideActivity::class.java))
-							(context as Activity).finish()
-						}
-						else -> {
-							//注销失败
-							
-						}
-					}
-				}*/
+				
+				/*				//注销流
+								viewModel.getUserInfo().doOnSuccess {
+									when (it.meta.code) {
+										200 -> {
+											//注销成功
+											saveLoginState(false)
+											startActivity(Intent(context, LGuideActivity::class.java))
+											(context as Activity).finish()
+										}
+										else -> {
+											//注销失败
+											
+										}
+									}
+								}*/
 				
 				//模拟注销成功
 				//注销成功
@@ -72,12 +73,37 @@ class MineFragment : BindingFragment<MineBinding, MineViewModel>(
 				(context as Activity).finish()
 				
 				
-				
 			}.bindLife()
+		
+		
+		RxSwipeRefreshLayout.refreshes(binding.refreshLayout)
+			.doOnNext {
+				refresh()
+			}
+			.bindLife()
+		
+	}
+	
+	
+	private fun refresh() {
+		
+		viewModel.getUserInfo()
+		
+/*		when {
+			!isNetworkAvailable() -> {
+				(activity as MainActivity).showNetErrorSnackBar()
+				viewModel.isRefreshing.postValue(false)
+			}
+			else -> {
+				viewModel.getUserInfo()
+			}
+		}*/
+		
+		
 	}
 	
 	override fun initData() {
-	
+		refresh()
 	}
 
 

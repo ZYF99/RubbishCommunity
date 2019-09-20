@@ -44,7 +44,7 @@ class AnimatorUtils(
 			"scaleY", 1f, 0f
 		)
 		
-		set.duration = 300
+		set.duration = 100
 		set.interpolator = AccelerateDecelerateInterpolator()
 		set.playTogether(animator, animator2, animator3)
 		set.start()
@@ -73,7 +73,7 @@ class AnimatorUtils(
 			view,
 			animator, animator2
 		)
-		animator3.duration = 400
+		animator3.duration = 100
 		animator3.interpolator = JellyInterpolator()
 		animator3.start()
 		
@@ -100,7 +100,7 @@ class AnimatorUtils(
 				PropertyValuesHolder.ofFloat("scaleY", 0.5f, 1f)
 			)
 			
-			completedAnimator.duration = 200
+			completedAnimator.duration = 100
 			completedAnimator.interpolator = AccelerateDecelerateInterpolator()
 			completedAnimator.start()
 			

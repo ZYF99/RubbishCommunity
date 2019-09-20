@@ -1,10 +1,11 @@
-package com.example.fenrir_stage4.mainac.utils
+package com.example.rubbishcommunity.utils
 
 import android.content.Context
 import android.content.Intent
 import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import com.example.rubbishcommunity.R
+import com.example.rubbishcommunity.ui.base.BindingActivity
 import io.reactivex.rxkotlin.ofType
 import io.reactivex.subjects.PublishSubject
 
@@ -14,7 +15,6 @@ import io.reactivex.subjects.PublishSubject
  */
 
 fun showNoWifiDialog(context: Context, okAction: () -> Unit): AlertDialog {
-
     val dialog = AlertDialog.Builder(context)
         .setTitle(R.string.homepage_dialog_title_no_wife)
         .setMessage(R.string.homepage_dialog_msg_no_wife)
@@ -30,7 +30,6 @@ fun showNoWifiDialog(context: Context, okAction: () -> Unit): AlertDialog {
 
 
 fun showUnexpectedDialog(context: Context): AlertDialog {
-
     val dialog = AlertDialog.Builder(context)
         .setTitle(R.string.homepage_dialog_title_unexpected)
         .setNegativeButton(R.string.ok, null)
@@ -38,6 +37,11 @@ fun showUnexpectedDialog(context: Context): AlertDialog {
     dialog.show()
     return dialog
 }
+
+fun showErrorBar(context: Context,msg:String){
+    (context as BindingActivity<*, *>).showErrorSnackBar(msg)
+}
+
 
 
 //创建 '异常' 流
@@ -54,5 +58,9 @@ data class ErrorData(val errorType: ErrorType, val errorContent: String = "")
 
 // '异常' 类型
 enum class ErrorType {
+    INPUT_ERROR,
     NO_WIFI,
+    REGISTER_OR_LOGIN_FAILED,
+    UNEXPECTED,
+    SERVERERROR
 }

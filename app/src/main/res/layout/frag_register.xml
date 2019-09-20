@@ -14,10 +14,23 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:background="@color/colorGuideBack"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:background="@color/colorGuideBack">
 
-
+        <TextView
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:background="@color/colorTransparent"
+                android:text="返回登陆"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         <LinearLayout
@@ -29,13 +42,6 @@
                 app:layout_constraintBottom_toTopOf="@id/lin_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
-
-            <ImageView
-                    android:id="@+id/imageView6"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:tint="@color/white"
-                    app:srcCompat="@drawable/icon_find_nor" />
 
             <TextView
                     android:id="@+id/appname"
@@ -81,8 +87,8 @@
                     android:id="@+id/progressBar2"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:elevation="10dp"
                     android:layout_margin="10dip"
+                    android:elevation="10dp"
                     android:indeterminateTint="@color/colorGuideBack"
                     android:indeterminateTintMode="src_atop"
                     tools:targetApi="lollipop" />
@@ -99,13 +105,13 @@
                 android:layout_marginEnd="32dp"
                 android:layout_marginRight="32dp"
                 android:background="@drawable/bg_cornerinput"
+                android:elevation="10dp"
                 android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:elevation="10dp"
                 tools:targetApi="lollipop">
 
             <LinearLayout
@@ -266,11 +272,11 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="32dp"
 
+                android:background="@drawable/bg_cornerbtn_nor"
+                android:elevation="10dp"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
                 android:text="注册并登陆"
-                android:elevation="10dp"
-                android:background="@drawable/bg_cornerbtn_nor"
                 android:textColor="@color/colorGuideBack"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
