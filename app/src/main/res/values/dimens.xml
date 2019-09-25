@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--头像高度-->
+    <dimen name="portraitMinSize">36dp</dimen>
+    <dimen name="portraitSize">40dp</dimen>
+    <dimen name="portraitMaxSize">64dp</dimen>
+
+    <!--状态栏高度-->
+    <dimen name="statusBarSize">25dp</dimen>
+    <!--标题栏高度-->
+    <dimen name="actionBarSize">42dp</dimen>
+    <!--标题栏及阴影高度-->
+    <dimen name="actionBarSizeWithShadow">43dp</dimen>
+    <!--状态栏和标题栏高度一起-->
+    <dimen name="actionBarWithStatusBarSize">67dp</dimen>
+    <!--状态栏和标题栏及阴影高度一起-->
+    <dimen name="actionBarWithStatusBarSizeWithShadow">68dp</dimen>
+
+    <!--名字字体的大小-->
+    <dimen name="fontNameSize">15sp</dimen>
+
+</resources>

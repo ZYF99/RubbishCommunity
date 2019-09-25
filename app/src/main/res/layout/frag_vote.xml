@@ -3,7 +3,7 @@
         xmlns:tools="http://schemas.android.com/tools">
     <data class="VoteBinding">
         <variable name="vm"
-                  type="com.example.rubbishcommunity.ui.find.vote.VoteViewModel"/>
+                  type="com.example.rubbishcommunity.ui.home.find.vote.VoteViewModel"/>
 
     </data>
 

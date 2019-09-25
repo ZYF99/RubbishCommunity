@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            tools:background="@color/colorGuideBack">
+            android:background="@color/colorGuideBack">
 
         <TextView
                 android:id="@+id/btn_back"
@@ -284,49 +284,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/lin_content"
                 tools:targetApi="lollipop" />
 
-        <LinearLayout
-                android:id="@+id/linearLayout3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                <TextView
-                        android:id="@+id/tips"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="5dp"
-                        android:background="@color/colorTransparent"
-                        android:gravity="center"
-                        android:text="注册即代表阅读并同意"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
-
-                <TextView
-                        android:id="@+id/btn_contract"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:background="@color/colorTransparent"
-                        android:gravity="center"
-                        android:text="服务协议"
-                        android:textColor="#2196F3"
-                        android:textSize="14sp" />
-            </LinearLayout>
-
-        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

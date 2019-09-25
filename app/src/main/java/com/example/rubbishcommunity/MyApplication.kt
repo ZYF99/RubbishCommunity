@@ -2,7 +2,7 @@ package com.example.rubbishcommunity
 
 import android.widget.Toast
 import androidx.multidex.MultiDexApplication
-import com.example.fenrir_stage4.manager.base.apiModule
+import com.example.rubbishcommunity.manager.base.apiModule
 import com.example.rubbishcommunity.persistence.SharedPreferencesUtils
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware

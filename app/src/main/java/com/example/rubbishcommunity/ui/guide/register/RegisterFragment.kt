@@ -9,16 +9,13 @@ import android.os.Build
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import com.example.rubbishcommunity.MyApplication
-import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.RegisterFragBinding
-import com.example.rubbishcommunity.persistence.saveLoginState
-import com.example.rubbishcommunity.persistence.saveVerifyInfo
-import com.example.rubbishcommunity.ui.MainActivity
+import com.example.rubbishcommunity.ui.home.MainActivity
+import com.example.rubbishcommunity.ui.BindingFragment
 import com.example.rubbishcommunity.ui.guide.AnimatorUtils
-import com.example.rubbishcommunity.ui.guide.GuideCallBackCode
-import com.example.rubbishcommunity.ui.guide.IGuide
-import com.example.rubbishcommunity.ui.guide.LGuideActivity
+import com.example.rubbishcommunity.ui.guide.ServerCallBackCode
+import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.jakewharton.rxbinding2.view.RxView
 import com.tbruyelle.rxpermissions2.RxPermissions
 import java.util.concurrent.TimeUnit
@@ -61,7 +58,7 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 		
 		//观察错误提示信息
 		viewModel.errorMsg.observeNonNull {
-			(activity as LGuideActivity).showErrorSnackBar(it)
+			(activity as ContainerActivity).showErrorSnackBar(it)
 		}
 		
 		
@@ -70,7 +67,6 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 			.throttleFirst(2, TimeUnit.SECONDS)
 			.doOnNext {
 				//IMEI权限检查
-				
 				if (activity?.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
 					//无权限时申请权限
 					RxPermissions(activity as Activity).request(Manifest.permission.READ_PHONE_STATE)
@@ -93,46 +89,23 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 		//返回登陆按钮
 		RxView.clicks(binding.btnBack).throttleFirst(2, TimeUnit.SECONDS)
 			.doOnNext {
-				(activity as IGuide).jumpToLogin()
+				(activity as ContainerActivity).jumpToLogin()
 			}.bindLife()
-		
-		//服务协议按钮
-		RxView.clicks(binding.btnContract).throttleFirst(2, TimeUnit.SECONDS)
-			.doOnNext {
-				(activity as LGuideActivity).showContractDialog()
-			}.bindLife()
-		
 	}
 	
 	//注册并登陆
 	private fun registerAndLogin() {
 		
 		if (!isNetworkAvailable()) {
-			(activity as LGuideActivity).showNetErrorSnackBar()
+			(activity as ContainerActivity).showNetErrorSnackBar()
 			return
 		}
 		
 		//真实register
 		viewModel.registerOrLogin()?.doOnSuccess {
-			when (it.meta.code) {
 				//登陆成功
-				GuideCallBackCode.success -> {
-					//持久化得到的token以及用户登录的信息
-					saveVerifyInfo(
-						viewModel.userName.value!!,
-						viewModel.password.value!!,
-						it.data.token
-					)
-					saveLoginState(true)
-					//跳转到首页
 					startActivity(Intent(context, MainActivity::class.java))
 					(context as Activity).finish()
-				}
-				//登陆失败
-				else -> {
-					MyApplication.showToast(it.meta.msg)
-				}
-			}
 		}?.bindLife()
 		
 		
@@ -145,7 +118,7 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 	
 	
 	override fun onBackPressed(): Boolean {
-		(activity as IGuide).jumpToLogin()
+		(activity as ContainerActivity).jumpToLogin()
 		return true
 	}
 	

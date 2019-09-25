@@ -10,7 +10,7 @@ import android.view.WindowManager
 import android.widget.TextView
 import com.example.rubbishcommunity.R
 
-abstract class BottomDialogView(context: Context) : AlertDialog(context, R.style.MyDialog) {
+abstract class BottomDialogView(context: Context?) : AlertDialog(context, R.style.MyDialog) {
 
     abstract var bView: View
     lateinit var btnFinish:TextView

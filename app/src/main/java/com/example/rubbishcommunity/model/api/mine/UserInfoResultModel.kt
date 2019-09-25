@@ -9,3 +9,15 @@ data class UserInfoResultModel(
 	val content: String,
 	val age: Int
 )
+fun getNull(): UserInfoResultModel {
+	return UserInfoResultModel(
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		0
+	)
+	
+}

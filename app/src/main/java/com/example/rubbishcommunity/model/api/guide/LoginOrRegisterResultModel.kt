@@ -7,7 +7,7 @@ data class LoginOrRegisterResultModel(
 	val usrStatusFlag: UserStatusFlag,
 	val lastLoginInfo: LastLoginInfo
 ) {
-	data class UsrProfile(
+	class UsrProfile(
 		val name: String,
 		val avatar: String,
 		val city: String,
@@ -15,13 +15,38 @@ data class LoginOrRegisterResultModel(
 		val birthday: String,
 		val work: String,
 		val gender: Int,
+		val content: String,
 		val level: Int,
 		val aboutMe: String,
 		val school: String,
 		val company: String,
 		val education: String,
 		val profileCompletion: Double
-	)
+	) {
+		companion object {
+			fun getNull(): UsrProfile {
+				return UsrProfile(
+					"",
+					"",
+					"",
+					0,
+					"",
+					"",
+					0,
+					"",
+					0,
+					"",
+					"",
+					"",
+					"",
+					0.0
+				)
+			}
+			
+			
+		}
+		
+	}
 	
 	data class UserSetting(
 		val notification: Boolean,

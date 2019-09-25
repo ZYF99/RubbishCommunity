@@ -5,6 +5,9 @@
 
     <string name="ok">ok</string>
 
+    <string name="correct">确定</string>
+    <string name="cancel">取消</string>
+
     <!--Homepage errorData dialog-->
 
     <string name="homepage_dialog_button_setting">设置wifi</string>
@@ -17,4 +20,13 @@
 
     <!--Homepage errorData dialog - unexpected-->
     <string name="homepage_dialog_title_unexpected">未知错误</string>
+
+
+
+    <string name="release_exit_dialog_title">警告</string>
+    <string name="release_exit_dialog_msg">退出将失去当前已编辑的所有内容，确定退出吗？</string>
+
+
+
+
 </resources>

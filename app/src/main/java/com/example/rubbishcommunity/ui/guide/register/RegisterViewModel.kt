@@ -7,10 +7,13 @@ import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.manager.api.ApiService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
-import com.example.rubbishcommunity.ui.base.BaseViewModel
+import com.example.rubbishcommunity.ui.BaseViewModel
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
+import com.example.rubbishcommunity.persistence.saveLoginState
+import com.example.rubbishcommunity.persistence.saveUserInfo
+import com.example.rubbishcommunity.persistence.saveVerifyInfo
 import com.example.rubbishcommunity.utils.*
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
@@ -69,6 +72,7 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 				)
 			).delay(1, TimeUnit.SECONDS)
 				.compose(dealErrorCode())
+				.compose(dealError())
 				.flatMap {
 					//登陆
 					return@flatMap apiService.loginOrRegister(
@@ -89,8 +93,22 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.compose(dealLoading())
+				.compose(dealErrorCode())
 				.compose(dealError())
-			
+				.doOnSuccess {
+					//持久化得到的token以及用户登录的信息
+					saveVerifyInfo(
+						userName.value!!,
+						password.value!!,
+						it.data.token
+					)
+					//存储用户个人信息
+					saveUserInfo(
+						it.data.usrProfile
+					)
+					//登陆状态置为true
+					saveLoginState(true)
+				}
 		}
 		return null
 	}
@@ -126,7 +144,7 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 			}
 				.doOnSuccess {
 					
-					isLoading.postValue(false)
+					//isLoading.postValue(false)
 				}
 				.doOnError {
 					

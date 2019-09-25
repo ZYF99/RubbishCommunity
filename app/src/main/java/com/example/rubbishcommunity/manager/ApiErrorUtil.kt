@@ -1,5 +1,3 @@
-@file:Suppress("UNCHECKED_CAST")
-
 package com.example.rubbishcommunity.manager
 
 
@@ -20,7 +18,14 @@ import io.reactivex.SingleTransformer
 fun <T> dealErrorCode(): SingleTransformer<T, T> {
 	return SingleTransformer { obs ->
 		obs.doOnSuccess { result ->
-
+			when ((result as ResultModel<*>).meta.code) {
+				in 1000..2000 -> {
+					return@doOnSuccess
+				}
+				else -> {
+					throw ServerBackException(result as ResultModel<*>)
+				}
+			}
 		}
 	}
 }
@@ -45,9 +50,7 @@ fun <T> dealError(): SingleTransformer<T, T> {
 							ErrorType.SERVERERROR
 						)
 					)
-					
 				}
-				
 				else -> sendError(ErrorData(ErrorType.UNEXPECTED))
 			}
 		}

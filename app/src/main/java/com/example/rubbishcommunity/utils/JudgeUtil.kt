@@ -1,4 +1,4 @@
-package com.example.fenrir_stage4.mainac.utils
+package com.example.rubbishcommunity.utils
 
 import java.util.regex.Pattern
 

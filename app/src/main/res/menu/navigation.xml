@@ -15,6 +15,7 @@
             android:id="@+id/navigation_null"
             android:icon="@null"
             android:title="@null"
+            android:enabled="false"
          />
 
     <item

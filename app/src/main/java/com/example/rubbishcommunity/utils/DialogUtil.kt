@@ -5,14 +5,33 @@ import android.content.Intent
 import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import com.example.rubbishcommunity.R
-import com.example.rubbishcommunity.ui.base.BindingActivity
+import com.example.rubbishcommunity.ui.BindingActivity
 import io.reactivex.rxkotlin.ofType
 import io.reactivex.subjects.PublishSubject
 
 
 /**
- *  ErrorDialogUtil
+ *  DialogUtil
  */
+
+/*
+* 退出App警告
+* */
+fun showExitWarningDialog(context: Context, okAction: () -> Unit): AlertDialog {
+    val dialog = AlertDialog.Builder(context)
+        .setTitle(R.string.homepage_dialog_title_no_wife)
+        .setMessage(R.string.homepage_dialog_msg_no_wife)
+        .setPositiveButton(R.string.homepage_dialog_button_setting) { _, _ ->
+            context.startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+        }
+        .setNegativeButton(R.string.ok) { _, _ -> okAction.invoke() }
+        .create()
+    dialog.show()
+    return dialog
+}
+
+
+
 
 fun showNoWifiDialog(context: Context, okAction: () -> Unit): AlertDialog {
     val dialog = AlertDialog.Builder(context)
