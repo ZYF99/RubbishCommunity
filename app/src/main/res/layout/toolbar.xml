@@ -22,8 +22,8 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
                 app:elevation="10dp"
-                app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
-                android:navigationIcon="@drawable/ic_arrow_back_black_24dp"
+                app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+                android:navigationIcon="@drawable/ic_arrow_back_white_24dp"
                 app:layout_collapseMode="pin">
 
             <TextView

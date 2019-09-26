@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.home.search
+package com.example.rubbishcommunity.ui.adapter
 
 import android.content.Context
 import android.view.View
@@ -8,7 +8,7 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 
-class ImagePagerAdapter(val context:Context, private val imgs :List<Img>, private val pager:ViewPager) : PagerAdapter() {
+class LoopImagePagerAdapter(val context:Context, private val imgs :List<Img>, private val pager:ViewPager) : PagerAdapter() {
 
     private val imgViews = mutableListOf<ImageView>()
 

@@ -35,7 +35,7 @@ class ImageGridAdapter(internal var context: Context, private val urlList: List<
         var convertView = convertView
         var holder: ViewHolder? = null
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.griditem_image, null)
+            convertView = layoutInflater.inflate(R.layout.item_dynamic_grid_image, null)
             holder = ViewHolder()
             holder.img = convertView!!.findViewById<ImageView>(R.id.gird_img)
             convertView.tag = holder

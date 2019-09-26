@@ -97,7 +97,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:numColumns="4"
-                        tools:listitem="@layout/griditem_hottag" />
+                        tools:listitem="@layout/item_grid_hottag" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

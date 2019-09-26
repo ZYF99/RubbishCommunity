@@ -26,16 +26,19 @@ class DynamicViewModel(application: Application) : BaseViewModel(application) {
 
 
     fun getDynamicList() {
-        val bannerUrls: MutableList<String> = mutableListOf()
-        bannerUrls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1564501096061&di=a38d4fdc3cd3f8b8fc05d5aa1cea9f97&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0137015b23fd90a8012034f7594657.jpg%401280w_1l_2o_100sh.jpg")
-        bannerUrls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1564501096061&di=a38d4fdc3cd3f8b8fc05d5aa1cea9f97&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0137015b23fd90a8012034f7594657.jpg%401280w_1l_2o_100sh.jpg")
-        bannerUrls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1564501096061&di=a38d4fdc3cd3f8b8fc05d5aa1cea9f97&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0137015b23fd90a8012034f7594657.jpg%401280w_1l_2o_100sh.jpg")
+        val gridImgUrls: MutableList<String> = mutableListOf()
+        gridImgUrls.add("http://b-ssl.duitang.com/uploads/blog/201508/16/20150816193236_kKUfm.jpeg")
+        gridImgUrls.add("http://img0.imgtn.bdimg.com/it/u=2426212861,900117439&fm=27&gp=0.jpg")
+        gridImgUrls.add("http://img0.imgtn.bdimg.com/it/u=1330684766,2510236939&fm=27&gp=0.jpg")
+        gridImgUrls.add("http://img2.imgtn.bdimg.com/it/u=1272017022,817371530&fm=27&gp=0.jpg")
+        gridImgUrls.add("http://img1.imgtn.bdimg.com/it/u=1564534394,3601270978&fm=27&gp=0.jpg")
+        gridImgUrls.add("http://img1.imgtn.bdimg.com/it/u=2909240217,602760474&fm=27&gp=0.jpg")
 
 
         val item = Dynamic(
             "dsfsdf", "参与绿色行动，保护美丽家园。\n" +
                     "\n" +
-                    "Take part in green action to protect beautiful home.", bannerUrls, "231234", "2019年7月30日", "23123"
+                    "Take part in green action to protect beautiful home.", gridImgUrls, "231234", "2019年7月30日", "23123"
         )
         val list = mutableListOf(item, item, item, item, item, item)
 

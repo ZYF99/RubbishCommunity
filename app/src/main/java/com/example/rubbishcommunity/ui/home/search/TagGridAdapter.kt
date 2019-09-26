@@ -35,7 +35,7 @@ class TagGridAdapter(val context: Context, private val wordList: List<String>) :
     @SuppressLint("InflateParams", "ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
-        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.griditem_hottag, parent, false)
+        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.item_grid_hottag, parent, false)
         binding.tvWord.text = wordList[position]
 
         return binding.root

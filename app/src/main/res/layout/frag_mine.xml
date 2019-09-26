@@ -389,7 +389,6 @@
                         <ImageView
                                 android:layout_width="30dp"
                                 android:layout_height="25dp"
-
                                 android:src="@drawable/icon_logout"
                                 android:tint="@color/white"
                                 app:layout_constraintBottom_toBottomOf="parent"

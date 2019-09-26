@@ -4,7 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data class="FindBinding">
         <variable name="vm"
-                  type="com.example.rubbishcommunity.ui.home.find.FindViewModel"/>
+                type="com.example.rubbishcommunity.ui.home.find.FindViewModel"/>
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
@@ -15,8 +15,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:paddingTop="10dp"
-                android:background="@color/white"
-                android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+                android:background="@color/white">
 
 
 
@@ -28,11 +27,11 @@
                     app:title="发现新世界"
                     app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
-                    <androidx.appcompat.widget.Toolbar
-                            android:layout_width="match_parent"
-                            android:layout_height="?attr/actionBarSize"
-                            android:layout_marginBottom="30dp"
-                            app:layout_collapseMode="pin"/>
+                <androidx.appcompat.widget.Toolbar
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:layout_marginBottom="40dp"
+                        app:layout_collapseMode="pin"/>
 
                 <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tab"
@@ -57,13 +56,7 @@
                             android:text="投票"/>
 
                 </com.google.android.material.tabs.TabLayout>
-
             </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-
-
-
-
         </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -72,7 +65,7 @@
                 android:layout_height="match_parent"
                 android:fillViewport="true"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-  >
+                >
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

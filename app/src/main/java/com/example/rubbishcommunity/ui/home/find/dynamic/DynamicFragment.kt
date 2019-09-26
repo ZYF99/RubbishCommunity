@@ -27,15 +27,9 @@ class DynamicFragment : BindingFragment<DynamicBinding, DynamicViewModel>(
 		
 		
 		binding.recDynamic.run {
-			
 			layoutManager = LinearLayoutManager(context)
-			
-			
-			adapter = DynamicListAdapter(R.layout.cell_dynamic, viewModel.dynamicList.value)
-			
+			adapter = DynamicListAdapter(viewModel.dynamicList.value)
 		}
-		
-		
 		
 		
 		binding.refreshLayout.setOnRefreshListener {
@@ -49,8 +43,6 @@ class DynamicFragment : BindingFragment<DynamicBinding, DynamicViewModel>(
 				}
 			}
 		}
-		
-		
 		
 		
 		viewModel.dynamicList.observe {

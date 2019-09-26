@@ -1,19 +1,17 @@
 package com.example.rubbishcommunity.ui.release.dynamic
 
-
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.rubbishcommunity.R
+import com.example.rubbishcommunity.databinding.FilterImageListItemBinding
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
@@ -23,12 +21,18 @@ import com.luck.picture.lib.tools.StringUtils
 const val TYPE_CAMERA = 1
 const val TYPE_PICTURE = 2
 
+
+/**
+ * 添加图片的RecyclerView适配器
+ * */
+
 class GridImageAdapter(
 	private val context: Context,
 	private val list: MutableList<LocalMedia>,
 	private val mOnItemClickListener: OnItemClickListener,
 	private val mOnAddPicClickListener: OnAddPicClickListener
 ) : RecyclerView.Adapter<GridImageAdapter.ViewHolder>() {
+	
 	
 	private val mInflater: LayoutInflater = LayoutInflater.from(context)
 	private var selectMax = 9
@@ -55,7 +59,6 @@ class GridImageAdapter(
 	}
 	
 	
-	
 	fun replaceDates(newList: MutableList<LocalMedia>) {
 		list.clear()
 		list.addAll(newList)
@@ -63,12 +66,7 @@ class GridImageAdapter(
 	}
 	
 	
-	inner class ViewHolder internal constructor(view: View) : RecyclerView.ViewHolder(view) {
-		val ivContent: ImageView = view.findViewById(R.id.iv_content)
-		val linDel: LinearLayout = view.findViewById(R.id.lin_del)
-		val tvDuration: TextView = view.findViewById(R.id.tv_duration)
-		
-	}
+	inner class ViewHolder internal constructor(view: View) : RecyclerView.ViewHolder(view)
 	
 	override
 	fun getItemViewType(position: Int): Int {
@@ -84,7 +82,7 @@ class GridImageAdapter(
 	 */
 	override
 	fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
-		val view = mInflater.inflate(R.layout.item_filter_image, viewGroup, false)
+		val view = mInflater.inflate(R.layout.item_filter_grid_image, viewGroup, false)
 		return ViewHolder(view)
 	}
 	
@@ -93,21 +91,18 @@ class GridImageAdapter(
 		return position == size
 	}
 	
-	/**
-	 * 设置值
-	 */
-	override
-	fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-		//val binding: FilterImageListItemBinding = DataBindingUtil.bind(viewHolder.itemView)!!
+	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+		
+		val binding: FilterImageListItemBinding = DataBindingUtil.bind(holder.itemView)!!
 		//少于8张，显示继续添加的图标
 		if (getItemViewType(position) == TYPE_CAMERA) {
-			viewHolder.ivContent.run {
+			binding.ivContent.run {
 				setImageResource(R.drawable.icon_add_pic)
 				setOnClickListener { mOnAddPicClickListener.onAddPicClick() }
 			}
-			viewHolder.linDel.visibility = View.INVISIBLE
+			binding.linDel.visibility = View.INVISIBLE
 		} else {
-			viewHolder.linDel.run {
+			binding.linDel.run {
 				visibility = View.VISIBLE
 				setOnClickListener {
 					// 这里有时会返回-1造成数据下标越界,具体可参考getAdapterPosition()源码，
@@ -130,27 +125,25 @@ class GridImageAdapter(
 			val pictureType = PictureMimeType.isPictureType(item.pictureType)
 			
 			val duration = item.duration
-			viewHolder.tvDuration.visibility = when (pictureType) {
+			binding.tvDuration.visibility = when (pictureType) {
 				PictureConfig.TYPE_VIDEO -> View.VISIBLE
 				else -> View.GONE
 			}
 			
 			when (mimeType) {
 				PictureMimeType.ofAudio() -> {
-					viewHolder.tvDuration.visibility = View.VISIBLE
+					binding.tvDuration.visibility = View.VISIBLE
 					val drawable = ContextCompat.getDrawable(context, R.drawable.picture_audio)
-					StringUtils.modifyTextViewDrawable(viewHolder.tvDuration, drawable, 0)
+					StringUtils.modifyTextViewDrawable(binding.tvDuration, drawable, 0)
 				}
 				else -> {
 					val drawable = ContextCompat.getDrawable(context, R.drawable.video_icon)
-					StringUtils.modifyTextViewDrawable(viewHolder.tvDuration, drawable, 0)
+					StringUtils.modifyTextViewDrawable(binding.tvDuration, drawable, 0)
 				}
 			}
-
-			
-			viewHolder.tvDuration.text = DateUtils.timeParse(duration)
+			binding.tvDuration.text = DateUtils.timeParse(duration)
 			if (mimeType == PictureMimeType.ofAudio()) {
-				viewHolder.ivContent.setImageResource(R.drawable.audio_placeholder)
+				binding.ivContent.setImageResource(R.drawable.audio_placeholder)
 			} else {
 				val options = RequestOptions()
 					.centerCrop()
@@ -159,10 +152,10 @@ class GridImageAdapter(
 				Glide.with(context)
 					.load(path)
 					.apply(options)
-					.into(viewHolder.ivContent)
+					.into(binding.ivContent)
 			}
 			//itemView 的点击事件
-			viewHolder.itemView.setOnClickListener { v ->
+			binding.root.setOnClickListener { v ->
 				mOnItemClickListener.onItemClick(position, v)
 			}
 		}
