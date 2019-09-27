@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
+
     <data class="DynamicBinding">
-        <variable name="vm"
-                  type="com.example.rubbishcommunity.ui.home.find.dynamic.DynamicViewModel"/>
+
+        <import type="android.view.View" />
+
+        <variable
+                name="vm"
+                type="com.example.rubbishcommunity.ui.home.find.dynamic.DynamicViewModel" />
 
     </data>
 
@@ -16,9 +22,9 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll"
                 android:background="@color/colorLayoutBg"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_scrollFlags="scroll">
 
 
             <com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -36,18 +42,19 @@
                 <com.scwang.smartrefresh.header.StoreHouseHeader
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:shhText="@string/brief"/>
+                        app:shhText="@string/brief" />
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rec_dynamic"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
 
 
             </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-            <Space android:layout_width="match_parent"
-                   android:layout_height="80dp"/>
+            <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp" />
 
         </LinearLayout>
 

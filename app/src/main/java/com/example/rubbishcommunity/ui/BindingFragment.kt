@@ -115,8 +115,6 @@ constructor(
 	protected fun isNetworkAvailable() =
 		(context?.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager)?.activeNetworkInfo?.isConnected
 			?: false
-	
-	
 }
 
 

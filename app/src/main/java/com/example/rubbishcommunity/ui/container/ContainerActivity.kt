@@ -4,9 +4,13 @@ package com.example.rubbishcommunity.ui.container
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.fragment.app.Fragment
+import com.baidu.location.BDAbstractLocationListener
+import com.baidu.location.BDLocation
+import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ContainerBinding
+import com.example.rubbishcommunity.initLocationOption
 import com.example.rubbishcommunity.persistence.getLoginState
 import com.example.rubbishcommunity.ui.guide.login.LoginFragment
 import com.example.rubbishcommunity.ui.home.MainActivity
@@ -46,7 +50,7 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 	}
 	
 	override fun initData() {
-	
+
 	}
 	
 	private fun replaceFragment(tag: String) {

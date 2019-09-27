@@ -26,16 +26,15 @@ const val TYPE_PICTURE = 2
  * 添加图片的RecyclerView适配器
  * */
 
-class GridImageAdapter(
+class ReleaseDynamicGridImageAdapter(
 	private val context: Context,
 	private val list: MutableList<LocalMedia>,
-	private val mOnItemClickListener: OnItemClickListener,
-	private val mOnAddPicClickListener: OnAddPicClickListener
-) : RecyclerView.Adapter<GridImageAdapter.ViewHolder>() {
+	private val mOnGridItemClickListener: OnGridItemClickListener
+) : RecyclerView.Adapter<ReleaseDynamicGridImageAdapter.ViewHolder>() {
 	
 	
 	private val mInflater: LayoutInflater = LayoutInflater.from(context)
-	private var selectMax = 9
+	private val selectMax = 9
 	
 	override
 	fun getItemCount(): Int {
@@ -46,18 +45,13 @@ class GridImageAdapter(
 		}
 	}
 	
-	interface OnAddPicClickListener {
+	
+	interface OnGridItemClickListener {
 		fun onAddPicClick()
+		fun onGridItemClick(position: Int, v: View)
+		fun onGridItemDel(newList: MutableList<LocalMedia>)
 	}
-	
-	interface OnItemClickListener {
-		fun onItemClick(position: Int, v: View)
-	}
-	
-	fun setSelectMax(selectMax: Int) {
-		this.selectMax = selectMax
-	}
-	
+
 	
 	fun replaceDates(newList: MutableList<LocalMedia>) {
 		list.clear()
@@ -98,7 +92,7 @@ class GridImageAdapter(
 		if (getItemViewType(position) == TYPE_CAMERA) {
 			binding.ivContent.run {
 				setImageResource(R.drawable.icon_add_pic)
-				setOnClickListener { mOnAddPicClickListener.onAddPicClick() }
+				setOnClickListener { mOnGridItemClickListener.onAddPicClick() }
 			}
 			binding.linDel.visibility = View.INVISIBLE
 		} else {
@@ -111,6 +105,7 @@ class GridImageAdapter(
 						list.removeAt(position)
 						notifyItemRemoved(position)
 						notifyItemRangeChanged(position, list.size)
+						mOnGridItemClickListener.onGridItemDel(list)
 					}
 				}
 			}
@@ -156,7 +151,7 @@ class GridImageAdapter(
 			}
 			//itemView 的点击事件
 			binding.root.setOnClickListener { v ->
-				mOnItemClickListener.onItemClick(position, v)
+				mOnGridItemClickListener.onGridItemClick(position, v)
 			}
 		}
 	}

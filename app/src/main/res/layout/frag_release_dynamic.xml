@@ -6,255 +6,259 @@
 
     <data class="ReleaseDynamicBinding">
 
+        <import type="android.view.View" />
+
         <variable
                 name="vm"
                 type="com.example.rubbishcommunity.ui.release.dynamic.ReleaseDynamicViewModel" />
 
+
     </data>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/card_btn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-
-        <include
-                android:id="@+id/toolbar"
-                layout="@layout/toolbar"
-                bind:title="@{vm.title}" />
-
-        <androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/actionBarWithStatusBarSizeWithShadow"
-                android:background="#FFFFFF">
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/card_btn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
 
-            <LinearLayout
+            <include
+                    android:id="@+id/toolbar"
+                    layout="@layout/toolbar"
+                    bind:title="@{vm.toolbarTitle}" />
+
+            <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="15dp">
-
-
-                <TextView
-                        android:id="@+id/text_num"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_weight="0"
-                        android:text="已选图片"
-                        android:textColor="@color/black"
-                        android:textSize="16dp" />
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/img_rec"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="0"
-                        android:minHeight="100dp"
-                        android:orientation="horizontal"
-                        android:paddingLeft="8dp"
-                        android:paddingTop="8dp"
-                        android:paddingRight="8dp"
-                        android:paddingBottom="8dp">
-
-                </androidx.recyclerview.widget.RecyclerView>
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/actionBarWithStatusBarSizeWithShadow"
+                    android:background="#FFFFFF">
 
 
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:layout_weight="0"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="15dp">
 
-                    <EditText
-                            android:id="@+id/release_title"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:ems="10"
-                            android:hint="加个标题会有更多赞哦~"
-                            android:inputType="text"
-                            android:maxLength="12"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/text_second"
-                            android:textCursorDrawable="@drawable/my_cursor"
-                            android:textSize="16sp" />
-
-                    <View
-                            android:id="@+id/view5"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="@color/colorGang" />
-
-                    <EditText
-                            android:id="@+id/release_content"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:ems="10"
-                            android:gravity="start"
-                            android:hint="说说此刻的想法"
-                            android:inputType="text|textMultiLine"
-                            android:lineSpacingExtra="8dp"
-                            android:maxLines="20"
-                            android:minHeight="150dp"
-                            android:paddingBottom="60dp"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/text_second"
-                            android:textCursorDrawable="@drawable/my_cursor"
-                            android:textSize="16dp" />
-
-                    <View
-                            android:id="@+id/gang6"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/colorGang" />
-                </LinearLayout>
-
-                <LinearLayout
-                        android:id="@+id/btn_position"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:orientation="horizontal"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="16dp">
-
-                    <ImageView
-                            android:id="@+id/imageView5"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_weight="0"
-                            android:tint="@color/text_second"
-                            app:srcCompat="@drawable/icon_location" />
 
                     <TextView
-                            android:id="@+id/tv_position"
+                            android:id="@+id/text_num"
                             android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:layout_marginLeft="4dp"
-                            android:layout_weight="1"
-                            android:text="添加地点"
-                            android:textColor="@color/text_second"
-                            android:textSize="14sp" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_weight="0"
+                            android:text="已选图片"
+                            android:textColor="@color/black"
+                            android:textSize="16dp" />
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/img_rec"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_weight="0"
+                            android:enabled="@{!vm.isLoading}"
+                            android:minHeight="100dp"
+                            android:orientation="horizontal"
+                            android:paddingLeft="8dp"
+                            android:paddingTop="8dp"
+                            android:paddingRight="8dp"
+                            android:paddingBottom="8dp">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_weight="0"
+                            android:orientation="vertical">
+
+                        <EditText
+                                android:id="@+id/release_title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                android:ems="10"
+                                android:enabled="@{!vm.isLoading}"
+                                android:hint='加个标题会有更多赞哦~'
+                                android:inputType="text"
+                                android:maxLength="12"
+                                android:text="@={vm.title}"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/text_second"
+                                android:textCursorDrawable="@drawable/my_cursor"
+                                android:textSize="16sp" />
+
+                        <View
+                                android:id="@+id/view5"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@color/colorGang" />
+
+                        <EditText
+                                android:id="@+id/release_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                android:ems="10"
+                                android:enabled="@{!vm.isLoading}"
+                                android:gravity="start"
+                                android:hint="说说此刻的想法"
+                                android:inputType="text|textMultiLine"
+                                android:lineSpacingExtra="8dp"
+                                android:maxLines="20"
+                                android:minHeight="150dp"
+                                android:paddingBottom="60dp"
+                                android:text="@={vm.content}"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/text_second"
+                                android:textCursorDrawable="@drawable/my_cursor"
+                                android:textSize="16dp" />
+
+                        <View
+                                android:id="@+id/gang6"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/colorGang" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:id="@+id/btn_position"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:orientation="horizontal"
+                            android:paddingTop="16dp"
+                            android:paddingBottom="16dp">
+
+                        <ImageView
+                                android:id="@+id/imageView5"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_weight="0"
+                                android:tint="@color/text_second"
+                                app:srcCompat="@drawable/icon_location" />
+
+                        <TextView
+                                android:id="@+id/tv_position"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="8dp"
+                                android:layout_weight="0"
+                                android:text="@{vm.location}"
+                                android:textColor="@color/text_second"
+                                android:textSize="14sp" />
+
+
+                    </LinearLayout>
 
 
                 </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
 
-                <View
-                        android:id="@+id/gang7"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_weight="0"
-                        android:background="@color/colorGang" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    <androidx.cardview.widget.CardView
-            android:id="@+id/card_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="6dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-        <LinearLayout
-
-                android:layout_width="match_parent"
+        <androidx.cardview.widget.CardView
+                android:id="@+id/card_btn"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:elevation="6dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-
-                tools:ignore="UnusedAttribute">
-
+                app:cardCornerRadius="0dp"
+                app:cardElevation="6dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
             <LinearLayout
-                    android:id="@+id/btn_draft"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_weight="0"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    tools:ignore="NestedWeights,NewApi">
 
-                <ImageView
-                        android:id="@+id/imageView7"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:tint="@color/text_second"
-                        app:srcCompat="@drawable/icon_draft" />
-
-                <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center"
-                        android:text="存草稿"
-                        android:textColor="@color/text_second" />
-            </LinearLayout>
-
-            <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0">
+                    android:layout_weight="0"
+                    android:elevation="6dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
 
-                <ProgressBar
+                    tools:ignore="UnusedAttribute">
+
+
+                <LinearLayout
+                        android:id="@+id/btn_draft"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="0"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:enabled="@{!vm.isLoading}"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="NestedWeights,NewApi">
+
+                    <ImageView
+                            android:id="@+id/imageView7"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:tint="@color/text_second"
+                            app:srcCompat="@drawable/icon_draft" />
+
+                    <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:text="存草稿"
+                            android:textColor="@color/text_second" />
+                </LinearLayout>
+
+                <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0">
+
+                    <ProgressBar
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="20dp" />
 
 
-                <Button
-                        android:id="@+id/btn_release"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="20dp"
-                        android:background="@drawable/bg_cornerinput"
-                        android:backgroundTint="@color/colorAccent"
-                        android:text="发布"
-                        android:textColor="@color/white"
-                        tools:ignore="UnusedAttribute" />
+                    <Button
+                            android:id="@+id/btn_release"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="20dp"
+                            android:background="@drawable/bg_cornerinput"
+                            android:backgroundTint="@color/colorAccent"
+                            android:text="发布"
+                            android:textColor="@color/white"
+                            android:visibility="@{vm.isLoading? View.GONE : View.VISIBLE}"
+                            tools:ignore="UnusedAttribute" />
 
-            </FrameLayout>
+                </FrameLayout>
 
 
-        </LinearLayout>
+            </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </layout>

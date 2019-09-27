@@ -24,7 +24,7 @@
 
 
     <string name="release_exit_dialog_title">警告</string>
-    <string name="release_exit_dialog_msg">退出将失去当前已编辑的所有内容，确定退出吗？</string>
+    <string name="release_exit_dialog_msg">退出将失去所有未存草稿的内容，请确认已存草稿后再退出</string>
 
 
 

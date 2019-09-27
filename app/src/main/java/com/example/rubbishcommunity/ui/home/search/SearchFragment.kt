@@ -20,7 +20,7 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 	@SuppressLint("CheckResult")
 	override fun initWidget() {
 		binding.vm = viewModel
-		//viewModel.refreshing.observe { binding.refreshlayout.isRefreshing = it!! }
+		//viewModel.isRefreshing.observe { binding.refreshlayout.isRefreshing = it!! }
 		
 		viewModel.init()
 		

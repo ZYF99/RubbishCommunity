@@ -5,6 +5,7 @@
     <color name="colorAccent">#77DDBD</color>
 
     <color name="colorLayoutBg">#FCFCFC</color>
+    <color name="colorPlaceHolder">#E4EBEBEB</color>
 
     <color name="colorApp">#48CED3</color>
     <color name="colorCard">#83FFFFFF</color>

@@ -20,7 +20,7 @@ class DynamicListGridImageAdapter(
 	
 	
 	interface OnItemClickListener {
-		fun onItemClick(item: String, v: View)
+		fun onItemClick(position: Int, v: View)
 	}
 	
 	override fun convert(helper: BaseViewHolder, item: String) {
@@ -28,16 +28,16 @@ class DynamicListGridImageAdapter(
 		
 		val options = RequestOptions()
 			.centerCrop()
-			.placeholder(R.color.bar_grey_90)
 			.diskCacheStrategy(DiskCacheStrategy.ALL)
 		Glide.with(mContext)
-			.load(item)
+			.load(list[helper.position])
+			.placeholder(R.color.colorPlaceHolder)
 			.apply(options)
 			.into(binding.girdImg)
 		
 		//itemView 的点击事件
 		binding.root.setOnClickListener { v ->
-			mOnItemClickListener.onItemClick(item, v)
+			mOnItemClickListener.onItemClick(helper.adapterPosition, v)
 		}
 		
 	}

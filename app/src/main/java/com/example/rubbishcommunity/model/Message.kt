@@ -8,7 +8,7 @@ class Message(var iconUrl: String, var title: String, var msg: String, var time:
     override fun toString(): String {
         return "Message{" +
                 "iconUrl='" + iconUrl + '\''.toString() +
-                ", title='" + title + '\''.toString() +
+                ", toolbarTitle='" + title + '\''.toString() +
                 ", msg='" + msg + '\''.toString() +
                 ", time='" + time + '\''.toString() +
                 '}'.toString()

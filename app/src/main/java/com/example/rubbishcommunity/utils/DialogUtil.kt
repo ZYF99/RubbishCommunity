@@ -79,6 +79,7 @@ data class ErrorData(val errorType: ErrorType, val errorContent: String = "")
 enum class ErrorType {
     INPUT_ERROR,
     NO_WIFI,
+    NO_CAMERA,
     REGISTER_OR_LOGIN_FAILED,
     UNEXPECTED,
     SERVERERROR

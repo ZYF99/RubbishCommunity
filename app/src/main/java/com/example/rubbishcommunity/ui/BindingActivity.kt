@@ -122,6 +122,7 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 				supportActionBar
 				when (it.errorType) {
 					ErrorType.INPUT_ERROR -> showErrorBar(this, it.errorContent)
+					ErrorType.NO_CAMERA -> showErrorBar(this, it.errorContent)
 					ErrorType.REGISTER_OR_LOGIN_FAILED -> showErrorBar(this, it.errorContent)
 					ErrorType.SERVERERROR -> showErrorBar(this, "服务器错误")
 					else -> {

@@ -67,10 +67,10 @@ class SharedPreferencesUtils private constructor(context: Context, name: String)
                     else -> {
                         val gson = Gson()
                         val json = sp.getString(key, "")
-                        if (json != "" && json!!.isNotEmpty()) {
-                            result = gson.fromJson(json, defaultValue.javaClass)
+                        result = if (json != "" && json!!.isNotEmpty()) {
+                            gson.fromJson(json, defaultValue.javaClass)
                         } else {
-                            result = defaultValue
+                            defaultValue
                         }
                     }
                 }

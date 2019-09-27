@@ -16,7 +16,7 @@ class DynamicViewModel(application: Application) : BaseViewModel(application) {
 
     val dynamicList = MutableLiveData<MutableList<Dynamic>>()
 
-    val refreshing = MutableLiveData<Boolean>()
+    val isRefreshing = MutableLiveData<Boolean>()
 
 
     fun init() {
@@ -61,9 +61,9 @@ class DynamicViewModel(application: Application) : BaseViewModel(application) {
     private fun <T> dealRefresh(): SingleTransformer<T, T> {
         return SingleTransformer { obs ->
             obs
-                .doOnSubscribe { refreshing.postValue(true) }
-                .doOnSuccess { refreshing.postValue(false) }
-                .doOnError { refreshing.postValue(false) }
+                .doOnSubscribe { isRefreshing.postValue(true) }
+                .doOnSuccess { isRefreshing.postValue(false) }
+                .doOnError { isRefreshing.postValue(false) }
         }
     }
 

@@ -20,7 +20,7 @@ class DynamicFragment : BindingFragment<DynamicBinding, DynamicViewModel>(
 	override fun initWidget() {
 		binding.vm = viewModel
 		
-		//viewModel.refreshing.observe { binding.refreshlayout.isRefreshing = it!! }
+		//viewModel.isRefreshing.observe { binding.refreshlayout.isRefreshing = it!! }
 		
 		viewModel.init()
 		
@@ -36,7 +36,7 @@ class DynamicFragment : BindingFragment<DynamicBinding, DynamicViewModel>(
 			when {
 				!isNetworkAvailable() -> {
 					(activity as MainActivity).showNetErrorSnackBar()
-					viewModel.refreshing.postValue(false)
+					viewModel.isRefreshing.postValue(false)
 				}
 				else -> {
 					viewModel.getDynamicList()
@@ -51,7 +51,7 @@ class DynamicFragment : BindingFragment<DynamicBinding, DynamicViewModel>(
 			}
 		}
 		
-		viewModel.refreshing.observe { isRefreshing ->
+		viewModel.isRefreshing.observe { isRefreshing ->
 			binding.refreshLayout.run {
 				if (!isRefreshing!!) finishRefresh()
 			}

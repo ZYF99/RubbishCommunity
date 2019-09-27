@@ -35,8 +35,8 @@ class ImagePagerAdapter(val context:Context, private val imgs :List<String>, pri
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-        if(imgViews.isNotEmpty())
-        pager.removeView(imgViews[position])
+/*        if(imgViews.isNotEmpty())
+        pager.removeView(imgViews[position])*/
     }
 
 
