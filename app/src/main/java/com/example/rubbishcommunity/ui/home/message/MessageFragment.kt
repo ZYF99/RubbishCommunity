@@ -7,7 +7,7 @@ import com.example.rubbishcommunity.databinding.MessageBinding
 import com.example.rubbishcommunity.ui.home.MainActivity
 
 class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
-    MessageViewModel::class.java, R.layout.frag_message
+    MessageViewModel::class.java, R.layout.fragment_message
 ) {
 
     override fun initBefore() {

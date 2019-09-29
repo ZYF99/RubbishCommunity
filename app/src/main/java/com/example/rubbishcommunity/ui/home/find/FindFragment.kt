@@ -10,7 +10,7 @@ import com.example.rubbishcommunity.ui.home.find.vote.VoteFragment
 
 class FindFragment :
 	BindingFragment<FindBinding, FindViewModel>(
-		FindViewModel::class.java, R.layout.frag_find
+		FindViewModel::class.java, R.layout.fragment_find
 	) {
 	
 	

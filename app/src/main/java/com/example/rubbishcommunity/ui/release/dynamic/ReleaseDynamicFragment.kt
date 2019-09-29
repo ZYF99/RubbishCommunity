@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit
 
 
 class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDynamicViewModel>(
-	ReleaseDynamicViewModel::class.java, R.layout.frag_release_dynamic
+	ReleaseDynamicViewModel::class.java, R.layout.fragment_release_dynamic
 ), ReleaseDynamicGridImageAdapter.OnGridItemClickListener {
 	
 	//最多展示张数
@@ -89,8 +89,8 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	}
 	
 	//单项图片删除
-	override fun onGridItemDel(newList: MutableList<LocalMedia>) {
-		viewModel.selectedList.postValue(newList)
+	override fun onGridItemDel(position: Int) {
+		viewModel.selectedList.value?.removeAt(position)
 	}
 	
 	
@@ -101,7 +101,6 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	}
 	
 	override fun initWidget() {
-		
 		//已选图片列表
 		binding.imgRec.run {
 			layoutManager = FullyGridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
@@ -142,6 +141,7 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	
 	override fun initData() {
 		viewModel.init()
+		//获取位置
 		getLocation()
 	}
 	
@@ -234,11 +234,6 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 				// 如果裁剪并压缩了，以取压缩路径为准，因为是先裁剪后压缩的
 				images = PictureSelector.obtainMultipleResult(data)
 				viewModel.selectedList.postValue(images)
-				binding.imgRec.run {
-					(adapter as ReleaseDynamicGridImageAdapter).run {
-						replaceDates(images)
-					}
-				}
 			}
 		}
 	}
@@ -280,7 +275,6 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 			}
 			.setNegativeButton("取消") { _, _ ->
 			}.show()
-		
 	}
 	
 	//返回按钮

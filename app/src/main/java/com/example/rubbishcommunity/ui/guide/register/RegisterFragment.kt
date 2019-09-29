@@ -14,7 +14,6 @@ import com.example.rubbishcommunity.databinding.RegisterFragBinding
 import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.BindingFragment
 import com.example.rubbishcommunity.ui.guide.AnimatorUtils
-import com.example.rubbishcommunity.ui.guide.ServerCallBackCode
 import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.jakewharton.rxbinding2.view.RxView
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -22,7 +21,7 @@ import java.util.concurrent.TimeUnit
 
 
 class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>(
-	RegisterViewModel::class.java, R.layout.frag_register
+	RegisterViewModel::class.java, R.layout.fragment_register
 ) {
 	
 	private lateinit var animationUtils: AnimatorUtils

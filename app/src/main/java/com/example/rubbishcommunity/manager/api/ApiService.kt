@@ -5,10 +5,9 @@ import com.example.rubbishcommunity.model.Vote
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
-import com.example.rubbishcommunity.model.api.mine.UserInfoResultModel
+import com.example.rubbishcommunity.model.api.mine.UserCardResultModel
 import com.example.rubbishcommunity.model.api.release.ReleaseDynamicRequestModel
 import com.example.rubbishcommunity.model.api.release.ReleaseDynamicResultModel
-import com.example.rubbishcommunity.persistence.getLocalToken
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -18,6 +17,14 @@ interface ApiService {
 	@POST("api/account/login")
 	fun loginOrRegister(@Body loginOrRegisterRequestModel: LoginOrRegisterRequestModel): Single<ResultModel<LoginOrRegisterResultModel>>
 	
+	//获取用户详细信息
+	@GET("api/account/info/{uid}/get")
+	fun getUserInfo(@Path("uid") uid: String): Single<ResultModel<LoginOrRegisterResultModel.UsrProfile>>
+	
+	//获取用户卡片信息（头像 名字 签名等基本信息）
+	@GET("api/account/info/{uid}/get")
+	fun getUserCard(@Path("uid") uid: String): Single<ResultModel<UserCardResultModel>>
+	
 	
 	/*
 	* 未完成的接口
@@ -26,9 +33,7 @@ interface ApiService {
 	@POST("api/account/logout")
 	fun logout(): Single<ResultModel<String>>
 	
-	
-	@GET("api/account/info/{uid}/get")
-	fun getUserInfo(@Path("uid") uid: String): Single<ResultModel<UserInfoResultModel>>
+
 	
 	
 	@GET("api/account/profile/{uid}/get")

@@ -21,6 +21,7 @@ abstract class BaseViewModel(application: Application) :
 	fun <T : Any?> MutableLiveData<T>.default(initialValue: T) = apply { setValue(initialValue) }
 	
 	
+	
 	//run when this viewModel will be destroyed
 	override fun onCleared() {
 		compositeDisposable.clear()

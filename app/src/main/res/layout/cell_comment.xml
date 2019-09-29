@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data class="CommentCellBinding">
+
+        <import type="android.view.View" />
+
+        <variable
+                name="comment"
+                type="com.example.rubbishcommunity.model.Comment" />
+    </data>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                portrait="@{comment.user.portrait}"
+                android:src="@drawable/bg" />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_third"
+                    android:text="@{comment.user.name,default=盎司}" />
+
+            <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:text="@{comment.content,default=内容内容投票能发光2佛都是为你们疯狂破第三方第三方阿迪失望反倒是我但说无妨门得分}"/>
+
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                <TextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_third"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text='@{comment.time,default="2019.4.6"}' />
+                <TextView
+                        android:id="@+id/btn_reply"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_marginLeft="16dp"
+                        android:textColor="@color/text_third"
+                        android:text='回复' />
+
+            </LinearLayout>
+
+            <TextView
+                    android:id="@+id/btn_lookcomment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_corner_rect"
+                    android:textSize="12sp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:layout_marginTop="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:backgroundTint="@color/gang"
+                    android:visibility="@{comment.innerCommentList != null ?View.VISIBLE:View.GONE}"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:textColor="@color/text_third"
+                    android:text='@{comment.innerCommentList != null ? comment.innerCommentList.size+"条回复":"此条无评论",default="12条回复"}' />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>

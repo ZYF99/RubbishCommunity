@@ -9,7 +9,7 @@ import com.example.rubbishcommunity.ui.home.MainActivity
 
 
 class VoteFragment : BindingFragment<VoteBinding, VoteViewModel>(
-    VoteViewModel::class.java, R.layout.frag_vote
+    VoteViewModel::class.java, R.layout.fragment_vote
 ) {
     override fun initBefore() {
 

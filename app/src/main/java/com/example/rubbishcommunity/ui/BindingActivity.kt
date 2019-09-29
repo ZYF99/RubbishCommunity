@@ -25,6 +25,12 @@ import io.reactivex.disposables.Disposable
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import timber.log.Timber
+import android.view.WindowManager
+import android.widget.EditText
+import android.app.Activity
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.view.View
+import androidx.core.content.ContextCompat.getSystemService
 
 
 abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
@@ -160,4 +166,39 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 		super.onDestroy()
 	}
 	
+
+	
 }
+
+/**
+ * EditText获取焦点并显示软键盘
+ */
+fun showSoftInputFromWindow(activity: Activity, editText: EditText) {
+	editText.isFocusable = true
+	editText.isFocusableInTouchMode = true
+	editText.requestFocus()
+	activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+}
+
+
+/**
+ * 显示键盘
+ *
+ * @param et 输入焦点
+ */
+ fun showInput(activity: Activity, parent: View, et:EditText) {
+	parent.requestFocus()
+	val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+	imm.showSoftInput(et, InputMethodManager.SHOW_IMPLICIT)
+	et.requestFocus()
+}
+
+
+
+ fun hideInput(activity: Activity) {
+	 val imm = activity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+	 val v = activity.window.peekDecorView();
+	 if (null != v) {
+		 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+	 }
+ }

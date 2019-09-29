@@ -9,6 +9,7 @@ import com.example.rubbishcommunity.ui.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MainBinding
 import com.example.rubbishcommunity.ui.container.ContainerActivity
+import com.example.rubbishcommunity.ui.container.jumpToReleaseDynamic
 import com.example.rubbishcommunity.ui.home.search.SearchFragment
 import com.example.rubbishcommunity.ui.home.message.MessageFragment
 import com.example.rubbishcommunity.ui.home.mine.MineFragment
@@ -37,11 +38,8 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 		
 		RxView.clicks(binding.btnAdd).doOnNext {
 			showAddDialog()
-			
 		}.bindLife()
-		binding.bottomnavigation.setOnNavigationItemReselectedListener {
 		
-		}
 		binding.bottomnavigation.setOnNavigationItemSelectedListener {
 			
 			when (it.itemId) {
@@ -51,9 +49,7 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 				R.id.navigation_find -> {
 					replaceFragment("find")
 				}
-				R.id.navigation_null -> {
-				
-				}
+				R.id.navigation_null -> { }
 				R.id.navigation_message -> {
 					replaceFragment("message")
 				}
@@ -105,12 +101,7 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 		AddDialog(this, object : AddDialog.OnAddDialogClickListener {
 			override fun onDynamicClick() {
 				//开启发布动态界面
-				startActivity(
-					Intent(
-						this@MainActivity,
-						ContainerActivity::class.java
-					).putExtra("tag", "releaseDynamic")
-				)
+				jumpToReleaseDynamic(this@MainActivity)
 			}
 			
 			override fun onVoteClick() {

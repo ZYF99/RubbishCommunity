@@ -10,7 +10,7 @@ import com.example.rubbishcommunity.databinding.SearchBinding
 
 
 class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
-	SearchViewModel::class.java, R.layout.frag_search
+	SearchViewModel::class.java, R.layout.fragment_search
 ) {
 	override fun initBefore() {
 	

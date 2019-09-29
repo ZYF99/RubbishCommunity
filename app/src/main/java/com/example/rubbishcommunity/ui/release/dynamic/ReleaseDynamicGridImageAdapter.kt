@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.FilterImageListItemBinding
 import com.luck.picture.lib.config.PictureConfig
@@ -28,7 +29,7 @@ const val TYPE_PICTURE = 2
 
 class ReleaseDynamicGridImageAdapter(
 	private val context: Context,
-	private val list: MutableList<LocalMedia>,
+	private val imgList: MutableList<LocalMedia>,
 	private val mOnGridItemClickListener: OnGridItemClickListener
 ) : RecyclerView.Adapter<ReleaseDynamicGridImageAdapter.ViewHolder>() {
 	
@@ -38,10 +39,10 @@ class ReleaseDynamicGridImageAdapter(
 	
 	override
 	fun getItemCount(): Int {
-		return if (list.size < selectMax) {
-			list.size + 1
+		return if (imgList.size < selectMax) {
+			imgList.size + 1
 		} else {
-			list.size
+			imgList.size
 		}
 	}
 	
@@ -49,13 +50,13 @@ class ReleaseDynamicGridImageAdapter(
 	interface OnGridItemClickListener {
 		fun onAddPicClick()
 		fun onGridItemClick(position: Int, v: View)
-		fun onGridItemDel(newList: MutableList<LocalMedia>)
+		fun onGridItemDel(position: Int)
 	}
 
 	
 	fun replaceDates(newList: MutableList<LocalMedia>) {
-		list.clear()
-		list.addAll(newList)
+		imgList.clear()
+		imgList.addAll(newList)
 		notifyDataSetChanged()
 	}
 	
@@ -81,7 +82,7 @@ class ReleaseDynamicGridImageAdapter(
 	}
 	
 	private fun isShowAddItem(position: Int): Boolean {
-		val size = list.size
+		val size = imgList.size
 		return position == size
 	}
 	
@@ -102,14 +103,14 @@ class ReleaseDynamicGridImageAdapter(
 					// 这里有时会返回-1造成数据下标越界,具体可参考getAdapterPosition()源码，
 					// 通过源码分析应该是bindViewHolder()暂未绘制完成导致，知道原因的也可联系我~感谢
 					if (position != RecyclerView.NO_POSITION) {
-						list.removeAt(position)
+						imgList.removeAt(position)
 						notifyItemRemoved(position)
-						notifyItemRangeChanged(position, list.size)
-						mOnGridItemClickListener.onGridItemDel(list)
+						notifyItemRangeChanged(position, imgList.size)
+						mOnGridItemClickListener.onGridItemDel(position)
 					}
 				}
 			}
-			val item = list[position]
+			val item = imgList[position]
 			val mimeType = item.mimeType
 			val path: String =
 				when {

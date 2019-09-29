@@ -1,7 +1,6 @@
 package com.example.rubbishcommunity.persistence
 
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
-import com.example.rubbishcommunity.model.api.mine.UserInfoResultModel
 
 //存储用于验证的信息
 fun saveVerifyInfo(userName: String, password: String, token: String) {

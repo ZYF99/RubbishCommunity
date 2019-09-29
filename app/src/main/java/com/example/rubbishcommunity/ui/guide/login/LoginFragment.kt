@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit
 
 
 class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
-	LoginViewModel::class.java, R.layout.frag_login
+	LoginViewModel::class.java, R.layout.fragment_login
 ) {
 	
 	private lateinit var animationUtils: AnimatorUtils
@@ -48,7 +48,6 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 			startActivity(Intent(context, MainActivity::class.java))
 			activity?.finish()
 		} else {
-			
 			
 			//观测是否在Loading
 			viewModel.isLoading.observeNonNull {

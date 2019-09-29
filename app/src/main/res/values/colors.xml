@@ -12,10 +12,13 @@
     <color name="colorGuideBack">#77DDBD</color>
     <color name="colorRed">#D93D1E</color>
 
+    <color name="colorMale">#00BCD4</color>
+    <color name="colorFemale">#E91E63</color>
+
     <color name="white">#fff</color>
     <color name="black">#000000</color>
     <color name="colorTrans">#00FFFFFF</color>
-    <color name="colorGang">#B0DBDBDB</color>
+    <color name="colorGang">#95F0F0F0</color>
 
     <color name="bg_title">#F5A623</color>
 
@@ -28,6 +31,7 @@
     <color name="text_title">#FFFFFF</color>
     <color name="text_first">#333333</color>
     <color name="text_second">#999999</color>
+    <color name="text_third">#6F6F6F</color>
     <color name="text_hint">#BEBEBE</color>
 
 

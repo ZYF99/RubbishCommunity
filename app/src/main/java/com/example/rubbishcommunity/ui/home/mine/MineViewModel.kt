@@ -1,16 +1,23 @@
 package com.example.rubbishcommunity.ui.home.mine
 
+import android.annotation.SuppressLint
 import android.app.Application
+import android.content.res.ColorStateList
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
+import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.manager.api.ApiService
 import com.example.rubbishcommunity.manager.dealError
+import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
+import com.example.rubbishcommunity.model.api.mine.UserCardResultModel
 import com.example.rubbishcommunity.persistence.SharedPreferencesUtils
+import com.example.rubbishcommunity.persistence.getLocalUserName
 import com.example.rubbishcommunity.ui.BaseViewModel
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
@@ -24,10 +31,12 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 	private val apiService by instance<ApiService>()
 	
 	val userInfo = MutableLiveData<LoginOrRegisterResultModel.UsrProfile>()
+	val userCard = MutableLiveData<UserCardResultModel>()
 	val isRefreshing = MutableLiveData<Boolean>()
 	
 	
-	fun getUserInfo() {
+	fun getUserInfo() :Single<ResultModel<UserCardResultModel>>{
+		
 		val usrProfile = SharedPreferencesUtils.getData(
 			"localUsrProfile",
 			LoginOrRegisterResultModel.UsrProfile.getNull()
@@ -36,28 +45,48 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 			userInfo.postValue(
 				usrProfile as LoginOrRegisterResultModel.UsrProfile
 			)
-		//从网络获取个人信息数据
-/*		apiService
+		
+		//获取用户卡片
+		fun getUserCard(): Single<ResultModel<UserCardResultModel>> {
+			return apiService
+				.getUserCard(getLocalUserName())
+				.compose(dealErrorCode())
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.compose(dealRefreshing())
+				.compose(dealError())
+				.doOnSuccess {
+					userCard.postValue(it.data)
+				}
+		}
+		
+		
+/*		//从网络获取个人信息数据
+		apiService
 			.getUserInfo(getLocalUserName())
-			.compose(dealErrorCode())
 			.subscribeOn(Schedulers.io())
-			.observeOn(AndroidSchedulers.mainThread())
-			.compose(dealRefreshing())
-			.compose(dealError())
-			.doOnSuccess {
-				userInfo.postValue(it.data)
+			.flatMap { userInfoResultModel ->
+				userInfo.postValue(userInfoResultModel.data)
+				//成功后去获取卡片信息
+				getUserCard()
 			}
 			.bindLife()*/
 		
+		//直接获取卡片数据
+		return getUserCard()
+		
 		
 	}
+	
+
+
+	
 	
 	fun logout(): Single<ResultModel<String>> {
 		return apiService.logout()
 			.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())
 			.compose(dealError())
-		
 	}
 	
 	private fun <T> dealRefreshing(): SingleTransformer<T, T> {
@@ -75,24 +104,49 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 	}
 }
 
+@SuppressLint("NewApi")
 @BindingAdapter("gender")
 fun getGenderDrawable(imageView: ImageView, gender: Int?) {
-	
 	when (gender) {
 		3 -> {
 			Glide.with(imageView.context).load(R.drawable.icon_gendermale)
 				.placeholder(R.mipmap.ic_launcher)
 				.dontAnimate()
 				.into(imageView)
+			
+				imageView.imageTintList =
+					ColorStateList.valueOf(
+						ContextCompat.getColor(
+							MyApplication.instance,
+							R.color.colorMale
+						)
+					)
+
 		}
 		else -> {
 			Glide.with(imageView.context).load(R.drawable.icon_genderfemale)
 				.placeholder(R.mipmap.ic_launcher)
 				.dontAnimate()
 				.into(imageView)
+		
+				imageView.imageTintList =
+					ColorStateList.valueOf(
+						ContextCompat.getColor(
+							MyApplication.instance,
+							R.color.colorFemale
+						)
+					)
+
 		}
 	}
 	
 	
 }
 
+@BindingAdapter("portrait")
+fun getPortrait(imageView: ImageView, portraitUrl: String?) {
+	Glide.with(imageView.context).load(portraitUrl)
+		.placeholder(R.drawable.bg_404)
+		.dontAnimate()
+		.into(imageView)
+}

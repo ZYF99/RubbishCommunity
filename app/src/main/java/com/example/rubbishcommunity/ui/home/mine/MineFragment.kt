@@ -8,11 +8,12 @@ import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MineBinding
 import com.example.rubbishcommunity.persistence.saveLoginState
 import com.example.rubbishcommunity.ui.container.ContainerActivity
+import com.example.rubbishcommunity.ui.home.MainActivity
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 import com.jakewharton.rxbinding2.view.RxView
 
 class MineFragment : BindingFragment<MineBinding, MineViewModel>(
-	MineViewModel::class.java, R.layout.frag_mine
+	MineViewModel::class.java, R.layout.fragment_mine
 ) {
 	
 	override fun initBefore() {
@@ -23,12 +24,13 @@ class MineFragment : BindingFragment<MineBinding, MineViewModel>(
 		binding.vm = viewModel
 		binding.collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE)
 		
+		//刷新状态监听
 		viewModel.isRefreshing.observeNonNull {
 			binding.refreshLayout.isRefreshing = it
-			binding.rootLayout.isEnabled = it
+			binding.rootLayout.isEnabled = !it
 		}
 		
-		
+		//注销按钮
 		RxView.clicks(binding.btnLogout)
 			.doOnNext {
 				
@@ -68,17 +70,15 @@ class MineFragment : BindingFragment<MineBinding, MineViewModel>(
 	
 	
 	private fun refresh() {
-		viewModel.getUserInfo()
-		
-/*		when {
+		when {
 			!isNetworkAvailable() -> {
 				(activity as MainActivity).showNetErrorSnackBar()
 				viewModel.isRefreshing.postValue(false)
 			}
 			else -> {
-				viewModel.getUserInfo()
+				viewModel.getUserInfo().bindLife()
 			}
-		}*/
+		}
 	}
 	
 	override fun initData() {
