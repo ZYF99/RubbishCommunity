@@ -30,13 +30,18 @@ class DynamicDetailViewModel(application: Application) : BaseViewModel(applicati
 	//位置
 	val location = MutableLiveData<String>()
 	
-	//位置
+	//获赞次数
 	val likeNum = MutableLiveData<Int>()
+	
+	//我输入的评论
+	val inputComment = MutableLiveData<String>()
+	
 	
 	val isRefreshing = MutableLiveData<Boolean>()
 	
 	
 	fun init() {
+		//模拟数据
 		title.postValue("标题标题")
 		
 		content.postValue(
@@ -57,14 +62,33 @@ class DynamicDetailViewModel(application: Application) : BaseViewModel(applicati
 		
 		imgList.value = myImglist
 		val innerComment = Comment(
-			UserCardResultModel.getNull(),
+			UserCardResultModel.getDefault(),
 			"我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容",
 			"2019年9月8日",
-			null
+			listOf(
+				Comment(
+					UserCardResultModel.getDefault(),
+					"我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容",
+					"2019年9月8日",
+					null
+				),
+				Comment(
+					UserCardResultModel.getDefault(),
+					"我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容",
+					"2019年9月8日",
+					null
+				),
+				Comment(
+					UserCardResultModel.getDefault(),
+					"我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容",
+					"2019年9月8日",
+					null
+				)
+			)
 		)
 		
 		val comment = Comment(
-			UserCardResultModel.getNull(),
+			UserCardResultModel.getDefault(),
 			"我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容",
 			"2019年9月8日",
 			listOf(
@@ -83,8 +107,6 @@ class DynamicDetailViewModel(application: Application) : BaseViewModel(applicati
 			comment
 		)
 		commentList.value = myCommentList
-		
-		
 		location.postValue("地址地址")
 		likeNum.postValue(666)
 	}

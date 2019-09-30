@@ -33,6 +33,14 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	ReleaseDynamicViewModel::class.java, R.layout.fragment_release_dynamic
 ), ReleaseDynamicGridImageAdapter.OnGridItemClickListener {
 	
+	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
+	
+	}
+	
+	override fun onSoftKeyboardClosed() {
+	
+	}
+	
 	//最多展示张数
 	private val selectMax = 9
 	
@@ -270,8 +278,8 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 				//引导用户至设置页手动授权
 				val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
 				val uri = Uri.fromParts("package", context?.packageName, null);
-				intent.data = uri;
-				startActivity(intent);
+				intent.data = uri
+				startActivity(intent)
 			}
 			.setNegativeButton("取消") { _, _ ->
 			}.show()

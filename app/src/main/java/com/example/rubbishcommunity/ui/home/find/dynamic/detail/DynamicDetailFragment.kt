@@ -1,14 +1,12 @@
 package com.example.rubbishcommunity.ui.home.find.dynamic.detail
 
 import android.app.Activity
-import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.DynamicDetailBinding
-import com.example.rubbishcommunity.model.Comment
 import com.example.rubbishcommunity.ui.*
-import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.example.rubbishcommunity.ui.container.jumpToInnerComment
 import com.example.rubbishcommunity.ui.home.find.dynamic.DynamicListGridImageAdapter
 import com.example.rubbishcommunity.ui.release.dynamic.MyGridLayoutManager
@@ -18,7 +16,28 @@ import java.util.concurrent.TimeUnit
 class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetailViewModel>(
 	DynamicDetailViewModel::class.java, R.layout.fragment_dynamic_detail
 ) {
+	//键盘收起的回调
+	override fun onSoftKeyboardClosed() {
+		super.onSoftKeyboardClosed()
+		binding.cardBtn.visibility = View.VISIBLE
+		binding.linComment.root.visibility = View.GONE
+	}
 	
+	//发送信息的位置
+	var replyPosition: Int? = null
+	
+	//弹出键盘及输入框
+	private fun showInputDialog() {
+		//显示输入框，隐藏下方按钮
+		binding.cardBtn.visibility = View.GONE
+		binding.linComment.root.visibility = View.VISIBLE
+		
+		//弹出键盘
+		showInput(
+			activity as Activity,
+			binding.linComment.editComment
+		)
+	}
 	
 	override fun initBefore() {
 		activity!!.intent.getStringExtra("dynamicId")
@@ -27,7 +46,6 @@ class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetai
 	
 	override fun initWidget() {
 		binding.vm = viewModel
-		
 		//照片列表
 		binding.imgRec.run {
 			layoutManager = MyGridLayoutManager(context, 3)
@@ -55,13 +73,24 @@ class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetai
 					}
 					
 					override fun onoReplyClick(position: Int) {
-						//回复
-						
+						showInputDialog()
+						replyPosition = position
 					}
-					
 				}
 			)
 		}
+		
+		//键盘上方的发送按钮
+		RxView.clicks(binding.linComment.btnSend).doOnNext {
+			if (!viewModel.inputComment.value.isNullOrEmpty()) {
+				viewModel.inputComment.postValue("")
+				MyApplication.showToast("回复原文：${viewModel.inputComment.value}")
+				hideInput(activity as Activity)
+			} else {
+				MyApplication.showToast("回复不能为空")
+			}
+		}.throttleFirst(2, TimeUnit.SECONDS)
+			.bindLife()
 		
 		//返回按钮
 		RxView.clicks(binding.btnBack).doOnNext {
@@ -70,17 +99,26 @@ class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetai
 			.bindLife()
 		
 		//评论按钮
-		RxView.clicks(binding.btnComment)
-			.throttleFirst(2, TimeUnit.SECONDS).doOnNext {
-				binding.frameComment.visibility = View.VISIBLE
-				showInput(
-					activity as Activity,
-					binding.frameComment,
-					binding.editComment
-				)
-
-				
-			}.bindLife()
+		RxView.clicks(binding.btnComment).doOnNext {
+			replyPosition = null
+			showInputDialog()
+		}.throttleFirst(2, TimeUnit.SECONDS)
+			.bindLife()
+		
+		//发送按钮 回复原文
+		RxView.clicks(binding.linComment.btnSend).doOnNext {
+			if (!viewModel.inputComment.value.isNullOrEmpty()) {
+				viewModel.inputComment.postValue("")
+				when (replyPosition) {
+					null -> MyApplication.showToast("回复原文 ：${viewModel.inputComment.value}")
+					else -> MyApplication.showToast("回复第${replyPosition}条评论 ：${viewModel.inputComment.value}")
+				}
+				hideInput(activity as Activity)
+			} else {
+				MyApplication.showToast("回复不能为空")
+			}
+		}.throttleFirst(2, TimeUnit.SECONDS)
+			.bindLife()
 		
 	}
 	

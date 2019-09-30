@@ -74,6 +74,9 @@ dependencies {
     //  room
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    //SwipeLayout
+    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+
     //百度sdk
 /*    implementation files('libs/SecurityEnvSDK-release-1.1.0.jar')*/
    /* implementation files('libs/utdid4all-1.1.5.3_proguard.jar')*/

@@ -24,8 +24,18 @@ import java.util.concurrent.TimeUnit
 class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 	LoginViewModel::class.java, R.layout.fragment_login
 ) {
+	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
+	
+	}
+	
+	override fun onSoftKeyboardClosed() {
+	
+	}
+	
 	
 	private lateinit var animationUtils: AnimatorUtils
+	
+
 	
 	override
 	fun initBefore() {

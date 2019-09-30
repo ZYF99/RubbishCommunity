@@ -186,9 +186,9 @@ fun showSoftInputFromWindow(activity: Activity, editText: EditText) {
  *
  * @param et 输入焦点
  */
- fun showInput(activity: Activity, parent: View, et:EditText) {
-	parent.requestFocus()
-	val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+ fun showInput(activity: Activity, et:EditText) {
+	et.requestFocus()
+	val imm = activity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
 	imm.showSoftInput(et, InputMethodManager.SHOW_IMPLICIT)
 	et.requestFocus()
 }
@@ -199,6 +199,6 @@ fun showSoftInputFromWindow(activity: Activity, editText: EditText) {
 	 val imm = activity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
 	 val v = activity.window.peekDecorView();
 	 if (null != v) {
-		 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+		 imm.hideSoftInputFromWindow(v.windowToken, 0);
 	 }
  }

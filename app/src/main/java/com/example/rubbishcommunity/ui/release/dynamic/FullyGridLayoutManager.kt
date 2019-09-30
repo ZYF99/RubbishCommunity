@@ -10,20 +10,21 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 
-class FullyGridLayoutManager : GridLayoutManager {
+class FullyGridLayoutManager(
+	context: Context,
+	spanCount: Int,
+	orientation: Int,
+	reverseLayout: Boolean
+) : GridLayoutManager(
+	context,
+	spanCount,
+	orientation,
+	reverseLayout
+) {
 	
 	private val mMeasuredDimension = IntArray(2)
 	
 	private val mState = RecyclerView.State()
-	
-	constructor(context: Context, spanCount: Int) : super(context, spanCount) {}
-	
-	constructor(context: Context, spanCount: Int, orientation: Int, reverseLayout: Boolean) : super(
-		context,
-		spanCount,
-		orientation,
-		reverseLayout
-	)
 	
 	@SuppressLint("SwitchIntDef")
 	override

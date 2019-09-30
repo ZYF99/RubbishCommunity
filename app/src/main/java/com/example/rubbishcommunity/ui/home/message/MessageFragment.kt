@@ -7,68 +7,69 @@ import com.example.rubbishcommunity.databinding.MessageBinding
 import com.example.rubbishcommunity.ui.home.MainActivity
 
 class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
-    MessageViewModel::class.java, R.layout.fragment_message
+	MessageViewModel::class.java, R.layout.fragment_message
 ) {
-
-    override fun initBefore() {
-
-
-    }
-
-    override fun initWidget() {
-        binding.vm = viewModel
-        //viewModel.isRefreshing.observe { binding.refreshlayout.isRefreshing = it!! }
-
-        viewModel.init()
-
-
-
-        binding.recMessage.run {
-
-            layoutManager = LinearLayoutManager(context)
-
-
-            adapter = MessageListAdapter(R.layout.cell_msg, viewModel.messageList.value,viewModel)
-
-        }
-
-
-
-
-        binding.refreshLayout.setOnRefreshListener {
-            when {
-                !isNetworkAvailable() -> {
-                    (activity as MainActivity).showNetErrorSnackBar()
-                    viewModel.refreshing.postValue(false)
-                }
-                else -> {
-                    viewModel.getMessageList()
-                }
-            }
-        }
-
-
-
-
-        viewModel.messageList.observe {
-            binding.recMessage.run {
-                if (it != null) {
-                    (adapter as MessageListAdapter).replaceData(it)
-                }
-            }
-        }
-
-        viewModel.refreshing.observe { isRefreshing ->
-            binding.refreshLayout.run {
-                if (!isRefreshing!!) finishRefresh()
-            }
-        }
-
-    }
-
-    override fun initData() {
-
-    }
+	
+	override fun initBefore() {
+	
+	
+	}
+	
+	override fun initWidget() {
+		binding.vm = viewModel
+		//viewModel.isRefreshing.observe { binding.refreshlayout.isRefreshing = it!! }
+		
+		viewModel.init()
+		
+		
+		
+		binding.recMessage.run {
+			
+			layoutManager = LinearLayoutManager(context)
+			
+			
+			//adapter = MessageListAdapter(R.layout.cell_msg, viewModel.messageList.value,viewModel)
+			adapter = viewModel.messageList.value?.let { RecyclerViewAdapter(context, it) }
+			
+		}
+		
+		
+		
+		
+		binding.refreshLayout.setOnRefreshListener {
+			when {
+				!isNetworkAvailable() -> {
+					(activity as MainActivity).showNetErrorSnackBar()
+					viewModel.refreshing.postValue(false)
+				}
+				else -> {
+					viewModel.getMessageList()
+				}
+			}
+		}
+		
+		
+		
+		
+		viewModel.messageList.observe {
+			binding.recMessage.run {
+				if (it != null) {
+					// (adapter as MessageListAdapter).replaceData(it)
+				}
+			}
+		}
+		
+		viewModel.refreshing.observe { isRefreshing ->
+			binding.refreshLayout.run {
+				if (!isRefreshing!!) finishRefresh()
+			}
+		}
+		
+	}
+	
+	override fun initData() {
+	
+	}
 
 
 /*    //create pop of jobPicker
@@ -86,9 +87,6 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
         })
 
     }*/
-
-
-
-
-
+	
+	
 }

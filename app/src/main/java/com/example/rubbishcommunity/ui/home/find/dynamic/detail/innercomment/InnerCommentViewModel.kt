@@ -13,9 +13,11 @@ class InnerCommentViewModel(application: Application) : BaseViewModel(applicatio
 	
 	private val dynamicService by instance<ApiService>()
 	
-	
 	//评论列表
 	val innerCommentList = MutableLiveData<List<Comment>>()
+	
+	//我输入的评论
+	val inputComment = MutableLiveData<String>()
 	
 	val isRefreshing = MutableLiveData<Boolean>()
 	

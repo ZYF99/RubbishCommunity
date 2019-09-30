@@ -6,20 +6,36 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ContainerBinding
 import com.example.rubbishcommunity.model.Comment
+import com.example.rubbishcommunity.ui.BindingFragment
+import com.example.rubbishcommunity.ui.SoftObservableFragment
 import com.example.rubbishcommunity.ui.guide.login.LoginFragment
 import com.example.rubbishcommunity.ui.guide.register.RegisterFragment
 import com.example.rubbishcommunity.ui.home.find.dynamic.detail.DynamicDetailFragment
 import com.example.rubbishcommunity.ui.home.find.dynamic.detail.innercomment.InnerCommentFragment
 import com.example.rubbishcommunity.ui.release.dynamic.ReleaseDynamicFragment
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
+import com.example.rubbishcommunity.utils.SoftKeyBroadManager
 import java.io.Serializable
 
 
-class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>() {
+class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(),
+	SoftKeyBroadManager.SoftKeyboardStateListener {
+	
+	
+	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
+		MyApplication.showToast("$keyboardHeightInPx")
+		binding.root.scrollTo(0, keyboardHeightInPx)
+	}
+	
+	override fun onSoftKeyboardClosed() {
+		MyApplication.showToast("0000")
+		binding.root.scrollTo(0, 0)
+	}
 	
 	//跳转至register
 	fun jumpToRegister() {
@@ -34,8 +50,9 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 	
 	override val clazz: Class<ContainerViewModel> = ContainerViewModel::class.java
 	override val layRes: Int = R.layout.activity_container
-	private var currentFragment: Fragment? = Fragment()
+	private var currentFragment: SoftObservableFragment? = SoftObservableFragment()
 	
+
 	override fun initBefore() {
 		if (intent.getSerializableExtra("tag") == null) {
 			replaceFragment("login")
@@ -50,7 +67,7 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 		StatusBarUtil.setStatusTextColor(true, this)
 		binding.vm = viewModel
 		handleError()
-		
+
 	}
 	
 	override fun initData() {
@@ -61,7 +78,7 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 		if (currentFragment != null) {
 			supportFragmentManager.beginTransaction().hide(currentFragment!!).commit()
 		}
-		currentFragment = supportFragmentManager.findFragmentByTag(tag)
+		currentFragment = supportFragmentManager.findFragmentByTag(tag) as SoftObservableFragment?
 		
 		if (currentFragment == null) {
 			currentFragment = when (tag) {
@@ -75,7 +92,7 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 					DynamicDetailFragment()
 				"innerComment" -> //内部评论列表界面
 					InnerCommentFragment()
-				else -> Fragment()
+				else -> SoftObservableFragment()
 			}
 			supportFragmentManager.beginTransaction()
 				.add(R.id.guideContainer, currentFragment!!, tag).commit()
@@ -83,6 +100,8 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 			supportFragmentManager.beginTransaction().show(currentFragment!!).commit()
 		}
 	}
+	
+	
 }
 
 //跳转至发布动态界面界面
@@ -93,7 +112,7 @@ fun jumpToReleaseDynamic(context: Context) {
 }
 
 //跳转至动态详情界面
-fun jumpToDynamicDetail(context: Context,dynamicId:String){
+fun jumpToDynamicDetail(context: Context, dynamicId: String) {
 	val bundle = Bundle()
 	bundle.putString("tag", "dynamicDetail")
 	bundle.putSerializable(
@@ -114,4 +133,6 @@ fun jumpToInnerComment(context: Context, commentList: List<Comment>) {
 	)
 	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }
+
+
 

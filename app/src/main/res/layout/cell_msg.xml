@@ -1,85 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="0dp"
-    app:cardElevation="0dp"
-    app:cardUseCompatPadding="false">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
+    <data class="MsgCellBinding">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
+    </data>
 
-        android:paddingTop="16dp">
-
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/cell_msg_icon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/cell_person_name"
-            android:layout_width="0dp"
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:text="通知信息"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/cell_msg_time"
-            app:layout_constraintStart_toEndOf="@+id/cell_msg_icon"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="0dp"
+            app:cardUseCompatPadding="false">
 
-        <TextView
-            android:id="@+id/cell_person_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="4dp"
-            android:text="土豆"
-            android:textColor="#AAAAAA"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/cell_msg_time"
-            app:layout_constraintStart_toEndOf="@+id/cell_msg_icon"
-            app:layout_constraintTop_toBottomOf="@+id/cell_person_name" />
-
-        <TextView
-                android:id="@+id/cell_msg_time"
-                android:layout_width="wrap_content"
+        <com.daimajia.swipe.SwipeLayout
+                xmlns:swipe="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/swipe"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:padding="4dp"
-                android:text="17:40"
-                android:textColor="#AAAAAA"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" tools:ignore="RtlCompat"/>
+                swipe:leftEdgeSwipeOffset="0dp"
+                swipe:rightEdgeSwipeOffset="0dp">
 
-        <View
-            android:id="@+id/view"
-            android:layout_width="224dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cell_person_btn" />
+            <RelativeLayout
+                    android:id="@+id/delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="#E91E63"
+                    android:paddingLeft="24dp"
+                    android:paddingRight="24dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:gravity="center">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+                <ImageView
+                        android:id="@+id/textView4"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+
+
+                        android:scaleType="centerInside"
+                        android:src="@drawable/icon_delete"
+                        android:tint="@color/white" />
+
+            </RelativeLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:paddingStart="16dp"
+                    android:paddingTop="16dp"
+                    tools:ignore="RtlSymmetry">
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/cell_msg_icon"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                        android:id="@+id/cell_person_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="通知信息"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toStartOf="@+id/cell_msg_time"
+                        app:layout_constraintStart_toEndOf="@+id/cell_msg_icon"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                        android:id="@+id/cell_person_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="土豆"
+                        android:textColor="#AAAAAA"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/cell_msg_time"
+                        app:layout_constraintStart_toEndOf="@+id/cell_msg_icon"
+                        app:layout_constraintTop_toBottomOf="@+id/cell_person_name" />
+
+                <TextView
+                        android:id="@+id/cell_msg_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:padding="4dp"
+                        android:text="17:40"
+                        android:textColor="#AAAAAA"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="RtlCompat" />
+
+                <View
+                        android:layout_width="224dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cell_person_btn" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </com.daimajia.swipe.SwipeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</layout>

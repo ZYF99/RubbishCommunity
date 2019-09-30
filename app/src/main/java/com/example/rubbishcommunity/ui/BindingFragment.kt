@@ -26,7 +26,7 @@ abstract class BindingFragment<Bind : ViewDataBinding, VM : AndroidViewModel>
 constructor(
 	private val clazz: Class<VM>,
 	private val bindingCreator: (LayoutInflater, ViewGroup?) -> Bind
-) : Fragment(), KodeinAware, BindLife {
+) : SoftObservableFragment(), KodeinAware, BindLife {
 	
 	constructor(clazz: Class<VM>, @LayoutRes layoutRes: Int) : this(clazz, { inflater, group ->
 		DataBindingUtil.inflate(inflater, layoutRes, group, false)

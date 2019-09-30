@@ -13,7 +13,7 @@ class UserCardResultModel(
 	val age: Int
 ):Serializable {
 	companion object {
-		fun getNull(): UserCardResultModel {
+		fun getDefault(): UserCardResultModel {
 			return UserCardResultModel(
 				"",
 				"",

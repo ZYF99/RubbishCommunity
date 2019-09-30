@@ -24,6 +24,14 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 	RegisterViewModel::class.java, R.layout.fragment_register
 ) {
 	
+	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
+	
+	}
+	
+	override fun onSoftKeyboardClosed() {
+	
+	}
+	
 	private lateinit var animationUtils: AnimatorUtils
 	
 	override fun initBefore() {
