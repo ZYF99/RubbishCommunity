@@ -5,123 +5,107 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data class="MsgCellBinding">
-
+        <variable name="message"
+                type="com.example.rubbishcommunity.model.Message"/>
     </data>
 
-    <androidx.cardview.widget.CardView
+
+    <com.mcxtzhang.swipemenulib.SwipeMenuLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="0dp"
-            app:cardUseCompatPadding="false">
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
 
-        <com.daimajia.swipe.SwipeLayout
-                xmlns:swipe="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/swipe"
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cell"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                swipe:leftEdgeSwipeOffset="0dp"
-                swipe:rightEdgeSwipeOffset="0dp">
-
-            <RelativeLayout
-                    android:id="@+id/delete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="#E91E63"
-                    android:paddingLeft="24dp"
-                    android:paddingRight="24dp"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    android:gravity="center">
-
-                <ImageView
-                        android:id="@+id/textView4"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                android:layout_height="match_parent"
+                android:paddingTop="8dp"
+                android:paddingStart="8dp"
+                android:visibility="visible"
+                tools:ignore="RtlSymmetry">
 
 
-                        android:scaleType="centerInside"
-                        android:src="@drawable/icon_delete"
-                        android:tint="@color/white" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/cell_msg_icon"
+                    imageUrl="@{message.iconUrl}"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/cell_person_name" />
 
-            </RelativeLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
+            <TextView
+                    android:id="@+id/cell_person_name"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:paddingStart="16dp"
-                    android:paddingTop="16dp"
-                    tools:ignore="RtlSymmetry">
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="通知信息"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@+id/cell_msg_time"
+                    app:layout_constraintStart_toEndOf="@+id/cell_msg_icon"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                    android:id="@+id/cell_person_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="土豆"
+                    android:textColor="#AAAAAA"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/cell_msg_time"
+                    app:layout_constraintStart_toEndOf="@+id/cell_msg_icon"
+                    app:layout_constraintTop_toBottomOf="@+id/cell_person_name" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/cell_msg_icon"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:scaleType="centerCrop"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                    android:id="@+id/cell_msg_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:padding="4dp"
+                    android:text="17:40"
+                    android:textColor="#AAAAAA"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="RtlCompat" />
 
+            <View
+                    android:layout_width="224dp"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGang"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
-                <TextView
-                        android:id="@+id/cell_person_name"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="通知信息"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        app:layout_constraintEnd_toStartOf="@+id/cell_msg_time"
-                        app:layout_constraintStart_toEndOf="@+id/cell_msg_icon"
-                        app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                        android:id="@+id/cell_person_btn"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="4dp"
-                        android:text="土豆"
-                        android:textColor="#AAAAAA"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/cell_msg_time"
-                        app:layout_constraintStart_toEndOf="@+id/cell_msg_icon"
-                        app:layout_constraintTop_toBottomOf="@+id/cell_person_name" />
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorRed"
+                android:padding="25dp">
 
-                <TextView
-                        android:id="@+id/cell_msg_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:padding="4dp"
-                        android:text="17:40"
-                        android:textColor="#AAAAAA"
-                        android:textSize="12sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="RtlCompat" />
+            <ImageView
+                    android:id="@+id/delete"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/icon_delete"
+                    android:text="删除"
+                    android:textColor="@android:color/white"
+                    android:tint="@color/white" />
 
-                <View
-                        android:layout_width="224dp"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/cell_person_btn" />
+        </RelativeLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.mcxtzhang.swipemenulib.SwipeMenuLayout>
 
-
-        </com.daimajia.swipe.SwipeLayout>
-
-
-    </androidx.cardview.widget.CardView>
 </layout>

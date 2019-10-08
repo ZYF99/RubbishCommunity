@@ -106,9 +106,9 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 
 @SuppressLint("NewApi")
 @BindingAdapter("gender")
-fun getGenderDrawable(imageView: ImageView, gender: Int?) {
+fun getGenderDrawable(imageView: ImageView, gender: String?) {
 	when (gender) {
-		3 -> {
+		"male" -> {
 			Glide.with(imageView.context).load(R.drawable.icon_gendermale)
 				.placeholder(R.mipmap.ic_launcher)
 				.dontAnimate()

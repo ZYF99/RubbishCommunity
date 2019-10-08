@@ -19,7 +19,7 @@ fun <T> dealErrorCode(): SingleTransformer<T, T> {
 	return SingleTransformer { obs ->
 		obs.doOnSuccess { result ->
 			when ((result as ResultModel<*>).meta.code) {
-				in 1000..2000 -> {
+				in 999..2000 -> {
 					return@doOnSuccess
 				}
 				else -> {

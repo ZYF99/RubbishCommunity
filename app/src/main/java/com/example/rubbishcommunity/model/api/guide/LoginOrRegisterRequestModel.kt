@@ -12,8 +12,9 @@ data class LoginOrRegisterRequestModel(
 		val appVersion: String,
 		val devName: String,
 		val imei: String,
-		val osversion: String,
-		val systemModel: String
+		val platform:String,
+		val systemModel: String,
+		val systemVersion: String
 	)
 	
 	

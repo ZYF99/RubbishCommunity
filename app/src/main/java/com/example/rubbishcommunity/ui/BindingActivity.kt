@@ -88,6 +88,8 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 		})
 	}
 	
+
+	
 	
 	override fun onBackPressed() {
 		//得到当前activity下的所有Fragment
@@ -171,34 +173,27 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 }
 
 /**
- * EditText获取焦点并显示软键盘
- */
-fun showSoftInputFromWindow(activity: Activity, editText: EditText) {
-	editText.isFocusable = true
-	editText.isFocusableInTouchMode = true
-	editText.requestFocus()
-	activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-}
-
-
-/**
  * 显示键盘
  *
  * @param et 输入焦点
  */
- fun showInput(activity: Activity, et:EditText) {
+fun showInput(activity: Activity, et:EditText) {
 	et.requestFocus()
-	val imm = activity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+	val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 	imm.showSoftInput(et, InputMethodManager.SHOW_IMPLICIT)
 	et.requestFocus()
 }
 
 
 
- fun hideInput(activity: Activity) {
-	 val imm = activity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-	 val v = activity.window.peekDecorView();
-	 if (null != v) {
-		 imm.hideSoftInputFromWindow(v.windowToken, 0);
-	 }
- }
+fun hideInput(activity: Activity) {
+	val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+	val v = activity.window.peekDecorView();
+	if (null != v) {
+		imm.hideSoftInputFromWindow(v.windowToken, 0);
+	}
+}
+
+
+
+

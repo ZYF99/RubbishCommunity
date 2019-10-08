@@ -26,13 +26,13 @@ import java.util.concurrent.TimeUnit
 class RegisterViewModel(application: Application) : BaseViewModel(application) {
 	
 	val userName = MutableLiveData<String>()
+	val vertifyCode = MutableLiveData<String>()
 	val password = MutableLiveData<String>()
 	val rePassword = MutableLiveData<String>()
 	
 	//是否正在登陆
 	val isLoading = MutableLiveData<Boolean>()
-	//错误提示信息
-	val errorMsg = MutableLiveData<String>()
+	
 	
 	private val apiService by instance<ApiService>()
 	
@@ -40,6 +40,7 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 	fun init() {
 		//初始化控件上的值
 		userName.value = ""
+		vertifyCode.value = ""
 		password.value = ""
 		rePassword.value = ""
 	}
@@ -63,8 +64,9 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 						versionName,
 						deviceBrand,
 						PhoneUtils.getPhoneIMEI(MyApplication.instance),
-						osVersion,
-						systemModel
+						"Android",
+						systemModel,
+						osVersion
 					), 0,
 					password.value!!,
 					true,
@@ -81,8 +83,9 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 								versionName,
 								deviceBrand,
 								PhoneUtils.getPhoneIMEI(MyApplication.instance),
-								osVersion,
-								systemModel
+								"Android",
+								systemModel,
+								osVersion
 							), 0,
 							password.value!!,
 							false,
@@ -119,20 +122,25 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 		password: String,
 		rePassword: String
 	): Boolean {
-		if (userName.length > 4) {
-			if (password.length in 4..16) {
-				if (password != rePassword) {
-					sendError(ErrorData(ErrorType.INPUT_ERROR, "两次密码不一致"))
+		if (isEmail(userName)) {
+			if (userName.length > 4) {
+				if (password.length in 4..16) {
+					if (password != rePassword) {
+						sendError(ErrorData(ErrorType.INPUT_ERROR, "两次密码不一致"))
+					} else {
+						return true
+					}
 				} else {
-					return true
+					sendError(ErrorData(ErrorType.INPUT_ERROR, "密码长度为6-16位"))
 				}
 			} else {
-				sendError(ErrorData(ErrorType.INPUT_ERROR, "密码长度为6-16位"))
+				sendError(ErrorData(ErrorType.INPUT_ERROR, "用户名必须大于4位"))
 			}
+			return false
 		} else {
-			sendError(ErrorData(ErrorType.INPUT_ERROR, "用户名必须大于4位"))
+			sendError(ErrorData(ErrorType.INPUT_ERROR, "请输入正确的邮箱"))
+			return false
 		}
-		return false
 	}
 	
 	

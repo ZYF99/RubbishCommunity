@@ -5,13 +5,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ContainerBinding
 import com.example.rubbishcommunity.model.Comment
-import com.example.rubbishcommunity.ui.BindingFragment
 import com.example.rubbishcommunity.ui.SoftObservableFragment
 import com.example.rubbishcommunity.ui.guide.login.LoginFragment
 import com.example.rubbishcommunity.ui.guide.register.RegisterFragment

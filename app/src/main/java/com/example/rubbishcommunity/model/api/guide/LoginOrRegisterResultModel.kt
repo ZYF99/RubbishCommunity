@@ -2,6 +2,7 @@ package com.example.rubbishcommunity.model.api.guide
 
 data class LoginOrRegisterResultModel(
 	val token: String,
+	val profileCompletion:String,
 	val usrProfile: UsrProfile,
 	val usrSetting: UserSetting,
 	val usrStatusFlag: UserStatusFlag,
@@ -10,18 +11,22 @@ data class LoginOrRegisterResultModel(
 	class UsrProfile(
 		val name: String,
 		val avatar: String,
+		val country: String,
+		val province: String,
 		val city: String,
+		val street: String,
 		val age: Int,
 		val birthday: String,
-		val work: String,
-		val gender: Int,
-		val content: String,
+		val profession: String,
+		val gender: String,
+		val signature: String,
 		val level: Int,
 		val aboutMe: String,
 		val school: String,
 		val company: String,
-		val education: String,
-		val profileCompletion: Double
+		val degree: String,
+		val language: String,
+		val backgroundImage: String
 	) {
 		companion object {
 			fun getNull(): UsrProfile {
@@ -29,17 +34,21 @@ data class LoginOrRegisterResultModel(
 					"",
 					"",
 					"",
+					"",
+					"",
+					"",
 					0,
 					"",
 					"",
+					"",
+					"",
 					0,
 					"",
-					0,
 					"",
 					"",
 					"",
 					"",
-					0.0
+					""
 				)
 			}
 			

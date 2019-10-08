@@ -22,7 +22,6 @@ open class SoftObservableFragment : Fragment(), SoftKeyBroadManager.SoftKeyboard
 	
 	override fun onSoftKeyboardClosed() {
 		view?.scrollTo(0, 0)
-		
 	}
 	
 	override fun onDestroy() {

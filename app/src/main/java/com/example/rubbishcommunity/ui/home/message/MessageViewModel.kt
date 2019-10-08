@@ -8,19 +8,8 @@ import com.example.rubbishcommunity.model.Message
 import io.reactivex.SingleTransformer
 import org.kodein.di.generic.instance
 
-class MessageViewModel(application: Application) : BaseViewModel(application), MessageListAdapter.Listener {
-
-
-
-    override fun onCellClick() {
-
-    }
-
-    override fun onCellLongClick() {
-
-    }
-
-
+class MessageViewModel(application: Application) : BaseViewModel(application) {
+    
 
     private val dynamicService by instance<ApiService>()
 

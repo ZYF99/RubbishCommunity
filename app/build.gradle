@@ -67,8 +67,15 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.facebook.stetho:stetho:1.3.1'
 
+    //百度定位
     implementation files('libs/SecurityEnvSDK-release-1.1.0.jar')
     implementation files('libs/utdid4all-1.1.5.3_proguard.jar')
+
+    //七牛云
+    implementation "com.qiniu:qiniu-android-sdk:$rootProject.ext.qiniu"
+
+    //汉语言处理包 来自 https://github.com/hankcs/HanLP
+    implementation files('libs/hanlp-1.7.4.jar')
 
     implementation 'com.android.support:multidex:1.0.3'
     //  room
@@ -76,14 +83,14 @@ dependencies {
 
     //SwipeLayout
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+    implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
 
-    //百度sdk
-/*    implementation files('libs/SecurityEnvSDK-release-1.1.0.jar')*/
-   /* implementation files('libs/utdid4all-1.1.5.3_proguard.jar')*/
+    //MzBanner
+    implementation "com.github.pinguo-zhouwei:MZBannerView:$rootProject.ext.mzBannerVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-
-    //glide
-    api 'com.github.bumptech.glide:glide:4.9.0'
+    //PictureSelector
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.4'
 
     //Log
     implementation 'com.jakewharton.timber:timber:4.7.0'
@@ -101,7 +108,6 @@ dependencies {
     implementation 'com.jakewharton.rxbinding2:rxbinding-design:2.1.1'
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
-
     implementation 'com.github.VictorAlbertos:RxActivityResult:0.5.0-2.x'
 
     //Network
@@ -110,7 +116,6 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:${library_ok_http_version}"
     implementation "com.squareup.okhttp3:logging-interceptor:${library_ok_http_version}"
     implementation "com.squareup.retrofit2:adapter-rxjava2:${library_retrofit_version}"
-    //implementation "com.squareup.retrofit2:converter-moshi:${library_retrofit_version}"
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation("com.squareup.retrofit2:retrofit:${library_retrofit_version}") {
@@ -120,7 +125,6 @@ dependencies {
     //DI
     implementation 'org.kodein.di:kodein-di-generic-jvm:5.3.0'
     implementation 'org.kodein.di:kodein-di-framework-android-support:5.3.0'
-
 
     //CircleImageView
     api "de.hdodenhof:circleimageview:$rootProject.ext.circleimageviewVersion"
@@ -134,20 +138,6 @@ dependencies {
     //BRVAH 强大的recyclerView框架
     implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$rootProject.ext.brvahVersion"
     implementation 'com.google.android.material:material:1.0.0'
-    //MzBanner
-    implementation "com.github.pinguo-zhouwei:MZBannerView:$rootProject.ext.mzBannerVersion"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-
-    //CircleImageView
-    api "de.hdodenhof:circleimageview:$rootProject.ext.circleimageviewVersion"
-
-/*    //BubbleLayout
-    implementation 'com.github.MasayukiSuda:BubbleLayout:v1.2.1'*/
-
-    //PictureSelector
-    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.4'
-
 
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

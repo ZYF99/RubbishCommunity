@@ -54,8 +54,10 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 						versionName,
 						deviceBrand,
 						PhoneUtils.getPhoneIMEI(MyApplication.instance),
-						osVersion,
-						systemModel
+						"Android",
+						systemModel,
+						osVersion
+						
 					), 0,
 					password.value!!,
 					false,

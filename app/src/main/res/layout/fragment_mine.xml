@@ -83,7 +83,7 @@
 
                 <ImageView
                         android:id="@+id/iv"
-                        portrait="@{vm.userCard.portrait}"
+                        portrait="@{vm.userInfo.backgroundImage}"
                         android:layout_width="match_parent"
                         android:layout_height="260dp"
                         android:scaleType="centerCrop"
@@ -210,7 +210,7 @@
                                     android:focusable="true"
                                     android:gravity="center"
                                     android:padding="4dp"
-                                    android:text="@{vm.userInfo.work,default = 工作}"
+                                    android:text="@{vm.userInfo.degree,default = 工作}"
                                     android:textColor="@color/text_second"
                                     android:textSize="14sp"
                                     android:textStyle="normal"
@@ -234,7 +234,7 @@
                                     android:focusable="true"
                                     android:gravity="center"
                                     android:padding="15dp"
-                                    android:text='@{vm.userCard.content ,default="快来设置你的分类宣言吧~"}'
+                                    android:text='@{vm.userInfo.aboutMe ,default="快来设置你的分类宣言吧~"}'
                                     android:textColor="@color/text_second"
                                     android:textSize="14sp" />
 

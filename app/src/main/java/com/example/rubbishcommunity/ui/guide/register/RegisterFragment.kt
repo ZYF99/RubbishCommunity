@@ -17,6 +17,10 @@ import com.example.rubbishcommunity.ui.guide.AnimatorUtils
 import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.jakewharton.rxbinding2.view.RxView
 import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 
@@ -62,11 +66,13 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 				animationUtils.complete()
 			}
 		}
-		
-		//观察错误提示信息
-		viewModel.errorMsg.observeNonNull {
-			(activity as ContainerActivity).showErrorSnackBar(it)
-		}
+		RxView.clicks(binding.btnCode).throttleFirst(2, TimeUnit.SECONDS).doOnNext {
+			binding.btnCode.isEnabled = false
+			Observable.interval(60, 1, TimeUnit.SECONDS).take(60).subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread()).doOnNext {
+					binding.btnCode.text = "${it}秒后可重新获取"
+			}.bindLife()
+		}.bindLife()
 		
 		
 		//注册按钮
@@ -110,12 +116,10 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 		
 		//真实register
 		viewModel.registerOrLogin()?.doOnSuccess {
-				//登陆成功
-					startActivity(Intent(context, MainActivity::class.java))
-					(context as Activity).finish()
+			//登陆成功
+			startActivity(Intent(context, MainActivity::class.java))
+			(context as Activity).finish()
 		}?.bindLife()
-		
-		
 	}
 	
 	

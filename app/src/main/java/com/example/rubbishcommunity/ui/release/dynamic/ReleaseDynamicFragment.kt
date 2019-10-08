@@ -105,7 +105,6 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	override
 	fun initBefore() {
 		binding.vm = viewModel
-		
 	}
 	
 	override fun initWidget() {
@@ -197,7 +196,7 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 		viewModel.release()?.doOnSuccess {
 			//发布成功
 			viewModel.clearDraft()
-			(context as Activity).finish()
+			//(context as Activity).finish()
 		}?.bindLife()
 	}
 	

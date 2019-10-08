@@ -11,10 +11,14 @@ import com.example.rubbishcommunity.ui.BaseViewModel
 import com.example.rubbishcommunity.manager.api.ApiService
 import com.example.rubbishcommunity.persistence.SharedPreferencesUtils
 import com.luck.picture.lib.entity.LocalMedia
+import com.qiniu.android.storage.UploadManager
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import org.kodein.di.generic.instance
 import java.util.concurrent.TimeUnit
+import com.qiniu.android.storage.UploadOptions
+import com.example.rubbishcommunity.persistence.getLocalToken
+import com.qiniu.android.storage.UpProgressHandler
 
 
 class ReleaseDynamicViewModel(application: Application) : BaseViewModel(application) {
@@ -35,6 +39,9 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 	
 	//位置
 	val location = MutableLiveData<String>()
+	
+	//进度
+	val progress = MutableLiveData<Int>()
 	
 	private val apiService by instance<ApiService>()
 	
@@ -58,6 +65,7 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 		content.postValue(
 			SharedPreferencesUtils.getData("draft_content", "") as String
 		)
+		progress.postValue(0)
 	}
 	
 	fun getLocation() {
@@ -91,7 +99,7 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 	}
 	
 	//fun release(): Single<ResultModel<ReleaseDynamicResultModel>>? {
-	fun release(): Single<Int>? {
+	fun release(): Single<String>? {
 /*		return apiService.releaseDynamic(
 			ReleaseDynamicRequestModel(
 				"!!!!我要发布动态!!!!"
@@ -101,8 +109,24 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 			.compose(dealLoading())
 			.compose(dealErrorCode())
 			.compose(dealError())*/
-		return Single.just(1).delay(5, TimeUnit.SECONDS).compose(dealLoading())
 		
+		//设置上传后文件的key
+		val upkey = selectedList.value!![0].path
+		return Single.just("Mt6fBM0NAN4FIYLDQGOkoCse09OTdqEIELdLmx_z:9sE2cFSMIEkJEClFKyXksIiUmcY=:eyJzY29wZSI6IkRldyIsInBlcnNpc3RlbnRPcHMiOiJpbWFnZVZpZXcyLzEvdy84MC9oLzgwfHNhdmVhcy9SR1YzT2xwb1lXNW5lV1pVWlhOME1ERmZPREF1YW5CbjtpbWFnZVZpZXcyLzEvdy8xNDAvaC8xNDB8c2F2ZWFzL1JHVjNPbHBvWVc1bmVXWlVaWE4wTURGZk1UUXdMbXB3WndcdTAwM2RcdTAwM2Q7aW1hZ2VWaWV3Mi8xL3cvMTYwL2gvMTYwfHNhdmVhcy9SR1YzT2xwb1lXNW5lV1pVWlhOME1ERmZNVFl3TG1wd1p3XHUwMDNkXHUwMDNkO2ltYWdlVmlldzIvMS93LzIyMC9oLzIyMHxzYXZlYXMvUkdWM09scG9ZVzVuZVdaVVpYTjBNREZmTWpJd0xtcHdad1x1MDAzZFx1MDAzZDtpbWFnZVZpZXcyLzEvdy80NDAvaC80NDB8c2F2ZWFzL1JHVjNPbHBvWVc1bmVXWlVaWE4wTURGZk5EUXdMbXB3WndcdTAwM2RcdTAwM2Q7aW1hZ2VWaWV3Mi8xL3cvNjQwL2gvNjQwfHNhdmVhcy9SR1YzT2xwb1lXNW5lV1pVWlhOME1ERmZOalF3TG1wd1p3XHUwMDNkXHUwMDNkOyIsImRlYWRsaW5lIjoxNTcwNTMyNzYwfQ==")
+			.delay(2, TimeUnit.SECONDS)
+			.doOnSuccess {
+				UploadManager().put(
+					selectedList.value!![0].path, upkey, it,
+					{ key, rinfo, response ->
+						val s = "$key, $rinfo, $response"
+						content.postValue("七牛上传测试 $s")
+					}, UploadOptions(null, "test-type", true,
+						UpProgressHandler { key, percent ->
+							progress.postValue(percent.toInt())
+						}, null
+					)
+				)
+			}.compose(dealLoading())
 	}
 	
 	

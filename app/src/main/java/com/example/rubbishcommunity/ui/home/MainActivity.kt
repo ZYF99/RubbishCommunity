@@ -2,20 +2,26 @@ package com.example.rubbishcommunity.ui.home
 
 
 import android.annotation.SuppressLint
-import android.content.Intent
+import android.os.Build
+import android.system.ErrnoException
+import android.system.Os
 import androidx.fragment.app.Fragment
 import com.example.rubbishcommunity.ui.home.find.FindFragment
 import com.example.rubbishcommunity.ui.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MainBinding
-import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.example.rubbishcommunity.ui.container.jumpToReleaseDynamic
 import com.example.rubbishcommunity.ui.home.search.SearchFragment
 import com.example.rubbishcommunity.ui.home.message.MessageFragment
 import com.example.rubbishcommunity.ui.home.mine.MineFragment
 import com.example.rubbishcommunity.ui.widget.AddDialog
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
+import com.hankcs.hanlp.HanLP
+import com.hankcs.hanlp.corpus.io.IIOAdapter
 import com.jakewharton.rxbinding2.view.RxView
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 
 
 class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
@@ -49,7 +55,8 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 				R.id.navigation_find -> {
 					replaceFragment("find")
 				}
-				R.id.navigation_null -> { }
+				R.id.navigation_null -> {
+				}
 				R.id.navigation_message -> {
 					replaceFragment("message")
 				}
@@ -65,7 +72,7 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	}
 	
 	override fun initData() {
-	
+
 	}
 	
 	
@@ -126,6 +133,8 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
                 }
             }.bindLife()
     }*/
+	
+
 	
 	
 }
