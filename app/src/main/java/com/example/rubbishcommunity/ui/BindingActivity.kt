@@ -14,10 +14,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.rubbishcommunity.R
-import com.example.rubbishcommunity.utils.ErrorType
-import com.example.rubbishcommunity.utils.getErrorObs
-import com.example.rubbishcommunity.utils.showErrorBar
-import com.example.rubbishcommunity.utils.showUnexpectedDialog
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -31,6 +27,8 @@ import android.app.Activity
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.view.View
 import androidx.core.content.ContextCompat.getSystemService
+import com.example.rubbishcommunity.MyApplication
+import com.example.rubbishcommunity.utils.*
 
 
 abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
@@ -88,8 +86,6 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 		})
 	}
 	
-
-	
 	
 	override fun onBackPressed() {
 		//得到当前activity下的所有Fragment
@@ -129,10 +125,11 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 			.doOnNext {
 				supportActionBar
 				when (it.errorType) {
-					ErrorType.INPUT_ERROR -> showErrorBar(this, it.errorContent)
-					ErrorType.NO_CAMERA -> showErrorBar(this, it.errorContent)
-					ErrorType.REGISTER_OR_LOGIN_FAILED -> showErrorBar(this, it.errorContent)
-					ErrorType.SERVERERROR -> showErrorBar(this, "服务器错误")
+					ErrorType.NO_WIFI -> MyApplication.showError(it.errorContent)
+					ErrorType.INPUT_ERROR -> MyApplication.showWarning(it.errorContent)
+					ErrorType.NO_CAMERA -> MyApplication.showWarning(it.errorContent)
+					ErrorType.REGISTER_OR_LOGIN_FAILED -> MyApplication.showError(it.errorContent)
+					ErrorType.SERVERERROR -> MyApplication.showError("服务器错误")
 					else -> {
 						if (errorDialog?.isShowing != true) {
 							showUnexpectedDialog(this)
@@ -144,19 +141,7 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 	
 	
 	fun showNetErrorSnackBar() {
-		Snackbar.make(
-			binding.root,
-			R.string.net_unavailable,
-			Snackbar.LENGTH_LONG
-		).show()
-	}
-	
-	fun showErrorSnackBar(msg: String) {
-		Snackbar.make(
-			binding.root,
-			msg,
-			Snackbar.LENGTH_LONG
-		).show()
+		sendError(ErrorData(ErrorType.NO_WIFI, "没有网络"))
 	}
 	
 	
@@ -168,7 +153,6 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 		super.onDestroy()
 	}
 	
-
 	
 }
 
@@ -177,13 +161,12 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
  *
  * @param et 输入焦点
  */
-fun showInput(activity: Activity, et:EditText) {
+fun showInput(activity: Activity, et: EditText) {
 	et.requestFocus()
 	val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 	imm.showSoftInput(et, InputMethodManager.SHOW_IMPLICIT)
 	et.requestFocus()
 }
-
 
 
 fun hideInput(activity: Activity) {

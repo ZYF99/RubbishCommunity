@@ -66,7 +66,7 @@
                             android:clickable="true"
                             android:focusable="true"
                             android:gravity="center"
-                            android:text="@{vm.userCard.city,default=城市}"
+                            android:text="@{vm.userInfo.city,default=城市}"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
@@ -234,7 +234,7 @@
                                     android:focusable="true"
                                     android:gravity="center"
                                     android:padding="15dp"
-                                    android:text='@{vm.userInfo.aboutMe ,default="快来设置你的分类宣言吧~"}'
+                                    android:text='@{vm.userInfo.signature ,default="快来设置你的分类宣言吧~"}'
                                     android:textColor="@color/text_second"
                                     android:textSize="14sp" />
 
@@ -436,7 +436,7 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/potrait"
-                portrait="@{vm.userCard.portrait}"
+
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center_horizontal"

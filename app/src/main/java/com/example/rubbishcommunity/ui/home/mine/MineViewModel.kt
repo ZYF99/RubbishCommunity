@@ -1,14 +1,9 @@
 package com.example.rubbishcommunity.ui.home.mine
-
-import android.annotation.SuppressLint
 import android.app.Application
-import android.content.res.ColorStateList
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
-import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.manager.api.ApiService
 import com.example.rubbishcommunity.manager.dealError
@@ -35,8 +30,7 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 	val isRefreshing = MutableLiveData<Boolean>()
 	
 	
-	fun getUserInfo() :Single<ResultModel<UserCardResultModel>>{
-		
+	fun getUserInfo(): Single<ResultModel<UserCardResultModel>> {
 		val usrProfile = SharedPreferencesUtils.getData(
 			"localUsrProfile",
 			LoginOrRegisterResultModel.UsrProfile.getNull()
@@ -59,8 +53,8 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 					userCard.postValue(it.data)
 				}
 		}
-		
-		
+
+
 /*		//从网络获取个人信息数据
 		apiService
 			.getUserInfo(getLocalUserName())
@@ -77,9 +71,6 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 		
 		
 	}
-	
-
-
 	
 	
 	fun logout(): Single<ResultModel<String>> {
@@ -104,44 +95,7 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 	}
 }
 
-@SuppressLint("NewApi")
-@BindingAdapter("gender")
-fun getGenderDrawable(imageView: ImageView, gender: String?) {
-	when (gender) {
-		"male" -> {
-			Glide.with(imageView.context).load(R.drawable.icon_gendermale)
-				.placeholder(R.mipmap.ic_launcher)
-				.dontAnimate()
-				.into(imageView)
-			
-				imageView.imageTintList =
-					ColorStateList.valueOf(
-						ContextCompat.getColor(
-							MyApplication.instance,
-							R.color.colorMale
-						)
-					)
 
-		}
-		else -> {
-			Glide.with(imageView.context).load(R.drawable.icon_genderfemale)
-				.placeholder(R.mipmap.ic_launcher)
-				.dontAnimate()
-				.into(imageView)
-		
-				imageView.imageTintList =
-					ColorStateList.valueOf(
-						ContextCompat.getColor(
-							MyApplication.instance,
-							R.color.colorFemale
-						)
-					)
-
-		}
-	}
-	
-	
-}
 
 @BindingAdapter("portrait")
 fun getPortrait(imageView: ImageView, portraitUrl: String?) {

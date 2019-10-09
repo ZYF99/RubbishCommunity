@@ -232,7 +232,10 @@
                     <ProgressBar
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="10dp"
                             android:max="100"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                             android:progress="@{vm.progress}"
                             android:layout_marginTop="20dp"
                             android:layout_marginBottom="20dp" />
@@ -243,8 +246,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginStart="20dp"
-                            android:layout_marginTop="20dp"
                             android:layout_marginEnd="10dp"
+                            android:layout_marginTop="20dp"
+
                             android:layout_marginBottom="20dp"
                             android:background="@drawable/bg_cornerinput"
                             android:backgroundTint="@color/colorAccent"

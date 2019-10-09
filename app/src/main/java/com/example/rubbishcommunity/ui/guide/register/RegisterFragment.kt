@@ -11,6 +11,8 @@ import androidx.annotation.RequiresApi
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.RegisterFragBinding
+import com.example.rubbishcommunity.manager.dealError
+import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.BindingFragment
 import com.example.rubbishcommunity.ui.guide.AnimatorUtils
@@ -66,12 +68,18 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 				animationUtils.complete()
 			}
 		}
+		
+		//发送验证码按钮
 		RxView.clicks(binding.btnCode).throttleFirst(2, TimeUnit.SECONDS).doOnNext {
-			binding.btnCode.isEnabled = false
-			Observable.interval(60, 1, TimeUnit.SECONDS).take(60).subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread()).doOnNext {
-					binding.btnCode.text = "${it}秒后可重新获取"
+	
+			viewModel.sendEmail().doOnSuccess {
+				binding.btnCode.isEnabled = false
+				Observable.interval(0, 1, TimeUnit.SECONDS).take(60).subscribeOn(Schedulers.io())
+					.observeOn(AndroidSchedulers.mainThread()).doOnNext {
+						binding.btnCode.text = "${60-it}秒后可重新获取"
+					}.bindLife()
 			}.bindLife()
+
 		}.bindLife()
 		
 		

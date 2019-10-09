@@ -1,6 +1,7 @@
 package com.example.rubbishcommunity.manager
 
 
+import com.example.rubbishcommunity.QiNiuUpLoadException
 import com.example.rubbishcommunity.manager.base.ServerError
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.utils.ErrorData
@@ -50,6 +51,15 @@ fun <T> dealError(): SingleTransformer<T, T> {
 							ErrorType.SERVERERROR
 						)
 					)
+				}
+				is QiNiuUpLoadException->{
+					sendError(
+						ErrorData(
+							ErrorType.REGISTER_OR_LOGIN_FAILED,
+							error.responseInfo.error
+						)
+					)
+					
 				}
 				else -> sendError(ErrorData(ErrorType.UNEXPECTED))
 			}

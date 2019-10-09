@@ -5,20 +5,18 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.baidu.location.BDAbstractLocationListener
 import com.baidu.location.BDLocation
-import com.example.rubbishcommunity.MyApplication
-import com.example.rubbishcommunity.initLocationOption
+import com.example.rubbishcommunity.*
 import com.example.rubbishcommunity.ui.BaseViewModel
 import com.example.rubbishcommunity.manager.api.ApiService
+import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.persistence.SharedPreferencesUtils
 import com.luck.picture.lib.entity.LocalMedia
-import com.qiniu.android.storage.UploadManager
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import org.kodein.di.generic.instance
-import java.util.concurrent.TimeUnit
-import com.qiniu.android.storage.UploadOptions
-import com.example.rubbishcommunity.persistence.getLocalToken
-import com.qiniu.android.storage.UpProgressHandler
+import com.example.rubbishcommunity.utils.ErrorData
+import com.example.rubbishcommunity.utils.ErrorType
+import com.example.rubbishcommunity.utils.sendError
 
 
 class ReleaseDynamicViewModel(application: Application) : BaseViewModel(application) {
@@ -98,8 +96,28 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 		SharedPreferencesUtils.putData("draft_content", "")
 	}
 	
-	//fun release(): Single<ResultModel<ReleaseDynamicResultModel>>? {
-	fun release(): Single<String>? {
+	//
+	fun release(releaseListener: ReleaseListener): Single<ResultModel<Map<String, String>>>? {
+		if (judgeReleaseParams()) {
+			return upLoadImageList(
+				apiService,
+				selectedList.value!!,
+				object : QiNiuUtil.QiNiuUpLoadListener {
+					override fun onSuccess(s: String) {
+						//上传图片列表成功
+						isLoading.postValue(false)
+						progress.postValue(0)
+						releaseListener.releaseSuccess(s)
+					}
+					override fun onProgress(percent: Int) {
+						//进度更新
+						progress.postValue(percent)
+					}
+				}).compose(dealLoading())
+		}
+		return null
+
+
 /*		return apiService.releaseDynamic(
 			ReleaseDynamicRequestModel(
 				"!!!!我要发布动态!!!!"
@@ -111,31 +129,34 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 			.compose(dealError())*/
 		
 		//设置上传后文件的key
-		val upkey = selectedList.value!![0].path
-		return Single.just("Mt6fBM0NAN4FIYLDQGOkoCse09OTdqEIELdLmx_z:9sE2cFSMIEkJEClFKyXksIiUmcY=:eyJzY29wZSI6IkRldyIsInBlcnNpc3RlbnRPcHMiOiJpbWFnZVZpZXcyLzEvdy84MC9oLzgwfHNhdmVhcy9SR1YzT2xwb1lXNW5lV1pVWlhOME1ERmZPREF1YW5CbjtpbWFnZVZpZXcyLzEvdy8xNDAvaC8xNDB8c2F2ZWFzL1JHVjNPbHBvWVc1bmVXWlVaWE4wTURGZk1UUXdMbXB3WndcdTAwM2RcdTAwM2Q7aW1hZ2VWaWV3Mi8xL3cvMTYwL2gvMTYwfHNhdmVhcy9SR1YzT2xwb1lXNW5lV1pVWlhOME1ERmZNVFl3TG1wd1p3XHUwMDNkXHUwMDNkO2ltYWdlVmlldzIvMS93LzIyMC9oLzIyMHxzYXZlYXMvUkdWM09scG9ZVzVuZVdaVVpYTjBNREZmTWpJd0xtcHdad1x1MDAzZFx1MDAzZDtpbWFnZVZpZXcyLzEvdy80NDAvaC80NDB8c2F2ZWFzL1JHVjNPbHBvWVc1bmVXWlVaWE4wTURGZk5EUXdMbXB3WndcdTAwM2RcdTAwM2Q7aW1hZ2VWaWV3Mi8xL3cvNjQwL2gvNjQwfHNhdmVhcy9SR1YzT2xwb1lXNW5lV1pVWlhOME1ERmZOalF3TG1wd1p3XHUwMDNkXHUwMDNkOyIsImRlYWRsaW5lIjoxNTcwNTMyNzYwfQ==")
-			.delay(2, TimeUnit.SECONDS)
-			.doOnSuccess {
-				UploadManager().put(
-					selectedList.value!![0].path, upkey, it,
-					{ key, rinfo, response ->
-						val s = "$key, $rinfo, $response"
-						content.postValue("七牛上传测试 $s")
-					}, UploadOptions(null, "test-type", true,
-						UpProgressHandler { key, percent ->
-							progress.postValue(percent.toInt())
-						}, null
-					)
-				)
-			}.compose(dealLoading())
+		
 	}
 	
 	
 	private fun <T> dealLoading(): SingleTransformer<T, T> {
 		return SingleTransformer { obs ->
 			obs.doOnSubscribe { isLoading.postValue(true) }
-				.doOnSuccess { isLoading.postValue(false) }
 				.doOnError { isLoading.postValue(false) }
 		}
 	}
 	
+	private fun judgeReleaseParams(): Boolean {
+		if (title.value?.isNotEmpty()!!) {
+			if (content.value?.isNotEmpty()!!) {
+				return true
+			} else {
+				sendError(ErrorData(ErrorType.INPUT_ERROR, "说点什么吧～"))
+			}
+		} else {
+			sendError(ErrorData(ErrorType.INPUT_ERROR, "添加一个标题吧～"))
+		}
+		return false
+	}
 }
+
+data class GetQiNiuTokenRequestModel(val bucketName: String, val fileKeys: List<String>)
+
+interface ReleaseListener {
+	fun releaseSuccess(s: String)
+}
+

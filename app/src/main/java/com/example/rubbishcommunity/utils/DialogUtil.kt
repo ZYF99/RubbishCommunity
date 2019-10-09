@@ -57,10 +57,6 @@ fun showUnexpectedDialog(context: Context): AlertDialog {
     return dialog
 }
 
-fun showErrorBar(context: Context,msg:String){
-    (context as BindingActivity<*, *>).showErrorSnackBar(msg)
-}
-
 
 
 //创建 '异常' 流
@@ -82,5 +78,7 @@ enum class ErrorType {
     NO_CAMERA,
     REGISTER_OR_LOGIN_FAILED,
     UNEXPECTED,
-    SERVERERROR
+    SERVERERROR,
+    //七牛云上传失败
+    QINIU_UPLOAD_FAILED,
 }

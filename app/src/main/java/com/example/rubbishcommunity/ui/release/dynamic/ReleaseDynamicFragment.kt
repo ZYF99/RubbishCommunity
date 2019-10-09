@@ -193,10 +193,15 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 			return
 		}
 		//真实发布
-		viewModel.release()?.doOnSuccess {
-			//发布成功
-			viewModel.clearDraft()
-			//(context as Activity).finish()
+		viewModel.release(object : ReleaseListener {
+			override fun releaseSuccess(s: String) {
+				//发布成功
+				viewModel.clearDraft()
+				(context as Activity).finish()
+				MyApplication.showSuccess("发布成功")
+			}
+		})?.doOnSuccess {
+			//获取Token列表成功
 		}?.bindLife()
 	}
 	

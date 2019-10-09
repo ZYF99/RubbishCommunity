@@ -9,6 +9,7 @@ import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.ui.BaseViewModel
 import com.example.rubbishcommunity.model.api.ResultModel
+import com.example.rubbishcommunity.model.api.guide.EmailRequestModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
 import com.example.rubbishcommunity.persistence.saveLoginState
@@ -26,7 +27,7 @@ import java.util.concurrent.TimeUnit
 class RegisterViewModel(application: Application) : BaseViewModel(application) {
 	
 	val userName = MutableLiveData<String>()
-	val vertifyCode = MutableLiveData<String>()
+	val verifyCode = MutableLiveData<String>()
 	val password = MutableLiveData<String>()
 	val rePassword = MutableLiveData<String>()
 	
@@ -40,9 +41,16 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 	fun init() {
 		//初始化控件上的值
 		userName.value = ""
-		vertifyCode.value = ""
+		verifyCode.value = ""
 		password.value = ""
 		rePassword.value = ""
+	}
+	
+	fun sendEmail(): Single<ResultModel<String>> {
+		return apiService.sendEmail(EmailRequestModel(userName.value!!))
+			.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+			.compose(dealErrorCode())
+			.compose(dealError())
 	}
 	
 	@SuppressLint("NewApi")

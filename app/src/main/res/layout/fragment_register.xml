@@ -204,7 +204,7 @@
                             android:inputType="textEmailAddress"
                             android:maxLength="6"
                             android:padding="12dp"
-                            android:text="@={vm.vertifyCode}"
+                            android:text="@={vm.verifyCode}"
                             android:textColor="@color/text_hint"
                             android:textColorHint="@color/text_hint"
                             android:textSize="14sp" />
