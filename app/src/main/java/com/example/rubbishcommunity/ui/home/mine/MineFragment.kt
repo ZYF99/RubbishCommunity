@@ -3,6 +3,7 @@ package com.example.rubbishcommunity.ui.home.mine
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
+import android.os.Bundle
 import com.example.rubbishcommunity.ui.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MineBinding
@@ -53,10 +54,10 @@ class MineFragment : BindingFragment<MineBinding, MineViewModel>(
 				//模拟注销成功
 				//注销成功
 				saveLoginState(false)
-				startActivity(Intent(context, ContainerActivity::class.java))
+				val bundle = Bundle()
+				bundle.putString("tag", "login")
+				startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 				(context as Activity).finish()
-				
-				
 			}.bindLife()
 		
 		//下拉刷新
@@ -76,7 +77,7 @@ class MineFragment : BindingFragment<MineBinding, MineViewModel>(
 				viewModel.isRefreshing.postValue(false)
 			}
 			else -> {
-				viewModel.getUserInfo().bindLife()
+				viewModel.initUserInfo()
 			}
 		}
 	}

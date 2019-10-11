@@ -1,4 +1,4 @@
-package com.example.fenrir_stage4.mainac.ui.widget
+package com.example.rubbishcommunity.ui.widget
 
 import android.content.Context
 
@@ -12,8 +12,8 @@ import com.example.rubbishcommunity.R
 class SexBox(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     companion object{
-        const val MAN = 0
-        const val WOMAN = 1
+        const val MALE = 0
+        const val FEMALE = 1
     }
 
     private var isMan = false
@@ -60,8 +60,8 @@ class SexBox(context: Context, attrs: AttributeSet) : LinearLayout(context, attr
     fun getStatus(): Int {
 
         return when (isMan) {
-            true -> MAN
-            false -> WOMAN
+            true -> MALE
+            false -> FEMALE
         }
 
     }

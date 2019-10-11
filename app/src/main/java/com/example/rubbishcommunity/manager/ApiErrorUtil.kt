@@ -1,12 +1,9 @@
 package com.example.rubbishcommunity.manager
 
 
-import com.example.rubbishcommunity.QiNiuUpLoadException
 import com.example.rubbishcommunity.manager.base.ServerError
 import com.example.rubbishcommunity.model.api.ResultModel
-import com.example.rubbishcommunity.utils.ErrorData
-import com.example.rubbishcommunity.utils.ErrorType
-import com.example.rubbishcommunity.utils.sendError
+import com.example.rubbishcommunity.utils.*
 import io.reactivex.SingleTransformer
 
 
@@ -20,7 +17,7 @@ fun <T> dealErrorCode(): SingleTransformer<T, T> {
 	return SingleTransformer { obs ->
 		obs.doOnSuccess { result ->
 			when ((result as ResultModel<*>).meta.code) {
-				in 999..2000 -> {
+				in 1000..2000 -> {
 					return@doOnSuccess
 				}
 				else -> {
@@ -32,7 +29,7 @@ fun <T> dealErrorCode(): SingleTransformer<T, T> {
 }
 
 
-//resolve error in Observable
+//处理错误信息
 fun <T> dealError(): SingleTransformer<T, T> {
 	return SingleTransformer { obs ->
 		obs.doOnError { error ->
@@ -48,11 +45,12 @@ fun <T> dealError(): SingleTransformer<T, T> {
 				is ServerError -> {
 					sendError(
 						ErrorData(
-							ErrorType.SERVERERROR
+							ErrorType.SERVERERROR,
+							error.msg
 						)
 					)
 				}
-				is QiNiuUpLoadException->{
+				is QiNiuUpLoadException -> {
 					sendError(
 						ErrorData(
 							ErrorType.REGISTER_OR_LOGIN_FAILED,
@@ -60,6 +58,14 @@ fun <T> dealError(): SingleTransformer<T, T> {
 						)
 					)
 					
+				}
+				is HanLPInputError ->{
+					sendError(
+						ErrorData(
+							ErrorType.INPUT_ERROR,
+							error.str
+						)
+					)
 				}
 				else -> sendError(ErrorData(ErrorType.UNEXPECTED))
 			}

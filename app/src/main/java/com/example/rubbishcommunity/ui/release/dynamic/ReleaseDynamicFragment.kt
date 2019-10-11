@@ -4,13 +4,13 @@ import android.Manifest
 import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.provider.Settings
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
+import com.baidu.location.BDAbstractLocationListener
+import com.baidu.location.BDLocation
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.BindingFragment
 import com.example.rubbishcommunity.R
@@ -19,6 +19,7 @@ import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.example.rubbishcommunity.ui.showGallery
 import com.example.rubbishcommunity.utils.ErrorData
 import com.example.rubbishcommunity.utils.ErrorType
+import com.example.rubbishcommunity.utils.getLocationWithCheckPermission
 import com.example.rubbishcommunity.utils.sendError
 import com.jakewharton.rxbinding2.view.RxView
 import com.luck.picture.lib.PictureSelector
@@ -131,7 +132,6 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 			.throttleFirst(2, TimeUnit.SECONDS)
 			.doOnNext {
 				viewModel.saveDraft()
-				MyApplication.showToast("已保存到草稿箱～")
 			}.bindLife()
 		
 		//退出点击事件
@@ -152,37 +152,19 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 		getLocation()
 	}
 	
+	//获取定位
+	private fun getLocation() {
+		getLocationWithCheckPermission(activity!!,object :BDAbstractLocationListener(){
+			override fun onReceiveLocation(bdLocation: BDLocation?) {
+				viewModel.location.postValue(bdLocation?.addrStr)
+			}
+		})?.bindLife()
+	}
+	
+	
 	//打开选图界面
 	private fun showAlbum() {
-		//参数很多，根据需要添加
-		PictureSelector.create(this)
-			.openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-			.maxSelectNum(selectMax)// 最大图片选择数量
-			.minSelectNum(1)// 最小选择数量
-			.imageSpanCount(4)// 每行显示个数
-			.selectionMode(PictureConfig.MULTIPLE)// 多选 or 单选PictureConfig.MULTIPLE : PictureConfig.SINGLE
-			.previewImage(true)// 是否可预览图片
-			.isCamera(true)// 是否显示拍照按钮
-			.isZoomAnim(true)// 图片列表点击 缩放效果 默认true
-			//.setOutputCameraPath("/CustomPath")// 自定义拍照保存路径
-			.enableCrop(false)// 是否裁剪
-			.compress(false)// 是否压缩
-			//.sizeMultiplier(0.5f)// glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
-			.glideOverride(160, 160)// glide 加载宽高，越小图片列表越流畅，但会影响列表图片浏览的清晰度
-			//.withAspectRatio(1, 1)// 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
-			//.freeStyleCropEnabled(true)
-			.selectionMedia(viewModel.selectedList.value)// 是否传入已选图片
-			.previewEggs(false)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中)
-			//.cropCompressQuality(90)// 裁剪压缩质量 默认100
-			//.compressMaxKB()//压缩最大值kb compressGrade()为Luban.CUSTOM_GEAR有效
-			//.compressWH() // 压缩宽高比 compressGrade()为Luban.CUSTOM_GEAR有效
-			//.cropWH()// 裁剪宽高比，设置如果大于图片本身宽高则无效
-			.rotateEnabled(false) // 裁剪是否可旋转图片
-			.rotateEnabled(false) // 裁剪是否可旋转图片
-			.scaleEnabled(true)// 裁剪是否可放大缩小图片
-			.hideBottomControls(false)
-			//.recordVideoSecond()//录制视频秒数 默认60s
-			.forResult(PictureConfig.CHOOSE_REQUEST)//结果回调onActivityResult code
+		com.example.rubbishcommunity.utils.showAlbum(this, 9, viewModel.selectedList.value!!)
 	}
 	
 	//发布
@@ -205,33 +187,6 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 		}?.bindLife()
 	}
 	
-	//获取定位
-	private fun getLocation() {
-		//定位权限检查
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-			//定位权限检查
-			if (
-				(activity?.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) ||
-				(activity?.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
-			) {
-				RxPermissions(activity as Activity).request(
-					Manifest.permission.READ_PHONE_STATE,
-					Manifest.permission.ACCESS_COARSE_LOCATION
-				).doOnNext {
-					if (!it) {
-						//申请权限未通过
-						viewModel.location.postValue("未能成功获取到位置信息")
-					} else {
-						viewModel.getLocation()
-					}
-				}.bindLife()
-			} else {
-				viewModel.getLocation()
-			}
-		} else {
-			viewModel.getLocation()
-		}
-	}
 	
 	//选图后的回调
 	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -280,8 +235,8 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 			)
 			.setPositiveButton("去授权") { _, _ ->
 				//引导用户至设置页手动授权
-				val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-				val uri = Uri.fromParts("package", context?.packageName, null);
+				val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+				val uri = Uri.fromParts("package", context?.packageName, null)
 				intent.data = uri
 				startActivity(intent)
 			}

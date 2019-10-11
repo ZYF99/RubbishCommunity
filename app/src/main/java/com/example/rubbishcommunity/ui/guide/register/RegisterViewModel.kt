@@ -1,5 +1,6 @@
 package com.example.rubbishcommunity.ui.guide.register
 
+
 import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
@@ -7,14 +8,13 @@ import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.manager.api.ApiService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
-import com.example.rubbishcommunity.ui.BaseViewModel
 import com.example.rubbishcommunity.model.api.ResultModel
-import com.example.rubbishcommunity.model.api.guide.EmailRequestModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
 import com.example.rubbishcommunity.persistence.saveLoginState
 import com.example.rubbishcommunity.persistence.saveUserInfo
 import com.example.rubbishcommunity.persistence.saveVerifyInfo
+import com.example.rubbishcommunity.ui.BaseViewModel
 import com.example.rubbishcommunity.utils.*
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
@@ -26,46 +26,29 @@ import java.util.concurrent.TimeUnit
 
 class RegisterViewModel(application: Application) : BaseViewModel(application) {
 	
-	val userName = MutableLiveData<String>()
-	val verifyCode = MutableLiveData<String>()
+	val email = MutableLiveData<String>()
 	val password = MutableLiveData<String>()
-	val rePassword = MutableLiveData<String>()
 	
-	//是否正在登陆
 	val isLoading = MutableLiveData<Boolean>()
 	
 	
 	private val apiService by instance<ApiService>()
 	
-	
 	fun init() {
 		//初始化控件上的值
-		userName.value = ""
-		verifyCode.value = ""
+		email.value = ""
 		password.value = ""
-		rePassword.value = ""
 	}
 	
-	fun sendEmail(): Single<ResultModel<String>> {
-		return apiService.sendEmail(EmailRequestModel(userName.value!!))
-			.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-			.compose(dealErrorCode())
-			.compose(dealError())
-	}
 	
 	@SuppressLint("NewApi")
-	fun registerOrLogin(): Single<ResultModel<LoginOrRegisterResultModel>>? {
-		
+	fun registerAndLogin(): Single<ResultModel<LoginOrRegisterResultModel>>? {
 		val versionName = AppUtils.getVersionName(MyApplication.instance)
 		val deviceBrand = PhoneUtils.deviceBrand
 		val osVersion = PhoneUtils.systemVersion
 		val systemModel = PhoneUtils.systemModel
-		if (judgeRegisterPrams(
-				userName.value!!,
-				password.value!!,
-				rePassword.value!!
-			)
-		) {
+		
+		if (judgeRegisterPrams(email.value!!,password.value!!)) {
 			return apiService.loginOrRegister(
 				LoginOrRegisterRequestModel(
 					LoginOrRegisterRequestModel.DeviceInfo(
@@ -78,11 +61,10 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 					), 0,
 					password.value!!,
 					true,
-					userName.value!!
+					email.value!!
 				)
 			).delay(1, TimeUnit.SECONDS)
 				.compose(dealErrorCode())
-				.compose(dealError())
 				.flatMap {
 					//登陆
 					return@flatMap apiService.loginOrRegister(
@@ -97,21 +79,23 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 							), 0,
 							password.value!!,
 							false,
-							userName.value!!
+							email.value!!
 						)
 					)
-				}
+				}.compose(dealErrorCode())
+				.compose(dealError())
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
-				.compose(dealLoading())
-				.compose(dealErrorCode())
-				.compose(dealError())
+				
 				.doOnSuccess {
 					//持久化得到的token以及用户登录的信息
 					saveVerifyInfo(
-						userName.value!!,
+						email.value!!,
 						password.value!!,
-						it.data.token
+						it.data.token,
+						it.data.openId,
+						it.data.usrStatusFlag.emailVerifiedFlag,
+						it.data.usrStatusFlag.needMoreInfoFlag
 					)
 					//存储用户个人信息
 					saveUserInfo(
@@ -119,51 +103,36 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 					)
 					//登陆状态置为true
 					saveLoginState(true)
-				}
+				}.compose(dealLoading())
 		}
 		return null
 	}
 	
 	
-	private fun judgeRegisterPrams(
-		userName: String,
-		password: String,
-		rePassword: String
-	): Boolean {
-		if (isEmail(userName)) {
-			if (userName.length > 4) {
-				if (password.length in 4..16) {
-					if (password != rePassword) {
-						sendError(ErrorData(ErrorType.INPUT_ERROR, "两次密码不一致"))
-					} else {
-						return true
-					}
-				} else {
-					sendError(ErrorData(ErrorType.INPUT_ERROR, "密码长度为6-16位"))
-				}
+	
+	private fun judgeRegisterPrams(userName: String, password: String): Boolean {
+		return if (isEmail(userName)) {
+			if (password.length in 4..16) {
+				return true
 			} else {
-				sendError(ErrorData(ErrorType.INPUT_ERROR, "用户名必须大于4位"))
+				sendError(ErrorData(ErrorType.INPUT_ERROR, "密码长度为6-16位"))
 			}
-			return false
+			false
 		} else {
 			sendError(ErrorData(ErrorType.INPUT_ERROR, "请输入正确的邮箱"))
-			return false
+			false
 		}
 	}
-	
 	
 	private fun <T> dealLoading(): SingleTransformer<T, T> {
 		return SingleTransformer { obs ->
 			obs.doOnSubscribe {
-				
 				isLoading.postValue(true)
 			}
 				.doOnSuccess {
-					
-					//isLoading.postValue(false)
+					isLoading.postValue(false)
 				}
 				.doOnError {
-					
 					isLoading.postValue(false)
 				}
 		}

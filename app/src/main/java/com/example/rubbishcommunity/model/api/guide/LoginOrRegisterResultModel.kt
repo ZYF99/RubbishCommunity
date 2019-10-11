@@ -1,6 +1,7 @@
 package com.example.rubbishcommunity.model.api.guide
 
 data class LoginOrRegisterResultModel(
+	val openId:String,
 	val token: String,
 	val profileCompletion:String,
 	val usrProfile: UsrProfile,

@@ -1,10 +1,18 @@
-package com.example.rubbishcommunity
+package com.example.rubbishcommunity.utils
 
+import android.Manifest
+import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import com.baidu.location.BDAbstractLocationListener
 import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
+import com.example.rubbishcommunity.MyApplication
+import com.luck.picture.lib.permissions.RxPermissions
+import io.reactivex.Observable
+import io.reactivex.Single
 
 /**
  * 初始化定位参数配置
@@ -88,4 +96,54 @@ class MyLocationListener : BDAbstractLocationListener() {
 		print("AAAAAA ${address.toString()}")
 		MyApplication.showToast(address.toString())
 	}
+}
+
+//检查权限并获取定位
+fun getLocationWithCheckPermission(activity:Activity,onReceiveLocationListener: BDAbstractLocationListener):Observable<Boolean>? {
+	//定位权限检查
+	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+		//定位权限检查
+		if (
+			(activity.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) ||
+			(activity.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+		) {
+			return RxPermissions(activity as Activity).request(
+				Manifest.permission.READ_PHONE_STATE,
+				Manifest.permission.ACCESS_COARSE_LOCATION
+			).doOnNext {
+				if (!it) {
+					//申请权限未通过
+					MyApplication.showWarning("请打开定位权限以便于我们为您提供更好的服务～")
+				} else {
+					getLocation(onReceiveLocationListener)
+				}
+			}
+		} else {
+			getLocation(onReceiveLocationListener)
+		}
+	} else {
+		getLocation(onReceiveLocationListener)
+	}
+	return null
+}
+
+//真实获取定位
+fun getLocation(onReceiveLocationListener: BDAbstractLocationListener) {
+	val locationClient = initLocationOption(MyApplication.instance)
+	locationClient.registerLocationListener(object : BDAbstractLocationListener() {
+		override fun onReceiveLocation(bdLocation: BDLocation?) {
+			if (bdLocation != null) {
+				onReceiveLocationListener.onReceiveLocation(bdLocation)
+				locationClient.stop()
+/*				location.postValue(
+					"${bdLocation.locationDescribe}\n"
+					*//*			"经度 ${bdLocation.longitude}\n" +"纬度 ${bdLocation.latitude}\n" +"详细地址信息 ${bdLocation.addrStr}\n" +"国家 ${bdLocation.country}\n" +"省份 ${bdLocation.province}\n" +"城市 ${bdLocation.city}\n" +"区县 ${bdLocation.district}\n" +"街道 ${bdLocation.street}\n"*//*
+				)*/
+			} else {
+				MyApplication.showWarning("定位失败")
+				locationClient.stop()
+			}
+		}
+	})
+	locationClient.start()
 }

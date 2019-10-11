@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.home.search
+package com.example.rubbishcommunity.ui.guide.welcome
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
@@ -13,20 +13,12 @@ import io.reactivex.schedulers.Schedulers
 import org.kodein.di.generic.instance
 
 
-class SearchViewModel(application: Application) : BaseViewModel(application) {
+class WelcomeViewModel(application: Application) : BaseViewModel(application) {
 	
 	
 	private val apiService by instance<ApiService>()
 	
-	public val hotWordList = MutableLiveData<MutableList<String>>()
-	public val searchWord = MutableLiveData<String>()
-	
-	
-	fun init() {
-		hotWordList.value = mutableListOf()
-		searchWord.postValue("")
-		getHotWordList()
-	}
+	val searchWord = MutableLiveData<String>()
 	
 	
 	fun search(str: String): Single<ResultModel<String>> {
@@ -38,19 +30,6 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
 	}
 	
 	
-	private fun getHotWordList() {
-
-/*        apiService.getHotWordList(0)
-           // .compose(dealRefresh())
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSuccess {
-                hotWordList.value = it as MutableList<String>?
-            }
-            .compose(dealError())
-            .bindLife()*/
-		
-	}
 
 
 /*    private fun <T> dealRefresh(): SingleTransformer<T, T> {

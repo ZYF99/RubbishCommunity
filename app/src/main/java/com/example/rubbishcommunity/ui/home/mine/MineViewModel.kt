@@ -1,18 +1,15 @@
 package com.example.rubbishcommunity.ui.home.mine
+
 import android.app.Application
-import android.widget.ImageView
-import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
-import com.bumptech.glide.Glide
-import com.example.rubbishcommunity.R
+import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.manager.api.ApiService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
-import com.example.rubbishcommunity.model.api.mine.UserCardResultModel
-import com.example.rubbishcommunity.persistence.SharedPreferencesUtils
-import com.example.rubbishcommunity.persistence.getLocalUserName
+import com.example.rubbishcommunity.persistence.getLocalEmail
+import com.example.rubbishcommunity.persistence.getLocalUserInfo
 import com.example.rubbishcommunity.ui.BaseViewModel
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
@@ -24,52 +21,24 @@ import org.kodein.di.generic.instance
 class MineViewModel(application: Application) : BaseViewModel(application) {
 	
 	private val apiService by instance<ApiService>()
-	
 	val userInfo = MutableLiveData<LoginOrRegisterResultModel.UsrProfile>()
-	val userCard = MutableLiveData<UserCardResultModel>()
 	val isRefreshing = MutableLiveData<Boolean>()
 	
-	
-	fun getUserInfo(): Single<ResultModel<UserCardResultModel>> {
-		val usrProfile = SharedPreferencesUtils.getData(
-			"localUsrProfile",
-			LoginOrRegisterResultModel.UsrProfile.getNull()
-		)
-		if (usrProfile != null)
-			userInfo.postValue(
-				usrProfile as LoginOrRegisterResultModel.UsrProfile
-			)
+	fun initUserInfo() {
+		//从本地获取用户信息
+		val usrProfile = getLocalUserInfo()
+			userInfo.postValue(usrProfile)
 		
-		//获取用户卡片
-		fun getUserCard(): Single<ResultModel<UserCardResultModel>> {
-			return apiService
-				.getUserCard(getLocalUserName())
-				.compose(dealErrorCode())
-				.subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread())
-				.compose(dealRefreshing())
-				.compose(dealError())
-				.doOnSuccess {
-					userCard.postValue(it.data)
-				}
-		}
-
-
-/*		//从网络获取个人信息数据
-		apiService
-			.getUserInfo(getLocalUserName())
+		//获取用户详细信息
+		apiService.getUserInfo(getLocalEmail())
 			.subscribeOn(Schedulers.io())
-			.flatMap { userInfoResultModel ->
-				userInfo.postValue(userInfoResultModel.data)
-				//成功后去获取卡片信息
-				getUserCard()
-			}
-			.bindLife()*/
-		
-		//直接获取卡片数据
-		return getUserCard()
-		
-		
+			.compose(dealErrorCode())
+			.compose(dealError())
+			.doOnSuccess {
+				MyApplication.showSuccess(it.data)
+				//userInfo.postValue(it.data)
+			}.compose(dealRefreshing())
+			.bindLife()
 	}
 	
 	
@@ -93,14 +62,4 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 				}
 		}
 	}
-}
-
-
-
-@BindingAdapter("portrait")
-fun getPortrait(imageView: ImageView, portraitUrl: String?) {
-	Glide.with(imageView.context).load(portraitUrl)
-		.placeholder(R.drawable.bg_404)
-		.dontAnimate()
-		.into(imageView)
 }

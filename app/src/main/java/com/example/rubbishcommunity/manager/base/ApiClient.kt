@@ -46,6 +46,7 @@ class ApiClient private constructor(
 					.newBuilder()
 					.header("Accept","application/json;charset=UTF-8")
 					.header("X-Token", getLocalToken())
+					.header("Content-Type","application/x-www-form-urlencoded")
 					.method(origin.method(),origin.body())
 					.build()
 				chain.proceed(request)

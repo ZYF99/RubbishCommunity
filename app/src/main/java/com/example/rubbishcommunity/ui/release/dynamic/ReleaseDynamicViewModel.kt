@@ -10,13 +10,11 @@ import com.example.rubbishcommunity.ui.BaseViewModel
 import com.example.rubbishcommunity.manager.api.ApiService
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.persistence.SharedPreferencesUtils
+import com.example.rubbishcommunity.utils.*
 import com.luck.picture.lib.entity.LocalMedia
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import org.kodein.di.generic.instance
-import com.example.rubbishcommunity.utils.ErrorData
-import com.example.rubbishcommunity.utils.ErrorType
-import com.example.rubbishcommunity.utils.sendError
 
 
 class ReleaseDynamicViewModel(application: Application) : BaseViewModel(application) {
@@ -66,28 +64,18 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 		progress.postValue(0)
 	}
 	
-	fun getLocation() {
-		val locationClient = initLocationOption(MyApplication.instance)
-		locationClient.registerLocationListener(object : BDAbstractLocationListener() {
-			override fun onReceiveLocation(bdLocation: BDLocation?) {
-				if (bdLocation != null) {
-					location.postValue(
-						"${bdLocation.locationDescribe}\n"
-						/*			"经度 ${bdLocation.longitude}\n" +"纬度 ${bdLocation.latitude}\n" +"详细地址信息 ${bdLocation.addrStr}\n" +"国家 ${bdLocation.country}\n" +"省份 ${bdLocation.province}\n" +"城市 ${bdLocation.city}\n" +"区县 ${bdLocation.district}\n" +"街道 ${bdLocation.street}\n"*/
-					)
-				} else {
-					MyApplication.showToast("null")
-				}
-				
-			}
-		})
-		locationClient.start()
-	}
+
+
 	
 	fun saveDraft() {
-		SharedPreferencesUtils.putListData("draft_selectedList", selectedList.value!!)
-		SharedPreferencesUtils.putData("draft_tittle", title.value!!)
-		SharedPreferencesUtils.putData("draft_content", content.value!!)
+		if (title.value!!.isNotEmpty() || content.value!!.isNotEmpty()) {
+			SharedPreferencesUtils.putListData("draft_selectedList", selectedList.value!!)
+			SharedPreferencesUtils.putData("draft_tittle", title.value!!)
+			SharedPreferencesUtils.putData("draft_content", content.value!!)
+			MyApplication.showSuccess("已存入草稿箱～")
+		} else {
+			MyApplication.showWarning("添加内容后才能存草稿哦～")
+		}
 	}
 	
 	fun clearDraft() {
@@ -96,9 +84,10 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 		SharedPreferencesUtils.putData("draft_content", "")
 	}
 	
-	//
+	//上传图片并发布动态
 	fun release(releaseListener: ReleaseListener): Single<ResultModel<Map<String, String>>>? {
 		if (judgeReleaseParams()) {
+			//上传图片至七牛云
 			return upLoadImageList(
 				apiService,
 				selectedList.value!!,
@@ -109,6 +98,7 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 						progress.postValue(0)
 						releaseListener.releaseSuccess(s)
 					}
+					
 					override fun onProgress(percent: Int) {
 						//进度更新
 						progress.postValue(percent)

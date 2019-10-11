@@ -19,7 +19,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="26dp"
                 android:layout_height="26dp"
-                portrait="@{comment.user.portrait}"
+                imageUrl="@{comment.user.portrait}"
                 android:src="@drawable/bg" />
 
         <LinearLayout

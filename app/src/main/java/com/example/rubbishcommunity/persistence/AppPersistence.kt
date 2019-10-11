@@ -3,9 +3,11 @@ package com.example.rubbishcommunity.persistence
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
 
 //存储用于验证的信息
-fun saveVerifyInfo(userName: String, password: String, token: String) {
+fun saveVerifyInfo(userName: String, password: String, token: String, openId: String,emailVerifiedFlag:Boolean,needMoreInfoFlag: Boolean) {
+	
+	
 	SharedPreferencesUtils.putData(
-		"userName",
+		"email",
 		userName
 	)
 	SharedPreferencesUtils.putData(
@@ -16,6 +18,19 @@ fun saveVerifyInfo(userName: String, password: String, token: String) {
 		"token",
 		token
 	)
+	SharedPreferencesUtils.putData(
+		"openId",
+		openId
+	)
+	SharedPreferencesUtils.putData(
+		"emailVerifiedFlag",
+		emailVerifiedFlag
+	)
+	SharedPreferencesUtils.putData(
+		"needMoreInfoFlag",
+		needMoreInfoFlag
+	)
+	
 }
 
 //存储用户基本信息
@@ -27,7 +42,7 @@ fun saveUserInfo(usrProfile: LoginOrRegisterResultModel.UsrProfile) {
 }
 
 //获取用户基本信息
-fun getUserInfo(): LoginOrRegisterResultModel.UsrProfile? {
+fun getLocalUserInfo(): LoginOrRegisterResultModel.UsrProfile {
 	return (SharedPreferencesUtils.getData(
 		"localUsrProfile",
 		LoginOrRegisterResultModel.UsrProfile.getNull()
@@ -53,8 +68,8 @@ fun getLoginState(): Boolean {
 /**
  * 敏感数据
  **/
-fun getLocalUserName(): String {
-	return (SharedPreferencesUtils.getData("userName", "") as String)
+fun getLocalEmail(): String {
+	return (SharedPreferencesUtils.getData("email", "") as String)
 }
 
 //得到存储的密码
@@ -66,3 +81,19 @@ fun getLocalPassword(): String {
 fun getLocalToken(): String {
 	return (SharedPreferencesUtils.getData("token", "") as String)
 }
+
+//得到用户的openId
+fun getLocalOpenId(): String {
+	return (SharedPreferencesUtils.getData("openId", "") as String)
+}
+
+//得到用户是否需要验证邮箱的flag
+fun getLocalVerifiedEmail(): Boolean {
+	return (SharedPreferencesUtils.getData("emailVerifiedFlag", false) as Boolean)
+}
+
+//得到用户是否需要更多信息的flag
+fun getLocalNeedMoreInfo(): Boolean {
+	return (SharedPreferencesUtils.getData("needMoreInfoFlag", false) as Boolean)
+}
+

@@ -1,12 +1,10 @@
 package com.example.rubbishcommunity.ui.home.find.dynamic
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.ui.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.DynamicBinding
-import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.example.rubbishcommunity.ui.container.jumpToDynamicDetail
 import com.example.rubbishcommunity.ui.home.MainActivity
 

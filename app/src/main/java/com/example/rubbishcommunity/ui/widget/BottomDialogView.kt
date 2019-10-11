@@ -14,8 +14,6 @@ abstract class BottomDialogView(context: Context?) : AlertDialog(context, R.styl
 
     abstract var bView: View
     lateinit var btnFinish:TextView
-    lateinit var listener: OnMyClickListener
-
     private var bIsCanCancel: Boolean = false
     private var bIsBackCancelable: Boolean = false
 
@@ -31,27 +29,9 @@ abstract class BottomDialogView(context: Context?) : AlertDialog(context, R.styl
         params.height = WindowManager.LayoutParams.WRAP_CONTENT
         window.attributes = params
         btnFinish = bView.findViewById(R.id.btn_finish)
-
-        btnFinish.setOnClickListener {
-            this.hide()
-            listener.onFinishClick()
-        }
-
         initView()
-
-
     }
-
     abstract fun initView()
-
-
-    fun setOnClickListener(listener: OnMyClickListener){
-        this.listener = listener
-    }
-
-    interface OnMyClickListener {
-        fun onFinishClick()
-    }
 
 
 }

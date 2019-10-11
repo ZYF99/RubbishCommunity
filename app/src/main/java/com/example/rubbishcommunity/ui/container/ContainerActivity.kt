@@ -11,6 +11,7 @@ import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ContainerBinding
 import com.example.rubbishcommunity.model.Comment
 import com.example.rubbishcommunity.ui.SoftObservableFragment
+import com.example.rubbishcommunity.ui.guide.basicinfo.BasicInfoFragment
 import com.example.rubbishcommunity.ui.guide.login.LoginFragment
 import com.example.rubbishcommunity.ui.guide.register.RegisterFragment
 import com.example.rubbishcommunity.ui.home.find.dynamic.detail.DynamicDetailFragment
@@ -24,14 +25,11 @@ import java.io.Serializable
 class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(),
 	SoftKeyBroadManager.SoftKeyboardStateListener {
 	
-	
 	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
-		MyApplication.showToast("$keyboardHeightInPx")
 		binding.root.scrollTo(0, keyboardHeightInPx)
 	}
 	
 	override fun onSoftKeyboardClosed() {
-		MyApplication.showToast("0000")
 		binding.root.scrollTo(0, 0)
 	}
 	
@@ -45,6 +43,8 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 		replaceFragment("login")
 	}
 	
+
+	
 	
 	override val clazz: Class<ContainerViewModel> = ContainerViewModel::class.java
 	override val layRes: Int = R.layout.activity_container
@@ -53,7 +53,7 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 
 	override fun initBefore() {
 		if (intent.getSerializableExtra("tag") == null) {
-			replaceFragment("login")
+			replaceFragment("register")
 		} else {
 			replaceFragment(intent.getSerializableExtra("tag") as String)
 		}
@@ -84,6 +84,8 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 					LoginFragment()
 				"register" -> //注册界面
 					RegisterFragment()
+				"basicInfo" -> //基本信息界面
+					BasicInfoFragment()
 				"releaseDynamic" -> // 发布动态界面
 					ReleaseDynamicFragment()
 				"dynamicDetail" -> //动态详情界面
@@ -100,6 +102,14 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 	}
 	
 	
+}
+
+//跳转至完善基本信息的界面
+fun jumpToBasicInfo(context: Context) {
+	val bundle = Bundle()
+	bundle.putString("tag", "basicInfo")
+
+	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }
 
 //跳转至发布动态界面界面

@@ -15,10 +15,10 @@ class NetErrorInterceptor : Interceptor {
         
         
         if (response.code() in 400..503)
-            throw ServerError(response.code())
+            throw ServerError(response.code(),response.message())
 
         return response
     }
 }
 
-data class ServerError(val code: Int) : RuntimeException()
+data class ServerError(val code: Int,val msg:String) : RuntimeException()

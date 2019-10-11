@@ -48,7 +48,10 @@
                         android:elevation="@dimen/dp_10"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:paddingLeft="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="5dp">
 
 
                     <ImageView
@@ -83,7 +86,7 @@
 
                 <ImageView
                         android:id="@+id/iv"
-                        portrait="@{vm.userInfo.backgroundImage}"
+                        imageUrl="@{vm.userInfo.backgroundImage}"
                         android:layout_width="match_parent"
                         android:layout_height="260dp"
                         android:scaleType="centerCrop"
@@ -210,7 +213,7 @@
                                     android:focusable="true"
                                     android:gravity="center"
                                     android:padding="4dp"
-                                    android:text="@{vm.userInfo.degree,default = 工作}"
+                                    android:text="@{vm.userInfo.profession,default = 工作}"
                                     android:textColor="@color/text_second"
                                     android:textSize="14sp"
                                     android:textStyle="normal"
@@ -436,7 +439,7 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/potrait"
-
+                imageUrl="@{vm.userInfo.avatar}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center_horizontal"

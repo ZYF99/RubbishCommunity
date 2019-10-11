@@ -2,32 +2,24 @@ package com.example.rubbishcommunity.ui.home
 
 
 import android.annotation.SuppressLint
-import android.os.Build
-import android.system.ErrnoException
-import android.system.Os
 import androidx.fragment.app.Fragment
 import com.example.rubbishcommunity.ui.home.find.FindFragment
 import com.example.rubbishcommunity.ui.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MainBinding
 import com.example.rubbishcommunity.ui.container.jumpToReleaseDynamic
-import com.example.rubbishcommunity.ui.home.search.SearchFragment
+import com.example.rubbishcommunity.ui.guide.welcome.WelcomeFragment
 import com.example.rubbishcommunity.ui.home.message.MessageFragment
 import com.example.rubbishcommunity.ui.home.mine.MineFragment
 import com.example.rubbishcommunity.ui.widget.AddDialog
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
-import com.hankcs.hanlp.HanLP
-import com.hankcs.hanlp.corpus.io.IIOAdapter
 import com.jakewharton.rxbinding2.view.RxView
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
 
 
 class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	override val clazz: Class<MainViewModel> = MainViewModel::class.java
 	override val layRes: Int = R.layout.activity_main
-	private var currentFragment: Fragment? = SearchFragment()
+	private var currentFragment: Fragment? = WelcomeFragment()
 	
 	
 	override fun initBefore() {
@@ -85,7 +77,7 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 		if (currentFragment == null) {
 			when (tag) {
 				"home" ->
-					currentFragment = SearchFragment()
+					currentFragment = WelcomeFragment()
 				
 				"find" ->
 					currentFragment = FindFragment()

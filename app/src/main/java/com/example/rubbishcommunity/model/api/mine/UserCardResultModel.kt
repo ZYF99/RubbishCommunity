@@ -4,7 +4,7 @@ import java.io.Serializable
 
 
 class UserCardResultModel(
-	val uin: String,
+	val uin: Int,
 	val id: String,
 	val name: String,
 	val portrait: String,
@@ -15,7 +15,7 @@ class UserCardResultModel(
 	companion object {
 		fun getDefault(): UserCardResultModel {
 			return UserCardResultModel(
-				"",
+				0,
 				"",
 				"未命名",
 				"",

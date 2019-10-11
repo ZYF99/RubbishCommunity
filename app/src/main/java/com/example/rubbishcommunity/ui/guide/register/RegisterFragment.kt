@@ -11,18 +11,16 @@ import androidx.annotation.RequiresApi
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.RegisterFragBinding
-import com.example.rubbishcommunity.manager.dealError
-import com.example.rubbishcommunity.manager.dealErrorCode
-import com.example.rubbishcommunity.ui.home.MainActivity
+import com.example.rubbishcommunity.persistence.getLocalNeedMoreInfo
+import com.example.rubbishcommunity.persistence.getLocalVerifiedEmail
+import com.example.rubbishcommunity.persistence.getLoginState
 import com.example.rubbishcommunity.ui.BindingFragment
 import com.example.rubbishcommunity.ui.guide.AnimatorUtils
 import com.example.rubbishcommunity.ui.container.ContainerActivity
+import com.example.rubbishcommunity.ui.container.jumpToBasicInfo
+import com.example.rubbishcommunity.ui.home.MainActivity
 import com.jakewharton.rxbinding2.view.RxView
 import com.tbruyelle.rxpermissions2.RxPermissions
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 
@@ -49,7 +47,7 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 			(binding.linContent.layoutParams as ViewGroup.MarginLayoutParams).rightMargin,
 			binding.progress,
 			binding.linContent,
-			binding.btnRegister
+			binding.btnNext
 		)
 	}
 	
@@ -57,76 +55,79 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 	@SuppressLint("CheckResult")
 	override fun initWidget() {
 		
-		
-		//观测是否在Loading
-		viewModel.isLoading.observeNonNull {
-			if (it) {
-				//开始登陆的动画
-				animationUtils.startTransAnimation()
-			} else {
-				//结束登陆的动画
-				animationUtils.complete()
+		if (getLoginState()) {
+			//已登陆
+			if(!getLocalVerifiedEmail()&& getLocalNeedMoreInfo()){
+				//需要验证邮箱和完善信息
+				jumpToBasicInfo(context!!)
+			}else{
+				//不需要完善信息，直接登录
+				startActivity(Intent(context, MainActivity::class.java))
+				activity?.finish()
 			}
+
+			
+			
+		} else {
+			
+			//观测是否在Loading
+			viewModel.isLoading.observeNonNull {
+				if (it) {
+					//开始登陆的动画
+					animationUtils.startTransAnimation()
+				} else {
+					//结束登陆的动画
+					animationUtils.complete()
+				}
+			}
+			//未登陆
+			
+			//下一步按钮
+			RxView.clicks(binding.btnNext)
+				.throttleFirst(2, TimeUnit.SECONDS)
+				.doOnNext {
+					//IMEI权限检查
+					if (activity?.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+						//无权限时申请权限
+						RxPermissions(activity as Activity).request(Manifest.permission.READ_PHONE_STATE)
+							.subscribe {
+								if (it) {
+									//申请权限通过直接登陆
+									registerAndLogin()
+								} else {
+									MyApplication.showToast("您必须给予权限才能完成注册！")
+								}
+							}
+					} else {
+						//有权限，直接注册
+						registerAndLogin()
+					}
+					
+					
+				}.bindLife()
+			
+			//返回登陆按钮
+			RxView.clicks(binding.btnBack).throttleFirst(2, TimeUnit.SECONDS)
+				.doOnNext {
+					(activity as ContainerActivity).jumpToLogin()
+				}.bindLife()
+			
 		}
 		
-		//发送验证码按钮
-		RxView.clicks(binding.btnCode).throttleFirst(2, TimeUnit.SECONDS).doOnNext {
-	
-			viewModel.sendEmail().doOnSuccess {
-				binding.btnCode.isEnabled = false
-				Observable.interval(0, 1, TimeUnit.SECONDS).take(60).subscribeOn(Schedulers.io())
-					.observeOn(AndroidSchedulers.mainThread()).doOnNext {
-						binding.btnCode.text = "${60-it}秒后可重新获取"
-					}.bindLife()
-			}.bindLife()
-
-		}.bindLife()
 		
-		
-		//注册按钮
-		RxView.clicks(binding.btnRegister)
-			.throttleFirst(2, TimeUnit.SECONDS)
-			.doOnNext {
-				//IMEI权限检查
-				if (activity?.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-					//无权限时申请权限
-					RxPermissions(activity as Activity).request(Manifest.permission.READ_PHONE_STATE)
-						.subscribe {
-							if (it) {
-								//申请权限通过直接登陆
-								registerAndLogin()
-							} else {
-								MyApplication.showToast("您必须给予权限才能完成注册！")
-							}
-						}
-				} else {
-					//有权限，直接注册
-					registerAndLogin()
-				}
-				
-			}.bindLife()
-		
-		
-		//返回登陆按钮
-		RxView.clicks(binding.btnBack).throttleFirst(2, TimeUnit.SECONDS)
-			.doOnNext {
-				(activity as ContainerActivity).jumpToLogin()
-			}.bindLife()
 	}
 	
 	//注册并登陆
 	private fun registerAndLogin() {
-		
 		if (!isNetworkAvailable()) {
 			(activity as ContainerActivity).showNetErrorSnackBar()
 			return
 		}
 		
 		//真实register
-		viewModel.registerOrLogin()?.doOnSuccess {
-			//登陆成功
-			startActivity(Intent(context, MainActivity::class.java))
-			(context as Activity).finish()
+		viewModel.registerAndLogin()?.doOnSuccess {
+			//注册并登陆成功,跳转至完善信息界面
+			jumpToBasicInfo(context!!)
 		}?.bindLife()
 	}
 	

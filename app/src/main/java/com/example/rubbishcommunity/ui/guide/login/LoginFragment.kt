@@ -35,7 +35,6 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 	
 	private lateinit var animationUtils: AnimatorUtils
 	
-
 	
 	override
 	fun initBefore() {
@@ -53,12 +52,6 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 	
 	@RequiresApi(Build.VERSION_CODES.O)
 	override fun initWidget() {
-		
-		if (getLoginState()) {//检查登陆状态
-			startActivity(Intent(context, MainActivity::class.java))
-			activity?.finish()
-		} else {
-			
 			//观测是否在Loading
 			viewModel.isLoading.observeNonNull {
 				if (it) {
@@ -106,7 +99,7 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 					//弹出服务协议窗口
 					showContractDialog()
 				}.bindLife()
-		}
+
 		
 	}
 	
@@ -135,14 +128,16 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 	//协议弹窗
 	private fun showContractDialog() {
 		hideKeyboard()
-		val pop = ContractDialog(context)
-		pop.show()
-		//pop click listener
-		pop.setOnClickListener(object : BottomDialogView.OnMyClickListener {
+		ContractDialog(context, object : ContractDialog.OnMyClickListener {
 			override fun onFinishClick() {
-				pop.dismiss()
+			
 			}
-		})
+		}).show()
+	}
+	
+	override fun onBackPressed(): Boolean {
+		activity?.finish()
+		return true
 	}
 	
 }

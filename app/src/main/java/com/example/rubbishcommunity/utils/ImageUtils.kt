@@ -14,9 +14,17 @@ fun loadImage(imageView:ImageView, url:String?){
 	Glide.with(imageView.context).load(url)
 		.placeholder(R.drawable.bg_404)
 		.centerCrop()
-		.dontAnimate()
 		.into(imageView)
 }
+
+@BindingAdapter("imageUrlWithAddIcon")
+fun loadImageWithAddIcon(imageView:ImageView, url:String?){
+	Glide.with(imageView.context).load(url)
+		.placeholder(R.drawable.icon_add_pic)
+		.centerCrop()
+		.into(imageView)
+}
+
 
 @SuppressLint("NewApi")
 @BindingAdapter("gender")
@@ -32,7 +40,7 @@ fun getGenderDrawable(imageView: ImageView, gender: String?) {
 				ColorStateList.valueOf(
 					ContextCompat.getColor(
 						MyApplication.instance,
-						R.color.colorMale
+						R.color.colorFemale
 					)
 				)
 			
@@ -47,7 +55,7 @@ fun getGenderDrawable(imageView: ImageView, gender: String?) {
 				ColorStateList.valueOf(
 					ContextCompat.getColor(
 						MyApplication.instance,
-						R.color.colorFemale
+						R.color.colorMale
 					)
 				)
 			

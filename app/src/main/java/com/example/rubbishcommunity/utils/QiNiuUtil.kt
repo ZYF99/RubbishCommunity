@@ -1,10 +1,10 @@
-package com.example.rubbishcommunity
+package com.example.rubbishcommunity.utils
 
 import com.example.rubbishcommunity.manager.api.ApiService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.ResultModel
-import com.example.rubbishcommunity.persistence.getLocalUserName
+import com.example.rubbishcommunity.persistence.getLocalEmail
 import com.example.rubbishcommunity.ui.release.dynamic.GetQiNiuTokenRequestModel
 import com.luck.picture.lib.entity.LocalMedia
 import com.qiniu.android.http.ResponseInfo
@@ -30,14 +30,14 @@ fun upLoadImage(
 	imagePath: String,
 	upLoadListener: QiNiuUtil.QiNiuUpLoadListener
 ): Single<ResultModel<Map<String, String>>> {
-	val upKey = "${getLocalUserName()}/${System.currentTimeMillis()}"
+	val upKey = "${getLocalEmail()}/${System.currentTimeMillis()}"
 	return apiService.getQiNiuToken(GetQiNiuTokenRequestModel("dew", listOf(upKey)))
 		.subscribeOn(Schedulers.io())
 		.observeOn(AndroidSchedulers.mainThread())
 		.doOnSuccess { tokenRsp ->
 			tokenRsp.data.map {
 				UploadManager().put(
-					imagePath, upKey, tokenRsp.meta.msg,
+					imagePath, upKey, it.value,
 					{ key, responseInfo, response ->
 						//上传后，返回结果
 						val s = "$key, $responseInfo, $response"
@@ -70,7 +70,7 @@ fun upLoadImageList(
 	imagePathList.map { media ->
 		pathList.add(media.path)
 		mill += 1000
-		upKeyList.add("${getLocalUserName()}/$mill")
+		upKeyList.add("${getLocalEmail()}/$mill")
 	}
 	return apiService.getQiNiuToken(GetQiNiuTokenRequestModel("dew", upKeyList))
 		.subscribeOn(Schedulers.io())

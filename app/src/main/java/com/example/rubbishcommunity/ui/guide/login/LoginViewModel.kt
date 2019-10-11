@@ -36,7 +36,7 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 	
 	fun init() {
 		//必须初始化控件上的值
-		userName.value = getLocalUserName()
+		userName.value = getLocalEmail()
 		password.value = getLocalPassword()
 	}
 	
@@ -74,7 +74,10 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 					saveVerifyInfo(
 						userName.value!!,
 						password.value!!,
-						it.data.token
+						it.data.token,
+						it.data.openId,
+						it.data.usrStatusFlag.emailVerifiedFlag,
+						it.data.usrStatusFlag.needMoreInfoFlag
 					)
 					//存储用户个人信息
 					saveUserInfo(

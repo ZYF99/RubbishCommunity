@@ -129,7 +129,7 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 					ErrorType.INPUT_ERROR -> MyApplication.showWarning(it.errorContent)
 					ErrorType.NO_CAMERA -> MyApplication.showWarning(it.errorContent)
 					ErrorType.REGISTER_OR_LOGIN_FAILED -> MyApplication.showError(it.errorContent)
-					ErrorType.SERVERERROR -> MyApplication.showError("服务器错误")
+					ErrorType.SERVERERROR -> MyApplication.showError(it.errorContent)
 					else -> {
 						if (errorDialog?.isShowing != true) {
 							showUnexpectedDialog(this)

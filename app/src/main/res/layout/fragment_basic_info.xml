@@ -3,11 +3,11 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <data class="RegisterFragBinding">
+    <data class="BasicInfoFragBinding">
 
         <variable
                 name="vm"
-                type="com.example.rubbishcommunity.ui.guide.register.RegisterViewModel" />
+                type="com.example.rubbishcommunity.ui.guide.basicinfo.BasicInfoViewModel" />
 
     </data>
 
@@ -17,23 +17,10 @@
             android:background="@color/colorGuideBack"
             android:orientation="vertical">
 
-        <TextView
-                android:id="@+id/btn_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:background="@color/colorTransparent"
-                android:text="已有账号，立即登陆"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_next" />
 
 
         <LinearLayout
-                android:id="@+id/linearLayout4"
+                android:id="@+id/linearLayout5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
@@ -43,31 +30,56 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-            <ImageView
-                    android:id="@+id/icon_app"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:tint="@color/white"
-                    app:srcCompat="@drawable/icon_find_nor" />
-
             <TextView
                     android:id="@+id/appname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_10"
                     android:text="RUBBISH COMMUNITY"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-            <TextView
-                    android:id="@+id/apptips"
+            <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:text="注册您的账号"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:layout_marginTop="20dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/img_avatar"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:elevation="4dp"
+                        android:text="注册您的账号"
+                        tools:src="@drawable/icon_add_pic"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        imageUrlWithAddIcon="@{vm.avatar}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                        android:id="@+id/img_gender"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:elevation="4dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/bg_circle"
+                        android:backgroundTint='@{vm.gender == "男"?@color/colorMale:@color/colorFemale,default=@color/colorMale}'
+                        android:src='@{vm.gender == "男"?@drawable/icon_gendermale:@drawable/icon_genderfemale,default=@drawable/icon_gendermale}'
+                        android:padding="4dp"
+                        android:tint="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:ignore="UnusedAttribute" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </LinearLayout>
 
@@ -121,8 +133,11 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:targetApi="lollipop">
 
+
+
+
             <LinearLayout
-                    android:id="@+id/lin_account"
+                    android:id="@+id/lin_code"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_10"
@@ -133,46 +148,55 @@
                     android:paddingRight="12dp">
 
                 <ImageView
-                        android:id="@+id/imageView5"
+                        android:id="@+id/img_email"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="0"
                         android:scaleType="centerCrop"
                         android:tint="@color/text_hint"
-                        app:srcCompat="@drawable/icon_account" />
+                        app:srcCompat="@drawable/icon_email" />
 
 
                 <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         app:helperTextTextAppearance="@style/HintHelper">
 
                     <EditText
-                            android:id="@+id/edit_userName"
+                            android:id="@+id/edit_code"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:ems="10"
-                            android:hint="邮箱地址"
-                            android:inputType="textEmailAddress"
-                            android:maxLength="20"
+                            android:hint="输入收到的验证码"
+                            android:digits="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789"
+                            android:inputType="textCapCharacters"
+                            android:maxLength="6"
                             android:padding="12dp"
-                            android:text="@={vm.email}"
+                            android:text="@={vm.verifyCode}"
                             android:textColor="@color/text_hint"
                             android:textColorHint="@color/text_hint"
                             android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                        android:id="@+id/btn_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:background="@drawable/bg_corner_rect"
+                        android:backgroundTint="#DDF7F7"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="6dp"
+                        android:paddingRight="16dp"
+                        android:paddingBottom="6dp"
+                        android:text="重新获取"
+                        android:textColor="@color/text_second"
+                        android:textSize="10sp" />
 
             </LinearLayout>
-
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorGang" />
-
 
             <View
                     android:layout_width="match_parent"
@@ -199,7 +223,7 @@
                         android:layout_weight="0"
                         android:scaleType="centerCrop"
                         android:tint="@color/text_hint"
-                        app:srcCompat="@drawable/icon_password" />
+                        app:srcCompat="@drawable/icon_mine_selected" />
 
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -213,11 +237,12 @@
                             android:layout_height="wrap_content"
                             android:background="@null"
                             android:ems="10"
-                            android:hint="输入密码"
-                            android:inputType="textPassword"
+                            android:hint="输入昵称"
+                            android:digits="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789"
+                            android:inputType="text"
                             android:maxLength="16"
                             android:padding="12dp"
-                            android:text="@={vm.password}"
+                            android:text="@={vm.name}"
                             android:textColor="@color/text_hint"
                             android:textColorHint="@color/text_hint"
                             android:textSize="14sp" />
@@ -227,19 +252,68 @@
             </LinearLayout>
 
 
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGang" />
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGang" />
+
+            <LinearLayout
+                    android:id="@+id/lin_birthday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp">
+
+                <ImageView
+                        android:id="@+id/icon_repassword"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_weight="0"
+                        android:scaleType="centerCrop"
+                        android:tint="@color/text_hint"
+                        app:srcCompat="@drawable/icon_birthday" />
+
+
+
+
+                    <TextView
+                            android:id="@+id/tv_birthday"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:ems="10"
+                            android:maxLength="16"
+                            android:padding="12dp"
+                            android:text='@{vm.birthString == null ? "出生日期":vm.birthString,default="出生日期"}'
+                            android:textColor="@color/text_hint"
+                            android:textColorHint="@color/text_hint"
+                            android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
         <Button
-                android:id="@+id/btn_next"
+                android:id="@+id/btn_register"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginTop="32dp"
-
                 android:background="@drawable/bg_cornerbtn_nor"
                 android:elevation="10dp"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
-                android:text="下一步"
+                android:text="进入社区"
                 android:textColor="@color/colorGuideBack"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
