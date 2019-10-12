@@ -42,18 +42,18 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 	
 	@RequiresApi(Build.VERSION_CODES.O)
 	fun login(): Single<ResultModel<LoginOrRegisterResultModel>>? {
-		val versionName = AppUtils.getVersionName(MyApplication.instance)
-		val deviceBrand = PhoneUtils.deviceBrand
-		val osVersion = PhoneUtils.systemVersion
-		val systemModel = PhoneUtils.systemModel
+		val versionName = getVersionName(MyApplication.instance)
+		val deviceBrand = getDeviceBrand
+		val osVersion = getSystemVersion
+		val systemModel = getSystemModel
 		
 		if (judgeLoginParams()) {
 			return apiService.loginOrRegister(
 				LoginOrRegisterRequestModel(
 					LoginOrRegisterRequestModel.DeviceInfo(
-						versionName,
+						versionName?:"",
 						deviceBrand,
-						PhoneUtils.getPhoneIMEI(MyApplication.instance),
+						getPhoneIMEI(MyApplication.instance),
 						"Android",
 						systemModel,
 						osVersion

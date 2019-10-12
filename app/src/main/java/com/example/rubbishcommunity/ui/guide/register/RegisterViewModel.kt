@@ -43,18 +43,18 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 	
 	@SuppressLint("NewApi")
 	fun registerAndLogin(): Single<ResultModel<LoginOrRegisterResultModel>>? {
-		val versionName = AppUtils.getVersionName(MyApplication.instance)
-		val deviceBrand = PhoneUtils.deviceBrand
-		val osVersion = PhoneUtils.systemVersion
-		val systemModel = PhoneUtils.systemModel
+		val versionName = getVersionName(MyApplication.instance)
+		val deviceBrand = getDeviceBrand
+		val osVersion = getSystemVersion
+		val systemModel = getSystemModel
 		
 		if (judgeRegisterPrams(email.value!!,password.value!!)) {
 			return apiService.loginOrRegister(
 				LoginOrRegisterRequestModel(
 					LoginOrRegisterRequestModel.DeviceInfo(
-						versionName,
+						versionName?:"",
 						deviceBrand,
-						PhoneUtils.getPhoneIMEI(MyApplication.instance),
+						getPhoneIMEI(MyApplication.instance),
 						"Android",
 						systemModel,
 						osVersion
@@ -70,9 +70,9 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 					return@flatMap apiService.loginOrRegister(
 						LoginOrRegisterRequestModel(
 							LoginOrRegisterRequestModel.DeviceInfo(
-								versionName,
+								versionName?:"",
 								deviceBrand,
-								PhoneUtils.getPhoneIMEI(MyApplication.instance),
+								getPhoneIMEI(MyApplication.instance),
 								"Android",
 								systemModel,
 								osVersion

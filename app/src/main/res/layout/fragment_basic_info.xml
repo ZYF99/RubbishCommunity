@@ -71,8 +71,8 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/bg_circle"
-                        android:backgroundTint='@{vm.gender == "男"?@color/colorMale:@color/colorFemale,default=@color/colorMale}'
-                        android:src='@{vm.gender == "男"?@drawable/icon_gendermale:@drawable/icon_genderfemale,default=@drawable/icon_gendermale}'
+                        android:backgroundTint='@{vm.gender == null?@color/colorMale:@color/colorFemale,default=@color/colorMale}'
+                        android:src='@{vm.gender == null?@drawable/icon_gendermale:@drawable/icon_genderfemale,default=@drawable/icon_gendermale}'
                         android:padding="4dp"
                         android:tint="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"

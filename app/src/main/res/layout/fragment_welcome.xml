@@ -73,7 +73,7 @@
                             android:importantForAutofill="no"
                             android:inputType="textPersonName"
                             android:singleLine="true"
-                            android:text='@={vm.searchWord !=null ? vm.searchWord:""}'
+                            android:text='@={vm.searchWord}'
                             android:textColor="@color/white"
                             android:textColorHint="@color/white"
                             android:textSize="18sp" />

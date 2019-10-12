@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ContainerBinding
@@ -43,14 +42,12 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 		replaceFragment("login")
 	}
 	
-
-	
 	
 	override val clazz: Class<ContainerViewModel> = ContainerViewModel::class.java
 	override val layRes: Int = R.layout.activity_container
 	private var currentFragment: SoftObservableFragment? = SoftObservableFragment()
 	
-
+	
 	override fun initBefore() {
 		if (intent.getSerializableExtra("tag") == null) {
 			replaceFragment("register")
@@ -65,7 +62,6 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 		StatusBarUtil.setStatusTextColor(true, this)
 		binding.vm = viewModel
 		handleError()
-
 	}
 	
 	override fun initData() {
@@ -108,7 +104,7 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 fun jumpToBasicInfo(context: Context) {
 	val bundle = Bundle()
 	bundle.putString("tag", "basicInfo")
-
+	
 	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }
 

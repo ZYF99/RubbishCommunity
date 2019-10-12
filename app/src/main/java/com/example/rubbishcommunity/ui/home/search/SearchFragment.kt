@@ -6,7 +6,6 @@ import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.SearchBinding
-import com.example.rubbishcommunity.ui.guide.welcome.SearchViewModel
 import com.hankcs.hanlp.HanLP
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -18,15 +17,10 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 ) {
 	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
 	}
-	
 	override fun onSoftKeyboardClosed() {
 	}
-	
 	override fun initBefore() {
-	
-	
 	}
-	
 	
 	override fun initWidget() {
 		binding.vm = viewModel

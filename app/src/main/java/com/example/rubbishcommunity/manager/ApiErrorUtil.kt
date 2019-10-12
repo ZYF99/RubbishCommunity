@@ -59,7 +59,7 @@ fun <T> dealError(): SingleTransformer<T, T> {
 					)
 					
 				}
-				is HanLPInputError ->{
+				is HanLPInputError -> {
 					sendError(
 						ErrorData(
 							ErrorType.INPUT_ERROR,

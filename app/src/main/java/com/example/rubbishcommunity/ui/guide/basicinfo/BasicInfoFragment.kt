@@ -99,7 +99,7 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 		fun completeInfo() {
 			//完善信息
 			viewModel.completeInfo()?.doOnSuccess {
-				//完善信息成功
+				//完善信息成功，跳转至主界面
 				startActivity(Intent(context, MainActivity::class.java))
 				(context as Activity).finish()
 			}?.bindLife()
@@ -138,9 +138,6 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 		RxView.clicks(binding.btnCode).throttleFirst(2, TimeUnit.SECONDS).doOnNext {
 			//点击发送验证码
 			sendEmail()
-		}.doOnSubscribe {
-			//进入界面先发送验证码
-			sendEmail()
 		}.bindLife()
 		
 		//进入社区按钮
@@ -172,6 +169,9 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 				viewModel.location.postValue(bdLocation)
 			}
 		})?.bindLife()
+		
+		//进入界面先发送验证码
+		sendEmail()
 		
 	}
 	

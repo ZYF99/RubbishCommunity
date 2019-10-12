@@ -14,10 +14,7 @@ import org.kodein.di.generic.instance
 
 
 class WelcomeViewModel(application: Application) : BaseViewModel(application) {
-	
-	
 	private val apiService by instance<ApiService>()
-	
 	val searchWord = MutableLiveData<String>()
 	
 	
@@ -29,9 +26,6 @@ class WelcomeViewModel(application: Application) : BaseViewModel(application) {
 			.compose(dealError())
 	}
 	
-	
-
-
 /*    private fun <T> dealRefresh(): SingleTransformer<T, T> {
         return SingleTransformer { obs ->
             obs

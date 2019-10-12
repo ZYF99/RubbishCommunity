@@ -11,16 +11,16 @@ import androidx.annotation.RequiresApi
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.RegisterFragBinding
-import com.example.rubbishcommunity.persistence.getLocalNeedMoreInfo
-import com.example.rubbishcommunity.persistence.getLocalVerifiedEmail
 import com.example.rubbishcommunity.persistence.getLoginState
 import com.example.rubbishcommunity.ui.BindingFragment
 import com.example.rubbishcommunity.ui.guide.AnimatorUtils
 import com.example.rubbishcommunity.ui.container.ContainerActivity
-import com.example.rubbishcommunity.ui.container.jumpToBasicInfo
 import com.example.rubbishcommunity.ui.home.MainActivity
 import com.jakewharton.rxbinding2.view.RxView
 import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.Observable
+import io.reactivex.Single
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -57,19 +57,10 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 		
 		if (getLoginState()) {
 			//已登陆
-			if(!getLocalVerifiedEmail()&& getLocalNeedMoreInfo()){
-				//需要验证邮箱和完善信息
-				jumpToBasicInfo(context!!)
-			}else{
-				//不需要完善信息，直接登录
-				startActivity(Intent(context, MainActivity::class.java))
-				activity?.finish()
-			}
-
-			
-			
+			//注册并登陆成功,跳转至完善信息界面主界面，由主界面判断是否需要完善信息
+			startActivity(Intent(context, MainActivity::class.java))
+			(context as Activity).finish()
 		} else {
-			
 			//观测是否在Loading
 			viewModel.isLoading.observeNonNull {
 				if (it) {
@@ -126,8 +117,16 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 		
 		//真实register
 		viewModel.registerAndLogin()?.doOnSuccess {
-			//注册并登陆成功,跳转至完善信息界面
-			jumpToBasicInfo(context!!)
+			
+			//注册并登陆成功,跳转至完善信息界面主界面，由主界面判断是否需要完善信息
+			//完善信息成功，跳转至主界面
+			
+			
+			
+			startActivity(Intent(context, MainActivity::class.java))
+			(context as Activity).finish()
+			
+			/*jumpToBasicInfo(context!!)*/
 		}?.bindLife()
 	}
 	

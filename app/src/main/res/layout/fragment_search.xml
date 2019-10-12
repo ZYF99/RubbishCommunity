@@ -3,7 +3,7 @@
         xmlns:tools="http://schemas.android.com/tools">
     <data class="SearchBinding">
 
-        <variable name="vm" type="com.example.rubbishcommunity.ui.guide.welcome.SearchViewModel"/>
+        <variable name="vm" type="com.example.rubbishcommunity.ui.home.search.SearchViewModel"/>
 
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout

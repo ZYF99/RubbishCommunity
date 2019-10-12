@@ -2,24 +2,32 @@ package com.example.rubbishcommunity.ui.home
 
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import androidx.fragment.app.Fragment
 import com.example.rubbishcommunity.ui.home.find.FindFragment
 import com.example.rubbishcommunity.ui.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MainBinding
+import com.example.rubbishcommunity.persistence.getLocalNeedMoreInfo
+import com.example.rubbishcommunity.persistence.getLocalVerifiedEmail
+import com.example.rubbishcommunity.ui.container.jumpToBasicInfo
 import com.example.rubbishcommunity.ui.container.jumpToReleaseDynamic
 import com.example.rubbishcommunity.ui.guide.welcome.WelcomeFragment
 import com.example.rubbishcommunity.ui.home.message.MessageFragment
 import com.example.rubbishcommunity.ui.home.mine.MineFragment
+import com.example.rubbishcommunity.ui.home.search.SearchFragment
 import com.example.rubbishcommunity.ui.widget.AddDialog
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
 import com.jakewharton.rxbinding2.view.RxView
+import io.reactivex.Observable
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	override val clazz: Class<MainViewModel> = MainViewModel::class.java
 	override val layRes: Int = R.layout.activity_main
-	private var currentFragment: Fragment? = WelcomeFragment()
+	private var currentFragment: Fragment? = SearchFragment()
 	
 	
 	override fun initBefore() {
@@ -29,15 +37,16 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	override fun initWidget() {
 		//状态栏字体黑色
 		StatusBarUtil.setStatusTextColor(true, this)
+
+		
+		//不需要验证邮箱和完善信息,初始化home界面
 		supportFragmentManager.beginTransaction().apply {
 			add(R.id.maincontainer, currentFragment as Fragment)
 			commit()
 		}
-		
 		RxView.clicks(binding.btnAdd).doOnNext {
 			showAddDialog()
 		}.bindLife()
-		
 		binding.bottomnavigation.setOnNavigationItemSelectedListener {
 			
 			when (it.itemId) {
@@ -57,14 +66,22 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 				}
 			}
 			true
-			
+		}
+		handleError()
+		
+		//判断是否需要完善信息
+		if (!getLocalVerifiedEmail() && getLocalNeedMoreInfo()) {
+			//需要验证邮箱和完善信息,跳转至完善信息界面
+			Observable.timer(200, TimeUnit.MILLISECONDS).doOnNext {
+				jumpToBasicInfo(this)
+				finish()
+			}.bindLife()
 		}
 		
-		handleError()
 	}
 	
 	override fun initData() {
-
+	
 	}
 	
 	
@@ -77,7 +94,7 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 		if (currentFragment == null) {
 			when (tag) {
 				"home" ->
-					currentFragment = WelcomeFragment()
+					currentFragment = SearchFragment()
 				
 				"find" ->
 					currentFragment = FindFragment()
@@ -125,8 +142,6 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
                 }
             }.bindLife()
     }*/
-	
-
 	
 	
 }
