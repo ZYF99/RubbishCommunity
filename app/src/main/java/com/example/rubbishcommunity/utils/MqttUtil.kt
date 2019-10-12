@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.rubbishcommunity.BuildConfig
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.persistence.getLocalEmail
+import com.example.rubbishcommunity.ui.utils.sendSimpleNotification
 import io.reactivex.Single
 import org.eclipse.paho.android.service.MqttAndroidClient
 import org.eclipse.paho.client.mqttv3.*
@@ -13,43 +14,46 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions
 fun initMqttClient(applicationContext: Context): MqttAndroidClient {
 	val serverURI = BuildConfig.MQTT_URL
 	val clientId = "Android_${getLocalEmail()}"
-	val mClient = MqttAndroidClient(applicationContext, serverURI, clientId)
+	val mqttClient = MqttAndroidClient(applicationContext, serverURI, clientId)
 	
-	mClient.setCallback(object : MqttCallbackExtended {
+	mqttClient.setCallback(object : MqttCallbackExtended {
 		
 		override fun connectComplete(reconnect: Boolean, serverURI: String) {
 		
 		}
 		
 		override fun connectionLost(cause: Throwable) {
-		
+			MyApplication.showWarning("MQTT断开连接：${cause.message}")
 		}
 		
 		override fun messageArrived(topic: String, message: MqttMessage) {
-			MyApplication.showSuccess("MQTT消息：$topic : $message")
+	
+			sendSimpleNotification(applicationContext,topic,message.toString())
 		}
 		
 		override fun deliveryComplete(token: IMqttDeliveryToken) {
 		
 		}
 	})
-	
-/*	//配置失联参数
+
+	return mqttClient
+}
+
+//配置失联参数
+fun setDisconnectedBufferOptions(){
 	val disconnectedBufferOptions = DisconnectedBufferOptions()
 	disconnectedBufferOptions.isBufferEnabled = true
 	disconnectedBufferOptions.bufferSize = 5000
 	disconnectedBufferOptions.isDeleteOldestMessages = true
 	disconnectedBufferOptions.isPersistBuffer = true
-	mClient.setBufferOpts(disconnectedBufferOptions)*/
-	
-	return mClient
+	MyApplication.instance.mqttClient.setBufferOpts(disconnectedBufferOptions)
 }
 
-
+//获取连接参数
 private fun getConnectOptions(): MqttConnectOptions {
 	val options = MqttConnectOptions()
 	options.isCleanSession = true
-	options.userName = BuildConfig.MQTT_USERNAME
+	options.userName = "CloudZhang"
 	options.password = BuildConfig.MQTT_PASSWORD.toCharArray()
 	options.isAutomaticReconnect = true
 	return options
@@ -60,7 +64,7 @@ private fun getConnectOptions(): MqttConnectOptions {
 fun mqttConnect(): Single<IMqttToken> {
 	
 	return Single.create { emitter ->
-		MyApplication.mqttClient.connect(getConnectOptions(), object : IMqttActionListener {
+		MyApplication.instance.mqttClient.connect(getConnectOptions(), object : IMqttActionListener {
 			override fun onSuccess(asyncActionToken: IMqttToken) {
 				emitter.onSuccess(asyncActionToken)
 			}
@@ -78,7 +82,7 @@ fun mqttConnect(): Single<IMqttToken> {
 //订阅
 fun mqttSubscribe(): Single<IMqttToken> {
 	return Single.create { emitter ->
-		MyApplication.mqttClient.subscribe("SystemDec", 1, null, object : IMqttActionListener {
+		MyApplication.instance.mqttClient.subscribe("SystemDec", 1, null, object : IMqttActionListener {
 			override fun onSuccess(asyncActionToken: IMqttToken) {
 				emitter.onSuccess(asyncActionToken)
 			}
@@ -98,7 +102,7 @@ fun mqttSubscribe(): Single<IMqttToken> {
 fun mqttPublish(): Single<IMqttToken> {
 	
 	return Single.create { emitter ->
-		MyApplication.mqttClient.publish(
+		MyApplication.instance.mqttClient.publish(
 			"SystemDec",
 			"Hello~Android".toByteArray(),
 			1,
@@ -121,10 +125,9 @@ fun mqttPublish(): Single<IMqttToken> {
 
 
 //取消订阅
-
-fun unsubscribe(): Single<IMqttToken> {
+fun mqttUnsubscribe(): Single<IMqttToken> {
 	return Single.create { emitter ->
-		MyApplication.mqttClient.unsubscribe("topic", null, object : IMqttActionListener {
+		MyApplication.instance.mqttClient.unsubscribe("SystemDec", null, object : IMqttActionListener {
 			override fun onSuccess(asyncActionToken: IMqttToken) {
 				emitter.onSuccess(asyncActionToken)
 			}
@@ -137,9 +140,9 @@ fun unsubscribe(): Single<IMqttToken> {
 
 
 //断开连接
-fun disconnect(): Single<IMqttToken> {
+fun mqttDisconnect(): Single<IMqttToken> {
 	return Single.create { emitter ->
-		MyApplication.mqttClient.disconnect(null, object : IMqttActionListener {
+		MyApplication.instance.mqttClient.disconnect(null, object : IMqttActionListener {
 			override fun onSuccess(asyncActionToken: IMqttToken) {
 				emitter.onSuccess(asyncActionToken)
 			}

@@ -12,7 +12,6 @@ import com.baidu.location.LocationClientOption
 import com.example.rubbishcommunity.MyApplication
 import com.luck.picture.lib.permissions.RxPermissions
 import io.reactivex.Observable
-import io.reactivex.Single
 
 /**
  * 初始化定位参数配置
@@ -48,7 +47,7 @@ fun initLocationOption(context: Context):LocationClient{
 	// 设置定位场景，根据定位场景快速生成对应的定位参数  以出行场景为例
 	locationOption.setLocationPurpose(LocationClientOption.BDLocationPurpose.Sport);
 	//可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
-	locationOption.isLocationNotify = true
+	locationOption.isLocationNotify = false
 	//可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
 	locationOption.setIgnoreKillProcess(true)
 	//可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
@@ -65,8 +64,7 @@ fun initLocationOption(context: Context):LocationClient{
 	locationOption.setOpenAutoNotifyMode()
 	//设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者
 	locationOption.setOpenAutoNotifyMode(3000, 1, LocationClientOption.LOC_SENSITIVITY_HIGHT)
-	//需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
-	
+	//将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
 	locationClient.locOption = locationOption
 	
 	return locationClient

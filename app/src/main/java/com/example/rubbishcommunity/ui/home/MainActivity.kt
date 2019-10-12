@@ -87,7 +87,7 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	}
 	
 	override fun initData() {
-
+		viewModel.init()
 	}
 	
 	
