@@ -13,22 +13,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.example.rubbishcommunity.R
-import com.google.android.material.snackbar.Snackbar
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import timber.log.Timber
-import android.view.WindowManager
 import android.widget.EditText
 import android.app.Activity
-import android.content.Context.INPUT_METHOD_SERVICE
-import android.view.View
-import androidx.core.content.ContextCompat.getSystemService
 import com.example.rubbishcommunity.MyApplication
-import com.example.rubbishcommunity.utils.*
+import com.example.rubbishcommunity.ui.utils.*
 
 
 abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
@@ -141,7 +135,12 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 	
 	
 	fun showNetErrorSnackBar() {
-		sendError(ErrorData(ErrorType.NO_WIFI, "没有网络"))
+		sendError(
+			ErrorData(
+				ErrorType.NO_WIFI,
+				"没有网络"
+			)
+		)
 	}
 	
 	

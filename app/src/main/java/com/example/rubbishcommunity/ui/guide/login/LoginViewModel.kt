@@ -14,7 +14,7 @@ import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
 import com.example.rubbishcommunity.persistence.*
-import com.example.rubbishcommunity.utils.*
+import com.example.rubbishcommunity.ui.utils.*
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -42,7 +42,8 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 	
 	@RequiresApi(Build.VERSION_CODES.O)
 	fun login(): Single<ResultModel<LoginOrRegisterResultModel>>? {
-		val versionName = getVersionName(MyApplication.instance)
+		val versionName =
+			getVersionName(MyApplication.instance)
 		val deviceBrand = getDeviceBrand
 		val osVersion = getSystemVersion
 		val systemModel = getSystemModel
@@ -96,13 +97,28 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 				if (password.value!!.length in 4..16) {
 					return true
 				} else {
-					sendError(ErrorData(ErrorType.INPUT_ERROR, "密码长度为6-16位"))
+					sendError(
+						ErrorData(
+							ErrorType.INPUT_ERROR,
+							"密码长度为6-16位"
+						)
+					)
 				}
 			} else {
-				sendError(ErrorData(ErrorType.INPUT_ERROR, "用户名必须大于4位"))
+				sendError(
+					ErrorData(
+						ErrorType.INPUT_ERROR,
+						"用户名必须大于4位"
+					)
+				)
 			}
 		} else {
-			sendError(ErrorData(ErrorType.INPUT_ERROR, "用户名和密码不能为空"))
+			sendError(
+				ErrorData(
+					ErrorType.INPUT_ERROR,
+					"用户名和密码不能为空"
+				)
+			)
 		}
 		return false
 	}

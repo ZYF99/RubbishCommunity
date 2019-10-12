@@ -11,6 +11,9 @@ import androidx.multidex.MultiDexApplication
 import com.example.rubbishcommunity.manager.base.apiModule
 import com.example.rubbishcommunity.persistence.SharedPreferencesUtils
 import com.example.rubbishcommunity.utils.initHanLP
+import com.example.rubbishcommunity.utils.initMqttClient
+import com.example.rubbishcommunity.utils.mqttConnect
+import com.example.rubbishcommunity.utils.mqttSubscribe
 import com.hankcs.hanlp.HanLP
 import com.hankcs.hanlp.corpus.io.IIOAdapter
 import com.luck.picture.lib.PictureSelector
@@ -18,6 +21,7 @@ import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
 import es.dmoral.toasty.Toasty
+import org.eclipse.paho.android.service.MqttAndroidClient
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import rx_activity_result2.HolderActivity
@@ -33,6 +37,8 @@ var instance: MyApplication? = null
 
 class MyApplication : MultiDexApplication(), KodeinAware {
 	
+	
+	
 	override val kodein = Kodein.lazy {
 		import(apiModule)
 	}
@@ -40,6 +46,7 @@ class MyApplication : MultiDexApplication(), KodeinAware {
 	companion object {
 		
 		lateinit var instance: MyApplication
+		lateinit var mqttClient: MqttAndroidClient
 		fun showToast(str: String) {
 			Toasty.normal(instance, str).show()
 		}
@@ -66,7 +73,16 @@ class MyApplication : MultiDexApplication(), KodeinAware {
 		SharedPreferencesUtils.getInstance(this, "local")
 		RxActivityResult.register(this)
 		instance = this
+		mqttClient = initMqttClient(this)
 		initHanLP()
+		
+		mqttConnect()
+			.doOnSuccess { MyApplication.showSuccess("MQTT连接成功") }
+			.flatMap {
+				mqttSubscribe()
+			}.doOnSuccess { MyApplication.showSuccess("MQTT订阅成功") }
+			.subscribe()
+		
 	}
 	
 	

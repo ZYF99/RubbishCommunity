@@ -33,12 +33,12 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 	}
 	
 	//跳转至register
-	fun jumpToRegister() {
+	fun replaceRegister() {
 		replaceFragment("register")
 	}
 	
 	//跳转至login
-	fun jumpToLogin() {
+	fun replaceLogin() {
 		replaceFragment("login")
 	}
 	
@@ -98,6 +98,15 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 	}
 	
 	
+}
+
+
+//跳转至登陆界面
+fun jumpToLogin(context: Context) {
+	val bundle = Bundle()
+	bundle.putString("tag", "login")
+	
+	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }
 
 //跳转至完善基本信息的界面

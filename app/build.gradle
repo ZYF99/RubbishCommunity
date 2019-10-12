@@ -31,9 +31,15 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField("String", "BASE_URL", '"https://api.itsc.cc:666/"')
+            buildConfigField("String", "MQTT_URL", '"tcp://119.3.147.11:19099"')
+            buildConfigField("String", "MQTT_USERNAME", '"CloudZhang"')
+            buildConfigField("String", "MQTT_PASSWORD", '"CloudZhang"')
         }
         debug {
             buildConfigField("String", "BASE_URL", '"https://api.itsc.cc:666/"')
+            buildConfigField("String", "MQTT_URL", '"tcp://119.3.147.11:19099"')
+            buildConfigField("String", "MQTT_USERNAME", '"CloudZhang"')
+            buildConfigField("String", "MQTT_PASSWORD", '"CloudZhang"')
         }
     }
 
@@ -66,6 +72,10 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.facebook.stetho:stetho:1.3.1'
+
+    //mqtt
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 
     //Toast
     implementation 'com.github.GrenderG:Toasty:1.4.2'

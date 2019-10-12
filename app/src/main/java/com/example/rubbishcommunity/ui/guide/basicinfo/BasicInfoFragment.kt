@@ -15,10 +15,12 @@ import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.BasicInfoFragBinding
 import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.BindingFragment
+import com.example.rubbishcommunity.ui.container.jumpToLogin
 import com.example.rubbishcommunity.ui.guide.AnimatorUtils
 import com.example.rubbishcommunity.ui.widget.DatePopView
 import com.example.rubbishcommunity.utils.getLocationWithCheckPermission
-import com.example.rubbishcommunity.utils.showAvatarAlbum
+import com.example.rubbishcommunity.ui.utils.showAvatarAlbum
+import com.example.rubbishcommunity.utils.mqttPublish
 import com.example.rubbishcommunity.utils.stringToDate
 import com.jakewharton.rxbinding2.view.RxView
 import com.luck.picture.lib.PictureSelector
@@ -162,6 +164,18 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 				}
 				
 			}.bindLife()
+
+		
+		//去登陆按钮
+		RxView.clicks(binding.tvLogin)
+			.throttleFirst(2, TimeUnit.SECONDS)
+			.doOnNext {
+				//跳转至登陆界面
+				jumpToLogin(context!!)
+				(context as Activity).finish()
+			}.bindLife()
+		
+		
 		
 		//获取定位
 		getLocationWithCheckPermission(activity!!, object : BDAbstractLocationListener() {

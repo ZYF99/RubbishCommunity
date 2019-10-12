@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.utils
+package com.example.rubbishcommunity.ui.utils
 
 import androidx.fragment.app.Fragment
 import com.luck.picture.lib.PictureSelector

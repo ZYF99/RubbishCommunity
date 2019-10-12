@@ -3,6 +3,9 @@ package com.example.rubbishcommunity.manager
 
 import com.example.rubbishcommunity.manager.base.ServerError
 import com.example.rubbishcommunity.model.api.ResultModel
+import com.example.rubbishcommunity.ui.utils.ErrorData
+import com.example.rubbishcommunity.ui.utils.ErrorType
+import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.utils.*
 import io.reactivex.SingleTransformer
 
@@ -67,7 +70,11 @@ fun <T> dealError(): SingleTransformer<T, T> {
 						)
 					)
 				}
-				else -> sendError(ErrorData(ErrorType.UNEXPECTED))
+				else -> sendError(
+					ErrorData(
+						ErrorType.UNEXPECTED
+					)
+				)
 			}
 		}
 	}

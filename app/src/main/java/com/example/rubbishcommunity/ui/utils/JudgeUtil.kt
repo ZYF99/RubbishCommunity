@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.utils
+package com.example.rubbishcommunity.ui.utils
 
 import java.util.regex.Pattern
 

@@ -3,13 +3,14 @@ package com.example.rubbishcommunity.ui.release.dynamic
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.baidu.location.BDAbstractLocationListener
-import com.baidu.location.BDLocation
 import com.example.rubbishcommunity.*
 import com.example.rubbishcommunity.ui.BaseViewModel
 import com.example.rubbishcommunity.manager.api.ApiService
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.persistence.SharedPreferencesUtils
+import com.example.rubbishcommunity.ui.utils.ErrorData
+import com.example.rubbishcommunity.ui.utils.ErrorType
+import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.utils.*
 import com.luck.picture.lib.entity.LocalMedia
 import io.reactivex.Single
@@ -135,10 +136,20 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 			if (content.value?.isNotEmpty()!!) {
 				return true
 			} else {
-				sendError(ErrorData(ErrorType.INPUT_ERROR, "说点什么吧～"))
+				sendError(
+					ErrorData(
+						ErrorType.INPUT_ERROR,
+						"说点什么吧～"
+					)
+				)
 			}
 		} else {
-			sendError(ErrorData(ErrorType.INPUT_ERROR, "添加一个标题吧～"))
+			sendError(
+				ErrorData(
+					ErrorType.INPUT_ERROR,
+					"添加一个标题吧～"
+				)
+			)
 		}
 		return false
 	}

@@ -10,6 +10,9 @@ import com.example.rubbishcommunity.ui.BaseViewModel
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.guide.CompleteInfoRequestModel
 import com.example.rubbishcommunity.persistence.getLocalEmail
+import com.example.rubbishcommunity.ui.utils.ErrorData
+import com.example.rubbishcommunity.ui.utils.ErrorType
+import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.utils.*
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
@@ -108,13 +111,28 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 				if ((birthString.value ?: "").length > 4) {
 					return true
 				} else {
-					sendError(ErrorData(ErrorType.INPUT_ERROR, "请选择出生日期"))
+					sendError(
+						ErrorData(
+							ErrorType.INPUT_ERROR,
+							"请选择出生日期"
+						)
+					)
 				}
 			} else {
-				sendError(ErrorData(ErrorType.INPUT_ERROR, "昵称长度必须在6-16位之间"))
+				sendError(
+					ErrorData(
+						ErrorType.INPUT_ERROR,
+						"昵称长度必须在6-16位之间"
+					)
+				)
 			}
 		} else {
-			sendError(ErrorData(ErrorType.INPUT_ERROR, "请输入完整的验证码"))
+			sendError(
+				ErrorData(
+					ErrorType.INPUT_ERROR,
+					"请输入完整的验证码"
+				)
+			)
 		}
 		return false
 	}

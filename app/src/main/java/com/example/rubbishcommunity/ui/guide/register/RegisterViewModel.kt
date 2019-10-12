@@ -15,7 +15,7 @@ import com.example.rubbishcommunity.persistence.saveLoginState
 import com.example.rubbishcommunity.persistence.saveUserInfo
 import com.example.rubbishcommunity.persistence.saveVerifyInfo
 import com.example.rubbishcommunity.ui.BaseViewModel
-import com.example.rubbishcommunity.utils.*
+import com.example.rubbishcommunity.ui.utils.*
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -43,7 +43,8 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 	
 	@SuppressLint("NewApi")
 	fun registerAndLogin(): Single<ResultModel<LoginOrRegisterResultModel>>? {
-		val versionName = getVersionName(MyApplication.instance)
+		val versionName =
+			getVersionName(MyApplication.instance)
 		val deviceBrand = getDeviceBrand
 		val osVersion = getSystemVersion
 		val systemModel = getSystemModel
@@ -115,11 +116,21 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 			if (password.length in 4..16) {
 				return true
 			} else {
-				sendError(ErrorData(ErrorType.INPUT_ERROR, "密码长度为6-16位"))
+				sendError(
+					ErrorData(
+						ErrorType.INPUT_ERROR,
+						"密码长度为6-16位"
+					)
+				)
 			}
 			false
 		} else {
-			sendError(ErrorData(ErrorType.INPUT_ERROR, "请输入正确的邮箱"))
+			sendError(
+				ErrorData(
+					ErrorType.INPUT_ERROR,
+					"请输入正确的邮箱"
+				)
+			)
 			false
 		}
 	}

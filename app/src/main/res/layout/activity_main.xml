@@ -16,6 +16,18 @@
                 android:orientation="vertical">
 
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btn_send_mqtt_smg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:clickable="true"
+                    app:layout_constraintBottom_toTopOf="@+id/btn_add"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:tint="@color/white"
+                    app:srcCompat="@drawable/icon_email" />
+
+
             <FrameLayout
                     android:id="@+id/maincontainer"
                     android:layout_width="match_parent"
@@ -42,7 +54,9 @@
                     android:background="@color/colorTransparent"
                     app:menu="@menu/navigation"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    tools:targetApi="lollipop"/>
+                    tools:targetApi="lollipop">
+
+            </com.example.rubbishcommunity.ui.widget.GapBottomNavigationView>
 
 
             <ImageView

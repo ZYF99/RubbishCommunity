@@ -17,10 +17,10 @@ import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ReleaseDynamicBinding
 import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.example.rubbishcommunity.ui.showGallery
-import com.example.rubbishcommunity.utils.ErrorData
-import com.example.rubbishcommunity.utils.ErrorType
+import com.example.rubbishcommunity.ui.utils.ErrorData
+import com.example.rubbishcommunity.ui.utils.ErrorType
 import com.example.rubbishcommunity.utils.getLocationWithCheckPermission
-import com.example.rubbishcommunity.utils.sendError
+import com.example.rubbishcommunity.ui.utils.sendError
 import com.jakewharton.rxbinding2.view.RxView
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
@@ -57,7 +57,12 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 					//第一种方式，弹出选择和拍照的dialog
 					//showPop
 				} else {
-					sendError(ErrorData(ErrorType.NO_CAMERA, "没有权限获取相册"))
+					sendError(
+						ErrorData(
+							ErrorType.NO_CAMERA,
+							"没有权限获取相册"
+						)
+					)
 					if (!permission.shouldShowRequestPermissionRationale) {
 						showLeadToSettingDialog()
 					}
@@ -164,7 +169,7 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	
 	//打开选图界面
 	private fun showAlbum() {
-		com.example.rubbishcommunity.utils.showAlbum(this, 9, viewModel.selectedList.value!!)
+		com.example.rubbishcommunity.ui.utils.showAlbum(this, 9, viewModel.selectedList.value!!)
 	}
 	
 	//发布

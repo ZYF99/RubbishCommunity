@@ -1,11 +1,10 @@
-package com.example.rubbishcommunity.utils
+package com.example.rubbishcommunity.ui.utils
 
 import android.content.Context
 import android.content.Intent
 import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import com.example.rubbishcommunity.R
-import com.example.rubbishcommunity.ui.BindingActivity
 import io.reactivex.rxkotlin.ofType
 import io.reactivex.subjects.PublishSubject
 

@@ -10,11 +10,9 @@ import androidx.annotation.RequiresApi
 import com.example.rubbishcommunity.ui.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.LoginFragBinding
-import com.example.rubbishcommunity.persistence.getLoginState
 import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.guide.AnimatorUtils
 import com.example.rubbishcommunity.ui.container.ContainerActivity
-import com.example.rubbishcommunity.ui.widget.BottomDialogView
 import com.example.rubbishcommunity.ui.widget.ContractDialog
 import com.jakewharton.rxbinding2.view.RxView
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -89,7 +87,7 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 			//注册按钮
 			RxView.clicks(binding.btnRegister).throttleFirst(2, TimeUnit.SECONDS)
 				.doOnNext {
-					(activity as ContainerActivity).jumpToRegister()
+					(activity as ContainerActivity).replaceRegister()
 				}.bindLife()
 			
 			

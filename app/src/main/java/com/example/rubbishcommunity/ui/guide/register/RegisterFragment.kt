@@ -18,9 +18,6 @@ import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.example.rubbishcommunity.ui.home.MainActivity
 import com.jakewharton.rxbinding2.view.RxView
 import com.tbruyelle.rxpermissions2.RxPermissions
-import io.reactivex.Observable
-import io.reactivex.Single
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -100,7 +97,7 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 			//返回登陆按钮
 			RxView.clicks(binding.btnBack).throttleFirst(2, TimeUnit.SECONDS)
 				.doOnNext {
-					(activity as ContainerActivity).jumpToLogin()
+					(activity as ContainerActivity).replaceLogin()
 				}.bindLife()
 			
 		}
@@ -137,7 +134,7 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 	
 	
 	override fun onBackPressed(): Boolean {
-		(activity as ContainerActivity).jumpToLogin()
+		(activity as ContainerActivity).replaceLogin()
 		return true
 	}
 	
