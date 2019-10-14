@@ -1,11 +1,19 @@
 package com.example.rubbishcommunity.persistence
 
+import com.baidu.location.BDLocation
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
+import com.example.rubbishcommunity.utils.getAgeByBirth
+import com.example.rubbishcommunity.utils.stringToDate
 
 //存储用于验证的信息
-fun saveVerifyInfo(userName: String, password: String, token: String, openId: String,emailVerifiedFlag:Boolean,needMoreInfoFlag: Boolean) {
-	
-	
+fun saveVerifyInfo(
+	userName: String,
+	password: String,
+	token: String,
+	openId: String,
+	emailVerifiedFlag: Boolean,
+	needMoreInfoFlag: Boolean
+) {
 	SharedPreferencesUtils.putData(
 		"email",
 		userName
@@ -30,7 +38,23 @@ fun saveVerifyInfo(userName: String, password: String, token: String, openId: St
 		"needMoreInfoFlag",
 		needMoreInfoFlag
 	)
-	
+}
+
+
+//改变邮箱验证状态Flag
+fun changeEmailVerifiedFlag(emailVerifiedFlag: Boolean) {
+	SharedPreferencesUtils.putData(
+		"emailVerifiedFlag",
+		emailVerifiedFlag
+	)
+}
+
+//改变需要更多信息的Flag
+fun changeNeedMoreInfoFlag(needMoreInfoFlag: Boolean) {
+	SharedPreferencesUtils.putData(
+		"needMoreInfoFlag",
+		needMoreInfoFlag
+	)
 }
 
 //存储用户基本信息
@@ -47,6 +71,40 @@ fun getLocalUserInfo(): LoginOrRegisterResultModel.UsrProfile {
 		"localUsrProfile",
 		LoginOrRegisterResultModel.UsrProfile.getNull()
 	) as LoginOrRegisterResultModel.UsrProfile)
+}
+
+//更新部分基本信息
+fun updateSomeUserInfo(
+	avatar: String,
+	gender: String,
+	name: String,
+	birthString: String,
+	location: BDLocation
+) {
+	val oldUserInfo: LoginOrRegisterResultModel.UsrProfile = getLocalUserInfo()
+	saveUserInfo(
+		LoginOrRegisterResultModel.UsrProfile(
+			name,
+			avatar,
+			location.country,
+			location.province,
+			location.city,
+			location.street,
+			getAgeByBirth(stringToDate(birthString)),
+			birthString,
+			oldUserInfo.profession,
+			gender,
+			oldUserInfo.signature,
+			oldUserInfo.level,
+			oldUserInfo.aboutMe,
+			oldUserInfo.school,
+			oldUserInfo.company,
+			oldUserInfo.degree,
+			oldUserInfo.language,
+			oldUserInfo.backgroundImage
+		)
+	)
+	
 }
 
 

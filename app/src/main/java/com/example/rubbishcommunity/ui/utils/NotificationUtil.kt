@@ -21,6 +21,7 @@ fun sendSimpleNotification(context: Context, title: String, contentString: Strin
 		.setSmallIcon(R.drawable.bg)
 		.setContentTitle(title)
 		.setContentText(contentString)
+		.setAutoCancel(true)
 		.setFullScreenIntent(contentIntent,true)
 	notificationBuilder.setAutoCancel(true)
 	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

@@ -50,7 +50,11 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 	
 	override fun initBefore() {
 		if (intent.getSerializableExtra("tag") == null) {
+			//刚进入app时
+			
 			replaceFragment("register")
+			
+			
 		} else {
 			replaceFragment(intent.getSerializableExtra("tag") as String)
 		}

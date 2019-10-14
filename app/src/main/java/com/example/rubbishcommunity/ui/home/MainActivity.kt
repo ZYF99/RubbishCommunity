@@ -3,6 +3,7 @@ package com.example.rubbishcommunity.ui.home
 
 import android.annotation.SuppressLint
 import androidx.fragment.app.Fragment
+import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.home.find.FindFragment
 import com.example.rubbishcommunity.ui.BindingActivity
 import com.example.rubbishcommunity.R

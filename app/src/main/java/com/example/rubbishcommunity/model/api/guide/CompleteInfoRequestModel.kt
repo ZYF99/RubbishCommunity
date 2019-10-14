@@ -5,6 +5,7 @@ data class CompleteInfoRequestModel(
 	val birthday: Long,
 	val code: String,
 	val gender: String,
+	val idType:Int,
 	val locationReq: LocationReq,
 	val name: String
 

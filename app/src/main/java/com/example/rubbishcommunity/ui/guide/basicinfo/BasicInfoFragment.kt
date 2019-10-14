@@ -20,7 +20,6 @@ import com.example.rubbishcommunity.ui.guide.AnimatorUtils
 import com.example.rubbishcommunity.ui.widget.DatePopView
 import com.example.rubbishcommunity.utils.getLocationWithCheckPermission
 import com.example.rubbishcommunity.ui.utils.showAvatarAlbum
-import com.example.rubbishcommunity.utils.mqttPublish
 import com.example.rubbishcommunity.utils.stringToDate
 import com.jakewharton.rxbinding2.view.RxView
 import com.luck.picture.lib.PictureSelector
@@ -65,6 +64,8 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 	@SuppressLint("CheckResult", "SetTextI18n")
 	override fun initWidget() {
 		
+		MyApplication.showWarning("请完善您的个人信息")
+		
 		//观测是否在Loading
 		viewModel.isLoading.observeNonNull {
 			if (it) {
@@ -101,7 +102,8 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 		fun completeInfo() {
 			//完善信息
 			viewModel.completeInfo()?.doOnSuccess {
-				//完善信息成功，跳转至主界面
+				//完善信息成功并已将更新后的数据存入本地
+				//跳转至主界面
 				startActivity(Intent(context, MainActivity::class.java))
 				(context as Activity).finish()
 			}?.bindLife()
@@ -208,8 +210,11 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 	
 	
 	override fun onBackPressed(): Boolean {
-		activity?.finish()
-		return true
+		if(!isHidden){
+			activity?.finish()
+			return true
+		}
+		return false
 	}
 	
 	

@@ -117,9 +117,6 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 			
 			//注册并登陆成功,跳转至完善信息界面主界面，由主界面判断是否需要完善信息
 			//完善信息成功，跳转至主界面
-			
-			
-			
 			startActivity(Intent(context, MainActivity::class.java))
 			(context as Activity).finish()
 			
@@ -134,8 +131,12 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 	
 	
 	override fun onBackPressed(): Boolean {
-		(activity as ContainerActivity).replaceLogin()
-		return true
+		if(!isHidden){
+			(activity as ContainerActivity).replaceLogin()
+			return true
+		}
+		
+		return false
 	}
 	
 	

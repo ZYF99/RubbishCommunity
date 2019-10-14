@@ -52,10 +52,7 @@ data class LoginOrRegisterResultModel(
 					""
 				)
 			}
-			
-			
 		}
-		
 	}
 	
 	data class UserSetting(

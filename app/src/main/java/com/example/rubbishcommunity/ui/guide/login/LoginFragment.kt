@@ -134,8 +134,11 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 	}
 	
 	override fun onBackPressed(): Boolean {
-		activity?.finish()
-		return true
+		if(!isHidden){
+			activity?.finish()
+			return true
+		}
+		return false
 	}
 	
 }

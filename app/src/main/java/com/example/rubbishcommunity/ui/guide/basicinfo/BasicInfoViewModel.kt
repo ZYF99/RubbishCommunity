@@ -9,7 +9,9 @@ import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.ui.BaseViewModel
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.guide.CompleteInfoRequestModel
+import com.example.rubbishcommunity.persistence.changeEmailVerifiedFlag
 import com.example.rubbishcommunity.persistence.getLocalEmail
+import com.example.rubbishcommunity.persistence.updateSomeUserInfo
 import com.example.rubbishcommunity.ui.utils.ErrorData
 import com.example.rubbishcommunity.ui.utils.ErrorType
 import com.example.rubbishcommunity.ui.utils.sendError
@@ -19,6 +21,7 @@ import io.reactivex.SingleTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.kodein.di.generic.instance
+import java.util.*
 
 class BasicInfoViewModel(application: Application) : BaseViewModel(application) {
 	
@@ -29,13 +32,13 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 	val name = MutableLiveData<String>()
 	val birthInt = MutableLiveData<Long>()
 	val birthString = MutableLiveData<String>()
-
+	
 	val isLoading = MutableLiveData<Boolean>()
 	private val apiService by instance<ApiService>()
 	
 	//上传头像
-	fun upLoadAvatar(path:String){
-		upLoadImage(apiService,path,object :QiNiuUtil.QiNiuUpLoadListener{
+	fun upLoadAvatar(path: String) {
+		upLoadImage(apiService, path, object : QiNiuUtil.QiNiuUpLoadListener {
 			override fun onSuccess(s: String) {
 				avatar.postValue(path)
 			}
@@ -64,8 +67,9 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 				CompleteInfoRequestModel(
 					avatar.value ?: "",
 					birthInt.value ?: 0,
-					verifyCode.value ?: "",
+					(verifyCode.value ?: "").toUpperCase(Locale.ENGLISH),
 					gender.value ?: "男",
+					0,
 					CompleteInfoRequestModel.LocationReq(
 						location.value?.city ?: "",
 						location.value?.country ?: "",
@@ -77,7 +81,18 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 					),
 					name.value ?: ""
 				)
-			).subscribeOn(Schedulers.io())
+			).subscribeOn(Schedulers.io()).doOnSuccess {
+				//改变邮箱验证状态为已验证
+				changeEmailVerifiedFlag(true)
+				//更新本地基本信息
+				updateSomeUserInfo(
+					avatar.value ?: "",
+					gender.value ?: "",
+					name.value ?: "",
+					birthString.value ?: "",
+					location.value ?: BDLocation()
+				)
+			}
 				.observeOn(AndroidSchedulers.mainThread())
 				.compose(dealErrorCode())
 				.compose(dealError())
@@ -107,7 +122,7 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 	//判断填写的参数
 	private fun judgeCompleteInfoParams(): Boolean {
 		if ((verifyCode.value ?: "").length == 6) {
-			if ((name.value ?: "").length in 4..8) {
+			if ((name.value ?: "").length in 3..10) {
 				if ((birthString.value ?: "").length > 4) {
 					return true
 				} else {
@@ -122,7 +137,7 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 				sendError(
 					ErrorData(
 						ErrorType.INPUT_ERROR,
-						"昵称长度必须在6-16位之间"
+						"昵称长度必须大于2位"
 					)
 				)
 			}
