@@ -42,9 +42,6 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	
 	}
 	
-	//最多展示张数
-	private val selectMax = 9
-	
 	//添加图片按钮
 	override fun onAddPicClick() {
 		//获取写的权限

@@ -78,9 +78,9 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 								systemModel,
 								osVersion
 							), 0,
-							password.value!!,
+							password.value?:"",
 							false,
-							email.value!!
+							email.value?:""
 						)
 					)
 				}.compose(dealErrorCode())
@@ -91,8 +91,8 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 				.doOnSuccess {
 					//持久化得到的token以及用户登录的信息
 					saveVerifyInfo(
-						email.value!!,
-						password.value!!,
+						email.value?:"",
+						password.value?:"",
 						it.data.token,
 						it.data.openId,
 						it.data.usrStatusFlag.emailVerifiedFlag,

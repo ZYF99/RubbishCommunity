@@ -65,8 +65,6 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 		progress.postValue(0)
 	}
 	
-
-
 	
 	fun saveDraft() {
 		if (title.value!!.isNotEmpty() || content.value!!.isNotEmpty()) {
@@ -88,38 +86,43 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 	//上传图片并发布动态
 	fun release(releaseListener: ReleaseListener): Single<ResultModel<Map<String, String>>>? {
 		if (judgeReleaseParams()) {
-			//上传图片至七牛云
-			return upLoadImageList(
-				apiService,
-				selectedList.value!!,
-				object : QiNiuUtil.QiNiuUpLoadListener {
-					override fun onSuccess(s: String) {
-						//上传图片列表成功
-						isLoading.postValue(false)
-						progress.postValue(0)
-						releaseListener.releaseSuccess(s)
-					}
-					
-					override fun onProgress(percent: Int) {
-						//进度更新
-						progress.postValue(percent)
-					}
-				}).compose(dealLoading())
+			if ((selectedList.value ?: listOf<String>()).isNotEmpty()) {
+				//有图片
+				//上传图片至七牛云
+				return upLoadImageList(
+					apiService,
+					selectedList.value!!,
+					object : QiNiuUtil.QiNiuUpLoadListener {
+						override fun onSuccess(s: String) {
+							//上传图片列表成功
+							isLoading.postValue(false)
+							progress.postValue(0)
+							releaseListener.releaseSuccess(s)
+						}
+						
+						override fun onProgress(percent: Int) {
+							//进度更新
+							progress.postValue(percent)
+						}
+					}).compose(dealLoading())
+			} else {
+				//没图片
+				//直接发动态
+				/*		return apiService.releaseDynamic(
+							ReleaseDynamicRequestModel(
+								"!!!!我要发布动态!!!!"
+							)
+					).subscribeOn(Schedulers.io())
+							.observeOn(AndroidSchedulers.mainThread())
+							.compose(dealLoading())
+							.compose(dealErrorCode())
+							.compose(dealError())*/
+			}
+			
+			
 		}
 		return null
-
-
-/*		return apiService.releaseDynamic(
-			ReleaseDynamicRequestModel(
-				"!!!!我要发布动态!!!!"
-			)
-		).subscribeOn(Schedulers.io())
-			.observeOn(AndroidSchedulers.mainThread())
-			.compose(dealLoading())
-			.compose(dealErrorCode())
-			.compose(dealError())*/
 		
-		//设置上传后文件的key
 		
 	}
 	

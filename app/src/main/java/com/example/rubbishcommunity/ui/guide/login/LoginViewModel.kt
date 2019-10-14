@@ -60,9 +60,9 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 						osVersion
 						
 					), 0,
-					password.value!!,
+					password.value?:"",
 					false,
-					userName.value!!
+					userName.value?:""
 				)
 			).delay(1, TimeUnit.SECONDS)
 				.subscribeOn(Schedulers.io())
@@ -73,8 +73,8 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 				.doOnSuccess {
 					//持久化得到的token以及用户登录的信息
 					saveVerifyInfo(
-						userName.value!!,
-						password.value!!,
+						userName.value?:"",
+						password.value?:"",
 						it.data.token,
 						it.data.openId,
 						it.data.usrStatusFlag.emailVerifiedFlag,

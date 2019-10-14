@@ -1,6 +1,7 @@
 package com.example.rubbishcommunity.manager.api
 
 import com.example.rubbishcommunity.model.Dynamic
+import com.example.rubbishcommunity.model.Photography
 import com.example.rubbishcommunity.model.Vote
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.guide.CompleteInfoRequestModel
@@ -14,6 +15,10 @@ import io.reactivex.Single
 import retrofit2.http.*
 
 interface ApiService {
+	
+	//获取欢迎界面的写真
+	@GET("api/welcome/photography/get")
+	fun getPhotographyList():Single<ResultModel<List<Photography>>>
 	
 	//登陆或注册
 	@POST("api/account/login")

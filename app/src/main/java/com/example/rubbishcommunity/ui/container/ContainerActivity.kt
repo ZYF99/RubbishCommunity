@@ -13,6 +13,7 @@ import com.example.rubbishcommunity.ui.SoftObservableFragment
 import com.example.rubbishcommunity.ui.guide.basicinfo.BasicInfoFragment
 import com.example.rubbishcommunity.ui.guide.login.LoginFragment
 import com.example.rubbishcommunity.ui.guide.register.RegisterFragment
+import com.example.rubbishcommunity.ui.guide.welcome.WelcomeFragment
 import com.example.rubbishcommunity.ui.home.find.dynamic.detail.DynamicDetailFragment
 import com.example.rubbishcommunity.ui.home.find.dynamic.detail.innercomment.InnerCommentFragment
 import com.example.rubbishcommunity.ui.release.dynamic.ReleaseDynamicFragment
@@ -52,7 +53,7 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 		if (intent.getSerializableExtra("tag") == null) {
 			//刚进入app时
 			
-			replaceFragment("register")
+			replaceFragment("welcome")
 			
 			
 		} else {
@@ -80,6 +81,8 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 		
 		if (currentFragment == null) {
 			currentFragment = when (tag) {
+				"welcome" -> //欢迎界面
+					WelcomeFragment()
 				"login" -> //登陆界面
 					LoginFragment()
 				"register" -> //注册界面
@@ -109,7 +112,13 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 fun jumpToLogin(context: Context) {
 	val bundle = Bundle()
 	bundle.putString("tag", "login")
-	
+	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
+}
+
+//跳转至注册界面
+fun jumpToRegister(context: Context) {
+	val bundle = Bundle()
+	bundle.putString("tag", "register")
 	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }
 

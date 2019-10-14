@@ -3,6 +3,7 @@
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="colorAccent">#77DDBD</color>
+    <color name="colorAccentTrans">#4577DDBD</color>
 
     <color name="colorLayoutBg">#FCFCFC</color>
     <color name="colorPlaceHolder">#E4EBEBEB</color>
@@ -19,6 +20,9 @@
     <color name="black">#000000</color>
     <color name="colorTrans">#00FFFFFF</color>
     <color name="colorGang">#95F0F0F0</color>
+
+
+    <color name="colorBlackTrans">#61000000</color>
 
     <color name="bg_title">#F5A623</color>
 
