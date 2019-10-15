@@ -9,11 +9,18 @@
         <item name="android:windowAnimationStyle">@style/activityAnimation</item>
         <!--设置没有Title-->
         <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
-<!--        <item name="android:fitsSystemWindows">true</item>
+        <!--        <item name="android:fitsSystemWindows">true</item>
+                <item name="android:windowNoTitle">true</item>
+                <item name="windowNoTitle">true</item>-->
+    </style>
+    <!--SplashActivity Theme-->
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>  <!--&lt;!&ndash; 透明背景 &ndash;&gt;-->
         <item name="android:windowNoTitle">true</item>
-        <item name="windowNoTitle">true</item>-->
-
-
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/colorAccent</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowAnimationStyle">@style/activityAnimation</item>
     </style>
 
 

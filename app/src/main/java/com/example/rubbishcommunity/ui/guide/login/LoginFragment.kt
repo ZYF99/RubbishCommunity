@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import com.example.rubbishcommunity.ui.BindingFragment
@@ -82,7 +83,11 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 						//有权限，直接登录
 						login()
 					}
-				}.bindLife()
+				}.doOnDispose {
+					Log.d("AAAAAA","登陆退订！")
+				}
+				
+				.bindLife()
 			
 			//注册按钮
 			RxView.clicks(binding.btnRegister).throttleFirst(2, TimeUnit.SECONDS)

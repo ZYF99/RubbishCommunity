@@ -17,7 +17,7 @@ abstract class BaseViewModel(application: Application) :
 	override val compositeDisposable = CompositeDisposable()
 	
 	
-	//fun for ste default value
+	//fun for set default value
 	fun <T : Any?> MutableLiveData<T>.default(initialValue: T) = apply { setValue(initialValue) }
 	
 	

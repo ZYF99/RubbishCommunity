@@ -21,8 +21,8 @@
                 android:id="@+id/cell"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="8dp"
                 android:paddingStart="8dp"
+                android:paddingTop="8dp"
                 android:visibility="visible"
                 tools:ignore="RtlSymmetry">
 
@@ -34,17 +34,17 @@
                     android:layout_height="36dp"
                     android:scaleType="centerCrop"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/cell_person_name" />
+                    app:layout_constraintTop_toTopOf="@+id/chat_left_msg" />
 
 
             <TextView
-                    android:id="@+id/cell_person_name"
+                    android:id="@+id/chat_left_msg"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:text="通知信息"
+                    android:text="@{message.title,default=通知消息}"
                     android:textColor="@android:color/black"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toStartOf="@+id/cell_msg_time"
@@ -55,16 +55,14 @@
                     android:id="@+id/cell_person_btn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="4dp"
-                    android:text="土豆"
+                    android:text="@{message.uid,default=张大峰}"
                     android:textColor="#AAAAAA"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/cell_msg_time"
-                    app:layout_constraintStart_toEndOf="@+id/cell_msg_icon"
-                    app:layout_constraintTop_toBottomOf="@+id/cell_person_name" />
+                    app:layout_constraintEnd_toEndOf="@+id/chat_left_msg"
+                    app:layout_constraintStart_toStartOf="@+id/chat_left_msg"
+                    app:layout_constraintTop_toBottomOf="@+id/chat_left_msg" />
 
             <TextView
                     android:id="@+id/cell_msg_time"
@@ -73,7 +71,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:padding="4dp"
-                    android:text="17:40"
+                    android:text='@{message.time,default="17:40"}'
                     android:textColor="#AAAAAA"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -84,8 +82,8 @@
                     android:layout_width="224dp"
                     android:layout_height="1dp"
                     android:background="@color/colorGang"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

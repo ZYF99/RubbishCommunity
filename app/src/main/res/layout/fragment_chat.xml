@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="ChatBinding">
+
+        <import type="android.view.View" />
+
+        <variable
+                name="vm"
+                type="com.example.rubbishcommunity.ui.home.message.chat.ChatViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp">
+
+        <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar"
+                bind:title="@{vm.toolbarTitle}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rec_chat"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                bind:layout_constraintBottom_toTopOf="@+id/card_btn" />
+
+
+        <androidx.cardview.widget.CardView
+                android:id="@+id/card_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="6dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <LinearLayout
+                        android:id="@+id/lin_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingBottom="8dp">
+
+                    <EditText
+                            android:id="@+id/edit_msg"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginEnd="12dp"
+                            android:layout_marginBottom="4dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_corner_rect"
+                            android:backgroundTint="@color/gang"
+                            android:inputType="textMultiLine"
+                            android:paddingLeft="12dp"
+                            android:paddingTop="8dp"
+                            android:paddingRight="12dp"
+                            android:paddingBottom="8dp"
+                            android:text="@={vm.inputMsg}"
+                            android:textSize="14sp"
+                            tools:targetApi="lollipop" />
+
+                    <TextView
+                            android:id="@+id/btn_send"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:enabled="@{vm.inputMsg.length()>0?true:false}"
+                            android:layout_weight="0"
+                            android:background="@drawable/bg_corner_rect"
+                            android:backgroundTint="@{vm.inputMsg.length()>0? @color/colorAccent: @color/colorGang}"
+                            android:paddingLeft="16dp"
+                            android:paddingTop="8dp"
+                            android:paddingRight="16dp"
+                            android:paddingBottom="8dp"
+                            android:text="发送"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            tools:targetApi="lollipop" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

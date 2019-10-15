@@ -18,6 +18,13 @@ fun stringToDate(string: String): Date {
 	return date
 }
 
+fun getNowString() :String{
+	val formatter = SimpleDateFormat("yyyy年MM月dd日   HH:mm:ss")
+	val curDate = Date(System.currentTimeMillis())
+	//获取当前时间
+	return formatter.format(curDate)
+}
+
 fun getAgeByBirth(birthDay: Date): Int {
 	var age: Int
 	val cal = Calendar.getInstance()

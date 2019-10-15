@@ -27,8 +27,7 @@ class MessageListAdapter
 	
 	lateinit var binding: MsgCellBinding
 	
-	class SimpleViewHolder
-		(itemView: View) : RecyclerView.ViewHolder(itemView)
+	class SimpleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 	
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleViewHolder {
 		val view = LayoutInflater.from(parent.context).inflate(R.layout.cell_msg, parent, false)
@@ -37,7 +36,7 @@ class MessageListAdapter
 	
 	override fun onBindViewHolder(viewHolder: SimpleViewHolder, position: Int) {
 		binding = DataBindingUtil.bind(viewHolder.itemView)!!
-		val msg = mDataset[position]
+		binding.message = mDataset[position]
 		
 		RxView.clicks(binding.cell).throttleFirst(2, TimeUnit.SECONDS).doOnNext {
 			cellClickListener.onCellClick(position)
@@ -49,8 +48,6 @@ class MessageListAdapter
 			notifyItemRangeChanged(position, mDataset.size)
 			cellClickListener.onDellClick(position)
 		}.subscribe()
-		
-		binding.cellPersonName.text = msg.msg
 	}
 	
 	override fun getItemCount(): Int {

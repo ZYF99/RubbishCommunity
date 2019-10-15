@@ -32,6 +32,6 @@ interface BindLife {
         if (disposable != null)
             compositeDisposable.remove(disposable)
     }
-
+    
     fun destroyDisposable() = compositeDisposable.clear()
 }

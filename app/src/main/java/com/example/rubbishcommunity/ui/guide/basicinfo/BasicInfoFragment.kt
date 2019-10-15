@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import com.baidu.location.BDAbstractLocationListener
 import com.baidu.location.BDLocation
+import com.baidu.location.LocationClient
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.BasicInfoFragBinding
@@ -29,12 +30,15 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.kodein.di.generic.instance
 import java.util.concurrent.TimeUnit
 
 
 class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewModel>(
 	BasicInfoViewModel::class.java, R.layout.fragment_basic_info
 ) {
+	
+	private val locationClient by instance<LocationClient>()
 	
 	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
 	
@@ -180,7 +184,7 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 		
 		
 		//获取定位
-		getLocationWithCheckPermission(activity!!, object : BDAbstractLocationListener() {
+		getLocationWithCheckPermission(activity!!,locationClient,object : BDAbstractLocationListener() {
 			override fun onReceiveLocation(bdLocation: BDLocation?) {
 				viewModel.location.postValue(bdLocation)
 			}

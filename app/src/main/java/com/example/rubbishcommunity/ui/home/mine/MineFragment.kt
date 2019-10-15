@@ -4,15 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MineBinding
 import com.example.rubbishcommunity.persistence.saveLoginState
 import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.example.rubbishcommunity.ui.home.MainActivity
-import com.example.rubbishcommunity.utils.mqttDisconnect
-import com.example.rubbishcommunity.utils.mqttUnsubscribe
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 import com.jakewharton.rxbinding2.view.RxView
 
@@ -56,13 +53,12 @@ class MineFragment : BindingFragment<MineBinding, MineViewModel>(
 				
 				//模拟注销成功
 				//注销成功
-				// 退订MQTT
-				mqttUnsubscribe().doOnSuccess {
-					MyApplication.showSuccess("退订MQTT成功")
-				}.bindLife()
+
 				
 				saveLoginState(false)
 				val bundle = Bundle()
+				
+			
 				bundle.putString("tag", "login")
 				startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 				(context as Activity).finish()

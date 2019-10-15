@@ -93,6 +93,7 @@ constructor(
 	//Fragment's destroy function
 	override fun onDestroy() {
 		destroyDisposable()
+		(viewModel as BaseViewModel).destroyDisposable()
 		super.onDestroy()
 	}
 	

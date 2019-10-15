@@ -2,6 +2,7 @@ package com.example.rubbishcommunity.ui.home
 
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.fragment.app.Fragment
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.home.find.FindFragment
@@ -18,8 +19,9 @@ import com.example.rubbishcommunity.ui.home.search.SearchFragment
 import com.example.rubbishcommunity.ui.widget.AddDialog
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
 import com.example.rubbishcommunity.utils.mqttPublish
+import com.example.rubbishcommunity.utils.mqttUnsubscribe
 import com.jakewharton.rxbinding2.view.RxView
-import io.reactivex.Observable
+import io.reactivex.Single
 import java.util.concurrent.TimeUnit
 
 
@@ -30,6 +32,7 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	
 	
 	override fun initBefore() {
+	
 	}
 	
 	@SuppressLint("ResourceType")
@@ -71,7 +74,9 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 		RxView.clicks(binding.btnSendMqttSmg)
 			.throttleFirst(2, TimeUnit.SECONDS)
 			.doOnNext {
-				mqttPublish().bindLife()
+				mqttPublish(viewModel.mqttClient).doOnSuccess {
+					MyApplication.showSuccess("send success")
+				}.bindLife()
 			}.bindLife()
 		
 		handleError()
@@ -79,7 +84,7 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 		//判断是否需要完善信息
 		if (!getLocalVerifiedEmail() && getLocalNeedMoreInfo()) {
 			//需要验证邮箱和完善信息,跳转至完善信息界面
-			Observable.timer(200, TimeUnit.MILLISECONDS).doOnNext {
+			Single.timer(200, TimeUnit.MILLISECONDS).doOnSuccess {
 				jumpToBasicInfo(this)
 				finish()
 			}.bindLife()
@@ -88,7 +93,10 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	}
 	
 	override fun initData() {
-		viewModel.init()
+		viewModel.initMqtt()
+			.doOnDispose {
+				Log.d("AAAAA", "退订流成功")
+			}.bindLife()
 	}
 	
 	
@@ -136,7 +144,8 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 			}
 		}).showAbove(binding.btnAdd)
 	}
-
+	
+	fun getMqClient() = viewModel.mqttClient
 
 /*    private fun startByRxActivityResult() {
         RxActivityResult.on(this)
@@ -150,5 +159,16 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
             }.bindLife()
     }*/
 	
+	override fun onDestroy() {
+		super.onDestroy()
+		
+		// 退订MQTT
+		mqttUnsubscribe(viewModel.mqttClient)
+			.doOnSuccess {
+				Log.d("AAAAA", "退订MQTT成功")
+			}.bindLife()
+		
+		
+	}
 	
 }

@@ -13,6 +13,13 @@ import com.example.rubbishcommunity.MyApplication
 import com.luck.picture.lib.permissions.RxPermissions
 import io.reactivex.Observable
 
+
+
+class BaiDuLocationUtil {
+
+	
+}
+
 /**
  * 初始化定位参数配置
  */
@@ -97,7 +104,7 @@ class MyLocationListener : BDAbstractLocationListener() {
 }
 
 //检查权限并获取定位
-fun getLocationWithCheckPermission(activity:Activity,onReceiveLocationListener: BDAbstractLocationListener):Observable<Boolean>? {
+fun getLocationWithCheckPermission(activity:Activity,locationClient: LocationClient,onReceiveLocationListener: BDAbstractLocationListener):Observable<Boolean>? {
 	//定位权限检查
 	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 		//定位权限检查
@@ -113,21 +120,20 @@ fun getLocationWithCheckPermission(activity:Activity,onReceiveLocationListener: 
 					//申请权限未通过
 					MyApplication.showWarning("请打开定位权限以便于我们为您提供更好的服务～")
 				} else {
-					getLocation(onReceiveLocationListener)
+					getLocation(locationClient,onReceiveLocationListener)
 				}
 			}
 		} else {
-			getLocation(onReceiveLocationListener)
+			getLocation(locationClient,onReceiveLocationListener)
 		}
 	} else {
-		getLocation(onReceiveLocationListener)
+		getLocation(locationClient,onReceiveLocationListener)
 	}
 	return null
 }
 
 //真实获取定位
-fun getLocation(onReceiveLocationListener: BDAbstractLocationListener) {
-	val locationClient = initLocationOption(MyApplication.instance)
+fun getLocation(locationClient: LocationClient,onReceiveLocationListener: BDAbstractLocationListener) {
 	locationClient.registerLocationListener(object : BDAbstractLocationListener() {
 		override fun onReceiveLocation(bdLocation: BDLocation?) {
 			if (bdLocation != null) {

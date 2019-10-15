@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import com.baidu.location.BDAbstractLocationListener
 import com.baidu.location.BDLocation
+import com.baidu.location.LocationClient
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.BindingFragment
 import com.example.rubbishcommunity.R
@@ -27,12 +28,15 @@ import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.permissions.RxPermissions
+import org.kodein.di.generic.instance
 import java.util.concurrent.TimeUnit
 
 
 class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDynamicViewModel>(
 	ReleaseDynamicViewModel::class.java, R.layout.fragment_release_dynamic
 ), ReleaseDynamicGridImageAdapter.OnGridItemClickListener {
+	
+	private val locationClient by instance<LocationClient>()
 	
 	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
 	
@@ -156,7 +160,7 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	
 	//获取定位
 	private fun getLocation() {
-		getLocationWithCheckPermission(activity!!,object :BDAbstractLocationListener(){
+		getLocationWithCheckPermission(activity!!,locationClient,object :BDAbstractLocationListener(){
 			override fun onReceiveLocation(bdLocation: BDLocation?) {
 				viewModel.location.postValue(bdLocation?.addrStr)
 			}

@@ -1,5 +1,6 @@
 package com.example.rubbishcommunity.utils
 
+
 import android.content.Context
 import com.example.rubbishcommunity.BuildConfig
 import com.example.rubbishcommunity.MyApplication
@@ -9,6 +10,7 @@ import io.reactivex.Single
 import org.eclipse.paho.android.service.MqttAndroidClient
 import org.eclipse.paho.client.mqttv3.*
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions
+
 
 
 fun initMqttClient(applicationContext: Context): MqttAndroidClient {
@@ -27,7 +29,7 @@ fun initMqttClient(applicationContext: Context): MqttAndroidClient {
 		}
 		
 		override fun messageArrived(topic: String, message: MqttMessage) {
-	
+			
 			sendSimpleNotification(applicationContext,topic,message.toString())
 		}
 		
@@ -35,18 +37,18 @@ fun initMqttClient(applicationContext: Context): MqttAndroidClient {
 		
 		}
 	})
-
+	
 	return mqttClient
 }
 
 //配置失联参数
-fun setDisconnectedBufferOptions(){
+fun setDisconnectedBufferOptions(mqttClient: MqttAndroidClient){
 	val disconnectedBufferOptions = DisconnectedBufferOptions()
 	disconnectedBufferOptions.isBufferEnabled = true
 	disconnectedBufferOptions.bufferSize = 5000
 	disconnectedBufferOptions.isDeleteOldestMessages = true
 	disconnectedBufferOptions.isPersistBuffer = true
-	MyApplication.instance.mqttClient.setBufferOpts(disconnectedBufferOptions)
+	mqttClient.setBufferOpts(disconnectedBufferOptions)
 }
 
 //获取连接参数
@@ -61,10 +63,10 @@ private fun getConnectOptions(): MqttConnectOptions {
 
 
 //连接
-fun mqttConnect(): Single<IMqttToken> {
+fun mqttConnect(mqttClient: MqttAndroidClient): Single<IMqttToken> {
 	
 	return Single.create { emitter ->
-		MyApplication.instance.mqttClient.connect(getConnectOptions(), object : IMqttActionListener {
+		mqttClient.connect(getConnectOptions(), object : IMqttActionListener {
 			override fun onSuccess(asyncActionToken: IMqttToken) {
 				emitter.onSuccess(asyncActionToken)
 			}
@@ -80,9 +82,9 @@ fun mqttConnect(): Single<IMqttToken> {
 }
 
 //订阅
-fun mqttSubscribe(): Single<IMqttToken> {
+fun mqttSubscribe(mqttClient: MqttAndroidClient): Single<IMqttToken> {
 	return Single.create { emitter ->
-		MyApplication.instance.mqttClient.subscribe("SystemDec", 1, null, object : IMqttActionListener {
+		mqttClient.subscribe("SystemDec", 1, null, object : IMqttActionListener {
 			override fun onSuccess(asyncActionToken: IMqttToken) {
 				emitter.onSuccess(asyncActionToken)
 			}
@@ -99,10 +101,10 @@ fun mqttSubscribe(): Single<IMqttToken> {
 
 
 //发布消息
-fun mqttPublish(): Single<IMqttToken> {
+fun mqttPublish(mqttClient: MqttAndroidClient): Single<IMqttToken> {
 	
 	return Single.create { emitter ->
-		MyApplication.instance.mqttClient.publish(
+		mqttClient.publish(
 			"SystemDec",
 			"Hello~Android".toByteArray(),
 			1,
@@ -125,9 +127,9 @@ fun mqttPublish(): Single<IMqttToken> {
 
 
 //取消订阅
-fun mqttUnsubscribe(): Single<IMqttToken> {
+fun mqttUnsubscribe(mqttClient: MqttAndroidClient): Single<IMqttToken> {
 	return Single.create { emitter ->
-		MyApplication.instance.mqttClient.unsubscribe("SystemDec", null, object : IMqttActionListener {
+		mqttClient.unsubscribe("SystemDec", null, object : IMqttActionListener {
 			override fun onSuccess(asyncActionToken: IMqttToken) {
 				emitter.onSuccess(asyncActionToken)
 			}
@@ -140,9 +142,9 @@ fun mqttUnsubscribe(): Single<IMqttToken> {
 
 
 //断开连接
-fun mqttDisconnect(): Single<IMqttToken> {
+fun mqttDisconnect(mqttClient: MqttAndroidClient): Single<IMqttToken> {
 	return Single.create { emitter ->
-		MyApplication.instance.mqttClient.disconnect(null, object : IMqttActionListener {
+		mqttClient.disconnect(null, object : IMqttActionListener {
 			override fun onSuccess(asyncActionToken: IMqttToken) {
 				emitter.onSuccess(asyncActionToken)
 			}

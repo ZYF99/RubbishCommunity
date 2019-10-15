@@ -3,14 +3,9 @@ package com.example.rubbishcommunity.model
 
 import java.io.Serializable
 
-class Message(var iconUrl: String, var title: String, var msg: String, var time: String) : Serializable {
-
+data class Message(val uid:String,val iconUrl: String, val title: String, val msg: String, val time: String) : Serializable {
+    
     override fun toString(): String {
-        return "Message{" +
-                "iconUrl='" + iconUrl + '\''.toString() +
-                ", toolbarTitle='" + title + '\''.toString() +
-                ", msg='" + msg + '\''.toString() +
-                ", time='" + time + '\''.toString() +
-                '}'.toString()
+        return "Message(uid='$uid', iconUrl='$iconUrl', title='$title', msg='$msg', time='$time')"
     }
 }

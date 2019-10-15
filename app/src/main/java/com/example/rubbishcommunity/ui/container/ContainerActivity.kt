@@ -16,6 +16,7 @@ import com.example.rubbishcommunity.ui.guide.register.RegisterFragment
 import com.example.rubbishcommunity.ui.guide.welcome.WelcomeFragment
 import com.example.rubbishcommunity.ui.home.find.dynamic.detail.DynamicDetailFragment
 import com.example.rubbishcommunity.ui.home.find.dynamic.detail.innercomment.InnerCommentFragment
+import com.example.rubbishcommunity.ui.home.message.chat.ChatFragment
 import com.example.rubbishcommunity.ui.release.dynamic.ReleaseDynamicFragment
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
 import com.example.rubbishcommunity.utils.SoftKeyBroadManager
@@ -50,15 +51,7 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 	
 	
 	override fun initBefore() {
-		if (intent.getSerializableExtra("tag") == null) {
-			//刚进入app时
-			
-			replaceFragment("welcome")
-			
-			
-		} else {
-			replaceFragment(intent.getSerializableExtra("tag") as String)
-		}
+
 	}
 	
 	@SuppressLint("ResourceType")
@@ -67,6 +60,12 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 		StatusBarUtil.setStatusTextColor(true, this)
 		binding.vm = viewModel
 		handleError()
+		if (intent.getSerializableExtra("tag") == null) {
+			//刚进入app时
+			replaceFragment("welcome")
+		} else {
+			replaceFragment(intent.getSerializableExtra("tag") as String)
+		}
 	}
 	
 	override fun initData() {
@@ -95,6 +94,8 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 					DynamicDetailFragment()
 				"innerComment" -> //内部评论列表界面
 					InnerCommentFragment()
+				"chat" -> //聊天界面
+					ChatFragment()
 				else -> SoftObservableFragment()
 			}
 			supportFragmentManager.beginTransaction()
@@ -159,6 +160,15 @@ fun jumpToInnerComment(context: Context, commentList: List<Comment>) {
 	)
 	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }
+
+//跳转至聊天界面
+fun jumpToChat(context: Context,openId:String) {
+	val bundle = Bundle()
+	bundle.putString("tag", "chat")
+	bundle.putString("openId", openId)
+	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
+}
+
 
 
 
