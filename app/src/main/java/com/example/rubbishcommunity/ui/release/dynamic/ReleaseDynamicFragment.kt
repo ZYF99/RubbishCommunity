@@ -39,11 +39,9 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	private val locationClient by instance<LocationClient>()
 	
 	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
-	
 	}
 	
 	override fun onSoftKeyboardClosed() {
-	
 	}
 	
 	//添加图片按钮

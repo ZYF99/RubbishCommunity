@@ -18,36 +18,67 @@
             android:layout_height="match_parent"
             android:paddingTop="10dp">
 
-        <include
-                android:id="@+id/toolbar"
-                layout="@layout/toolbar"
-                bind:title="@{vm.toolbarTitle}" />
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rec_chat"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+        <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/toolbar"
-                bind:layout_constraintBottom_toTopOf="@+id/card_btn" />
+                app:layout_constraintTop_toTopOf="parent">
 
-
-        <androidx.cardview.widget.CardView
-                android:id="@+id/card_btn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="0dp"
-                app:cardElevation="6dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-            <LinearLayout
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:paddingTop="10dp"
+                    app:elevation="10dp"
+                    app:layout_collapseMode="pin"
+                    app:navigationIcon="@drawable/ic_arrow_back_black_24dp">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@{vm.toolbarTitle,default=Toolbar标题}"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cons_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/appbar">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rec_chat"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toTopOf="@id/lin_input"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+
+            <LinearLayout
+                    android:id="@+id/lin_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
 
                 <LinearLayout
                         android:id="@+id/lin_comment"
@@ -58,7 +89,7 @@
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:paddingLeft="16dp"
-                        android:paddingTop="16dp"
+                        android:paddingTop="8dp"
                         android:paddingRight="16dp"
                         android:paddingBottom="8dp">
 
@@ -85,10 +116,10 @@
                             android:id="@+id/btn_send"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:enabled="@{vm.inputMsg.length()>0?true:false}"
                             android:layout_weight="0"
                             android:background="@drawable/bg_corner_rect"
                             android:backgroundTint="@{vm.inputMsg.length()>0? @color/colorAccent: @color/colorGang}"
+                            android:enabled="@{vm.inputMsg.length()>0?true:false}"
                             android:paddingLeft="16dp"
                             android:paddingTop="8dp"
                             android:paddingRight="16dp"
@@ -101,9 +132,43 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
-        </androidx.cardview.widget.CardView>
+                    <ImageView
+                            android:id="@+id/imageView4"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="32dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_weight="0"
+                            android:src="@drawable/icon_img"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                            android:id="@+id/imageView8"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="32dp"
+                            android:layout_weight="0"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/icon_expression"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+                            app:layout_constraintStart_toEndOf="@+id/imageView4"
+                            app:layout_constraintTop_toTopOf="@+id/imageView4" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

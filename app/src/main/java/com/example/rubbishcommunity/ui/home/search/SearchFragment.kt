@@ -1,11 +1,13 @@
 package com.example.rubbishcommunity.ui.home.search
 
+import android.app.Activity
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView.*
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.SearchBinding
+import com.example.rubbishcommunity.ui.hideInput
 import com.hankcs.hanlp.HanLP
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -62,7 +64,7 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 				MyApplication.showSuccess("解析结果：$it")
 				viewModel.search(it[0])
 			}.doOnSuccess {
-				hideKeyboard()
+				hideInput(activity as Activity)
 			}.bindLife()
 	}
 	

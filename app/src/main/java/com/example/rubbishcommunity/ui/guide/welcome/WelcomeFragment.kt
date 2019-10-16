@@ -1,5 +1,6 @@
 package com.example.rubbishcommunity.ui.guide.welcome
 
+import android.app.Activity
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView.*
 import com.example.rubbishcommunity.MyApplication
@@ -10,6 +11,7 @@ import com.example.rubbishcommunity.persistence.getLoginState
 import com.example.rubbishcommunity.ui.adapter.GalleryPagerTransformer
 import com.example.rubbishcommunity.ui.adapter.PhotographyPagerAdapter
 import com.example.rubbishcommunity.ui.container.jumpToRegister
+import com.example.rubbishcommunity.ui.hideInput
 import com.hankcs.hanlp.HanLP
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Single
@@ -85,7 +87,7 @@ class WelcomeFragment : BindingFragment<WelcomeBinding, WelcomeViewModel>(
 				MyApplication.showSuccess("解析结果：$it")
 				viewModel.search(it[0])
 			}.doOnSuccess {
-				hideKeyboard()
+				hideInput(activity as Activity)
 			}.bindLife()
 	}
 

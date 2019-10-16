@@ -1,9 +1,9 @@
 package com.example.rubbishcommunity.model
 
 data class ChatMessage(
-	val uid:String,
+	val openId:String,
 	val iconUrl:String,
 	val content:String,
-	val time:String
+	val time:Long
 ) {
 }

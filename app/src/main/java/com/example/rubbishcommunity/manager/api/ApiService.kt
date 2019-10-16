@@ -80,5 +80,9 @@ interface ApiService {
 	fun getVote(@Query("voteId") Id: String): Single<Vote>
 	
 	
+	
+	//聊天部分***************************************************************************************
+	@POST("msg")
+	fun sendMsgToPeople(@Query("msg") msg: String): Single<String>
 
 }

@@ -102,15 +102,7 @@ constructor(
 		return false
 	}
 	
-	//hide keyBoard
-	fun hideKeyboard() {
-		val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-		if (imm!!.isActive)
-			imm.hideSoftInputFromWindow(
-				(context as Activity).currentFocus?.windowToken,
-				InputMethodManager.HIDE_NOT_ALWAYS
-			)
-	}
+
 	
 	//check network
 	protected fun isNetworkAvailable() =

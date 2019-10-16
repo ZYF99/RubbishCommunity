@@ -9,6 +9,10 @@
         <variable
                 name="chatMessage"
                 type="com.example.rubbishcommunity.model.ChatMessage" />
+
+        <variable
+                name="myAvatar"
+                type="String" />
     </data>
 
 
@@ -21,12 +25,13 @@
 
         <TextView
                 android:id="@+id/cell_msg_time"
+                recentTime="@{chatMessage.time}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
+                android:hint="17:40"
                 android:padding="4dp"
-                android:text='@{chatMessage.time,default="17:40"}'
                 android:textColor="#AAAAAA"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -37,8 +42,8 @@
         <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/leftimg"
                 imageUrl="@{chatMessage.iconUrl}"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
                 app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +53,10 @@
                 android:id="@+id/relativeLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/rightimg"
@@ -60,13 +68,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_margin="4dp">
+                    android:layout_margin="4dp"
+                    app:cardCornerRadius="6dp">
 
                 <TextView
                         android:id="@+id/chat_left_msg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="6dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
                         android:singleLine="false"
                         android:text='@{chatMessage.content,default="leftMsg"}'
                         android:textColor="@android:color/black"
@@ -78,13 +90,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_margin="4dp">
+                    android:layout_margin="4dp"
+                    app:cardCornerRadius="6dp">
 
                 <TextView
                         android:id="@+id/chat_right_msg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="6dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
                         android:singleLine="false"
                         android:text='@{chatMessage.content,default="rightMsg"}'
                         android:textColor="@android:color/black"
@@ -96,9 +112,9 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/rightimg"
-                imageUrl="@{chatMessage.iconUrl}"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                imageUrl='@{myAvatar}'
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
                 app:layout_constraintEnd_toEndOf="parent"

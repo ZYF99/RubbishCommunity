@@ -26,6 +26,8 @@ fun initMqttClient(applicationContext: Context): MqttAndroidClient {
 		
 		override fun connectionLost(cause: Throwable) {
 			MyApplication.showWarning("MQTT断开连接：${cause.message}")
+			mqttConnect(mqttClient)
+			
 		}
 		
 		override fun messageArrived(topic: String, message: MqttMessage) {

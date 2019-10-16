@@ -33,7 +33,7 @@ class MessageViewModel(application: Application) : BaseViewModel(application) {
         )
 
 
-        val list = mutableListOf(item, item, item, item, item, item, item, item, item, item, item, item)
+        val list = mutableListOf(item, item, item, item)
 
         messageList.value = list
 

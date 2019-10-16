@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data class="MessageBinding">
         <variable name="vm"
-                  type="com.example.rubbishcommunity.ui.home.message.MessageViewModel"/>
+                type="com.example.rubbishcommunity.ui.home.message.MessageViewModel"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -38,20 +38,21 @@
 
         <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
                 android:background="@color/colorLayoutBg"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
 
                 <com.scwang.smartrefresh.layout.SmartRefreshLayout
                         android:id="@+id/refreshLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:background="@color/colorLayoutBg"
                         app:srlAccentColor="@color/colorApp"
                         app:srlEnablePreviewInEditMode="true"
@@ -68,13 +69,13 @@
                     <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rec_message"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="match_parent"/>
 
 
                 </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
                 <Space android:layout_width="match_parent"
-                       android:layout_height="80dp"/>
+                        android:layout_height="80dp"/>
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

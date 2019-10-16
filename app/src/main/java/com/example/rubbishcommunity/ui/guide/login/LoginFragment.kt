@@ -14,6 +14,7 @@ import com.example.rubbishcommunity.databinding.LoginFragBinding
 import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.guide.AnimatorUtils
 import com.example.rubbishcommunity.ui.container.ContainerActivity
+import com.example.rubbishcommunity.ui.hideInput
 import com.example.rubbishcommunity.ui.widget.ContractDialog
 import com.jakewharton.rxbinding2.view.RxView
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -130,7 +131,7 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 	
 	//协议弹窗
 	private fun showContractDialog() {
-		hideKeyboard()
+		hideInput(activity as Activity)
 		ContractDialog(context, object : ContractDialog.OnMyClickListener {
 			override fun onFinishClick() {
 			

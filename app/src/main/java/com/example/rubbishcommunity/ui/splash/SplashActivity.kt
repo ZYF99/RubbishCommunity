@@ -18,7 +18,7 @@ class SplashActivity : BindingActivity<SplashBinding, SplashViewModel>() {
 	}
 	
 	override fun initWidget() {
-		Single.timer(3, TimeUnit.SECONDS).doOnSuccess {
+		Single.timer(2, TimeUnit.SECONDS).doOnSuccess {
 			startActivity(Intent(this, ContainerActivity::class.java))
 			finish()
 		}.bindLife()
