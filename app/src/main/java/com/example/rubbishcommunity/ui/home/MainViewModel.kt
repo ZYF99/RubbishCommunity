@@ -1,6 +1,11 @@
 package com.example.rubbishcommunity.ui.home
 
 import android.app.Application
+import android.content.ComponentName
+import android.content.ServiceConnection
+import android.os.IBinder
+import android.os.Messenger
+import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.manager.main.mainModule
 import com.example.rubbishcommunity.ui.BaseViewModel
@@ -17,7 +22,9 @@ import org.kodein.di.generic.instance
 
 class MainViewModel(application: Application) : BaseViewModel(application) {
 	
-	private val _parentKodein: Kodein by lazy { (application as MyApplication).kodein }
+
+	
+/*	private val _parentKodein: Kodein by lazy { (application as MyApplication).kodein }
 	
 	override val kodein = Kodein {
 		extend(_parentKodein, copy = Copy.All)
@@ -37,5 +44,6 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
 				setDisconnectedBufferOptions(mqttClient)
 			}
 	}
+	*/
 	
 }

@@ -2,15 +2,17 @@ package com.example.rubbishcommunity.ui.home
 
 
 import android.annotation.SuppressLint
-import android.util.Log
+import android.content.Context
+import android.content.Intent
 import androidx.fragment.app.Fragment
-import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.home.find.FindFragment
 import com.example.rubbishcommunity.ui.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MainBinding
 import com.example.rubbishcommunity.persistence.getLocalNeedMoreInfo
 import com.example.rubbishcommunity.persistence.getLocalVerifiedEmail
+import com.example.rubbishcommunity.service.MqServiceConnection
+import com.example.rubbishcommunity.service.MyMqttService
 import com.example.rubbishcommunity.ui.container.jumpToBasicInfo
 import com.example.rubbishcommunity.ui.container.jumpToReleaseDynamic
 import com.example.rubbishcommunity.ui.home.message.MessageFragment
@@ -18,8 +20,6 @@ import com.example.rubbishcommunity.ui.home.mine.MineFragment
 import com.example.rubbishcommunity.ui.home.search.SearchFragment
 import com.example.rubbishcommunity.ui.widget.AddDialog
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
-import com.example.rubbishcommunity.utils.mqttPublish
-import com.example.rubbishcommunity.utils.mqttUnsubscribe
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Single
 import java.util.concurrent.TimeUnit
@@ -29,6 +29,8 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	override val clazz: Class<MainViewModel> = MainViewModel::class.java
 	override val layRes: Int = R.layout.activity_main
 	private var currentFragment: Fragment? = SearchFragment()
+	
+	private val mqServiceConnection = MqServiceConnection()
 	
 	
 	override fun initBefore() {
@@ -50,7 +52,6 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 		
 		//底部导航栏
 		binding.bottomnavigation.setOnNavigationItemSelectedListener {
-			
 			when (it.itemId) {
 				R.id.navigation_home -> {
 					replaceFragment("home")
@@ -69,14 +70,15 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 			}
 			true
 		}
-		//
+		
 		//发个消息来测试
 		RxView.clicks(binding.btnSendMqttSmg)
 			.throttleFirst(2, TimeUnit.SECONDS)
 			.doOnNext {
-				mqttPublish(viewModel.mqttClient).doOnSuccess {
+				publishMqMsg("我是mq消息")
+/*				mqttPublish(viewModel.mqttClient).doOnSuccess {
 					MyApplication.showSuccess("send success")
-				}.bindLife()
+				}.bindLife()*/
 			}.bindLife()
 		
 		handleError()
@@ -93,10 +95,24 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	}
 	
 	override fun initData() {
-		viewModel.initMqtt()
+		//启动mqtt服务
+		bindService(
+			Intent(this, MyMqttService::class.java),
+			mqServiceConnection,
+			Context.BIND_AUTO_CREATE
+		)
+
+/*		viewModel.initMqtt()
 			.doOnDispose {
 				Log.d("AAAAA", "退订流成功")
-			}.bindLife()
+			}.bindLife()*/
+		
+		
+	}
+	
+	
+	private fun publishMqMsg(string: String) {
+		mqServiceConnection.getMqttService().publishMessage(string)
 	}
 	
 	
@@ -127,7 +143,6 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 		}
 	}
 	
-	
 	private fun showAddDialog() {
 		AddDialog(this, object : AddDialog.OnAddDialogClickListener {
 			override fun onDynamicClick() {
@@ -144,8 +159,6 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 			}
 		}).showAbove(binding.btnAdd)
 	}
-	
-	fun getMqClient() = viewModel.mqttClient
 
 /*    private fun startByRxActivityResult() {
         RxActivityResult.on(this)
@@ -161,13 +174,14 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	
 	override fun onDestroy() {
 		super.onDestroy()
-		
 		// 退订MQTT
-		mqttUnsubscribe(viewModel.mqttClient)
+		unbindService(mqServiceConnection)
+		
+/*		mqttUnsubscribe(viewModel.mqttClient)
 			.doOnSuccess {
 				Log.d("AAAAA", "退订MQTT成功")
 			}.bindLife()
-		
+		*/
 		
 	}
 	

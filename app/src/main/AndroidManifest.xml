@@ -3,6 +3,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         package="com.example.rubbishcommunity">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!--前台服务 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 这个权限用于访问GPS定位 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
@@ -54,10 +55,16 @@
 
         </activity> <!-- Mqtt Service -->
         <service
-                android:name="org.eclipse.paho.android.service.MqttService"
-                android:priority="1000">
+                android:name="org.eclipse.paho.android.service.MqttService">
+        </service>
 
-        </service> <!-- 百度定位service -->
+        <service
+                android:name=".service.MyMqttService"
+                android:enabled="true">
+        </service>
+
+
+        <!-- 百度定位service -->
         <service
                 android:name="com.baidu.location.f"
                 android:enabled="true"

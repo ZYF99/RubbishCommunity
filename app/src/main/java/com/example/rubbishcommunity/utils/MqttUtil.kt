@@ -12,7 +12,6 @@ import org.eclipse.paho.client.mqttv3.*
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions
 
 
-
 fun initMqttClient(applicationContext: Context): MqttAndroidClient {
 	val serverURI = BuildConfig.MQTT_URL
 	val clientId = "Android_${getLocalEmail()}"
@@ -32,7 +31,7 @@ fun initMqttClient(applicationContext: Context): MqttAndroidClient {
 		
 		override fun messageArrived(topic: String, message: MqttMessage) {
 			
-			sendSimpleNotification(applicationContext,topic,message.toString())
+			sendSimpleNotification(applicationContext, topic, message.toString())
 		}
 		
 		override fun deliveryComplete(token: IMqttDeliveryToken) {
@@ -44,7 +43,7 @@ fun initMqttClient(applicationContext: Context): MqttAndroidClient {
 }
 
 //配置失联参数
-fun setDisconnectedBufferOptions(mqttClient: MqttAndroidClient){
+fun setDisconnectedBufferOptions(mqttClient: MqttAndroidClient) {
 	val disconnectedBufferOptions = DisconnectedBufferOptions()
 	disconnectedBufferOptions.isBufferEnabled = true
 	disconnectedBufferOptions.bufferSize = 5000
@@ -57,7 +56,7 @@ fun setDisconnectedBufferOptions(mqttClient: MqttAndroidClient){
 private fun getConnectOptions(): MqttConnectOptions {
 	val options = MqttConnectOptions()
 	options.isCleanSession = true
-	options.userName = "CloudZhang"
+	options.userName = BuildConfig.MQTT_USERNAME
 	options.password = BuildConfig.MQTT_PASSWORD.toCharArray()
 	options.isAutomaticReconnect = true
 	return options
@@ -135,6 +134,7 @@ fun mqttUnsubscribe(mqttClient: MqttAndroidClient): Single<IMqttToken> {
 			override fun onSuccess(asyncActionToken: IMqttToken) {
 				emitter.onSuccess(asyncActionToken)
 			}
+			
 			override fun onFailure(asyncActionToken: IMqttToken, exception: Throwable?) {
 				emitter.onError(exception ?: UnknownError())
 			}

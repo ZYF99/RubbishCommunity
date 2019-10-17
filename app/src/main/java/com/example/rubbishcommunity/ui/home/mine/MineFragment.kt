@@ -34,7 +34,6 @@ class MineFragment : BindingFragment<MineBinding, MineViewModel>(
 		//注销按钮
 		RxView.clicks(binding.btnLogout)
 			.doOnNext {
-				
 				/*				//注销流
 								viewModel.getUserInfo().doOnSuccess {
 									when (it.meta.code) {
@@ -53,15 +52,11 @@ class MineFragment : BindingFragment<MineBinding, MineViewModel>(
 				
 				//模拟注销成功
 				//注销成功
-
-				
 				saveLoginState(false)
+				(context as Activity).finish()
 				val bundle = Bundle()
-				
-			
 				bundle.putString("tag", "login")
 				startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
-				(context as Activity).finish()
 			}.bindLife()
 		
 		//下拉刷新
