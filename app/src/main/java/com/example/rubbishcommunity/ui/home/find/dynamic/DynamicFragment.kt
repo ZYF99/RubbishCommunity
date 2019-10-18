@@ -23,7 +23,11 @@ class DynamicFragment : BindingFragment<DynamicBinding, DynamicViewModel>(
 		
 		//viewModel.isRefreshing.observe { binding.refreshlayout.isRefreshing = it!! }
 		
-		viewModel.init()
+		viewModel.getDynamicList().doOnSubscribe {
+			binding.recDynamic.run {
+				(adapter as DynamicListAdapter).replaceData(viewModel.dynamicList.value!!)
+			}
+		}.bindLife()
 		
 		
 		
@@ -44,15 +48,12 @@ class DynamicFragment : BindingFragment<DynamicBinding, DynamicViewModel>(
 					viewModel.isRefreshing.postValue(false)
 				}
 				else -> {
-					viewModel.getDynamicList()
+					viewModel.getDynamicList().doOnSubscribe {
+						binding.recDynamic.run {
+							(adapter as DynamicListAdapter).replaceData(viewModel.dynamicList.value!!)
+						}
+					}.bindLife()
 				}
-			}
-		}
-		
-		
-		viewModel.dynamicList.observe {
-			binding.recDynamic.run {
-				(adapter as DynamicListAdapter).replaceData(it!!)
 			}
 		}
 		

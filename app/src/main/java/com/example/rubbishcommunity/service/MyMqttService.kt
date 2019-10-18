@@ -18,9 +18,7 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended
 import org.eclipse.paho.android.service.MqttAndroidClient
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import com.example.rubbishcommunity.BuildConfig
-import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.persistence.getLocalEmail
 import com.example.rubbishcommunity.ui.utils.sendSimpleNotification
@@ -191,6 +189,7 @@ class MyMqttService : Service() {
 		super.onDestroy()
 		try {
 			//服务退出时client断开连接
+			mqttAndroidClient?.unsubscribe(PUBLISH_TOPIC)
 			mqttAndroidClient?.unregisterResources()
 			mqttAndroidClient?.close()
 			mqttAndroidClient?.disconnect()

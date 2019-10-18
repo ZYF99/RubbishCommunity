@@ -29,7 +29,7 @@
                     android:background="@color/colorLayoutBg"
                     app:srlAccentColor="@color/colorApp"
                     app:srlEnablePreviewInEditMode="true"
-                    app:srlHeaderTriggerRate="0.5"
+                    app:srlHeaderTriggerRate="0.3"
                     app:srlPrimaryColor="@color/white">
 
                 <!--            &lt;!&ndash;srlAccentColor srlPrimaryColor 将会改变 Header 和 Footer 的主题颜色&ndash;&gt;

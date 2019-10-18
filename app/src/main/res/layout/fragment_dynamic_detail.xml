@@ -85,6 +85,7 @@
                 tools:targetApi="lollipop">
 
             <androidx.core.widget.NestedScrollView
+                    android:id="@+id/nestedscroll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#FFFFFF">
@@ -130,6 +131,7 @@
                             android:id="@+id/img_rec"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false"
                             android:layout_weight="0"
                             android:orientation="horizontal"
                             android:paddingTop="8dp"
@@ -189,6 +191,7 @@
                             android:id="@+id/comment_rec"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false"
                             android:layout_marginTop="4dp"
                             android:layout_weight="0"
                             android:minHeight="100dp"

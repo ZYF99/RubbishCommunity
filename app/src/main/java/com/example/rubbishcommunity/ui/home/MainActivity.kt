@@ -4,6 +4,7 @@ package com.example.rubbishcommunity.ui.home
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import com.example.rubbishcommunity.ui.home.find.FindFragment
 import com.example.rubbishcommunity.ui.BindingActivity
@@ -23,6 +24,9 @@ import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Single
 import java.util.concurrent.TimeUnit
+import android.view.KeyEvent.KEYCODE_BACK
+
+
 
 
 class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
@@ -176,13 +180,24 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 		super.onDestroy()
 		// 退订MQTT
 		unbindService(mqServiceConnection)
-		
 /*		mqttUnsubscribe(viewModel.mqttClient)
 			.doOnSuccess {
 				Log.d("AAAAA", "退订MQTT成功")
 			}.bindLife()
 		*/
-		
 	}
+	
+	override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+		if (keyCode == KEYCODE_BACK) {
+			val intent = Intent(Intent.ACTION_MAIN)
+			intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+			intent.addCategory(Intent.CATEGORY_HOME)
+			startActivity(intent)
+			return true
+		}
+		return super.onKeyDown(keyCode, event)
+	}
+	
+	
 	
 }

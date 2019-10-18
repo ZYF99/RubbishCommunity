@@ -1,6 +1,7 @@
 package com.example.rubbishcommunity.manager.api
 
 import com.example.rubbishcommunity.model.Dynamic
+import com.example.rubbishcommunity.model.Message
 import com.example.rubbishcommunity.model.Photography
 import com.example.rubbishcommunity.model.Vote
 import com.example.rubbishcommunity.model.api.ResultModel
@@ -67,7 +68,7 @@ interface ApiService {
 	fun getHotWordList(@Query("offset") offset: Int): Single<List<String>>
 	
 	@GET("dynamics?")
-	fun getDynamicList(@Query("offset") offset: Int): Single<List<Dynamic>>
+	fun getDynamicList(@Query("offset") offset: Int): Single<MutableList<Dynamic>>
 	
 	@GET("dynamic?")
 	fun getDynamic(@Query("dynamicId") Id: String): Single<Dynamic>
@@ -81,8 +82,12 @@ interface ApiService {
 	
 	
 	
+	//获取消息列表
+	@GET("msgList")
+	fun getMessageList(@Query("offset") offset: Int): Single<MutableList<Message>>
+	
 	//聊天部分***************************************************************************************
-	@POST("msg")
+	@POST("chat")
 	fun sendMsgToPeople(@Query("msg") msg: String): Single<String>
 
 }
