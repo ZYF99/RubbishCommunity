@@ -14,6 +14,7 @@ import com.example.rubbishcommunity.databinding.LoginFragBinding
 import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.guide.AnimatorUtils
 import com.example.rubbishcommunity.ui.container.ContainerActivity
+import com.example.rubbishcommunity.ui.container.jumoToPassword
 import com.example.rubbishcommunity.ui.hideInput
 import com.example.rubbishcommunity.ui.widget.ContractDialog
 import com.jakewharton.rxbinding2.view.RxView
@@ -95,8 +96,15 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 				.doOnNext {
 					(activity as ContainerActivity).replaceRegister()
 				}.bindLife()
-			
-			
+		
+		
+		//服务协议按钮
+		RxView.clicks(binding.btnForgetPassword).throttleFirst(2, TimeUnit.SECONDS)
+			.doOnNext {
+				//跳转至修改密码界面
+				jumoToPassword(context!!)
+			}.bindLife()
+		
 			//服务协议按钮
 			RxView.clicks(binding.btnContract).throttleFirst(2, TimeUnit.SECONDS)
 				.doOnNext {

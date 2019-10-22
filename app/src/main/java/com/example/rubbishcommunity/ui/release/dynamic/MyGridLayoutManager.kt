@@ -2,6 +2,7 @@ package com.example.rubbishcommunity.ui.release.dynamic
 
 import android.content.Context
 import android.graphics.Rect
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
@@ -120,4 +121,14 @@ class MyGridLayoutManager(context: Context, spanCount: Int) :
 		
 		recycler.recycleView(view)
 	}
+	
+	override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
+		try {
+			super.onLayoutChildren(recycler, state);
+		} catch (e:IndexOutOfBoundsException) {
+			Log.e("probe", "meet a IOOBE in RecyclerView");
+		}
+		super.onLayoutChildren(recycler, state)
+	}
+	
 }

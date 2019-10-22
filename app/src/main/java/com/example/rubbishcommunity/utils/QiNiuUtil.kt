@@ -69,7 +69,7 @@ fun upLoadImageList(
 	var mill = System.currentTimeMillis()
 	imagePathList.map { media ->
 		pathList.add(media.path)
-		mill += 1000
+		mill += 100
 		upKeyList.add("${getLocalEmail()}/$mill")
 	}
 	return apiService.getQiNiuToken(GetQiNiuTokenRequestModel("dew", upKeyList))
@@ -78,6 +78,7 @@ fun upLoadImageList(
 		.compose(dealErrorCode())
 		.doOnSuccess { tokenRsp ->
 			tokenRsp.data.map { entry ->
+				//key是图片在七牛云的上的相对path，value是上传所需token
 				val index = upKeyList.indexOf(entry.key)
 				UploadManager().put(
 					pathList[index], upKeyList[index], entry.value,

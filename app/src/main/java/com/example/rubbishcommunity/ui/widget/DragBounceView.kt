@@ -48,6 +48,7 @@ class DragBounceView : ConstraintLayout {
 					originLeft = left
 					originTop = top
 					originRight = right
+					originBottom = bottom
 				}
 				MotionEvent.ACTION_MOVE // 滑动动作处理 记录离开屏幕时的 moveX  moveY 用于计算距离 和 判断滑动事件和点击事件 并作出响应
 				-> {
@@ -79,7 +80,7 @@ class DragBounceView : ConstraintLayout {
 							b = maxHeight
 							t = b - height
 						}
-						this.layout(l, top, originRight, bottom) // 重置view在layout 中位置
+						this.layout(l, originTop, originRight, originBottom) // 重置view在layout 中位置
 						isDrag = true  // 重置 拖动为 true
 					} else {
 						isDrag = false // 小于峰值3时 为点击事件
@@ -87,7 +88,7 @@ class DragBounceView : ConstraintLayout {
 				}
 				MotionEvent.ACTION_UP // 不处理
 				-> {
-					this.layout(originLeft, originTop, right, bottom)
+					this.layout(originLeft, originTop, originRight, originBottom)
 					bounceDragListener?.onDragBounceComplete()
 					isPressed = false
 				}

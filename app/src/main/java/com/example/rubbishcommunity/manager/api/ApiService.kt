@@ -51,11 +51,15 @@ interface ApiService {
 	
 	
 	
+	//修改密码页*************************************************************************************
 	
-	
-	
-	
-	
+	//发送邮箱的验证码至服务器
+	@POST("api/common/{verifyCode}/send")
+	fun sendVerifyCode(@Path("verifyCode") verifyCode: String): Single<ResultModel<String>>
+	//修改密码
+	@PUT("api/account/password/modify")
+	fun editPassword(@Path("password") password: String): Single<ResultModel<String>>
+	//**********************************************************************************************
 	
 	//搜索分类
 	@GET("api/search/{key}/get")

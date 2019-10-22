@@ -45,7 +45,6 @@ class WelcomeFragment : BindingFragment<WelcomeBinding, WelcomeViewModel>(
 		binding.photographyPager.run{
 			offscreenPageLimit = 2
 			setPageTransformer(false,GalleryPagerTransformer())
-			
 		}
 		
 		

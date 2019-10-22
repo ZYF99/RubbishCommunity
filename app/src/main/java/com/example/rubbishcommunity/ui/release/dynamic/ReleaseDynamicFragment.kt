@@ -6,6 +6,7 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
@@ -184,6 +185,7 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 				//发布成功
 				viewModel.clearDraft()
 				(context as Activity).finish()
+				Log.d("QiNiuR---: ",s)
 				MyApplication.showSuccess("发布成功")
 			}
 		})?.doOnSuccess {

@@ -21,7 +21,6 @@ class FriendListAdapter
 ) : RecyclerView.Adapter<FriendListAdapter.SimpleViewHolder>() {
 	interface OnClickListener {
 		fun onCellClick(position: Int)
-		fun onDellClick(position: Int)
 	}
 	
 	

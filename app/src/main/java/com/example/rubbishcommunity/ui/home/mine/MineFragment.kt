@@ -9,6 +9,7 @@ import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MineBinding
 import com.example.rubbishcommunity.persistence.saveLoginState
 import com.example.rubbishcommunity.ui.container.ContainerActivity
+import com.example.rubbishcommunity.ui.container.jumoToPassword
 import com.example.rubbishcommunity.ui.home.MainActivity
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 import com.jakewharton.rxbinding2.view.RxView
@@ -30,6 +31,12 @@ class MineFragment : BindingFragment<MineBinding, MineViewModel>(
 			binding.refreshLayout.isRefreshing = it
 			binding.rootLayout.isEnabled = !it
 		}
+		
+		//账号安全按钮
+		RxView.clicks(binding.btnSafe)
+			.doOnNext {
+				jumoToPassword(context!!)
+			}.bindLife()
 		
 		//注销按钮
 		RxView.clicks(binding.btnLogout)

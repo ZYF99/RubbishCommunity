@@ -122,8 +122,6 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 			
 		}
 		return null
-		
-		
 	}
 	
 	

@@ -3,6 +3,7 @@
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="colorAccent">#77DDBD</color>
+    <color name="colorAccentHalfTrans">#9A77DDBD</color>
     <color name="colorAccentTrans">#4577DDBD</color>
 
     <color name="colorLayoutBg">#FCFCFC</color>

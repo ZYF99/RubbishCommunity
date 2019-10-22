@@ -27,7 +27,7 @@ fun saveVerifyInfo(
 		token
 	)
 	SharedPreferencesUtils.putData(
-		"openId",
+		"uid",
 		openId
 	)
 	SharedPreferencesUtils.putData(
@@ -142,7 +142,7 @@ fun getLocalToken(): String {
 
 //得到用户的openId
 fun getLocalOpenId(): String {
-	return (SharedPreferencesUtils.getData("openId", "") as String)
+	return (SharedPreferencesUtils.getData("uid", "") as String)
 }
 
 //得到用户是否需要验证邮箱的flag

@@ -28,20 +28,14 @@ import com.example.rubbishcommunity.ui.utils.sendSimpleNotification
  * @author Zhangyf
  */
 class MyMqttService : Service() {
-	
 	private var mqttAndroidClient: MqttAndroidClient? = null
-	
 	inner class CustomBinder : Binder() {
 		val service: MyMqttService
 			get() = this@MyMqttService
 	}
-	
-	
 	override fun onBind(intent: Intent): IBinder {
 		return CustomBinder()
 	}
-	
-	
 	override fun onCreate() {
 		super.onCreate()
 		//mqtt服务器的地址
@@ -100,6 +94,7 @@ class MyMqttService : Service() {
 					//成功连接以后开始订阅
 					subscribeToTopic(PUBLISH_TOPIC)
 				}
+				
 				override fun onFailure(asyncActionToken: IMqttToken, exception: Throwable) {
 					//连接失败
 					exception.printStackTrace()
@@ -112,7 +107,6 @@ class MyMqttService : Service() {
 		startForeground()
 		
 	}
-	
 	
 	private fun startForeground() {
 		val channelId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -187,15 +181,12 @@ class MyMqttService : Service() {
 	
 	override fun onDestroy() {
 		super.onDestroy()
-		try {
-			//服务退出时client断开连接
-			mqttAndroidClient?.unsubscribe(PUBLISH_TOPIC)
-			mqttAndroidClient?.unregisterResources()
-			mqttAndroidClient?.close()
-			mqttAndroidClient?.disconnect()
-		} catch (e: MqttException) {
-			e.printStackTrace()
-		}
+		//服务退出时client断开连接
+		mqttAndroidClient?.unregisterResources()
+		mqttAndroidClient?.close()
+		mqttAndroidClient?.disconnect()
+		mqttAndroidClient?.setCallback(null)
+		mqttAndroidClient = null
 	}
 	
 	companion object {

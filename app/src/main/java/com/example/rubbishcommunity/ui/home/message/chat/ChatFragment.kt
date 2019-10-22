@@ -33,7 +33,7 @@ class ChatFragment : BindingFragment<ChatBinding, ChatViewModel>(
 	}
 	
 	override fun initBefore() {
-		viewModel.run { init((activity!!.intent.getSerializableExtra("openId")) as String) }
+		viewModel.run { init((activity!!.intent.getSerializableExtra("uid")) as String) }
 	}
 	
 	override fun initWidget() {

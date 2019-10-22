@@ -12,6 +12,7 @@ import com.example.rubbishcommunity.model.Comment
 import com.example.rubbishcommunity.ui.SoftObservableFragment
 import com.example.rubbishcommunity.ui.guide.basicinfo.BasicInfoFragment
 import com.example.rubbishcommunity.ui.guide.login.LoginFragment
+import com.example.rubbishcommunity.ui.guide.password.PasswordFragment
 import com.example.rubbishcommunity.ui.guide.register.RegisterFragment
 import com.example.rubbishcommunity.ui.guide.welcome.WelcomeFragment
 import com.example.rubbishcommunity.ui.home.find.dynamic.detail.DynamicDetailFragment
@@ -86,6 +87,8 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 					LoginFragment()
 				"register" -> //注册界面
 					RegisterFragment()
+				"password" -> //修改密码界面
+					PasswordFragment()
 				"basicInfo" -> //基本信息界面
 					BasicInfoFragment()
 				"releaseDynamic" -> // 发布动态界面
@@ -120,6 +123,14 @@ fun jumpToLogin(context: Context) {
 fun jumpToRegister(context: Context) {
 	val bundle = Bundle()
 	bundle.putString("tag", "register")
+	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
+}
+
+//跳转至修改密码的界面
+fun jumoToPassword(context: Context) {
+	val bundle = Bundle()
+	bundle.putString("tag", "password")
+	
 	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }
 
@@ -165,7 +176,7 @@ fun jumpToInnerComment(context: Context, commentList: List<Comment>) {
 fun jumpToChat(context: Context,openId:String) {
 	val bundle = Bundle()
 	bundle.putString("tag", "chat")
-	bundle.putString("openId", openId)
+	bundle.putString("uid", openId)
 	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }
 
