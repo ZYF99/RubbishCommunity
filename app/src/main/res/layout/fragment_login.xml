@@ -161,7 +161,8 @@
                             android:text="@={vm.userName}"
                             android:textColor="@color/text_hint"
                             android:textColorHint="@color/text_hint"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:importantForAutofill="no" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
