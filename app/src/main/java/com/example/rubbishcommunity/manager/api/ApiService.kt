@@ -11,11 +11,17 @@ import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
 import com.example.rubbishcommunity.model.api.mine.UserCardResultModel
 import com.example.rubbishcommunity.model.api.release.ReleaseDynamicRequestModel
 import com.example.rubbishcommunity.model.api.release.ReleaseDynamicResultModel
+import com.example.rubbishcommunity.model.api.search.SearchKeyConclusion
 import com.example.rubbishcommunity.ui.release.dynamic.GetQiNiuTokenRequestModel
 import io.reactivex.Single
 import retrofit2.http.*
 
 interface ApiService {
+	
+	//搜索分类
+	@GET("api/common/tools/{searchKey}/search")
+	fun searchClassification(@Path("searchKey") searchKey: String): Single<ResultModel<List<SearchKeyConclusion>>>
+	
 	
 	//获取欢迎界面的写真
 	@GET("api/welcome/photography/get")
@@ -49,8 +55,7 @@ interface ApiService {
 	@POST("api/common/image/token")
 	fun getQiNiuToken(@Body requestModel: GetQiNiuTokenRequestModel): Single<ResultModel<Map<String,String>>>
 	
-	
-	
+
 	//修改密码页*************************************************************************************
 	
 	//发送邮箱的验证码至服务器
@@ -61,9 +66,7 @@ interface ApiService {
 	fun editPassword(@Path("password") password: String): Single<ResultModel<String>>
 	//**********************************************************************************************
 	
-	//搜索分类
-	@GET("api/search/{key}/get")
-	fun searchClassification(@Path("key") key: String): Single<ResultModel<String>>
+
 	
 	@GET("api/dynamic/release")
 	fun releaseDynamic(@Body releaseDynamicRequestModel: ReleaseDynamicRequestModel): Single<ResultModel<ReleaseDynamicResultModel>>

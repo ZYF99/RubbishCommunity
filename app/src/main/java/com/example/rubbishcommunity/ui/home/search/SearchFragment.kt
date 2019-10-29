@@ -64,7 +64,7 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 				MyApplication.showSuccess("解析结果：$it")
 				viewModel.search(it[0])
 			}.doOnSuccess {
-				hideInput(activity as Activity)
+				MyApplication.showSuccess(it.data.toString())
 			}.bindLife()
 	}
 	

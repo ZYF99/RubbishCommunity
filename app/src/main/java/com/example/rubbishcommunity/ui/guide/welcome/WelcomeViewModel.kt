@@ -7,6 +7,7 @@ import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.Photography
 import com.example.rubbishcommunity.model.api.ResultModel
+import com.example.rubbishcommunity.model.api.search.SearchKeyConclusion
 import com.example.rubbishcommunity.ui.BaseViewModel
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -20,7 +21,7 @@ class WelcomeViewModel(application: Application) : BaseViewModel(application) {
 	
 	val photograpgyList = MutableLiveData<List<Photography>>()
 	
-	fun search(str: String): Single<ResultModel<String>> {
+	fun search(str: String): Single<ResultModel<List<SearchKeyConclusion>>> {
 		return apiService.searchClassification(str)
 			.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())

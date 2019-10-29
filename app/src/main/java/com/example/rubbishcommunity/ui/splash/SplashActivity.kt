@@ -5,6 +5,7 @@ import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.SplashBinding
 import com.example.rubbishcommunity.ui.BindingActivity
 import com.example.rubbishcommunity.ui.container.ContainerActivity
+import com.hankcs.hanlp.HanLP
 import io.reactivex.Single
 import java.util.concurrent.TimeUnit
 
@@ -18,6 +19,7 @@ class SplashActivity : BindingActivity<SplashBinding, SplashViewModel>() {
 	}
 	
 	override fun initWidget() {
+		HanLP.extractSummary("1", 1)
 		Single.timer(1, TimeUnit.SECONDS).doOnSuccess {
 			startActivity(Intent(this, ContainerActivity::class.java))
 			finish()

@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.manager.api.ApiService
 import com.example.rubbishcommunity.manager.dealError
+import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.ui.BaseViewModel
 import com.example.rubbishcommunity.model.Dynamic
 import io.reactivex.Single
@@ -32,6 +33,7 @@ class DynamicViewModel(application: Application) : BaseViewModel(application) {
             .doOnSuccess {
                 dynamicList.value = it as MutableList<Dynamic>?
             }
+			.compose(dealErrorCode())
             .compose(dealError())
 					.doOnSubscribe {
 						val gridImgUrls9: MutableList<String> = mutableListOf()

@@ -147,17 +147,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:boxBackgroundColor="@color/white"
-                        app:helperTextTextAppearance="@style/HintHelper"
-                        app:boxBackgroundMode="outline"
-                        app:endIconDrawable="@mipmap/book_add"
-                        app:endIconMode="clear_text"
-                >
+                        app:helperTextTextAppearance="@style/HintHelper">
 
                     <EditText
                             android:id="@+id/edit_userName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/bg_corner_rect"
+                            android:background="@null"
                             android:ems="10"
                             android:hint="邮箱地址"
                             android:inputType="textEmailAddress"

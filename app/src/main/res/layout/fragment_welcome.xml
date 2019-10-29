@@ -82,7 +82,6 @@
                             android:background="@color/colorTrans"
                             android:ems="10"
                             android:hint="没水的水瓶是什么垃圾"
-                            android:imeOptions="actionSearch"
                             android:importantForAutofill="no"
                             android:inputType="textPersonName"
                             android:singleLine="true"

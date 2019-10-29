@@ -1,6 +1,8 @@
 package com.example.rubbishcommunity.ui.guide.welcome
 
 import android.app.Activity
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView.*
 import com.example.rubbishcommunity.MyApplication
@@ -14,6 +16,7 @@ import com.example.rubbishcommunity.ui.container.jumpToRegister
 import com.example.rubbishcommunity.ui.hideInput
 import com.hankcs.hanlp.HanLP
 import com.jakewharton.rxbinding2.view.RxView
+import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -48,16 +51,13 @@ class WelcomeFragment : BindingFragment<WelcomeBinding, WelcomeViewModel>(
 		}
 		
 		
-		binding.searchEdit.setOnEditorActionListener(OnEditorActionListener { p0, p1, p2 ->
-			when (p1) {
-				//点击Search
-				EditorInfo.IME_ACTION_SEARCH -> {
+		binding.searchEdit.run{
+			RxTextView.textChanges(this)
+				.debounce(1,TimeUnit.SECONDS).skip(1)
+				.doOnNext {
 					analysisAndSearch(viewModel.searchWord.value?:"")
-					true
-				}
-				else -> false
-			}
-		})
+				}.bindLife()
+		}
 		
 		RxView.clicks(binding.btnRegister).throttleFirst(2,TimeUnit.SECONDS).doOnNext {
 			jumpToRegister(context!!)
@@ -79,14 +79,13 @@ class WelcomeFragment : BindingFragment<WelcomeBinding, WelcomeViewModel>(
 	
 	private fun analysisAndSearch(str: String) {
 		Single.just(str).flatMap {
-			Single.just(HanLP.extractKeyword(it, 10))
+			Single.just(HanLP.extractSummary(it, 1))
 		}.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())
 			.flatMap {
-				MyApplication.showSuccess("解析结果：$it")
 				viewModel.search(it[0])
 			}.doOnSuccess {
-				hideInput(activity as Activity)
+				MyApplication.showSuccess(it.data.toString())
 			}.bindLife()
 	}
 
