@@ -13,7 +13,6 @@
                 name="vm"
                 type="com.example.rubbishcommunity.ui.home.mine.MineViewModel" />
 
-
     </data>
 
 
@@ -150,7 +149,6 @@
                                         android:background="?android:attr/selectableItemBackground"
                                         android:clickable="true"
                                         android:focusable="true"
-
                                         android:gravity="center"
                                         android:padding="10dp"
                                         android:text="@{vm.userInfo.name ,default=昵称}"

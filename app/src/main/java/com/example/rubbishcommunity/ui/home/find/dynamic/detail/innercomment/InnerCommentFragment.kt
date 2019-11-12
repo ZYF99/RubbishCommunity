@@ -51,21 +51,14 @@ class InnerCommentFragment : BindingFragment<InnerCommentBinding, InnerCommentVi
 			layoutManager = LinearLayoutManager(context)
 			adapter = CommentListAdapter(
 				viewModel.innerCommentList.value!!,
-				object :
-					CommentListAdapter.OnClickListener {
-					override fun onLookCommentClick(position: Int) {
-						//查看内部评论
-						(viewModel.innerCommentList.value?.get(position)?.innerCommentList)?.let { innerCommentList ->
-							jumpToInnerComment(context, innerCommentList)
-						}
+				{ position ->
+					(viewModel.innerCommentList.value?.get(position)?.innerCommentList)?.let { innerCommentList ->
+						jumpToInnerComment(context, innerCommentList)
 					}
-					
-					override fun onoReplyClick(position: Int) {
-						//回复
-						showInputDialog()
-						replyPosition = position
-					}
-					
+				}, { position ->
+					//回复
+					showInputDialog()
+					replyPosition = position
 				}
 			)
 		}
@@ -81,7 +74,6 @@ class InnerCommentFragment : BindingFragment<InnerCommentBinding, InnerCommentVi
 			}
 		}.throttleFirst(2, TimeUnit.SECONDS)
 			.bindLife()
-		
 		
 		
 		//返回按钮

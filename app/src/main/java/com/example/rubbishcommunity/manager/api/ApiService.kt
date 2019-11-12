@@ -9,8 +9,10 @@ import com.example.rubbishcommunity.model.api.guide.CompleteInfoRequestModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
 import com.example.rubbishcommunity.model.api.mine.UserCardResultModel
+import com.example.rubbishcommunity.model.api.mine.UsrProfileResp
 import com.example.rubbishcommunity.model.api.release.ReleaseDynamicRequestModel
 import com.example.rubbishcommunity.model.api.release.ReleaseDynamicResultModel
+import com.example.rubbishcommunity.model.api.search.Category
 import com.example.rubbishcommunity.model.api.search.SearchKeyConclusion
 import com.example.rubbishcommunity.ui.release.dynamic.GetQiNiuTokenRequestModel
 import io.reactivex.Single
@@ -20,12 +22,14 @@ interface ApiService {
 	
 	//搜索分类
 	@GET("api/common/tools/{searchKey}/search")
-	fun searchClassification(@Path("searchKey") searchKey: String): Single<ResultModel<List<SearchKeyConclusion>>>
+	fun searchClassification(@Path("searchKey") searchKey: String): Single<ResultModel<MutableList<SearchKeyConclusion>>>
 	
 	
-	//获取欢迎界面的写真
-	@GET("api/welcome/photography/get")
-	fun getPhotographyList():Single<ResultModel<List<Photography>>>
+	//搜索分类名称
+	@GET("api/common/tools/{classNum}/categories")
+	fun searchCategoryByName(@Path("classNum") classNum: Int): Single<ResultModel<Category>>
+	
+	
 	
 	//登陆或注册
 	@POST("api/account/login")
@@ -39,9 +43,9 @@ interface ApiService {
 	@POST("api/account/profile/new")
 	fun completeInfo(@Body completeInfoRequestModel: CompleteInfoRequestModel): Single<ResultModel<String>>
 	
-	//获取用户详细信息
-	@GET("api/account/profile/{uid}/get")
-	fun getUserInfo(@Path("uid") uid: String): Single<ResultModel<String>>
+	//刷新用户详细信息
+	@GET("api/account/profile/refresh")
+	fun getUserProfile(): Single<ResultModel<UsrProfileResp>>
 	
 	//获取用户卡片信息（头像 名字 签名等基本信息）
 	@GET("api/account/info/{uid}/get")

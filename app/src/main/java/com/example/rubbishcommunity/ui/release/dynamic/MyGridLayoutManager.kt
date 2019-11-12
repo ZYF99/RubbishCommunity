@@ -35,40 +35,43 @@ class MyGridLayoutManager(context: Context, spanCount: Int) :
 
 		val spanCount = spanCount
 
-		for (i in 0 until state.itemCount) {
-
-			measureScrapChild(
-				recycler,
-				i,
-				View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
-				View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
-				measuredSize
-			)
-
-			if (i % spanCount == 0) {
-				spanWidth = measuredSize[0]
-				spanHeight = measuredSize[1]
-			} else {
-				if (orientation == LinearLayoutManager.VERTICAL) {
-					spanWidth += measuredSize[0]
-					spanHeight = max(spanHeight, measuredSize[1])
+		if (state.itemCount>0){
+			for (i in 0 until state.itemCount) {
+				
+				measureScrapChild(
+					recycler,
+					i,
+					View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
+					View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
+					measuredSize
+				)
+				
+				if (i % spanCount == 0) {
+					spanWidth = measuredSize[0]
+					spanHeight = measuredSize[1]
 				} else {
-					spanWidth = max(spanWidth, measuredSize[0])
-					spanHeight += measuredSize[1]
+					if (orientation == LinearLayoutManager.VERTICAL) {
+						spanWidth += measuredSize[0]
+						spanHeight = max(spanHeight, measuredSize[1])
+					} else {
+						spanWidth = max(spanWidth, measuredSize[0])
+						spanHeight += measuredSize[1]
+					}
+				}
+				
+				if (i % spanCount == spanCount - 1 || i == itemCount - 1) {
+					if (orientation == LinearLayoutManager.VERTICAL) {
+						viewWidth = max(viewWidth, spanWidth)
+						viewHeight += spanHeight
+					} else {
+						viewWidth += spanWidth
+						viewHeight = max(viewHeight, spanHeight)
+					}
 				}
 			}
-
-			if (i % spanCount == spanCount - 1 || i == itemCount - 1) {
-				if (orientation == LinearLayoutManager.VERTICAL) {
-					viewWidth = max(viewWidth, spanWidth)
-					viewHeight += spanHeight
-				} else {
-					viewWidth += spanWidth
-					viewHeight = max(viewHeight, spanHeight)
-				}
-			}
+			
 		}
-
+	
 		val finalWidth: Int
 		val finalHeight: Int
 		
@@ -124,7 +127,7 @@ class MyGridLayoutManager(context: Context, spanCount: Int) :
 	
 	override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
 		try {
-			super.onLayoutChildren(recycler, state);
+			super.onLayoutChildren(recycler, state)
 		} catch (e:IndexOutOfBoundsException) {
 			Log.e("probe", "meet a IOOBE in RecyclerView");
 		}

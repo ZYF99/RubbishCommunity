@@ -4,10 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import com.example.rubbishcommunity.R
-import com.example.rubbishcommunity.ui.widget.BottomDialogView
-import com.example.rubbishcommunity.ui.widget.WheelView
 
-class ContractDialog(context: Context?, private val clickListener: OnMyClickListener) : BottomDialogView(context) {
+class ContractDialog(context: Context?, private val onFinishClick: ()->Unit) : BottomDialogView(context) {
     
     @SuppressLint("InflateParams")
     override var bView = LayoutInflater.from(context).inflate(R.layout.dialog_contract,null)!!
@@ -16,12 +14,8 @@ class ContractDialog(context: Context?, private val clickListener: OnMyClickList
         btnFinish = bView.findViewById(R.id.btn_finish)
         btnFinish.setOnClickListener {
             dismiss()
-            clickListener.onFinishClick()
+            onFinishClick.invoke()
         }
-    }
-    
-    interface OnMyClickListener {
-        fun onFinishClick()
     }
 
 }

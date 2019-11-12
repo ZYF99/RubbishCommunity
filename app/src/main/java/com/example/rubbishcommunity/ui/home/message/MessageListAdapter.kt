@@ -19,6 +19,7 @@ class MessageListAdapter
 	private val mDataset: MutableList<Message>,
 	private val cellClickListener: OnClickListener
 ) : RecyclerView.Adapter<MessageListAdapter.SimpleViewHolder>() {
+	
 	interface OnClickListener {
 		fun onCellClick(position: Int)
 		fun onDellClick(position: Int)

@@ -30,7 +30,7 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
 	}
 	
 	
-	fun search(str: String): Single<ResultModel<List<SearchKeyConclusion>>> {
+	fun search(str: String): Single<ResultModel<MutableList<SearchKeyConclusion>>> {
 		return apiService.searchClassification(str)
 			.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())

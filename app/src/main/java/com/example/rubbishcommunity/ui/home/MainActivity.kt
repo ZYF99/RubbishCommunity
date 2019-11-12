@@ -105,13 +105,6 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 			mqServiceConnection,
 			Context.BIND_AUTO_CREATE
 		)
-
-/*		viewModel.initMqtt()
-			.doOnDispose {
-				Log.d("AAAAA", "退订流成功")
-			}.bindLife()*/
-		
-		
 	}
 	
 	

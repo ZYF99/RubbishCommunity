@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <data class="DynamicGridItemBinding">
+    <data class="PhotographyCellBinding">
 
         <import type="android.view.View" />
+
+        <variable
+                name="photography"
+                type="com.example.rubbishcommunity.model.Photography" />
 
     </data>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
 
 
         <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintDimensionRatio="h,5:4"
                 app:cardBackgroundColor="#00FFFFFF"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="0dp"
@@ -37,7 +42,8 @@
                     android:layout_height="match_parent"
                     android:layout_margin="1dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_launcher_background" />
+                    imageUrl="@{photography.imgUrl}"
+                    tools:src="@drawable/bg_welcome"/>
 
         </androidx.cardview.widget.CardView>
 

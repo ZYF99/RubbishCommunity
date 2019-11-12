@@ -10,24 +10,24 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.PagerAdapter
 import com.example.rubbishcommunity.R
-import com.example.rubbishcommunity.databinding.PhotographyCellBinding
-import com.example.rubbishcommunity.model.Photography
+import com.example.rubbishcommunity.databinding.SearchKeyConclusionBinding
+import com.example.rubbishcommunity.model.api.search.SearchKeyConclusion
 import com.jakewharton.rxbinding2.view.RxView
 import java.util.concurrent.TimeUnit
 
 
 class PhotographyPagerAdapter(
 	private val context: Context,
-	private val list: List<Photography>
+	private val list: List<SearchKeyConclusion>
 ) : PagerAdapter() {
 	
 	
 	override fun instantiateItem(container: ViewGroup, position: Int): Any {
 		val root =
-			LayoutInflater.from(context).inflate(R.layout.cell_page_photography, container, false)
+			LayoutInflater.from(context).inflate(R.layout.cell_page_classification, container, false)
 		container.addView(root)
-		val binding: PhotographyCellBinding = DataBindingUtil.bind(root)!!
-		binding.photography = list[position]
+		val binding: SearchKeyConclusionBinding = DataBindingUtil.bind(root)!!
+		binding.searchKeyConclusion = list[position]
 		RxView.clicks(root).throttleFirst(1, TimeUnit.SECONDS).doOnNext {
 			startClickAnimation(root)
 		}.subscribe()

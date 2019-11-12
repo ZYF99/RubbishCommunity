@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.multidex.MultiDexApplication
 import com.example.rubbishcommunity.manager.base.apiModule
 import com.example.rubbishcommunity.manager.base.baiduModule
+import com.example.rubbishcommunity.model.api.search.Category
 import com.example.rubbishcommunity.persistence.SharedPreferencesUtils
 import com.example.rubbishcommunity.utils.*
 import es.dmoral.toasty.Toasty
@@ -12,11 +13,14 @@ import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import rx_activity_result2.RxActivityResult
 import timber.log.Timber
+import java.util.HashMap
 
 var instance: MyApplication? = null
 
 
 class MyApplication : MultiDexApplication(), KodeinAware {
+	
+	val classificationMap =  HashMap<Int,Category>()
 	
 	override val kodein = Kodein.lazy {
 		import(apiModule)
@@ -53,7 +57,7 @@ class MyApplication : MultiDexApplication(), KodeinAware {
 		RxActivityResult.register(this)
 		instance = this
 		initHanLP()
-
+		
 	}
 	
 }

@@ -1,6 +1,5 @@
 package com.example.rubbishcommunity.ui.home.find.dynamic
 
-import android.annotation.SuppressLint
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.ui.BindingFragment
 import com.example.rubbishcommunity.R
@@ -17,26 +16,21 @@ class DynamicFragment : BindingFragment<DynamicBinding, DynamicViewModel>(
 	
 	}
 	
-	@SuppressLint("CheckResult")
 	override fun initWidget() {
+		
 		binding.vm = viewModel
+		viewModel.getDynamicList()
 		
-		//viewModel.isRefreshing.observe { binding.refreshlayout.isRefreshing = it!! }
-		
-		viewModel.getDynamicList().doOnSubscribe {
-			binding.recDynamic.run {
-				(adapter as DynamicListAdapter).replaceData(viewModel.dynamicList.value!!)
-			}
-		}.bindLife()
-		
-		
+		viewModel.dynamicList.observeNonNull {
+			(binding.recDynamic.adapter as DynamicListAdapter).replaceData(it)
+		}
 		
 		binding.recDynamic.run {
 			layoutManager = LinearLayoutManager(context)
 			adapter = DynamicListAdapter(viewModel.dynamicList.value)
-			(adapter as DynamicListAdapter).setOnItemClickListener { adapter, view, position ->
+			(adapter as DynamicListAdapter).setOnItemClickListener { _, _, position ->
 				//开启详情页
-				viewModel.dynamicList.value!![position].id?.let { jumpToDynamicDetail(context, it) }
+				jumpToDynamicDetail(context,viewModel.dynamicList.value!![position].id!!)
 			}
 		}
 		
@@ -45,14 +39,10 @@ class DynamicFragment : BindingFragment<DynamicBinding, DynamicViewModel>(
 			when {
 				!isNetworkAvailable() -> {
 					(activity as MainActivity).showNetErrorSnackBar()
-					viewModel.isRefreshing.postValue(false)
+					viewModel.isRefreshing.value = false
 				}
 				else -> {
-					viewModel.getDynamicList().doOnSubscribe {
-						binding.recDynamic.run {
-							(adapter as DynamicListAdapter).replaceData(viewModel.dynamicList.value!!)
-						}
-					}.bindLife()
+					viewModel.getDynamicList()
 				}
 			}
 		}

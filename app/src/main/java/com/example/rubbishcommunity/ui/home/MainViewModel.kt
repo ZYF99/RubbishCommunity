@@ -1,23 +1,8 @@
 package com.example.rubbishcommunity.ui.home
 
 import android.app.Application
-import android.content.ComponentName
-import android.content.ServiceConnection
-import android.os.IBinder
-import android.os.Messenger
-import androidx.lifecycle.MutableLiveData
-import com.example.rubbishcommunity.MyApplication
-import com.example.rubbishcommunity.manager.main.mainModule
 import com.example.rubbishcommunity.ui.BaseViewModel
-import com.example.rubbishcommunity.utils.*
-import io.reactivex.Single
-import org.eclipse.paho.android.service.MqttAndroidClient
-import org.eclipse.paho.client.mqttv3.IMqttToken
-import org.kodein.di.Copy
-import org.kodein.di.Kodein
-import org.kodein.di.android.closestKodein
-import org.kodein.di.android.retainedKodein
-import org.kodein.di.generic.instance
+
 
 
 class MainViewModel(application: Application) : BaseViewModel(application) {

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.view.View
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.DynamicDetailBinding
@@ -12,8 +11,7 @@ import com.example.rubbishcommunity.ui.*
 import com.example.rubbishcommunity.ui.container.jumpToInnerComment
 import com.example.rubbishcommunity.ui.home.find.dynamic.DynamicListGridImageAdapter
 import com.example.rubbishcommunity.ui.release.dynamic.MyGridLayoutManager
-import com.jakewharton.rxbinding2.view.RxView
-import java.util.concurrent.TimeUnit
+
 
 class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetailViewModel>(
 	DynamicDetailViewModel::class.java, R.layout.fragment_dynamic_detail
@@ -25,7 +23,7 @@ class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetai
 		binding.linComment.root.visibility = View.GONE
 	}
 	
-	//发送信息的位置
+	//发送信息的index
 	var replyPosition: Int? = null
 	
 	//弹出键盘及输入框
@@ -60,44 +58,38 @@ class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetai
 		binding.imgRec.run {
 			layoutManager = MyGridLayoutManager(context, 3)
 			adapter = DynamicListGridImageAdapter(
-				viewModel.imgList.value!!,
-				object : DynamicListGridImageAdapter.OnItemClickListener {
-					override fun onItemClick(position: Int, v: View) {
-						showGallery(context, viewModel.imgList.value!!, position)
-					}
-				}
-			)
+				viewModel.imgList.value!!
+			) { position ->
+				showGallery(context, viewModel.imgList.value!!, position)
+			}
 		}
 		
 		//整体滑动监听
-		binding.nestedscroll.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+		binding.nestedscroll.setOnScrollChangeListener { _: NestedScrollView?, _: Int, _: Int, _: Int, _: Int ->
 			//滚动时隐藏输入
 			hideInputDialog()
 		}
+		
 		
 		//评论列表
 		binding.commentRec.run {
 			layoutManager = LinearLayoutManager(context)
 			adapter = CommentListAdapter(
-				viewModel.commentList.value!!,
-				object : CommentListAdapter.OnClickListener {
-					override fun onLookCommentClick(position: Int) {
-						//查看内部评论
-						(viewModel.commentList.value?.get(position)?.innerCommentList)?.let { innerCommentList ->
-							jumpToInnerComment(context, innerCommentList)
-						}
-					}
-					
-					override fun onoReplyClick(position: Int) {
-						showInputDialog()
-						replyPosition = position
-					}
+				viewModel.commentList.value!!, { position ->
+					//查看内部评论
+					jumpToInnerComment(
+						context,
+						viewModel.commentList.value!![position].innerCommentList ?: listOf()
+					)
+				}, { position ->
+					showInputDialog()
+					replyPosition = position
 				}
 			)
 		}
 		
 		//键盘上方的发送按钮
-		RxView.clicks(binding.linComment.btnSend).doOnNext {
+		binding.linComment.btnSend.setOnClickListener {
 			if (!viewModel.inputComment.value.isNullOrEmpty()) {
 				viewModel.inputComment.postValue("")
 				MyApplication.showToast("回复原文：${viewModel.inputComment.value}")
@@ -105,24 +97,21 @@ class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetai
 			} else {
 				MyApplication.showToast("回复不能为空")
 			}
-		}.throttleFirst(2, TimeUnit.SECONDS)
-			.bindLife()
+		}
 		
 		//返回按钮
-		RxView.clicks(binding.btnBack).doOnNext {
+		binding.btnBack.setOnClickListener {
 			activity?.finish()
-		}.throttleFirst(2, TimeUnit.SECONDS)
-			.bindLife()
+		}
 		
 		//评论按钮
-		RxView.clicks(binding.btnComment).doOnNext {
+		binding.btnComment.setOnClickListener {
 			replyPosition = null
 			showInputDialog()
-		}.throttleFirst(2, TimeUnit.SECONDS)
-			.bindLife()
+		}
 		
 		//发送按钮 回复原文
-		RxView.clicks(binding.linComment.btnSend).doOnNext {
+		binding.linComment.btnSend.setOnClickListener {
 			if (!viewModel.inputComment.value.isNullOrEmpty()) {
 				viewModel.inputComment.postValue("")
 				when (replyPosition) {
@@ -133,11 +122,7 @@ class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetai
 			} else {
 				MyApplication.showToast("回复不能为空")
 			}
-		}.throttleFirst(2, TimeUnit.SECONDS)
-			.bindLife()
-		
-
-		
+		}
 	}
 	
 	override fun initData() {

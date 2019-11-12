@@ -1,7 +1,6 @@
 package com.example.rubbishcommunity.ui.home.find.dynamic
 
 
-import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -26,21 +25,15 @@ class DynamicListAdapter(data: MutableList<Dynamic>?) :
 					dynamic.images.size == 1 -> 1
 					dynamic.images.size == 2 -> 2
 					dynamic.images.size == 4 -> 2
-					else -> {
-						3
-					}
+					else -> 3
 				}
 			)
-			
 			
 			adapter = DynamicListGridImageAdapter(
-				dynamic.images,
-				object : DynamicListGridImageAdapter.OnItemClickListener {
-					override fun onItemClick(position: Int, v: View) {
-						showGallery(context, dynamic.images, position)
-					}
-				}
-			)
+				dynamic.images
+			) { position ->
+				showGallery(context, dynamic.images, position)
+			}
 		}
 	}
 	

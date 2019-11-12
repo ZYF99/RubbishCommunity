@@ -1,7 +1,7 @@
 package com.example.rubbishcommunity.persistence
 
 import com.baidu.location.BDLocation
-import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
+import com.example.rubbishcommunity.model.api.mine.UsrProfile
 import com.example.rubbishcommunity.utils.getAgeByBirth
 import com.example.rubbishcommunity.utils.stringToDate
 
@@ -58,7 +58,7 @@ fun changeNeedMoreInfoFlag(needMoreInfoFlag: Boolean) {
 }
 
 //存储用户基本信息
-fun saveUserInfo(usrProfile: LoginOrRegisterResultModel.UsrProfile) {
+fun saveUserInfo(usrProfile: UsrProfile) {
 	SharedPreferencesUtils.putData(
 		"localUsrProfile",
 		usrProfile
@@ -66,11 +66,11 @@ fun saveUserInfo(usrProfile: LoginOrRegisterResultModel.UsrProfile) {
 }
 
 //获取用户基本信息
-fun getLocalUserInfo(): LoginOrRegisterResultModel.UsrProfile {
+fun getLocalUserInfo(): UsrProfile {
 	return (SharedPreferencesUtils.getData(
 		"localUsrProfile",
-		LoginOrRegisterResultModel.UsrProfile.getNull()
-	) as LoginOrRegisterResultModel.UsrProfile)
+		UsrProfile.getNull()
+	) as UsrProfile)
 }
 
 //更新部分基本信息
@@ -81,9 +81,9 @@ fun updateSomeUserInfo(
 	birthString: String,
 	location: BDLocation
 ) {
-	val oldUserInfo: LoginOrRegisterResultModel.UsrProfile = getLocalUserInfo()
+	val oldUserInfo: UsrProfile = getLocalUserInfo()
 	saveUserInfo(
-		LoginOrRegisterResultModel.UsrProfile(
+		UsrProfile(
 			name,
 			avatar,
 			location.country,

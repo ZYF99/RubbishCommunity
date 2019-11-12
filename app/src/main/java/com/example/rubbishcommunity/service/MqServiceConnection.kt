@@ -12,7 +12,6 @@ class MqServiceConnection :ServiceConnection{
 	
 	override fun onServiceConnected(p0: ComponentName?, iBinder: IBinder?) {
 		mqService = (iBinder as MyMqttService.CustomBinder).service
-		
 	}
 	
 	fun getMqttService(): MyMqttService {

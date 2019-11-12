@@ -7,6 +7,7 @@ import com.example.rubbishcommunity.ui.BindingActivity
 import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.hankcs.hanlp.HanLP
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 class SplashActivity : BindingActivity<SplashBinding, SplashViewModel>() {
@@ -19,11 +20,15 @@ class SplashActivity : BindingActivity<SplashBinding, SplashViewModel>() {
 	}
 	
 	override fun initWidget() {
-		HanLP.extractSummary("1", 1)
-		Single.timer(1, TimeUnit.SECONDS).doOnSuccess {
-			startActivity(Intent(this, ContainerActivity::class.java))
-			finish()
-		}.bindLife()
+		Single.fromCallable {
+			HanLP.extractSummary("1", 1)
+			viewModel.initClassification()
+		}.subscribeOn(Schedulers.io())
+			.doOnSuccess {
+				startActivity(Intent(this, ContainerActivity::class.java))
+				finish()
+			}.bindLife()
+		
 	}
 	
 	override fun initData() {

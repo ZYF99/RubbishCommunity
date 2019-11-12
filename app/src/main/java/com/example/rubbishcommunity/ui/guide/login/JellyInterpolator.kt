@@ -4,7 +4,7 @@ import android.view.animation.LinearInterpolator
 import kotlin.math.pow
 import kotlin.math.sin
 
-public class JellyInterpolator : LinearInterpolator() {
+class JellyInterpolator : LinearInterpolator() {
 	private val factor = 0.15f
 	
 	override fun getInterpolation(input: Float): Float {

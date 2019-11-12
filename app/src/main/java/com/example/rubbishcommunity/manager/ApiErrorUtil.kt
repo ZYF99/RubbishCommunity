@@ -19,13 +19,17 @@ import io.reactivex.SingleTransformer
 fun <T> dealErrorCode(): SingleTransformer<T, T> {
 	return SingleTransformer { obs ->
 		obs.doOnSuccess { result ->
-			when ((result as ResultModel<*>).meta.code) {
-				in 1000..2000 -> {
-					return@doOnSuccess
+			if (result is ResultModel<*>) {
+				when (result.meta.code) {
+					in 1000..2000 -> {
+						return@doOnSuccess
+					}
+					else -> {
+						throw ApiException(result as ResultModel<*>)
+					}
 				}
-				else -> {
-					throw ServerBackException(result as ResultModel<*>)
-				}
+			} else {
+				return@doOnSuccess
 			}
 		}
 	}
@@ -37,7 +41,7 @@ fun <T> dealError(): SingleTransformer<T, T> {
 	return SingleTransformer { obs ->
 		obs.doOnError { error ->
 			when (error) {
-				is ServerBackException -> {
+				is ApiException -> {
 					sendError(
 						ErrorData(
 							ErrorType.REGISTER_OR_LOGIN_FAILED,
@@ -60,7 +64,6 @@ fun <T> dealError(): SingleTransformer<T, T> {
 							error.responseInfo.error
 						)
 					)
-					
 				}
 				is HanLPInputError -> {
 					sendError(
@@ -81,5 +84,5 @@ fun <T> dealError(): SingleTransformer<T, T> {
 }
 
 //业务异常，非服务异常
-data class ServerBackException(val result: ResultModel<*>) :
+data class ApiException(val result: ResultModel<*>) :
 	Throwable()

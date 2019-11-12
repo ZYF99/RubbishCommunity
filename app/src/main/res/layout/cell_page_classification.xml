@@ -2,11 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data class="PhotographyCellBinding">
-
-        <variable
-                name="photography"
-                type="com.example.rubbishcommunity.model.Photography" />
+    <data class="SearchKeyConclusionBinding">
+        <variable name="searchKeyConclusion"
+                type="com.example.rubbishcommunity.model.api.search.SearchKeyConclusion"/>
     </data>
 
     <FrameLayout
@@ -23,14 +21,20 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="#2B2B2B"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                 <ImageView
                         android:id="@+id/cell_photography_img"
-                        imageUrl="@{photography.imgUrl}"
+
+                        imageUrl="@{searchKeyConclusion.category.img}"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="48dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="48dp"
                         android:layout_weight="0"
                         android:scaleType="centerCrop"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -45,7 +49,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/colorBlackTrans"
                         android:padding="8dp"
-                        android:text="@{photography.title,default=没水的水瓶}"
+                        android:text="@{searchKeyConclusion.name,default=没水的水瓶}"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textStyle="normal"
@@ -61,7 +65,7 @@
                         android:background="@color/colorBlackTrans"
                         android:maxLength="50"
                         android:padding="8dp"
-                        android:text="@{photography.content}"
+                        android:text='@{searchKeyConclusion.category.name,default=有害垃圾}'
                         android:textAlignment="textStart"
                         android:textColor="@color/white"
                         android:textSize="16sp"

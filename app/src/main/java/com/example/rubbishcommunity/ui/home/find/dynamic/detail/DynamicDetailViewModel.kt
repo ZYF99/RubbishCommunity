@@ -41,17 +41,16 @@ class DynamicDetailViewModel(application: Application) : BaseViewModel(applicati
 	
 	
 	fun init() {
-		//模拟数据
-		title.postValue("标题标题")
+		mockData()
 		
-		content.postValue(
-			"内容内容\n" +
-					"内容内容\n" +
-					"内容内容\n" +
-					"内容内容\n" +
-					"内容内容\n"
-		)
-		val myImglist = listOf(
+	}
+	
+	private fun mockData() {
+		//模拟数据
+		title.value = "标题标题"
+		
+		content.value = "内容内容\n" + "内容内容\n" + "内容内容\n" + "内容内容\n" + "内容内容\n"
+		val myImgList = listOf(
 			"http://b-ssl.duitang.com/uploads/blog/201508/16/20150816193236_kKUfm.jpeg",
 			"http://img0.imgtn.bdimg.com/it/u=2426212861,900117439&fm=27&gp=0.jpg",
 			"http://img0.imgtn.bdimg.com/it/u=1330684766,2510236939&fm=27&gp=0.jpg",
@@ -60,7 +59,7 @@ class DynamicDetailViewModel(application: Application) : BaseViewModel(applicati
 			"http://img1.imgtn.bdimg.com/it/u=2909240217,602760474&fm=27&gp=0.jpg"
 		)
 		
-		imgList.value = myImglist
+		imgList.value = myImgList
 		val innerComment = Comment(
 			UserCardResultModel.getDefault(),
 			"我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容",
@@ -107,8 +106,9 @@ class DynamicDetailViewModel(application: Application) : BaseViewModel(applicati
 			comment
 		)
 		commentList.value = myCommentList
-		location.postValue("地址地址")
-		likeNum.postValue(666)
+		location.value = "地址"
+		likeNum.value = 666
+		
 	}
 	
 	
