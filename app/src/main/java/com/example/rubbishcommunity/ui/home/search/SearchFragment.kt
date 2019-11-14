@@ -10,10 +10,11 @@ import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.SearchBinding
-import com.example.rubbishcommunity.model.Article
 import com.example.rubbishcommunity.model.Photography
+import com.example.rubbishcommunity.ui.container.jumpToNewsDetail
 import com.example.rubbishcommunity.ui.utils.dp2px
 import com.hankcs.hanlp.HanLP
+import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -34,6 +35,17 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 	override fun initWidget() {
 		binding.vm = viewModel
 		viewModel.init()
+		
+		//刷新状态监听
+		viewModel.isRefreshing.observeNonNull {
+			binding.swipe.isRefreshing = it
+			binding.root.isEnabled = !it
+		}
+		
+		viewModel.newsList.observeNonNull {
+			(binding.recyclerNews.adapter as NewsListAdapter).replaceData(it)
+		}
+		
 		binding.recyclerImg.apply {
 			layoutManager = LinearLayoutManager(context).apply {
 				orientation = LinearLayoutManager.HORIZONTAL
@@ -60,21 +72,13 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 			)
 			
 		}
-		binding.recyclerArticle.apply {
-			val item = Article(
-				"",
-				"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1573557155327&di=44f5ec8ef0f6fcbbf28131b3f9af5df5&imgtype=0&src=http%3A%2F%2Fn.sinaimg.cn%2Fsinacn%2F20171020%2F68fc-fymzzpv8123943.jpg",
-				"阿森松岛",
-				"第三方的身份",
-				""
-			)
-			
+		binding.recyclerNews.apply {
 			layoutManager = LinearLayoutManager(context)
-			adapter = ArticleListAdapter(
-				context, listOf(
-					item, item, item, item, item, item, item, item, item, item
-				)
-			)
+			adapter = NewsListAdapter(
+				viewModel.newsList.value ?: mutableListOf()
+			) { news ->
+				jumpToNewsDetail(context, news.url)
+			}
 			
 		}
 		
@@ -84,13 +88,16 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 		
 		binding.scrollview.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
 			if (scrollY - oldScrollY > 0) reduceSearch()
-			
 		}
+		
+		RxSwipeRefreshLayout.refreshes(binding.swipe).doOnNext {
+			viewModel.getNews()
+		}.bindLife()
 		
 	}
 	
 	override fun initData() {
-	
+		viewModel.getNews()
 	}
 	
 	private fun analysisAndSearch(str: String) {
@@ -125,7 +132,7 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 	private fun reduceSearch() {
 		//设置收缩状态时的布局
 		
-		binding.textSearch.hint = ""
+		//binding.textSearch.hint = ""
 		val layoutParams = binding.linearSearch.layoutParams as ViewGroup.MarginLayoutParams
 		
 		context!!.run {

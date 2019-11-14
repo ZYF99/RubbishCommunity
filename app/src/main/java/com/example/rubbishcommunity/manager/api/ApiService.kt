@@ -20,6 +20,9 @@ import retrofit2.http.*
 
 interface ApiService {
 	
+	
+
+	
 	//搜索分类
 	@GET("api/common/tools/{searchKey}/search")
 	fun searchClassification(@Path("searchKey") searchKey: String): Single<ResultModel<MutableList<SearchKeyConclusion>>>

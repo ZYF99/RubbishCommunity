@@ -30,13 +30,22 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
             buildConfigField("String", "BASE_URL", '"https://api.upuphub.com/"')
+
+            buildConfigField("String", "JUHE_APPKEY", '"214dc714d14b8eb6341080f3e14bc139"')
+            buildConfigField("String", "JUHE_URL", '"http://v.juhe.cn/toutiao/"')
+
             buildConfigField("String", "MQTT_URL", '"tcp://119.3.147.11:19099"')
             buildConfigField("String", "MQTT_USERNAME", '"CloudZhang"')
             buildConfigField("String", "MQTT_PASSWORD", '"CloudZhang"')
         }
         debug {
             buildConfigField("String", "BASE_URL", '"https://api.upuphub.com/"')
+
+            buildConfigField("String", "JUHE_URL", '"http://v.juhe.cn/toutiao/"')
+            buildConfigField("String", "JUHE_APPKEY", '"214dc714d14b8eb6341080f3e14bc139"')
+
             buildConfigField("String", "MQTT_URL", '"tcp://119.3.147.11:19099"')
             buildConfigField("String", "MQTT_USERNAME", '"CloudZhang"')
             buildConfigField("String", "MQTT_PASSWORD", '"CloudZhang"')

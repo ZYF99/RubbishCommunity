@@ -9,6 +9,7 @@ import com.example.rubbishcommunity.ui.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ContainerBinding
 import com.example.rubbishcommunity.model.Comment
+import com.example.rubbishcommunity.model.api.News
 import com.example.rubbishcommunity.ui.SoftObservableFragment
 import com.example.rubbishcommunity.ui.guide.basicinfo.BasicInfoFragment
 import com.example.rubbishcommunity.ui.guide.login.LoginFragment
@@ -18,6 +19,7 @@ import com.example.rubbishcommunity.ui.guide.welcome.WelcomeFragment
 import com.example.rubbishcommunity.ui.home.find.dynamic.detail.DynamicDetailFragment
 import com.example.rubbishcommunity.ui.home.find.dynamic.detail.innercomment.InnerCommentFragment
 import com.example.rubbishcommunity.ui.home.message.chat.ChatFragment
+import com.example.rubbishcommunity.ui.home.search.newsdetail.NewsDetailFragment
 import com.example.rubbishcommunity.ui.release.dynamic.ReleaseDynamicFragment
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
 import com.example.rubbishcommunity.utils.SoftKeyBroadManager
@@ -87,6 +89,8 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 					LoginFragment()
 				"register" -> //注册界面
 					RegisterFragment()
+				"news" -> //注册界面
+					NewsDetailFragment()
 				"password" -> //修改密码界面
 					PasswordFragment()
 				"basicInfo" -> //基本信息界面
@@ -141,6 +145,15 @@ fun jumpToBasicInfo(context: Context) {
 	
 	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }
+
+//跳转至文章详情界面
+fun jumpToNewsDetail(context: Context,newsUrl:String) {
+	val bundle = Bundle()
+	bundle.putString("tag", "news")
+	bundle.putString("newsUrl",newsUrl)
+	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
+}
+
 
 //跳转至发布动态界面界面
 fun jumpToReleaseDynamic(context: Context) {

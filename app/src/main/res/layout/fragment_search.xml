@@ -12,6 +12,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="18dp">
@@ -97,20 +98,28 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.core.widget.NestedScrollView
-                android:id="@+id/scrollview"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="@color/colorLayoutBg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/appbar">
+
+        <androidx.core.widget.NestedScrollView
+                android:id="@+id/scrollview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorLayoutBg"
+>
 
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="20dp">
+
+
 
                 <LinearLayout
                         android:id="@+id/img_linear"
@@ -160,7 +169,7 @@
                             android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recycler_article"
+                            android:id="@+id/recycler_news"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
@@ -168,13 +177,16 @@
                             android:layout_marginEnd="16dp"
                             android:orientation="vertical"
                             android:paddingBottom="160dp"
-                            tools:listitem="@layout/cell_article" />
+                            tools:listitem="@layout/cell_news" />
                 </LinearLayout>
 
 
             </LinearLayout>
 
+
         </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

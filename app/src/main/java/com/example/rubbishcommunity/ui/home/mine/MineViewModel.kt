@@ -23,6 +23,7 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 	val userInfo = MutableLiveData<UsrProfile>()
 	val isRefreshing = MutableLiveData<Boolean>()
 	
+	
 	fun refreshUserInfo() {
 		//获取用户详细信息
 		val usrProfile = getLocalUserInfo()

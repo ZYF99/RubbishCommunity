@@ -9,7 +9,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-open class ApiClient(
+open class JuheClient(
 	private val retrofit: Retrofit,
 	val okHttpClient: OkHttpClient
 ) {
@@ -21,8 +21,8 @@ open class ApiClient(
 		val okBuilder: OkHttpClient.Builder = OkHttpClient.Builder(),
 		private val adapterBuilder: Retrofit.Builder = Retrofit.Builder()
 	) {
-		fun build(url: String? = null): ApiClient {
-			val baseUrl = url ?: BuildConfig.BASE_URL
+		fun build(url: String? = null): JuheClient {
+			val baseUrl = url ?: BuildConfig.JUHE_URL
 /*                .let { url ->
                     if (!url.endsWith("/"))
                         "$url/"
@@ -40,7 +40,7 @@ open class ApiClient(
 				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 				.addConverterFactory(GsonConverterFactory.create())
 			val client = okBuilder.addInterceptor {
-				chain->
+					chain->
 				val origin = chain.request()
 				val request = origin
 					.newBuilder()
@@ -53,7 +53,7 @@ open class ApiClient(
 			}.build()
 			
 			val retrofit = adapterBuilder.client(client).build()
-			return ApiClient(retrofit, client)
+			return JuheClient(retrofit, client)
 		}
 	}
 	
