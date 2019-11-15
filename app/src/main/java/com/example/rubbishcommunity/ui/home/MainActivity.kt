@@ -18,7 +18,7 @@ import com.example.rubbishcommunity.ui.container.jumpToBasicInfo
 import com.example.rubbishcommunity.ui.container.jumpToReleaseDynamic
 import com.example.rubbishcommunity.ui.home.message.MessageFragment
 import com.example.rubbishcommunity.ui.home.mine.MineFragment
-import com.example.rubbishcommunity.ui.home.search.SearchFragment
+import com.example.rubbishcommunity.ui.home.homepage.HomePagefragment
 import com.example.rubbishcommunity.ui.widget.AddDialog
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
 import com.jakewharton.rxbinding2.view.RxView
@@ -32,7 +32,7 @@ import android.view.KeyEvent.KEYCODE_BACK
 class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	override val clazz: Class<MainViewModel> = MainViewModel::class.java
 	override val layRes: Int = R.layout.activity_main
-	private var currentFragment: Fragment? = SearchFragment()
+	private var currentFragment: Fragment? = HomePagefragment()
 	
 	private val mqServiceConnection = MqServiceConnection()
 	
@@ -122,7 +122,7 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 		if (currentFragment == null) {
 			when (tag) {
 				"home" ->
-					currentFragment = SearchFragment()
+					currentFragment = HomePagefragment()
 				
 				"find" ->
 					currentFragment = FindFragment()

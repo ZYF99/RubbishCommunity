@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.home.search
+package com.example.rubbishcommunity.ui.home.homepage
 
 import android.content.Context
 import android.view.LayoutInflater

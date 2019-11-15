@@ -7,7 +7,7 @@
 
         <variable
                 name="vm"
-                type="com.example.rubbishcommunity.ui.home.search.newsdetail.NewsDetailViewModel" />
+                type="com.example.rubbishcommunity.ui.home.homepage.newsdetail.NewsDetailViewModel" />
 
     </data>
 

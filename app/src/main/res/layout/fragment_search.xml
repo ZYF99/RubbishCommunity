@@ -7,7 +7,7 @@
 
         <variable
                 name="vm"
-                type="com.example.rubbishcommunity.ui.home.search.SearchViewModel" />
+                type="com.example.rubbishcommunity.ui.home.homepage.SearchViewModel" />
 
     </data>
 
@@ -118,7 +118,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="20dp">
-
 
 
                 <LinearLayout

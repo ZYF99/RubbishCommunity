@@ -9,7 +9,6 @@ import com.example.rubbishcommunity.ui.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ContainerBinding
 import com.example.rubbishcommunity.model.Comment
-import com.example.rubbishcommunity.model.api.News
 import com.example.rubbishcommunity.ui.SoftObservableFragment
 import com.example.rubbishcommunity.ui.guide.basicinfo.BasicInfoFragment
 import com.example.rubbishcommunity.ui.guide.login.LoginFragment
@@ -19,7 +18,7 @@ import com.example.rubbishcommunity.ui.guide.welcome.WelcomeFragment
 import com.example.rubbishcommunity.ui.home.find.dynamic.detail.DynamicDetailFragment
 import com.example.rubbishcommunity.ui.home.find.dynamic.detail.innercomment.InnerCommentFragment
 import com.example.rubbishcommunity.ui.home.message.chat.ChatFragment
-import com.example.rubbishcommunity.ui.home.search.newsdetail.NewsDetailFragment
+import com.example.rubbishcommunity.ui.home.homepage.newsdetail.NewsDetailFragment
 import com.example.rubbishcommunity.ui.release.dynamic.ReleaseDynamicFragment
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
 import com.example.rubbishcommunity.utils.SoftKeyBroadManager

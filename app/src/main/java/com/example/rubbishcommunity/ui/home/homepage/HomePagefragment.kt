@@ -1,18 +1,13 @@
-package com.example.rubbishcommunity.ui.home.search
+package com.example.rubbishcommunity.ui.home.homepage
 
 
-import android.view.ViewGroup
-import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.transition.AutoTransition
-import androidx.transition.TransitionManager
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.SearchBinding
 import com.example.rubbishcommunity.model.Photography
 import com.example.rubbishcommunity.ui.container.jumpToNewsDetail
-import com.example.rubbishcommunity.ui.utils.dp2px
 import com.hankcs.hanlp.HanLP
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 import io.reactivex.Single
@@ -20,7 +15,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
-class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
+class HomePagefragment : BindingFragment<SearchBinding, SearchViewModel>(
 	SearchViewModel::class.java, R.layout.fragment_search
 ) {
 	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
@@ -83,16 +78,14 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 		}
 		
 		binding.linearSearch.setOnClickListener {
-			expandSearch()
+		
 		}
 		
-		binding.scrollview.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
-			if (scrollY - oldScrollY > 0) reduceSearch()
-		}
 		
 		RxSwipeRefreshLayout.refreshes(binding.swipe).doOnNext {
 			viewModel.getNews()
 		}.bindLife()
+		
 		
 	}
 	
@@ -114,44 +107,7 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 	}
 	
 	
-	private fun expandSearch() {
-		//设置伸展状态时的布局
-		binding.textSearch.hint = "搜索你的垃圾名称"
-		val layoutParams = binding.linearSearch.layoutParams as ViewGroup.MarginLayoutParams
-		layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-		context!!.run {
-			//layoutParams.setMargins(dp2px(10f), dp2px(10f), dp2px(2f), dp2px(10f))
-		}
-		
-		
-		binding.linearSearch.layoutParams = layoutParams
-		//设置动画
-		beginDelayedTransition(binding.linearSearch)
-	}
 	
-	private fun reduceSearch() {
-		//设置收缩状态时的布局
-		
-		//binding.textSearch.hint = ""
-		val layoutParams = binding.linearSearch.layoutParams as ViewGroup.MarginLayoutParams
-		
-		context!!.run {
-			layoutParams.width = dp2px(80f)
-			//layoutParams.setMargins(dp2px(10f), dp2px(10f), dp2px(10f), dp2px(10f))
-		}
-		
-		binding.linearSearch.layoutParams = layoutParams
-		//设置动画
-		beginDelayedTransition(binding.linearSearch)
-	}
-	
-	private fun beginDelayedTransition(view: ViewGroup) {
-		val mSet = AutoTransition()
-		//设置动画持续时间
-		mSet.duration = 300
-		// 开始表演
-		TransitionManager.beginDelayedTransition(view, mSet)
-		
-	}
 	
 }
+

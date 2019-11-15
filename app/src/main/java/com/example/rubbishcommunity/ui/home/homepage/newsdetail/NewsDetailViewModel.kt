@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.home.search.newsdetail
+package com.example.rubbishcommunity.ui.home.homepage.newsdetail
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
