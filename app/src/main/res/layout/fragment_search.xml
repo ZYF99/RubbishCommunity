@@ -3,11 +3,11 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <data class="SearchBinding">
+    <data class="HomePageBinding">
 
         <variable
                 name="vm"
-                type="com.example.rubbishcommunity.ui.home.homepage.SearchViewModel" />
+                type="com.example.rubbishcommunity.ui.home.homepage.HomePageViewModel" />
 
     </data>
 

@@ -1,0 +1,15 @@
+syntax = "proto3";
+package rubbishcommunity;
+option java_package = "com.example.rubbishcommunity";
+option java_outer_classname = "LocationOutClass";
+
+message Location {
+    double longitude = 1; // 经度
+    double latitude = 2; // 纬度
+    string country = 3; // 国家
+    string province = 4; // 省份
+    string city = 5; // 城市
+    string district = 6; // 县/区
+    string street = 7; // 街道
+    int64 uin = 8; // 用户Uin
+}

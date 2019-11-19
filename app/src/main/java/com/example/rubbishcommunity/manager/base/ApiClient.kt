@@ -1,11 +1,12 @@
 package com.example.rubbishcommunity.manager.base
 
-
 import com.example.rubbishcommunity.BuildConfig
 import com.example.rubbishcommunity.persistence.getLocalToken
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.protobuf.ProtoConverterFactory
+import com.google.protobuf.ExtensionRegistry
 import retrofit2.converter.gson.GsonConverterFactory
 
 
@@ -35,10 +36,14 @@ open class ApiClient(
                     else
                         url
                 }*/
+			val registry = ExtensionRegistry.newInstance()
 			adapterBuilder
 				.baseUrl(baseUrl)
+				.addConverterFactory(ProtoConverterFactory.create())//一定要在gsonconvert的前面
+				//.addConverterFactory(WireConverterFactory.create())
 				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 				.addConverterFactory(GsonConverterFactory.create())
+			
 			val client = okBuilder.addInterceptor {
 				chain->
 				val origin = chain.request()

@@ -1,11 +1,12 @@
 package com.example.rubbishcommunity.ui.home.homepage
 
 
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.BindingFragment
 import com.example.rubbishcommunity.R
-import com.example.rubbishcommunity.databinding.SearchBinding
+import com.example.rubbishcommunity.databinding.HomePageBinding
 import com.example.rubbishcommunity.model.Photography
 import com.example.rubbishcommunity.ui.container.jumpToNewsDetail
 import com.hankcs.hanlp.HanLP
@@ -15,8 +16,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
-class HomePagefragment : BindingFragment<SearchBinding, SearchViewModel>(
-	SearchViewModel::class.java, R.layout.fragment_search
+class HomePageFragment : BindingFragment<HomePageBinding, HomePageViewModel>(
+	HomePageViewModel::class.java, R.layout.fragment_search
 ) {
 	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
 	}
@@ -78,9 +79,8 @@ class HomePagefragment : BindingFragment<SearchBinding, SearchViewModel>(
 		}
 		
 		binding.linearSearch.setOnClickListener {
-		
+		viewModel.protobufTest()
 		}
-		
 		
 		RxSwipeRefreshLayout.refreshes(binding.swipe).doOnNext {
 			viewModel.getNews()

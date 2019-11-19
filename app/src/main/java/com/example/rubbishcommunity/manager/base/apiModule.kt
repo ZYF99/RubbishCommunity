@@ -28,6 +28,7 @@ fun provideApiClient(): ApiClient {
 	client.okBuilder
     //.addInterceptor(HeaderInterceptor())
         .addInterceptor(NetErrorInterceptor())
+		.addInterceptor(ProtoInterceptor())
 		.apply {
 			if (BuildConfig.DEBUG)
 				addInterceptor(logInterceptor)

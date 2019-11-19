@@ -2,6 +2,7 @@ package com.example.rubbishcommunity.ui.home.homepage
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.manager.api.ApiService
 import com.example.rubbishcommunity.manager.api.JuheService
 import com.example.rubbishcommunity.manager.dealError
@@ -17,7 +18,7 @@ import io.reactivex.schedulers.Schedulers
 import org.kodein.di.generic.instance
 
 
-class SearchViewModel(application: Application) : BaseViewModel(application) {
+class HomePageViewModel(application: Application) : BaseViewModel(application) {
 	
 	
 	private val apiService by instance<ApiService>()
@@ -46,6 +47,20 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
 			.compose(dealRefresh())
 			.doOnSuccess {
 				newsList.value = it.result.data
+			}
+			.bindLife()
+		
+	}
+	
+	fun protobufTest(){
+		apiService.protobufGetTest()
+			.subscribeOn(Schedulers.io())
+			.observeOn(AndroidSchedulers.mainThread())
+			//.compose(dealErrorCode())
+			.compose(dealError())
+			.compose(dealRefresh())
+			.doOnSuccess {
+				MyApplication.showSuccess(it.toString())
 			}
 			.bindLife()
 		
