@@ -6,23 +6,21 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
-import com.baidu.location.BDAbstractLocationListener
-import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
 import com.example.rubbishcommunity.MyApplication
-import com.example.rubbishcommunity.ui.BindingFragment
+import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ReleaseDynamicBinding
 import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.example.rubbishcommunity.ui.showGallery
 import com.example.rubbishcommunity.ui.utils.ErrorData
 import com.example.rubbishcommunity.ui.utils.ErrorType
-import com.example.rubbishcommunity.utils.getLocationWithCheckPermission
+import com.example.rubbishcommunity.utils.checkLocationPermission
 import com.example.rubbishcommunity.ui.utils.sendError
+import com.example.rubbishcommunity.ui.utils.showAlbum
 import com.jakewharton.rxbinding2.view.RxView
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
@@ -35,25 +33,24 @@ import java.util.concurrent.TimeUnit
 
 class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDynamicViewModel>(
 	ReleaseDynamicViewModel::class.java, R.layout.fragment_release_dynamic
-), ReleaseDynamicGridImageAdapter.OnGridItemClickListener {
+) {
 	
 	private val locationClient by instance<LocationClient>()
-	
 	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
 	}
-	
 	override fun onSoftKeyboardClosed() {
 	}
 	
-	//添加图片按钮
-	override fun onAddPicClick() {
+	//添加图片按钮点击事件
+	private val onAddPicClick:()->Unit = {
 		//获取写的权限
 		val rxPermission = RxPermissions(activity as Activity)
 		rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 			.doOnNext { permission ->
 				if (permission.granted) {// 用户已经同意该权限
-					//第二种方式，直接进入相册，但是 是有拍照得按钮的
-					showAlbum()
+					//第二种方式，直接进入相册，有拍照得按钮的
+					// 打开选图界面
+					context!!.showAlbum(this, 9, viewModel.selectedList.value!!)
 					//第一种方式，弹出选择和拍照的dialog
 					//showPop
 				} else {
@@ -72,7 +69,7 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	}
 	
 	//单项图片点击
-	override fun onGridItemClick(position: Int, v: View) {
+	private val onGridItemClick:(Int,View)->Unit = { position, _ ->
 		//单项点击
 		val media = viewModel.selectedList.value!![position]
 		val picType = media.pictureType
@@ -103,7 +100,7 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	}
 	
 	//单项图片删除
-	override fun onGridItemDel(position: Int) {
+	private val onGridItemDelClick:(Int)->Unit = { position ->
 		viewModel.selectedList.value?.removeAt(position)
 	}
 	
@@ -119,8 +116,10 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 			layoutManager = FullyGridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
 			val recAdapter = ReleaseDynamicGridImageAdapter(
 				context,
-				mutableListOf(),
-				this@ReleaseDynamicFragment
+				viewModel.selectedList.value?: mutableListOf(),
+				onAddPicClick,
+				onGridItemClick,
+				onGridItemDelClick
 			)
 			adapter = recAdapter
 		}
@@ -159,18 +158,13 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	
 	//获取定位
 	private fun getLocation() {
-		getLocationWithCheckPermission(activity!!,locationClient,object :BDAbstractLocationListener(){
-			override fun onReceiveLocation(bdLocation: BDLocation?) {
-				viewModel.location.postValue(bdLocation?.addrStr)
-			}
-		})?.bindLife()
+		checkLocationPermission(
+			activity!!, locationClient
+		) {
+			viewModel.location.postValue(it)
+		}?.bindLife()
 	}
 	
-	
-	//打开选图界面
-	private fun showAlbum() {
-		com.example.rubbishcommunity.ui.utils.showAlbum(this, 9, viewModel.selectedList.value!!)
-	}
 	
 	//发布
 	private fun release() {
@@ -180,15 +174,12 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 			return
 		}
 		//真实发布
-		viewModel.release(object : ReleaseListener {
-			override fun releaseSuccess(s: String) {
-				//发布成功
-				viewModel.clearDraft()
-				(context as Activity).finish()
-				Log.d("QiNiuR---: ",s)
-				MyApplication.showSuccess("发布成功")
-			}
-		})?.doOnSuccess {
+		viewModel.release {
+			//发布成功
+			viewModel.clearDraft()
+			(context as Activity).finish()
+			MyApplication.showSuccess("发布成功")
+		}?.doOnSuccess {
 			//获取Token列表成功
 		}?.bindLife()
 	}

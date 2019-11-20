@@ -29,7 +29,9 @@ const val TYPE_PICTURE = 2
 class ReleaseDynamicGridImageAdapter(
 	private val context: Context,
 	private val imgList: MutableList<LocalMedia>,
-	private val mOnGridItemClickListener: OnGridItemClickListener
+	private val onAddPicClick:()->Unit,
+	private val onGridItemClick:(Int,View)->Unit,
+	private val onGridItemDelClick:(Int)->Unit
 ) : RecyclerView.Adapter<ReleaseDynamicGridImageAdapter.ViewHolder>() {
 	
 	
@@ -46,12 +48,6 @@ class ReleaseDynamicGridImageAdapter(
 	}
 	
 	
-	interface OnGridItemClickListener {
-		fun onAddPicClick()
-		fun onGridItemClick(position: Int, v: View)
-		fun onGridItemDel(position: Int)
-	}
-
 	
 	fun replaceDates(newList: MutableList<LocalMedia>) {
 		imgList.clear()
@@ -92,7 +88,7 @@ class ReleaseDynamicGridImageAdapter(
 		if (getItemViewType(position) == TYPE_CAMERA) {
 			binding.ivContent.run {
 				setImageResource(R.drawable.icon_add_pic)
-				setOnClickListener { mOnGridItemClickListener.onAddPicClick() }
+				setOnClickListener { onAddPicClick }
 			}
 			binding.linDel.visibility = View.INVISIBLE
 		} else {
@@ -105,7 +101,8 @@ class ReleaseDynamicGridImageAdapter(
 						imgList.removeAt(position)
 						notifyItemRemoved(position)
 						notifyItemRangeChanged(position, imgList.size)
-						mOnGridItemClickListener.onGridItemDel(position)
+						
+						onGridItemDelClick(position)
 					}
 				}
 			}
@@ -151,7 +148,7 @@ class ReleaseDynamicGridImageAdapter(
 			}
 			//itemView 的点击事件
 			binding.root.setOnClickListener { v ->
-				mOnGridItemClickListener.onGridItemClick(position, v)
+				onGridItemClick(position, v)
 			}
 		}
 	}

@@ -8,7 +8,11 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-
+/**
+ * @author Zhangyf
+ * @version 1.0
+ * @date 2019/11/20 14：12
+ */
 open class JuheClient(
 	private val retrofit: Retrofit,
 	val okHttpClient: OkHttpClient

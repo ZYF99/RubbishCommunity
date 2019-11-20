@@ -7,7 +7,6 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.DynamicListCellBinding
 import com.example.rubbishcommunity.model.Dynamic
-import com.example.rubbishcommunity.ui.release.dynamic.MyGridLayoutManager
 import com.example.rubbishcommunity.ui.showGallery
 
 

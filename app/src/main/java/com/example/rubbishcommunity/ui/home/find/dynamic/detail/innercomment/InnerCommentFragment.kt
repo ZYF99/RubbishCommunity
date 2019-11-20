@@ -7,11 +7,11 @@ import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.InnerCommentBinding
 import com.example.rubbishcommunity.model.Comment
-import com.example.rubbishcommunity.ui.BindingFragment
+import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.ui.container.jumpToInnerComment
-import com.example.rubbishcommunity.ui.hideInput
+import com.example.rubbishcommunity.ui.base.hideInput
 import com.example.rubbishcommunity.ui.home.find.dynamic.detail.CommentListAdapter
-import com.example.rubbishcommunity.ui.showInput
+import com.example.rubbishcommunity.ui.base.showInput
 import com.jakewharton.rxbinding2.view.RxView
 import java.util.concurrent.TimeUnit
 

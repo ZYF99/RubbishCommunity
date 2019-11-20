@@ -8,9 +8,12 @@ import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.DynamicDetailBinding
 import com.example.rubbishcommunity.ui.*
+import com.example.rubbishcommunity.ui.base.BindingFragment
+import com.example.rubbishcommunity.ui.base.hideInput
+import com.example.rubbishcommunity.ui.base.showInput
 import com.example.rubbishcommunity.ui.container.jumpToInnerComment
 import com.example.rubbishcommunity.ui.home.find.dynamic.DynamicListGridImageAdapter
-import com.example.rubbishcommunity.ui.release.dynamic.MyGridLayoutManager
+import com.example.rubbishcommunity.ui.home.find.dynamic.MyGridLayoutManager
 
 
 class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetailViewModel>(
@@ -56,7 +59,8 @@ class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetai
 		binding.vm = viewModel
 		//照片列表
 		binding.imgRec.run {
-			layoutManager = MyGridLayoutManager(context, 3)
+			layoutManager =
+				MyGridLayoutManager(context, 3)
 			adapter = DynamicListGridImageAdapter(
 				viewModel.imgList.value!!
 			) { position ->

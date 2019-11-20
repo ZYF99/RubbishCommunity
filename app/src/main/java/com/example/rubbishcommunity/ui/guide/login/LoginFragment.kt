@@ -7,14 +7,14 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import com.example.rubbishcommunity.ui.BindingFragment
+import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.LoginFragBinding
 import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.guide.AnimatorUtils
 import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.example.rubbishcommunity.ui.container.jumoToPassword
-import com.example.rubbishcommunity.ui.hideInput
+import com.example.rubbishcommunity.ui.base.hideInput
 import com.example.rubbishcommunity.ui.widget.ContractDialog
 import com.tbruyelle.rxpermissions2.RxPermissions
 

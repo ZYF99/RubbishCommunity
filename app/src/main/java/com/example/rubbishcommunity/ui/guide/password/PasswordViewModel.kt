@@ -2,8 +2,8 @@ package com.example.rubbishcommunity.ui.guide.password
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.example.rubbishcommunity.ui.BaseViewModel
-import com.example.rubbishcommunity.manager.api.ApiService
+import com.example.rubbishcommunity.ui.base.BaseViewModel
+import com.example.rubbishcommunity.manager.api.UserService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.ResultModel
@@ -31,7 +31,7 @@ class PasswordViewModel(application: Application) : BaseViewModel(application) {
 	//是否正在Loading
 	val isLoading = MutableLiveData<Boolean>()
 	
-	private val apiService by instance<ApiService>()
+	private val apiService by instance<UserService>()
 	
 	fun init() {
 		currentStep.value = STEP_INPUT_EMAIL

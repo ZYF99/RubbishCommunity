@@ -6,8 +6,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.MyApplication
-import com.example.rubbishcommunity.ui.BaseViewModel
-import com.example.rubbishcommunity.manager.api.ApiService
+import com.example.rubbishcommunity.ui.base.BaseViewModel
+import com.example.rubbishcommunity.manager.api.UserService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.ResultModel
@@ -32,7 +32,7 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 	//是否正在登陆
 	val isLoading = MutableLiveData<Boolean>()
 	
-	private val apiService by instance<ApiService>()
+	private val apiService by instance<UserService>()
 	
 	fun init() {
 		//必须初始化控件上的值

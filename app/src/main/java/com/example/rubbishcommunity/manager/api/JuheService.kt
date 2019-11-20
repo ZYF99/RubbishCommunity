@@ -4,6 +4,11 @@ import com.example.rubbishcommunity.model.api.NewsResult
 import io.reactivex.Single
 import retrofit2.http.GET
 
+/**
+ * @author Zhangyf
+ * @version 1.0
+ * @date 2019/10/20 14：12
+ */
 interface JuheService {
 	
 	//获取新闻

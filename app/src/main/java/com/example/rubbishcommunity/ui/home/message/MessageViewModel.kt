@@ -2,8 +2,10 @@ package com.example.rubbishcommunity.ui.home.message
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.example.rubbishcommunity.ui.BaseViewModel
-import com.example.rubbishcommunity.manager.api.ApiService
+import com.example.rubbishcommunity.manager.api.ChatService
+import com.example.rubbishcommunity.manager.api.DynamicService
+import com.example.rubbishcommunity.ui.base.BaseViewModel
+import com.example.rubbishcommunity.manager.api.UserService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.model.Message
 import io.reactivex.Single
@@ -15,7 +17,7 @@ import org.kodein.di.generic.instance
 class MessageViewModel(application: Application) : BaseViewModel(application) {
 	
 	
-	private val dynamicService by instance<ApiService>()
+	private val chatService by instance<ChatService>()
 	
 	val messageList = MutableLiveData<MutableList<Message>>()
 	
@@ -26,7 +28,7 @@ class MessageViewModel(application: Application) : BaseViewModel(application) {
 		
 
 		
-		return dynamicService.getMessageList(0)
+		return chatService.getMessageList(0)
 			.compose(dealRefresh())
 			.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())

@@ -21,7 +21,9 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 
 /**
- * Created by Jane on 2018/8/16.
+ * @author Zhangyf
+ * @version 1.0
+ * @date 2019/11/19 17：21
  */
 public class LenientGsonConverterFactory extends Converter.Factory {
 

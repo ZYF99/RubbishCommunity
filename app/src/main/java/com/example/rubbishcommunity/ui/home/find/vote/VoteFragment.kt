@@ -2,7 +2,7 @@ package com.example.rubbishcommunity.ui.home.find.vote
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.rubbishcommunity.ui.BindingFragment
+import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.VoteBinding
 import com.example.rubbishcommunity.ui.home.MainActivity

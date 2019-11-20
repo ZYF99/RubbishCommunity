@@ -1,9 +1,7 @@
 package com.example.rubbishcommunity.ui.utils
 
 
-import android.app.Notification
 import android.app.Notification.DEFAULT_ALL
-import android.app.Notification.PRIORITY_HIGH
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -11,18 +9,18 @@ import android.content.Intent
 import android.app.PendingIntent
 import android.content.Context.NOTIFICATION_SERVICE
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat.getSystemService
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
-import com.example.rubbishcommunity.service.MyMqttService
 import com.example.rubbishcommunity.service.MyMqttService.Companion.CHANNEL_ID_STRING
 import com.example.rubbishcommunity.ui.home.MainActivity
 
-
+/**
+ * @author Zhangyf
+ * @version 1.0
+ * @date 2019/10/11 18:10
+ */
 fun sendSimpleNotification(context: Context, title: String, contentString: String) {
 	val notificationManager = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager?
 	val contentIntent = PendingIntent.getActivity(

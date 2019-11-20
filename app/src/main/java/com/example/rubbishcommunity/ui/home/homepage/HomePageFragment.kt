@@ -4,7 +4,7 @@ package com.example.rubbishcommunity.ui.home.homepage
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.MyApplication
-import com.example.rubbishcommunity.ui.BindingFragment
+import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.HomePageBinding
 import com.example.rubbishcommunity.model.Photography
@@ -79,7 +79,7 @@ class HomePageFragment : BindingFragment<HomePageBinding, HomePageViewModel>(
 		}
 		
 		binding.linearSearch.setOnClickListener {
-		viewModel.protobufTest()
+			//viewModel.protobufTest()
 		}
 		
 		RxSwipeRefreshLayout.refreshes(binding.swipe).doOnNext {

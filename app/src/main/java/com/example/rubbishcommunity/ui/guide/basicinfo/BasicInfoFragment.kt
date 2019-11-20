@@ -8,18 +8,16 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import com.baidu.location.BDAbstractLocationListener
-import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.BasicInfoFragBinding
 import com.example.rubbishcommunity.ui.home.MainActivity
-import com.example.rubbishcommunity.ui.BindingFragment
+import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.ui.container.jumpToLogin
 import com.example.rubbishcommunity.ui.guide.AnimatorUtils
 import com.example.rubbishcommunity.ui.widget.DatePopView
-import com.example.rubbishcommunity.utils.getLocationWithCheckPermission
+import com.example.rubbishcommunity.utils.checkLocationPermission
 import com.example.rubbishcommunity.ui.utils.showAvatarAlbum
 import com.example.rubbishcommunity.utils.stringToDate
 import com.jakewharton.rxbinding2.view.RxView
@@ -117,7 +115,7 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 		//头像图片
 		RxView.clicks(binding.imgAvatar).throttleFirst(2, TimeUnit.SECONDS)
 			.doOnNext {
-				showAvatarAlbum(this)
+				context!!.showAvatarAlbum(this)
 			}.bindLife()
 		
 		//性别图片
@@ -184,11 +182,11 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 		
 		
 		//获取定位
-		getLocationWithCheckPermission(activity!!,locationClient,object : BDAbstractLocationListener() {
-			override fun onReceiveLocation(bdLocation: BDLocation?) {
-				viewModel.location.postValue(bdLocation)
-			}
-		})?.bindLife()
+		checkLocationPermission(
+			activity!!,locationClient
+		) {
+			viewModel.location.postValue(it)
+		}?.bindLife()
 		
 		//进入界面先发送验证码
 		sendEmail()

@@ -5,7 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.MyApplication
-import com.example.rubbishcommunity.manager.api.ApiService
+import com.example.rubbishcommunity.manager.api.UserService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.ResultModel
@@ -14,7 +14,7 @@ import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
 import com.example.rubbishcommunity.persistence.saveLoginState
 import com.example.rubbishcommunity.persistence.saveUserInfo
 import com.example.rubbishcommunity.persistence.saveVerifyInfo
-import com.example.rubbishcommunity.ui.BaseViewModel
+import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.ui.utils.*
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
@@ -32,7 +32,7 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 	val isLoading = MutableLiveData<Boolean>()
 	
 	
-	private val apiService by instance<ApiService>()
+	private val apiService by instance<UserService>()
 	
 	fun init() {
 		//初始化控件上的值

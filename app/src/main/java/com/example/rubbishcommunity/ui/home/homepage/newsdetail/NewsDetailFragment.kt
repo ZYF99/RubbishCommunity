@@ -1,7 +1,7 @@
 package com.example.rubbishcommunity.ui.home.homepage.newsdetail
 
 
-import com.example.rubbishcommunity.ui.BindingFragment
+import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.NewsDetailBinding
 import com.zzhoujay.richtext.RichText

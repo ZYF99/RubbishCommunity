@@ -1,11 +1,11 @@
 package com.example.rubbishcommunity.utils
 
-import com.example.rubbishcommunity.manager.api.ApiService
+import com.example.rubbishcommunity.manager.api.ImageService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
+import com.example.rubbishcommunity.model.api.GetQiNiuTokenRequestModel
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.persistence.getLocalEmail
-import com.example.rubbishcommunity.ui.release.dynamic.GetQiNiuTokenRequestModel
 import com.luck.picture.lib.entity.LocalMedia
 import com.qiniu.android.http.ResponseInfo
 import com.qiniu.android.storage.UpProgressHandler
@@ -16,22 +16,17 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 //七牛云工具
-class QiNiuUtil {
-	interface QiNiuUpLoadListener {
-		fun onSuccess(s: String)
-		fun onProgress(percent: Int)
-	}
-	
-}
+class QiNiuUtil
 
 //上传单张图片
 fun upLoadImage(
-	apiService: ApiService,
+	imageService: ImageService,
 	imagePath: String,
-	upLoadListener: QiNiuUtil.QiNiuUpLoadListener
+	onUpdateSuccess: (String) -> Unit,
+	onUpdateProgress: (Int) -> Unit
 ): Single<ResultModel<Map<String, String>>> {
 	val upKey = "${getLocalEmail()}/${System.currentTimeMillis()}"
-	return apiService.getQiNiuToken(GetQiNiuTokenRequestModel("dew", listOf(upKey)))
+	return imageService.getQiNiuToken(GetQiNiuTokenRequestModel("dew", listOf(upKey)))
 		.subscribeOn(Schedulers.io())
 		.observeOn(AndroidSchedulers.mainThread())
 		.doOnSuccess { tokenRsp ->
@@ -44,13 +39,12 @@ fun upLoadImage(
 						//返回码处理
 						dealQiNiuErrorCode(responseInfo)
 						//上传成功
-						upLoadListener.onSuccess(s)
+						onUpdateSuccess(s)
 					}, UploadOptions(
 						null, "test-type", true,
 						UpProgressHandler { key, percent ->
 							//上传中，返回进度
-							upLoadListener.onProgress(percent.toInt() * 100)
-							
+							onUpdateProgress(percent.toInt() * 100)
 						}, null
 					)
 				)
@@ -60,9 +54,10 @@ fun upLoadImage(
 
 //上传图片列表
 fun upLoadImageList(
-	apiService: ApiService,
+	imageService: ImageService,
 	imagePathList: List<LocalMedia>,
-	upLoadListener: QiNiuUtil.QiNiuUpLoadListener
+	onUpdateSuccess: (String) -> Unit,
+	onUpdateProgress: (Int) -> Unit
 ): Single<ResultModel<Map<String, String>>> {
 	val pathList = mutableListOf<String>()
 	val upKeyList = mutableListOf<String>()
@@ -72,7 +67,7 @@ fun upLoadImageList(
 		mill += 100
 		upKeyList.add("${getLocalEmail()}/$mill")
 	}
-	return apiService.getQiNiuToken(GetQiNiuTokenRequestModel("dew", upKeyList))
+	return imageService.getQiNiuToken(GetQiNiuTokenRequestModel("dew", upKeyList))
 		.subscribeOn(Schedulers.io())
 		.observeOn(AndroidSchedulers.mainThread())
 		.compose(dealErrorCode())
@@ -89,13 +84,14 @@ fun upLoadImageList(
 						dealQiNiuErrorCode(responseInfo)
 						if (index == imagePathList.size - 1) {
 							//已经全部上传成功
-							upLoadListener.onSuccess(s)
+							onUpdateSuccess(s)
+							
 						}
 					}, UploadOptions(
 						null, "test-type", true,
 						UpProgressHandler { key, percent ->
 							//上传中，返回进度
-							upLoadListener.onProgress(((100 / (pathList.size)) * percent).toInt())
+							onUpdateProgress(((100 / (pathList.size)) * percent).toInt())
 						}, null
 					)
 				)

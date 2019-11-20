@@ -9,7 +9,11 @@ import retrofit2.converter.protobuf.ProtoConverterFactory
 import com.google.protobuf.ExtensionRegistry
 import retrofit2.converter.gson.GsonConverterFactory
 
-
+/**
+ * @author Zhangyf
+ * @version 1.0
+ * @date 2019/7/20 15：12
+ */
 open class ApiClient(
 	private val retrofit: Retrofit,
 	val okHttpClient: OkHttpClient

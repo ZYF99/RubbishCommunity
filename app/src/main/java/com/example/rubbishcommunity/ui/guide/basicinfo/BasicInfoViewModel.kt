@@ -3,10 +3,11 @@ package com.example.rubbishcommunity.ui.guide.basicinfo
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.baidu.location.BDLocation
-import com.example.rubbishcommunity.manager.api.ApiService
+import com.example.rubbishcommunity.manager.api.ImageService
+import com.example.rubbishcommunity.manager.api.UserService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
-import com.example.rubbishcommunity.ui.BaseViewModel
+import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.guide.CompleteInfoRequestModel
 import com.example.rubbishcommunity.persistence.changeEmailVerifiedFlag
@@ -34,20 +35,20 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 	val birthString = MutableLiveData<String>()
 	
 	val isLoading = MutableLiveData<Boolean>()
-	private val apiService by instance<ApiService>()
+	private val apiService by instance<UserService>()
+	private val imageService by instance<ImageService>()
 	
 	//上传头像
 	fun upLoadAvatar(path: String) {
-		upLoadImage(apiService, path, object : QiNiuUtil.QiNiuUpLoadListener {
-			override fun onSuccess(s: String) {
+		upLoadImage(
+			imageService, path,
+			{
 				avatar.postValue(path)
-			}
-			
-			override fun onProgress(percent: Int) {
+			}, {
 			
 			}
-			
-		}).bindLife()
+		)
+			.bindLife()
 		
 	}
 	

@@ -4,6 +4,11 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
 
+/**
+ * @author Zhangyf
+ * @version 1.0
+ * @date 2019/10/17 17：12
+ */
 class NetErrorInterceptor : Interceptor {
 	
 	@Throws(IOException::class)

@@ -2,8 +2,8 @@ package com.example.rubbishcommunity.ui.home.find.vote
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.example.rubbishcommunity.manager.api.ApiService
-import com.example.rubbishcommunity.ui.BaseViewModel
+import com.example.rubbishcommunity.manager.api.UserService
+import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.model.Vote
 import io.reactivex.SingleTransformer
 import org.kodein.di.generic.instance
@@ -12,7 +12,7 @@ import org.kodein.di.generic.instance
 class VoteViewModel(application: Application) : BaseViewModel(application) {
 
 
-    private val apiService by instance<ApiService>()
+    private val apiService by instance<UserService>()
 
     val voteList = MutableLiveData<MutableList<Vote>>()
 

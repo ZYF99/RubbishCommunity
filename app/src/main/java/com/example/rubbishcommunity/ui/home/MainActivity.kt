@@ -7,7 +7,7 @@ import android.content.Intent
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import com.example.rubbishcommunity.ui.home.find.FindFragment
-import com.example.rubbishcommunity.ui.BindingActivity
+import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MainBinding
 import com.example.rubbishcommunity.persistence.getLocalNeedMoreInfo

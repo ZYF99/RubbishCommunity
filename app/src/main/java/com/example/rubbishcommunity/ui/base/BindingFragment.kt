@@ -1,23 +1,22 @@
-package com.example.rubbishcommunity.ui
+package com.example.rubbishcommunity.ui.base
 
 
-import android.app.Activity
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.example.rubbishcommunity.utils.BindLife
+import com.example.rubbishcommunity.ui.SoftObservableFragment
 import io.reactivex.disposables.CompositeDisposable
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.support.closestKodein
@@ -26,7 +25,8 @@ abstract class BindingFragment<Bind : ViewDataBinding, VM : AndroidViewModel>
 constructor(
 	private val clazz: Class<VM>,
 	private val bindingCreator: (LayoutInflater, ViewGroup?) -> Bind
-) : SoftObservableFragment(), KodeinAware, BindLife {
+) : SoftObservableFragment(), KodeinAware,
+	BindLife {
 	
 	constructor(clazz: Class<VM>, @LayoutRes layoutRes: Int) : this(clazz, { inflater, group ->
 		DataBindingUtil.inflate(inflater, layoutRes, group, false)

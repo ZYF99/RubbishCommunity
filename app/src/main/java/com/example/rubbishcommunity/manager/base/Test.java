@@ -8,7 +8,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import java.util.Base64;
 
 
-public class dsfds {
+public class Test {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void main(String[] args) {

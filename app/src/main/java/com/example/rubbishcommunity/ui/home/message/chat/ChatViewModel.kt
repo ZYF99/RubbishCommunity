@@ -2,21 +2,26 @@ package com.example.rubbishcommunity.ui.home.message.chat
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.example.rubbishcommunity.ui.BaseViewModel
-import com.example.rubbishcommunity.manager.api.ApiService
+import com.example.rubbishcommunity.manager.api.ChatService
+import com.example.rubbishcommunity.ui.base.BaseViewModel
+import com.example.rubbishcommunity.manager.api.UserService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.ChatMessage
 import com.example.rubbishcommunity.persistence.getLocalOpenId
-import com.example.rubbishcommunity.utils.getNowString
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.kodein.di.generic.instance
 import java.util.*
 
+/**
+ * @author Zhangyf
+ * @version 1.0
+ * @date 2019/7/22 20:10
+ */
 class ChatViewModel(application: Application) : BaseViewModel(application) {
-	private val apiService by instance<ApiService>()
+	private val chatService by instance<ChatService>()
 	
 	val toolbarTitle = MutableLiveData<String>()
 	val chatList = MutableLiveData<MutableList<ChatMessage>>()
@@ -74,7 +79,7 @@ class ChatViewModel(application: Application) : BaseViewModel(application) {
 	
 	fun sendStringMsg():Single<String> {
 		
-		return apiService.sendMsgToPeople(inputMsg.value?:"")
+		return chatService.sendMsgToPeople(inputMsg.value?:"")
 			.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())
 			.doOnSubscribe {

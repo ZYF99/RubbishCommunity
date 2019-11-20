@@ -24,7 +24,7 @@
         <include
                 android:id="@+id/toolbar"
                 layout="@layout/toolbar"
-                bind:title="@{vm.toolbarTitle}"
+                bind:title="发布动态"
                 tools:layout_editor_absoluteY="10dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -161,7 +161,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
                                 android:layout_weight="0"
-                                android:text="@{vm.location}"
+                                android:text="@{vm.location.addrStr}"
                                 android:textColor="@color/text_second"
                                 android:textSize="14sp" />
 

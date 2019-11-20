@@ -10,7 +10,11 @@ import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.PhotographyCellBinding
 import com.example.rubbishcommunity.model.Photography
 
-
+/**
+ * @author Zhangyf
+ * @version 1.0
+ * @date 2019/9/28 21:10
+ */
 
 class PhotographyListAdapter
 	(

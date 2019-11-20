@@ -1,5 +1,6 @@
 package com.example.rubbishcommunity.ui.utils
 
+import android.content.Context
 import androidx.fragment.app.Fragment
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
@@ -7,7 +8,11 @@ import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
 
 //打开选图界面
-fun showAlbum(fragment: Fragment, selectMax: Int, selectedList: List<LocalMedia>?) {
+fun Context.showAlbum(
+	fragment: Fragment,
+	selectMax: Int,
+	selectedList: List<LocalMedia>?
+) {
 	//参数很多，根据需要添加
 	PictureSelector.create(fragment)
 		.openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
@@ -39,8 +44,11 @@ fun showAlbum(fragment: Fragment, selectMax: Int, selectedList: List<LocalMedia>
 		.forResult(PictureConfig.CHOOSE_REQUEST)//结果回调onActivityResult code
 }
 
+
 //打开选头像界面
-fun showAvatarAlbum(fragment: Fragment) {
+fun Context.showAvatarAlbum(
+	fragment: Fragment
+) {
 	//参数很多，根据需要添加
 	PictureSelector.create(fragment)
 		.openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()

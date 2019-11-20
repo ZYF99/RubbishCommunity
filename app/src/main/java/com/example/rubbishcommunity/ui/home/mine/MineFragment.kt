@@ -3,7 +3,7 @@ package com.example.rubbishcommunity.ui.home.mine
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import com.example.rubbishcommunity.ui.BindingFragment
+import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MineBinding
 import com.example.rubbishcommunity.persistence.saveLoginState

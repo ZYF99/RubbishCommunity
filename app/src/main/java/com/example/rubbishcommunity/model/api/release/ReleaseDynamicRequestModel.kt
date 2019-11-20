@@ -1,12 +1,15 @@
 package com.example.rubbishcommunity.model.api.release
 
 /**
- * 发布动态成功后的返回数据
+ * @author Zhangyf
+ * @version 1.0
+ * @date 2019/11/2 16:10
+ */
+
+
+/**
+ * 发布动态的请求数据
  * */
 data class ReleaseDynamicRequestModel(
-	val msg: String
-
-) {
-
-
-}
+	val msg:String
+)

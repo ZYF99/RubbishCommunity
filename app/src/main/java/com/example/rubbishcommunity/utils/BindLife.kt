@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui
+package com.example.rubbishcommunity.utils
 
 import io.reactivex.*
 import io.reactivex.disposables.CompositeDisposable

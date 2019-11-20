@@ -2,21 +2,21 @@ package com.example.rubbishcommunity.ui.home.find.dynamic
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.example.rubbishcommunity.manager.api.ApiService
+import com.example.rubbishcommunity.manager.api.DynamicService
+import com.example.rubbishcommunity.manager.api.UserService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
-import com.example.rubbishcommunity.ui.BaseViewModel
+import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.model.Dynamic
+import com.example.rubbishcommunity.utils.switchThread
 import io.reactivex.SingleTransformer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import org.kodein.di.generic.instance
 
 
 class DynamicViewModel(application: Application) : BaseViewModel(application) {
 	
 	
-	private val dynamicService by instance<ApiService>()
+	private val dynamicService by instance<DynamicService>()
 	
 	val dynamicList = MutableLiveData<MutableList<Dynamic>>()
 	
@@ -26,8 +26,7 @@ class DynamicViewModel(application: Application) : BaseViewModel(application) {
 	fun getDynamicList() {
 		return dynamicService.getDynamicList(0)
 			.compose(dealRefresh())
-			.subscribeOn(Schedulers.io())
-			.observeOn(AndroidSchedulers.mainThread())
+			.switchThread()
 			.doOnSuccess {
 				//dynamicList.value = it
 			}

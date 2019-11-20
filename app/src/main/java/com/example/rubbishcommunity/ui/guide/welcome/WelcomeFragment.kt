@@ -1,6 +1,6 @@
 package com.example.rubbishcommunity.ui.guide.welcome
 
-import com.example.rubbishcommunity.ui.BindingFragment
+import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.WelcomeBinding
 import com.example.rubbishcommunity.persistence.getLoginState

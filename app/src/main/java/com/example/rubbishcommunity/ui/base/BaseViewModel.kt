@@ -1,9 +1,10 @@
-package com.example.rubbishcommunity.ui
+package com.example.rubbishcommunity.ui.base
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.MyApplication
+import com.example.rubbishcommunity.utils.BindLife
 import io.reactivex.disposables.CompositeDisposable
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware

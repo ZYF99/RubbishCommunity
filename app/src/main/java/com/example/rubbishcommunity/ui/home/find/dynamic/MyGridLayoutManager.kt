@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.release.dynamic
+package com.example.rubbishcommunity.ui.home.find.dynamic
 
 import android.content.Context
 import android.graphics.Rect

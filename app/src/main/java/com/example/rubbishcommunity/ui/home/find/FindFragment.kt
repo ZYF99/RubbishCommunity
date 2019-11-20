@@ -1,7 +1,7 @@
 package com.example.rubbishcommunity.ui.home.find
 
 import android.annotation.SuppressLint
-import com.example.rubbishcommunity.ui.BindingFragment
+import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.FindBinding
 import com.example.rubbishcommunity.ui.home.find.dynamic.DynamicFragment

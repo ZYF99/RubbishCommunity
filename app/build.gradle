@@ -54,6 +54,7 @@ android {
             proto {
                 srcDir 'src/main/proto'
             }
+            jniLibs.srcDirs = ['libs']
         }
     }
 
@@ -105,6 +106,9 @@ android {
 
 
 dependencies {
+
+    def kotpref_version = "2.9.2"
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.2'
@@ -199,6 +203,11 @@ dependencies {
     //DI
     implementation 'org.kodein.di:kodein-di-generic-jvm:5.3.0'
     implementation 'org.kodein.di:kodein-di-framework-android-support:5.3.0'
+
+    //SharedPreference
+    implementation "com.chibatching.kotpref:kotpref:${kotpref_version}"
+    implementation "com.chibatching.kotpref:initializer:${kotpref_version}"
+
 
     //CircleImageView
     api "de.hdodenhof:circleimageview:$rootProject.ext.circleimageviewVersion"

@@ -2,9 +2,9 @@ package com.example.rubbishcommunity.ui.home.find.dynamic.detail
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.example.rubbishcommunity.manager.api.ApiService
+import com.example.rubbishcommunity.manager.api.UserService
 import com.example.rubbishcommunity.model.Comment
-import com.example.rubbishcommunity.ui.BaseViewModel
+import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.model.api.mine.UserCardResultModel
 import io.reactivex.SingleTransformer
 import org.kodein.di.generic.instance
@@ -13,7 +13,7 @@ import org.kodein.di.generic.instance
 class DynamicDetailViewModel(application: Application) : BaseViewModel(application) {
 	
 	
-	private val dynamicService by instance<ApiService>()
+	private val dynamicService by instance<UserService>()
 	
 	//标题
 	val title = MutableLiveData<String>()

@@ -3,11 +3,15 @@ package com.example.rubbishcommunity.ui.release.dynamic
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import com.baidu.location.BDLocation
 import com.example.rubbishcommunity.*
-import com.example.rubbishcommunity.ui.BaseViewModel
-import com.example.rubbishcommunity.manager.api.ApiService
+import com.example.rubbishcommunity.manager.api.DynamicService
+import com.example.rubbishcommunity.manager.api.ImageService
+import com.example.rubbishcommunity.manager.dealError
+import com.example.rubbishcommunity.manager.dealErrorCode
+import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.model.api.ResultModel
-import com.example.rubbishcommunity.persistence.SharedPreferencesUtils
+import com.example.rubbishcommunity.model.api.release.draft.Draft
 import com.example.rubbishcommunity.ui.utils.ErrorData
 import com.example.rubbishcommunity.ui.utils.ErrorType
 import com.example.rubbishcommunity.ui.utils.sendError
@@ -17,7 +21,11 @@ import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import org.kodein.di.generic.instance
 
-
+/**
+ * @author Zhangyf
+ * @version 1.0
+ * @date 2019/9/28 21:10
+ */
 class ReleaseDynamicViewModel(application: Application) : BaseViewModel(application) {
 	//Toolbar标题栏
 	val toolbarTitle = MutableLiveData<String>()
@@ -25,7 +33,7 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 	//是否正在加载
 	val isLoading = MutableLiveData<Boolean>()
 	
-	//已选列表
+	//已选图片列表
 	val selectedList = MutableLiveData<MutableList<LocalMedia>>()
 	
 	//标题
@@ -35,75 +43,90 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 	val content = MutableLiveData<String>()
 	
 	//位置
-	val location = MutableLiveData<String>()
+	val location = MutableLiveData<BDLocation>()
 	
 	//进度
 	val progress = MutableLiveData<Int>()
 	
-	private val apiService by instance<ApiService>()
+	private val imageService by instance<ImageService>()
+	private val dynamicService by instance<DynamicService>()
 	
 	fun init() {
 		//必须初始化控件上的值
-		toolbarTitle.value = ("发布动态")
-		selectedList.value =
-			when {
-				SharedPreferencesUtils.getListData(
-					"draft_selectedList",
-					LocalMedia::class.java
-				).isNullOrEmpty() -> mutableListOf()
-				else -> SharedPreferencesUtils.getListData(
-					"draft_selectedList",
-					LocalMedia::class.java
-				)
-			}
-		title.postValue(
-			SharedPreferencesUtils.getData("draft_tittle", "") as String
-		)
-		content.postValue(
-			SharedPreferencesUtils.getData("draft_content", "") as String
-		)
-		progress.postValue(0)
+		
+		getDraft()
 	}
 	
 	
+	fun getDraft() {
+		dynamicService.getDraft()
+			.switchThread()
+			.doOnSuccess {
+				val draftData = it.data
+				title.postValue(draftData.msg)
+				content.postValue(draftData.dynamic)
+				/*	selectedList.postValue(
+						draftData.pictures
+					)*/
+			}.compose(dealLoading())
+			.compose(dealErrorCode())
+			.compose(dealError())
+			.bindLife()
+	}
+	
 	fun saveDraft() {
 		if (title.value!!.isNotEmpty() || content.value!!.isNotEmpty()) {
-			SharedPreferencesUtils.putListData("draft_selectedList", selectedList.value!!)
-			SharedPreferencesUtils.putData("draft_tittle", title.value!!)
-			SharedPreferencesUtils.putData("draft_content", content.value!!)
-			MyApplication.showSuccess("已存入草稿箱～")
+			dynamicService.saveDraft(
+				Draft(
+					title.value ?: "",
+					1,
+					content.value ?: "",
+					location.value?.latitude ?: 0.0,
+					location.value?.longitude ?: 0.0,
+					selectedList.value?.map {
+						it.path
+					} ?: listOf(),
+					title.value ?: ""
+				)
+			).switchThread()
+				.doOnSuccess {
+					MyApplication.showSuccess("已存入草稿箱～")
+				}.compose(dealLoading())
+				.compose(dealErrorCode())
+				.compose(dealError())
+				.bindLife()
 		} else {
 			MyApplication.showWarning("添加内容后才能存草稿哦～")
 		}
 	}
 	
 	fun clearDraft() {
-		SharedPreferencesUtils.putListData("draft_selectedList", mutableListOf())
-		SharedPreferencesUtils.putData("draft_tittle", "")
-		SharedPreferencesUtils.putData("draft_content", "")
+		dynamicService
+			.clearDraft()
+			.switchThread()
+			.compose(dealLoading())
+			.compose(dealErrorCode())
+			.compose(dealError())
+			.bindLife()
 	}
 	
 	//上传图片并发布动态
-	fun release(releaseListener: ReleaseListener): Single<ResultModel<Map<String, String>>>? {
+	fun release(onReleaseSuccess: (String) -> Unit): Single<ResultModel<Map<String, String>>>? {
 		if (judgeReleaseParams()) {
 			if ((selectedList.value ?: listOf<String>()).isNotEmpty()) {
 				//有图片
 				//上传图片至七牛云
 				return upLoadImageList(
-					apiService,
+					imageService,
 					selectedList.value!!,
-					object : QiNiuUtil.QiNiuUpLoadListener {
-						override fun onSuccess(s: String) {
-							//上传图片列表成功
-							isLoading.postValue(false)
-							progress.postValue(0)
-							releaseListener.releaseSuccess(s)
-						}
-						
-						override fun onProgress(percent: Int) {
-							//进度更新
-							progress.postValue(percent)
-						}
+					{
+						//上传图片列表成功
+						isLoading.postValue(false)
+						progress.postValue(0)
+						onReleaseSuccess(it)
+					}, {
+						//进度更新
+						progress.postValue(it)
 					}).compose(dealLoading())
 			} else {
 				//没图片
@@ -156,9 +179,4 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 	}
 }
 
-data class GetQiNiuTokenRequestModel(val bucketName: String, val fileKeys: List<String>)
-
-interface ReleaseListener {
-	fun releaseSuccess(s: String)
-}
 

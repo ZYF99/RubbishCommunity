@@ -4,7 +4,7 @@ import android.os.Build
 import com.example.rubbishcommunity.databinding.PasswordFragBinding
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import com.example.rubbishcommunity.ui.BindingFragment
+import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.ui.guide.AnimatorUtils
 import com.example.rubbishcommunity.ui.container.ContainerActivity

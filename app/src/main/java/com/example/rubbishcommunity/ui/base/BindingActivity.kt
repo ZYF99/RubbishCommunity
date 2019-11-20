@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui
+package com.example.rubbishcommunity.ui.base
 
 
 import android.content.Context
@@ -22,6 +22,7 @@ import timber.log.Timber
 import android.widget.EditText
 import android.app.Activity
 import com.example.rubbishcommunity.MyApplication
+import com.example.rubbishcommunity.utils.BindLife
 import com.example.rubbishcommunity.ui.utils.*
 
 

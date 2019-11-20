@@ -1,21 +1,17 @@
 package com.example.rubbishcommunity.ui.home.message.chat
 
 import android.app.Activity
-import android.util.Log
-import android.view.View
-import android.widget.AbsListView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rubbishcommunity.ui.BindingFragment
+import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ChatBinding
-import com.example.rubbishcommunity.ui.hideInput
-import com.example.rubbishcommunity.ui.showInput
+import com.example.rubbishcommunity.ui.base.hideInput
+import com.example.rubbishcommunity.ui.base.showInput
 import com.jakewharton.rxbinding2.view.RxView
 import me.everything.android.ui.overscroll.IOverScrollState.*
 import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator
 import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorAdapter
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 
