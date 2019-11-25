@@ -8,7 +8,7 @@ package com.example.rubbishcommunity.model
 data class Dynamic(
     val id: String?,
     val content: String,
-    val images: List<String>,
+    val images: MutableList<String>,
     val uId: String,
     val createTime: String,
     val status: String

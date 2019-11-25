@@ -24,7 +24,7 @@ class ChatViewModel(application: Application) : BaseViewModel(application) {
 	private val chatService by instance<ChatService>()
 	
 	val toolbarTitle = MutableLiveData<String>()
-	val chatList = MutableLiveData<MutableList<ChatMessage>>()
+	val chatList = MutableLiveData<MutableList<ChatMessage>>(mutableListOf())
 	
 	val inputMsg = MutableLiveData<String>()
 	

@@ -21,6 +21,7 @@ import org.kodein.di.android.closestKodein
 import timber.log.Timber
 import android.widget.EditText
 import android.app.Activity
+import android.view.View
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.utils.BindLife
 import com.example.rubbishcommunity.ui.utils.*
@@ -122,6 +123,7 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 				when (it.errorType) {
 					ErrorType.NO_WIFI -> MyApplication.showError(it.errorContent)
 					ErrorType.INPUT_ERROR -> MyApplication.showWarning(it.errorContent)
+					ErrorType.NO_LOCATION -> MyApplication.showWarning(it.errorContent)
 					ErrorType.NO_CAMERA -> MyApplication.showWarning(it.errorContent)
 					ErrorType.REGISTER_OR_LOGIN_FAILED -> MyApplication.showError(it.errorContent)
 					ErrorType.SERVERERROR -> MyApplication.showError(it.errorContent)
@@ -156,26 +158,8 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 	
 }
 
-/**
- * 显示键盘
- *
- * @param et 输入焦点
- */
-fun showInput(activity: Activity, et: EditText) {
-	et.requestFocus()
-	val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-	imm.showSoftInput(et, InputMethodManager.SHOW_IMPLICIT)
-	et.requestFocus()
-}
 
 
-fun hideInput(activity: Activity) {
-	val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-	val v = activity.window.peekDecorView();
-	if (null != v) {
-		imm.hideSoftInputFromWindow(v.windowToken, 0);
-	}
-}
 
 
 

@@ -1,6 +1,6 @@
 package com.example.rubbishcommunity.ui.home.homepage
 
-import android.content.Context
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +18,7 @@ import com.example.rubbishcommunity.model.Photography
 
 class PhotographyListAdapter
 	(
-	private val mContext: Context,
-	private val dataList: List<Photography>
+	private val dataList: MutableList<Photography>
 ) : RecyclerView.Adapter<PhotographyListAdapter.SimpleViewHolder>() {
 	
 
@@ -40,6 +39,12 @@ class PhotographyListAdapter
 	
 	override fun getItemCount(): Int {
 		return dataList.size
+	}
+	
+	fun replaceData(newList: MutableList<Photography>) {
+		dataList.clear()
+		dataList.addAll(newList)
+		notifyDataSetChanged()
 	}
 	
 }

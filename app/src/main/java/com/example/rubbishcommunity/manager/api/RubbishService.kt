@@ -21,12 +21,12 @@ interface RubbishService {
 	fun protobufGetTest(): Single<LocationOutClass.Location>
 	
 	
-	//搜索分类
+	//根据物品名称搜索分类
 	@GET("api/common/tools/{searchKey}/search")
 	fun searchClassification(@Path("searchKey") searchKey: String): Single<ResultModel<MutableList<SearchKeyConclusion>>>
 	
 	
-	//搜索分类名称
+	//根据sortId搜索分类信息
 	@GET("api/common/tools/{classNum}/categories")
 	fun searchCategoryByName(@Path("classNum") classNum: Int): Single<ResultModel<Category>>
 	

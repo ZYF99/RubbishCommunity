@@ -24,13 +24,14 @@
         <include
                 android:id="@+id/toolbar"
                 layout="@layout/toolbar"
-                bind:title="发布动态"
+                bind:title="@{vm.toolbarTitle}"
                 tools:layout_editor_absoluteY="10dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cons_content"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:enabled="@{!vm.isLoading}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +72,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:layout_weight="0"
-                            android:enabled="@{!vm.isLoading}"
+
                             android:minHeight="100dp"
                             android:orientation="horizontal"
                             android:paddingLeft="8dp"
@@ -95,7 +96,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@null"
                                 android:ems="10"
-                                android:enabled="@{!vm.isLoading}"
+
                                 android:hint='加个标题会有更多赞哦~'
                                 android:inputType="text"
                                 android:maxLength="12"
@@ -118,7 +119,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@null"
-                                android:enabled="@{!vm.isLoading}"
                                 android:gravity="start"
                                 android:hint="说说此刻的想法"
                                 android:inputType="text|textMultiLine"
@@ -198,13 +198,12 @@
 
 
                     <LinearLayout
-                            android:id="@+id/btn_draft"
+                            android:id="@+id/btn_clear_draft"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_weight="0"
                             android:background="?android:attr/selectableItemBackgroundBorderless"
-                            android:enabled="@{!vm.isLoading}"
                             android:gravity="center"
                             android:orientation="vertical"
                             tools:ignore="NestedWeights,NewApi">
@@ -214,7 +213,7 @@
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:tint="@color/text_second"
-                                app:srcCompat="@drawable/icon_draft" />
+                                app:srcCompat="@drawable/icon_delete" />
 
                         <TextView
                                 android:id="@+id/textView5"
@@ -223,7 +222,7 @@
 
                                 android:layout_marginTop="10dp"
                                 android:gravity="center"
-                                android:text="存草稿"
+                                android:text="清空草稿"
                                 android:textColor="@color/text_second" />
                     </LinearLayout>
 
@@ -251,7 +250,6 @@
                                 android:layout_marginStart="20dp"
                                 android:layout_marginTop="20dp"
                                 android:layout_marginEnd="10dp"
-
                                 android:layout_marginBottom="20dp"
                                 android:background="@drawable/bg_cornerinput"
                                 android:backgroundTint="@color/colorAccent"

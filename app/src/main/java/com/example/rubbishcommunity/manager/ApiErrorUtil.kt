@@ -21,7 +21,7 @@ fun <T> dealErrorCode(): SingleTransformer<T, T> {
 		obs.doOnSuccess { result ->
 			if (result is ResultModel<*>) {
 				when (result.meta.code) {
-					in 1000..2000 -> {
+					in 1000..1999 -> {
 						return@doOnSuccess
 					}
 					else -> {
@@ -43,34 +43,26 @@ fun <T> dealError(): SingleTransformer<T, T> {
 			when (error) {
 				is ApiException -> {
 					sendError(
-						ErrorData(
-							ErrorType.REGISTER_OR_LOGIN_FAILED,
-							error.result.meta.msg
-						)
+						ErrorType.REGISTER_OR_LOGIN_FAILED,
+						error.result.meta.msg
 					)
 				}
 				is ServerError -> {
 					sendError(
-						ErrorData(
-							ErrorType.SERVERERROR,
-							error.msg
-						)
+						ErrorType.SERVERERROR,
+						error.msg
 					)
 				}
 				is QiNiuUpLoadException -> {
 					sendError(
-						ErrorData(
-							ErrorType.REGISTER_OR_LOGIN_FAILED,
-							error.responseInfo.error
-						)
+						ErrorType.REGISTER_OR_LOGIN_FAILED,
+						error.responseInfo.error
 					)
 				}
 				is HanLPInputError -> {
 					sendError(
-						ErrorData(
-							ErrorType.INPUT_ERROR,
-							error.str
-						)
+						ErrorType.INPUT_ERROR,
+						error.str
 					)
 				}
 				else -> sendError(

@@ -21,7 +21,7 @@ interface UserService {
 	fun loginOrRegister(@Body loginOrRegisterRequestModel: LoginOrRegisterRequestModel): Single<ResultModel<LoginOrRegisterResultModel>>
 	
 	//邮箱验证
-	@POST("api/common/tools/code/{email}/send")
+	@GET("api/common/tools/code/{email}/send")
 	fun sendEmail(@Path("email") email: String): Single<ResultModel<String>>
 	
 	//完善用户信息

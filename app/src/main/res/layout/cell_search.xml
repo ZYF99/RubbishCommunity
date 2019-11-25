@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="SearchCellBinding">
+
+        <variable
+                name="searchConclusion"
+                type="com.example.rubbishcommunity.model.api.search.SearchKeyConclusion" />
+    </data>
+
+
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:layout_margin="4dp"
+            app:cardCornerRadius="8dp">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cell"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:visibility="visible"
+                tools:ignore="RtlSymmetry">
+
+
+            <TextView
+                    android:id="@+id/cell_seach_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxEms="6"
+                    android:singleLine="true"
+                    android:text="@{searchConclusion.name}"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="前男友" />
+
+
+            <TextView
+                    android:id="@+id/cell_seach_class"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:text='@{searchConclusion.category.name}'
+                    android:textColor="@color/text_second"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="RtlCompat"
+                    tools:text="有害垃圾" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

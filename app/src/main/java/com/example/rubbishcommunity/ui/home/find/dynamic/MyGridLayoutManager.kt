@@ -37,7 +37,6 @@ class MyGridLayoutManager(context: Context, spanCount: Int) :
 
 		if (state.itemCount>0){
 			for (i in 0 until state.itemCount) {
-				
 				measureScrapChild(
 					recycler,
 					i,

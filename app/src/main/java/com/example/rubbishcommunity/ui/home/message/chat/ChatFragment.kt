@@ -1,13 +1,12 @@
 package com.example.rubbishcommunity.ui.home.message.chat
 
-import android.app.Activity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ChatBinding
-import com.example.rubbishcommunity.ui.base.hideInput
-import com.example.rubbishcommunity.ui.base.showInput
+import com.example.rubbishcommunity.ui.utils.hideSoftKeyBoard
+import com.example.rubbishcommunity.ui.utils.openSoftKeyBoard
 import com.jakewharton.rxbinding2.view.RxView
 import me.everything.android.ui.overscroll.IOverScrollState.*
 import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator
@@ -34,10 +33,12 @@ class ChatFragment : BindingFragment<ChatBinding, ChatViewModel>(
 	
 	override fun initWidget() {
 		binding.vm = viewModel
-		//viewModel.isRefreshing.observe { binding.refreshlayout.isRefreshing = it!! }
+		//viewModel.isLoading.observe { binding.refreshlayout.isLoading = it!! }
 		binding.recChat.run {
 			layoutManager = LinearLayoutManager(context)
-			adapter = viewModel.chatList.value?.let { ChatListAdapter(context, it) }
+			adapter = ChatListAdapter(viewModel.chatList.value!!) {
+			
+			}
 			
 			setOnScrollListener(object : RecyclerView.OnScrollListener() {
 				override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -91,10 +92,10 @@ class ChatFragment : BindingFragment<ChatBinding, ChatViewModel>(
 			activity?.finish()
 		}
 		
-		viewModel.chatList.observeNonNull {list ->
+		viewModel.chatList.observeNonNull { list ->
 			binding.recChat.run {
 				adapter?.notifyItemInserted(list.size - 1)
-				scrollToPosition(list.size-1)
+				scrollToPosition(list.size - 1)
 			}
 		}
 		
@@ -108,13 +109,13 @@ class ChatFragment : BindingFragment<ChatBinding, ChatViewModel>(
 	
 	private fun showInputLin() {
 		if (!mManager.isSoftKeyboardOpened) {
-			showInput(activity as Activity, binding.editMsg)
+			activity!!.openSoftKeyBoard(binding.editMsg)
 		}
 	}
 	
 	private fun hideInputLin() {
 		if (mManager.isSoftKeyboardOpened) {
-			hideInput(activity as Activity)
+			activity!!.hideSoftKeyBoard()
 		}
 		binding.consContent?.scrollTo(0, 0)
 	}
@@ -136,5 +137,4 @@ class ChatFragment : BindingFragment<ChatBinding, ChatViewModel>(
     }*/
 	
 	
-
 }

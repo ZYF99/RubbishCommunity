@@ -1,16 +1,23 @@
 package com.example.rubbishcommunity.ui.home.find.vote
 
 
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
 import com.example.rubbishcommunity.R
+import com.example.rubbishcommunity.databinding.VoteCellBinding
 import com.example.rubbishcommunity.model.Vote
+import com.example.rubbishcommunity.ui.adapter.BaseRecyclerAdapter
 
-class VoteListAdapter(layoutRes:Int, data: MutableList<Vote>?) : BaseQuickAdapter<Vote, BaseViewHolder>(layoutRes,data) {
-
-    override fun convert(helper: BaseViewHolder?, item: Vote?) {
-        helper?.setText(R.id.tv_vote_content, item!!.content)
-    }
-
-
+class VoteListAdapter(
+	val list: MutableList<Vote>,
+	onCellClick: (Int) -> Unit
+) :
+	BaseRecyclerAdapter<Vote, VoteCellBinding>(
+		R.layout.cell_vote,
+		onCellClick
+	) {
+	override val baseList: MutableList<Vote>
+		get() = list
+	
+	override fun bindData(binding: VoteCellBinding, position: Int) {
+		binding.vote = list[position]
+	}
 }

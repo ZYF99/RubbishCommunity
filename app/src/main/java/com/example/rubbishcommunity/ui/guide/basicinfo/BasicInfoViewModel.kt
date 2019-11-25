@@ -13,7 +13,6 @@ import com.example.rubbishcommunity.model.api.guide.CompleteInfoRequestModel
 import com.example.rubbishcommunity.persistence.changeEmailVerifiedFlag
 import com.example.rubbishcommunity.persistence.getLocalEmail
 import com.example.rubbishcommunity.persistence.updateSomeUserInfo
-import com.example.rubbishcommunity.ui.utils.ErrorData
 import com.example.rubbishcommunity.ui.utils.ErrorType
 import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.utils.*
@@ -26,15 +25,15 @@ import java.util.*
 
 class BasicInfoViewModel(application: Application) : BaseViewModel(application) {
 	
-	val verifyCode = MutableLiveData<String>()
-	val avatar = MutableLiveData<String>()
-	val gender = MutableLiveData<String>()
+	val verifyCode = MutableLiveData("")
+	val avatar = MutableLiveData("")
+	val gender = MutableLiveData("男")
 	val location = MutableLiveData<BDLocation>()
-	val name = MutableLiveData<String>()
-	val birthInt = MutableLiveData<Long>()
-	val birthString = MutableLiveData<String>()
+	val name = MutableLiveData("")
+	val birthInt = MutableLiveData<Long>(0)
+	val birthString = MutableLiveData("")
 	
-	val isLoading = MutableLiveData<Boolean>()
+	val isLoading = MutableLiveData(false)
 	private val apiService by instance<UserService>()
 	private val imageService by instance<ImageService>()
 	
@@ -66,31 +65,31 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 		if (judgeCompleteInfoParams()) {
 			return apiService.completeInfo(
 				CompleteInfoRequestModel(
-					avatar.value ?: "",
-					birthInt.value ?: 0,
-					(verifyCode.value ?: "").toUpperCase(Locale.ENGLISH),
-					gender.value ?: "男",
+					avatar.value!!,
+					birthInt.value!!,
+					(verifyCode.value!!).toUpperCase(Locale.ENGLISH),
+					gender.value!!,
 					0,
 					CompleteInfoRequestModel.LocationReq(
-						location.value?.city ?: "",
-						location.value?.country ?: "",
-						location.value?.district ?: "",
+						location.value?.city!!,
+						location.value?.country!!,
+						location.value?.district!!,
 						location.value?.latitude ?: 0.0,
 						location.value?.longitude ?: 0.0,
 						location.value?.province ?: "",
 						location.value?.street ?: ""
 					),
-					name.value ?: ""
+					name.value!!
 				)
 			).subscribeOn(Schedulers.io()).doOnSuccess {
 				//改变邮箱验证状态为已验证
 				changeEmailVerifiedFlag(true)
 				//更新本地基本信息
 				updateSomeUserInfo(
-					avatar.value ?: "",
-					gender.value ?: "",
-					name.value ?: "",
-					birthString.value ?: "",
+					avatar.value!!,
+					gender.value!!,
+					name.value!!,
+					birthString.value!!,
 					location.value ?: BDLocation()
 				)
 			}
@@ -122,35 +121,33 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 	
 	//判断填写的参数
 	private fun judgeCompleteInfoParams(): Boolean {
-		if ((verifyCode.value ?: "").length == 6) {
-			if ((name.value ?: "").length in 3..10) {
-				if ((birthString.value ?: "").length > 4) {
-					return true
-				} else {
-					sendError(
-						ErrorData(
-							ErrorType.INPUT_ERROR,
-							"请选择出生日期"
-						)
-					)
-				}
-			} else {
-				sendError(
-					ErrorData(
-						ErrorType.INPUT_ERROR,
-						"昵称长度必须大于2位"
-					)
-				)
-			}
-		} else {
+		
+		fun sendInputError(errorMsg: String) {
 			sendError(
-				ErrorData(
-					ErrorType.INPUT_ERROR,
-					"请输入完整的验证码"
-				)
+				ErrorType.INPUT_ERROR,
+				errorMsg
 			)
 		}
-		return false
+		
+		return when {
+			verifyCode.value!!.length < 6 -> {
+				sendInputError("请输入完整的验证码")
+				false
+			}
+			name.value!!.length in 3..10 -> {
+				sendInputError("昵称长度必须大于2位")
+				false
+			}
+			birthString.value!!.length > 4 -> {
+				sendInputError("请选择出生日期")
+				false
+			}
+			avatar.value!!.isNotEmpty() -> {
+				sendInputError("请先上传头像")
+				false
+			}
+			else -> true
+		}
 	}
 	
 	

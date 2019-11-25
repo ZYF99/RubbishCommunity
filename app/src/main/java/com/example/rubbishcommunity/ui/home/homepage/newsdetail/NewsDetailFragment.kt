@@ -14,7 +14,6 @@ class NewsDetailFragment : BindingFragment<NewsDetailBinding, NewsDetailViewMode
 	
 	override fun initBefore() {
 		viewModel.newsUrl.value = activity!!.intent.getStringExtra("newsUrl")
-		
 	}
 	
 	override fun initWidget() {

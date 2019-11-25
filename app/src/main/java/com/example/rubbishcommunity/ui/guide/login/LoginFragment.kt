@@ -14,7 +14,7 @@ import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.guide.AnimatorUtils
 import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.example.rubbishcommunity.ui.container.jumoToPassword
-import com.example.rubbishcommunity.ui.base.hideInput
+import com.example.rubbishcommunity.ui.utils.hideSoftKeyBoard
 import com.example.rubbishcommunity.ui.widget.ContractDialog
 import com.tbruyelle.rxpermissions2.RxPermissions
 
@@ -105,16 +105,16 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 	@RequiresApi(Build.VERSION_CODES.O)
 	private fun login() {
 		//网络检查
-		if (!isNetworkAvailable()) {
-			(activity as ContainerActivity).showNetErrorSnackBar()
-			return
+		if(context!!.checkNet()){
+			//真实login
+			viewModel.login()?.doOnSuccess {
+				//登录成功
+				startActivity(Intent(context, MainActivity::class.java))
+				(context as Activity).finish()
+			}?.bindLife()
+		}else{
+			viewModel.isLoading.postValue(false)
 		}
-		//真实login
-		viewModel.login()?.doOnSuccess {
-			//登录成功
-			startActivity(Intent(context, MainActivity::class.java))
-			(context as Activity).finish()
-		}?.bindLife()
 	}
 	
 	
@@ -125,7 +125,7 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 	
 	//协议弹窗
 	private fun showContractDialog() {
-		hideInput(activity as Activity)
+		activity!!.hideSoftKeyBoard()
 		ContractDialog(context) { //onFinishClick event
 		
 		}.show()

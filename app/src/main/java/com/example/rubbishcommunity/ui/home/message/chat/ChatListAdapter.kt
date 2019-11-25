@@ -1,42 +1,32 @@
 package com.example.rubbishcommunity.ui.home.message.chat
 
-import android.content.Context
-import android.util.Log
-import android.view.LayoutInflater
+
+
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ChatMsgCellBinding
 import com.example.rubbishcommunity.model.ChatMessage
 import com.example.rubbishcommunity.persistence.getLocalOpenId
 import com.example.rubbishcommunity.persistence.getLocalUserInfo
+import com.example.rubbishcommunity.ui.adapter.BaseRecyclerAdapter
 import java.util.*
 
-class ChatListAdapter
-	(
-	private val mContext: Context,
-	private val mDataset: MutableList<ChatMessage>
-) : RecyclerView.Adapter<ChatListAdapter.SimpleViewHolder>() {
+
+class ChatListAdapter(
+	val list: MutableList<ChatMessage>,
+	onCellClick: (Int) -> Unit
+) : BaseRecyclerAdapter<ChatMessage, ChatMsgCellBinding>(
+	R.layout.cell_chat_msg,
+	onCellClick
+) {
+	override val baseList: MutableList<ChatMessage>
+		get() = list
+	private var lastMsg: ChatMessage? = null
 	
-	lateinit var binding: ChatMsgCellBinding
-	var lastMsg: ChatMessage? = null
-	
-	class SimpleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-	
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleViewHolder {
-		val view =
-			LayoutInflater.from(parent.context).inflate(R.layout.cell_chat_msg, parent, false)
-		return SimpleViewHolder(view)
-	}
-	
-	override fun onBindViewHolder(viewHolder: SimpleViewHolder, position: Int) {
-		binding = DataBindingUtil.bind(viewHolder.itemView)!!
-		val msg = mDataset[position]
+	override fun bindData(binding: ChatMsgCellBinding, position: Int) {
+		val msg = list[position]
 		binding.chatMessage = msg
-		
-		
+		binding.localOpenId = getLocalOpenId()
 		binding.cellMsgTime.visibility = View.VISIBLE
 		
 		if (lastMsg != null) {
@@ -49,30 +39,12 @@ class ChatListAdapter
 			}
 		}
 		
-		
 		if (msg.openId == getLocalOpenId()) {
 			//自己发送的消息
 			binding.myAvatar = getLocalUserInfo().avatar
-			binding.rightcard.visibility = View.VISIBLE
-			binding.leftcard.visibility = View.GONE
-			binding.rightimg.visibility = View.VISIBLE
-			binding.leftimg.visibility = View.GONE
-			
-			
 		} else {
 			//对方的消息
-			binding.rightcard.visibility = View.GONE
-			binding.leftcard.visibility = View.VISIBLE
-			binding.rightimg.visibility = View.GONE
-			binding.leftimg.visibility = View.VISIBLE
-			
 		}
-		
 		lastMsg = msg
 	}
-	
-	override fun getItemCount(): Int {
-		return mDataset.size
-	}
-	
 }

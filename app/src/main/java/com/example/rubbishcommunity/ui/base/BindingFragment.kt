@@ -15,6 +15,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.example.rubbishcommunity.MyApplication
+import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.utils.BindLife
 import com.example.rubbishcommunity.ui.SoftObservableFragment
 import io.reactivex.disposables.CompositeDisposable
@@ -108,6 +110,15 @@ constructor(
 	protected fun isNetworkAvailable() =
 		(context?.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager)?.activeNetworkInfo?.isConnected
 			?: false
+	
+	
+	fun Context.checkNet():Boolean{
+		return if(!isNetworkAvailable()){
+			MyApplication.showError(context!!.getString(R.string.net_unavailable))
+			false
+		}else true
+	}
+	
 }
 
 

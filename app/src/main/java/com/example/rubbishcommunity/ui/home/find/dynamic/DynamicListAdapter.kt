@@ -1,40 +1,43 @@
 package com.example.rubbishcommunity.ui.home.find.dynamic
 
 
-import androidx.databinding.DataBindingUtil
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.DynamicListCellBinding
 import com.example.rubbishcommunity.model.Dynamic
+import com.example.rubbishcommunity.ui.adapter.BaseRecyclerAdapter
 import com.example.rubbishcommunity.ui.showGallery
 
 
-class DynamicListAdapter(data: MutableList<Dynamic>?) :
-	BaseQuickAdapter<Dynamic, BaseViewHolder>(R.layout.cell_dynamic, data) {
+class DynamicListAdapter(
+	val list: MutableList<Dynamic>,
+	onCellClick: (Int) -> Unit
+) : BaseRecyclerAdapter<Dynamic, DynamicListCellBinding>(
+	R.layout.cell_dynamic,
+	onCellClick
+) {
+	override val baseList: MutableList<Dynamic>
+		get() = list
 	
-	override fun convert(helper: BaseViewHolder, dynamic: Dynamic) {
-		val binding: DynamicListCellBinding = DataBindingUtil.bind(helper.itemView)!!
-		binding.dynamic = dynamic
+	override fun bindData(binding: DynamicListCellBinding, position: Int) {
+		binding.dynamic = list[position]
 		binding.recImg.run {
-			layoutManager = MyGridLayoutManager(
+			layoutManager = GridLayoutManager(
 				context,
 				when {
-					dynamic.images.size % 3 == 0 -> 3
-					dynamic.images.size == 1 -> 1
-					dynamic.images.size == 2 -> 2
-					dynamic.images.size == 4 -> 2
+					list[position].images.size % 3 == 0 -> 3
+					list[position].images.size == 1 -> 1
+					list[position].images.size == 2 -> 2
+					list[position].images.size == 4 -> 2
 					else -> 3
 				}
 			)
-			
 			adapter = DynamicListGridImageAdapter(
-				dynamic.images
+				list[position].images
 			) { position ->
-				showGallery(context, dynamic.images, position)
+				showGallery(context, list[position].images, position)
 			}
 		}
 	}
-	
-	
 }
+

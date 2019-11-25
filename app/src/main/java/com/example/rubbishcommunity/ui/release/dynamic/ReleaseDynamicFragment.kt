@@ -14,11 +14,10 @@ import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ReleaseDynamicBinding
-import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.example.rubbishcommunity.ui.showGallery
 import com.example.rubbishcommunity.ui.utils.ErrorData
 import com.example.rubbishcommunity.ui.utils.ErrorType
-import com.example.rubbishcommunity.utils.checkLocationPermission
+import com.example.rubbishcommunity.utils.checkLocationPermissionAndGetLocation
 import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.ui.utils.showAlbum
 import com.jakewharton.rxbinding2.view.RxView
@@ -27,6 +26,7 @@ import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.permissions.RxPermissions
+import io.reactivex.Single
 import org.kodein.di.generic.instance
 import java.util.concurrent.TimeUnit
 
@@ -34,15 +34,15 @@ import java.util.concurrent.TimeUnit
 class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDynamicViewModel>(
 	ReleaseDynamicViewModel::class.java, R.layout.fragment_release_dynamic
 ) {
-	
 	private val locationClient by instance<LocationClient>()
 	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
 	}
+	
 	override fun onSoftKeyboardClosed() {
 	}
 	
 	//添加图片按钮点击事件
-	private val onAddPicClick:()->Unit = {
+	private val onAddPicClick: () -> Unit = {
 		//获取写的权限
 		val rxPermission = RxPermissions(activity as Activity)
 		rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -69,23 +69,25 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	}
 	
 	//单项图片点击
-	private val onGridItemClick:(Int,View)->Unit = { position, _ ->
+	private val onGridItemClick: (Int, View) -> Unit = { position, _ ->
 		//单项点击
 		val media = viewModel.selectedList.value!![position]
 		val picType = media.pictureType
 		when (PictureMimeType.pictureToVideo(picType)) {
-			1 -> // 预览图片 可自定长按保存路径
+			1 -> {
+				showGallery(
+					context!!,
+					viewModel.selectedList.value!!.map {
+						it.path
+					},
+					position
+				)
+				// 预览图片 可自定长按保存路径
 				//PictureSelector.create(MainActivity.this).externalPicturePreview(position, "/custom_file", selectList);
 				/*		PictureSelector.create(this@ReleaseDynamicFragment).externalPicturePreview(
 							position,
 							viewModel.selectedList.value
-						)*/ {
-				
-				val list = mutableListOf<String>()
-				viewModel.selectedList.value!!.forEach {
-					list.add(it.path)
-				}
-				showGallery(context!!, list, position)
+						)*/
 			}
 			
 			2 -> // 预览视频
@@ -100,7 +102,7 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	}
 	
 	//单项图片删除
-	private val onGridItemDelClick:(Int)->Unit = { position ->
+	private val onGridItemDelClick: (Int) -> Unit = { position ->
 		viewModel.selectedList.value?.removeAt(position)
 	}
 	
@@ -116,7 +118,7 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 			layoutManager = FullyGridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
 			val recAdapter = ReleaseDynamicGridImageAdapter(
 				context,
-				viewModel.selectedList.value?: mutableListOf(),
+				viewModel.selectedList.value ?: mutableListOf(),
 				onAddPicClick,
 				onGridItemClick,
 				onGridItemDelClick
@@ -131,21 +133,22 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 				release()
 			}.bindLife()
 		
-		//存草稿按钮
-		RxView.clicks(binding.btnDraft)
+		//清除草稿按钮
+		RxView.clicks(binding.btnClearDraft)
 			.throttleFirst(2, TimeUnit.SECONDS)
 			.doOnNext {
-				viewModel.saveDraft()
+				//清理草稿箱
+				viewModel.clearDraft()
 			}.bindLife()
 		
 		//退出点击事件
 		binding.toolbar.toolbar.setNavigationOnClickListener {
-			showExitWarningDialog()
+			exit()
 		}
 		
 		//监听选中列表的变化
 		viewModel.selectedList.observeNonNull {
-			(binding.imgRec.adapter as ReleaseDynamicGridImageAdapter).replaceDates(it)
+			(binding.imgRec.adapter as ReleaseDynamicGridImageAdapter).replaceData(it)
 		}
 		
 	}
@@ -158,8 +161,9 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	
 	//获取定位
 	private fun getLocation() {
-		checkLocationPermission(
-			activity!!, locationClient
+		checkLocationPermissionAndGetLocation(
+			activity!!,
+			locationClient
 		) {
 			viewModel.location.postValue(it)
 		}?.bindLife()
@@ -169,19 +173,19 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	//发布
 	private fun release() {
 		//网络检查
-		if (!isNetworkAvailable()) {
-			(activity as ContainerActivity).showNetErrorSnackBar()
-			return
+		if (context!!.checkNet()) {
+			//真实发布
+			viewModel.release {
+				//发布成功
+				viewModel.clearDraft()
+				activity!!.finish()
+				MyApplication.showSuccess("发布成功")
+			}?.doOnSuccess {
+				//获取Token列表成功
+			}?.bindLife()
+		}else{
+			viewModel.isLoading.postValue(false)
 		}
-		//真实发布
-		viewModel.release {
-			//发布成功
-			viewModel.clearDraft()
-			(context as Activity).finish()
-			MyApplication.showSuccess("发布成功")
-		}?.doOnSuccess {
-			//获取Token列表成功
-		}?.bindLife()
 	}
 	
 	
@@ -203,21 +207,29 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	}
 	
 	//退出警告
-	private fun showExitWarningDialog() {
-		//退出编辑警告
-		context?.let {
-			AlertDialog.Builder(it)
+	private fun exit() {
+		if (viewModel.title.value!!.isNotEmpty() && viewModel.content.value!!.isNotEmpty()) {
+			//退出编辑警告
+			AlertDialog.Builder(context!!)
 				.setTitle(R.string.release_exit_dialog_title)
 				.setMessage(R.string.release_exit_dialog_msg)
-				.setPositiveButton(R.string.correct) { _, _ ->
-					activity?.finish()
+				.setPositiveButton(R.string.release_exit_dialog_save) { _, _ ->
+					Single.fromCallable {
+						viewModel.saveDraft()
+					}.doOnSuccess {
+						activity!!.finish()
+					}.bindLife()
 				}
-				.setNegativeButton(R.string.cancel) { _, _ ->
-				
+				.setNegativeButton(R.string.exit) { _, _ ->
+					activity?.finish()
 				}
 				.create()
 				.show()
+		} else {
+			activity!!.finish()
 		}
+		
+		
 	}
 	
 	//引导用户去设置界面的弹窗
@@ -243,7 +255,7 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	
 	//返回按钮
 	override fun onBackPressed(): Boolean {
-		showExitWarningDialog()
+		exit()
 		return true
 	}
 	

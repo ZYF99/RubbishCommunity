@@ -6,6 +6,7 @@ import com.example.rubbishcommunity.manager.api.JuheService
 import com.example.rubbishcommunity.manager.api.RubbishService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
+import com.example.rubbishcommunity.model.Photography
 import com.example.rubbishcommunity.model.api.News
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.search.SearchKeyConclusion
@@ -21,35 +22,66 @@ class HomePageViewModel(application: Application) : BaseViewModel(application) {
 	
 	
 	private val rubbishService by instance<RubbishService>()
+
 	private val juheService by instance<JuheService>()
 	
-	private val hotWordList = MutableLiveData<MutableList<String>>()
-	private val searchWord = MutableLiveData<String>()
+
 	
 	val isRefreshing = MutableLiveData<Boolean>()
 	
-	val newsList = MutableLiveData<MutableList<News>>()
+	val newsList = MutableLiveData<MutableList<News>>(mutableListOf())
+	val photographyList = MutableLiveData<MutableList<Photography>>(mutableListOf())
 	
 	
 	fun init() {
-		hotWordList.value = mutableListOf()
-		searchWord.postValue("")
-		getHotWordList()
+	
+
+
 	}
 	
 	fun getNews(){
 		juheService.getNews()
 			.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())
-			.compose(dealErrorCode())
-			.compose(dealError())
-			.compose(dealRefresh())
 			.doOnSuccess {
 				newsList.value = it.result.data
-			}
+			}.compose(dealErrorCode())
+			.compose(dealError())
+			.compose(dealRefresh())
 			.bindLife()
-		
 	}
+	
+	fun getPhotography() {
+		juheService.getPhotography()
+			// .compose(dealRefresh())
+			.subscribeOn(Schedulers.io())
+			.observeOn(AndroidSchedulers.mainThread())
+			.doOnSuccess {
+				photographyList.value = it
+			}
+			.doOnSubscribe {
+				photographyList.value = mutableListOf(
+					Photography(
+						"",
+						"",
+						"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1573557155327&di=44f5ec8ef0f6fcbbf28131b3f9af5df5&imgtype=0&src=http%3A%2F%2Fn.sinaimg.cn%2Fsinacn%2F20171020%2F68fc-fymzzpv8123943.jpg"
+					),
+					Photography(
+						"",
+						"",
+						"http://img1.imgtn.bdimg.com/it/u=3053304738,3863903291&fm=26&gp=0.jpg"
+					),
+					Photography(
+						"",
+						"",
+						"http://img3.imgtn.bdimg.com/it/u=3774166848,2531253577&fm=26&gp=0.jpg"
+					)
+				)
+			}
+			.compose(dealError())
+			.bindLife()
+	}
+	
 	
 /*	fun protobufTest(){
 		apiService.protobufGetTest()
@@ -75,19 +107,7 @@ class HomePageViewModel(application: Application) : BaseViewModel(application) {
 	}
 	
 	
-	private fun getHotWordList() {
 
-/*        apiService.getHotWordList(0)
-           // .compose(dealRefresh())
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSuccess {
-                hotWordList.value = it as MutableList<String>?
-            }
-            .compose(dealError())
-            .bindLife()*/
-		
-	}
 
 
     private fun <T> dealRefresh(): SingleTransformer<T, T> {

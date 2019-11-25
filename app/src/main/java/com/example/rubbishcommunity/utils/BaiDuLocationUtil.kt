@@ -10,26 +10,25 @@ import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
 import com.example.rubbishcommunity.MyApplication
+import com.example.rubbishcommunity.ui.utils.ErrorType
+import com.example.rubbishcommunity.ui.utils.sendError
 import com.luck.picture.lib.permissions.RxPermissions
 import io.reactivex.Observable
+import java.util.concurrent.TimeUnit
 
 
-
-class BaiDuLocationUtil {
-
-	
-}
+class BaiDuLocationUtil
 
 /**
  * 初始化定位参数配置
  */
-fun initLocationOption(context: Context):LocationClient{
+fun initLocationOption(context: Context): LocationClient {
 	//定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
 	val locationClient = LocationClient(context)
-
+	
 	//可选，是否需要地址信息，默认为不需要，即参数为false
 	//如果开发者需要获得当前点的地址信息，此处必须为true
-
+	
 	//mLocationClient为第二步初始化过的LocationClient对象
 	//需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
 	//更多LocationClientOption的配置，请参照类参考中LocationClientOption类的详细说明
@@ -78,9 +77,12 @@ fun initLocationOption(context: Context):LocationClient{
 }
 
 
-
 //检查权限并获取定位
-fun checkLocationPermission(activity:Activity, locationClient: LocationClient, onReceiveLocation: (BDLocation)->Unit):Observable<Boolean>? {
+fun checkLocationPermissionAndGetLocation(
+	activity: Activity,
+	locationClient: LocationClient,
+	onReceiveLocation: (BDLocation) -> Unit
+): Observable<Boolean>? {
 	//定位权限检查
 	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 		//定位权限检查
@@ -88,22 +90,29 @@ fun checkLocationPermission(activity:Activity, locationClient: LocationClient, o
 			(activity.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) ||
 			(activity.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
 		) {
-			return RxPermissions(activity as Activity).request(
+			return RxPermissions(activity).request(
 				Manifest.permission.READ_PHONE_STATE,
 				Manifest.permission.ACCESS_COARSE_LOCATION
 			).doOnNext {
 				if (!it) {
 					//申请权限未通过
-					MyApplication.showWarning("请打开定位权限以便于我们为您提供更好的服务～")
+					throw NoLocationException()
 				} else {
-					getLocation(locationClient,onReceiveLocation)
+					getLocation(locationClient, onReceiveLocation)
+				}
+			}.doOnError {
+				if (it is NoLocationException)
+					sendError(ErrorType.NO_LOCATION, "请打开定位权限以便于我们精准扶贫！！～")
+			}.retryWhen {
+				it.flatMap {
+					Observable.timer(3,TimeUnit.SECONDS)
 				}
 			}
 		} else {
-			getLocation(locationClient,onReceiveLocation)
+			getLocation(locationClient, onReceiveLocation)
 		}
 	} else {
-		getLocation(locationClient,onReceiveLocation)
+		getLocation(locationClient, onReceiveLocation)
 	}
 	return null
 }
@@ -118,15 +127,15 @@ fun getLocation(
 			if (bdLocation != null) {
 				onReceiveLocation(bdLocation)
 				locationClient.stop()
-			/*
-			 经度 ${bdLocation.longitude}\n" +"纬度 ${bdLocation.latitude}\n"
-			 +"详细地址信息 ${bdLocation.addrStr}\n"
-			 +"国家 ${bdLocation.country}\n"
-			 +"省份 ${bdLocation.province}\n"
-			 +"城市 ${bdLocation.city}\n"
-			  +"区县 ${bdLocation.district}\n"
-			  +"街道 ${bdLocation.street}\n
-			  */
+				/*
+				 经度 ${bdLocation.longitude}\n" +"纬度 ${bdLocation.latitude}\n"
+				 +"详细地址信息 ${bdLocation.addrStr}\n"
+				 +"国家 ${bdLocation.country}\n"
+				 +"省份 ${bdLocation.province}\n"
+				 +"城市 ${bdLocation.city}\n"
+				  +"区县 ${bdLocation.district}\n"
+				  +"街道 ${bdLocation.street}\n
+				  */
 			} else {
 				MyApplication.showWarning("定位失败")
 				locationClient.stop()
@@ -135,3 +144,6 @@ fun getLocation(
 	})
 	locationClient.start()
 }
+
+
+class NoLocationException : Throwable()

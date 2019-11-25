@@ -1,58 +1,31 @@
 package com.example.rubbishcommunity.ui.home.message
 
-import android.content.Context
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.RecyclerView
+
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MsgCellBinding
 import com.example.rubbishcommunity.model.Message
+import com.example.rubbishcommunity.ui.adapter.BaseRecyclerAdapter
 import com.jakewharton.rxbinding2.view.RxView
-
 import java.util.concurrent.TimeUnit
 
-class MessageListAdapter
-	(
-	private val mContext: Context,
-	private val mDataset: MutableList<Message>,
-	private val cellClickListener: OnClickListener
-) : RecyclerView.Adapter<MessageListAdapter.SimpleViewHolder>() {
+
+class MessageListAdapter(
+	val list: MutableList<Message>,
+	onCellClick: (Int) -> Unit,
+	val onDellClick: (Int) -> Unit
+) : BaseRecyclerAdapter<Message, MsgCellBinding>(
+	R.layout.cell_msg,
+	onCellClick
+) {
+	override val baseList: MutableList<Message>
+		get() = list
 	
-	interface OnClickListener {
-		fun onCellClick(position: Int)
-		fun onDellClick(position: Int)
-	}
-	
-	
-	lateinit var binding: MsgCellBinding
-	
-	class SimpleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-	
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleViewHolder {
-		val view = LayoutInflater.from(parent.context).inflate(R.layout.cell_msg, parent, false)
-		return SimpleViewHolder(view)
-	}
-	
-	override fun onBindViewHolder(viewHolder: SimpleViewHolder, position: Int) {
-		binding = DataBindingUtil.bind(viewHolder.itemView)!!
-		binding.message = mDataset[position]
-		
-		RxView.clicks(binding.cell).throttleFirst(2, TimeUnit.SECONDS).doOnNext {
-			cellClickListener.onCellClick(position)
-		}.subscribe()
-		
+	override fun bindData(binding: MsgCellBinding, position: Int) {
+		binding.message = list[position]
 		RxView.clicks(binding.delete).throttleFirst(2, TimeUnit.SECONDS).doOnNext {
-			mDataset.removeAt(position)
-			notifyItemRemoved(position)
-			notifyItemRangeChanged(position, mDataset.size)
-			cellClickListener.onDellClick(position)
+			removeData(position)
+			onDellClick(position)
 		}.subscribe()
 	}
-	
-	override fun getItemCount(): Int {
-		return mDataset.size
-	}
-	
 }
+

@@ -22,18 +22,9 @@ import java.util.concurrent.TimeUnit
 
 class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
 	MessageViewModel::class.java, R.layout.fragment_message
-), MessageListAdapter.OnClickListener {
+) {
 	
 	var isDrawerOpen = false
-	
-	override fun onCellClick(position: Int) {
-		if (!isDrawerOpen)//侧边栏未开启
-			jumpToChat(context!!, (viewModel.messageList.value ?: mutableListOf())[position].uid)
-	}
-	
-	override fun onDellClick(position: Int) {
-		MyApplication.showToast("删除$position")
-	}
 	
 	override fun initBefore() {
 	
@@ -41,25 +32,46 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
 	
 	override fun initWidget() {
 		binding.vm = viewModel
-		//viewModel.isRefreshing.observe { binding.refreshlayout.isRefreshing = it!! }
-		viewModel.getMessageList().doOnSubscribe {
-			binding.recMessage.adapter?.notifyDataSetChanged()
-		}.bindLife()
 		
-		binding.recMessage.run {
-			layoutManager = LinearLayoutManager(context)
-			//adapter = MessageListAdapter(R.layout.cell_msg, viewModel.messageList.value,viewModel)
-			adapter = viewModel.messageList.value?.let {
-				MessageListAdapter(context, it, this@MessageFragment)
+		viewModel.messageList.observeNonNull {
+			(binding.recMessage.adapter as MessageListAdapter).replaceData(it)
+		}
+		
+		viewModel.isRefreshing.observeNonNull { isRefreshing ->
+			binding.refreshLayout.run {
+				if (!isRefreshing) finishRefresh()
 			}
 		}
 		
-		//展开好友列表
+		
+		//下拉刷新控件
+		binding.refreshLayout.setOnRefreshListener {
+			refresh()
+		}
+		
+		//消息列表
+		binding.recMessage.run {
+			layoutManager = LinearLayoutManager(context)
+			adapter = MessageListAdapter(viewModel.messageList.value!!, { position ->
+				if (!isDrawerOpen)//侧边栏未开启
+					jumpToChat(
+						context!!,
+						viewModel.messageList.value!![position].uid
+					)
+			}, { position ->
+				MyApplication.showToast("删除$position")
+			}
+			)
+		}
+		
+		//侧拉条点击
 		RxView.clicks(binding.btnExpand)
 			.throttleFirst(2, TimeUnit.SECONDS)
 			.doOnNext {
 				binding.drawerlayout.openDrawer(GravityCompat.END)
 			}.bindLife()
+		
+		//侧拉条拉动
 		binding.btnExpand.setBouncedragListener(object : DragBounceView.BounceDragListener {
 			override fun onDragMaxTrigger() {
 				//拉到最大值时
@@ -76,47 +88,15 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
 						binding.drawerlayout.openDrawer(GravityCompat.END)
 					}
 					.bindLife()
-				
 			}
 		})
 		
-		
-		//刷新消息列表
-		binding.refreshLayout.setOnRefreshListener {
-			when {
-				!isNetworkAvailable() -> {
-					(activity as MainActivity).showNetErrorSnackBar()
-					viewModel.refreshing.postValue(false)
-				}
-				else -> {
-					viewModel.getMessageList().doOnSubscribe {
-						binding.recMessage.adapter?.notifyDataSetChanged()
-					}.bindLife()
-				}
-			}
-		}
-		
-		viewModel.messageList.observe {
-			binding.recMessage.run {
-				if (it != null) {
-					// (adapter as MessageListAdapter).replaceData(it)
-				}
-			}
-		}
-		
-		viewModel.refreshing.observe { isRefreshing ->
-			binding.refreshLayout.run {
-				if (!isRefreshing!!) finishRefresh()
-			}
-		}
-		
+		//侧拉栏
 		binding.drawerlayout.addDrawerListener(object : DrawerLayout.DrawerListener {
 			override fun onDrawerStateChanged(newState: Int) {
-			
 			}
 			
 			override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
-			
 			}
 			
 			override fun onDrawerClosed(drawerView: View) {
@@ -126,100 +106,41 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
 			override fun onDrawerOpened(drawerView: View) {
 				isDrawerOpen = true
 			}
-			
 		})
+		
+		//好友列表
 		binding.rightSideLayout.findViewById<RecyclerView>(R.id.friendlsit).run {
 			val friendList = mutableListOf(
 				Person(
 					"aaaaa",
 					"https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=a9e671b9a551f3dedcb2bf64a4eff0ec/4610b912c8fcc3cef70d70409845d688d53f20f7.jpg",
 					"测试A"
-				),
-				Person(
-					"bbbbb",
-					"https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=a9e671b9a551f3dedcb2bf64a4eff0ec/4610b912c8fcc3cef70d70409845d688d53f20f7.jpg",
-					"测试B"
-				),
-				Person(
-					"ccccc",
-					"https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=a9e671b9a551f3dedcb2bf64a4eff0ec/4610b912c8fcc3cef70d70409845d688d53f20f7.jpg",
-					"测试C"
-				),
-				Person(
-					"ddddd",
-					"https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=a9e671b9a551f3dedcb2bf64a4eff0ec/4610b912c8fcc3cef70d70409845d688d53f20f7.jpg",
-					"测试D"
-				),
-				Person(
-					"eeeee",
-					"https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=a9e671b9a551f3dedcb2bf64a4eff0ec/4610b912c8fcc3cef70d70409845d688d53f20f7.jpg",
-					"测试E"
-				),
-				Person(
-					"fffff",
-					"https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=a9e671b9a551f3dedcb2bf64a4eff0ec/4610b912c8fcc3cef70d70409845d688d53f20f7.jpg",
-					"测试F"
-				),
-				Person(
-					"gggg",
-					"https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=a9e671b9a551f3dedcb2bf64a4eff0ec/4610b912c8fcc3cef70d70409845d688d53f20f7.jpg",
-					"测试G"
-				),
-				Person(
-					"hhhh",
-					"https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=a9e671b9a551f3dedcb2bf64a4eff0ec/4610b912c8fcc3cef70d70409845d688d53f20f7.jpg",
-					"测试H"
-				),
-				Person(
-					"iiiii",
-					"https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=a9e671b9a551f3dedcb2bf64a4eff0ec/4610b912c8fcc3cef70d70409845d688d53f20f7.jpg",
-					"测试I"
-				),
-				Person(
-					"jjjjj",
-					"https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=a9e671b9a551f3dedcb2bf64a4eff0ec/4610b912c8fcc3cef70d70409845d688d53f20f7.jpg",
-					"测试J"
-				),
-				Person(
-					"kkkkk",
-					"https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=a9e671b9a551f3dedcb2bf64a4eff0ec/4610b912c8fcc3cef70d70409845d688d53f20f7.jpg",
-					"测试K"
 				)
 			)
 			layoutManager = LinearLayoutManager(context)
-			adapter =
-				FriendListAdapter(context, friendList, object : FriendListAdapter.OnClickListener {
-					override fun onCellClick(position: Int) {
-						jumpToChat(context, friendList[position].uid)
-					}
-				}
-				
-				)
+			adapter = FriendListAdapter(friendList) { position ->
+				jumpToChat(context, friendList[position].uid)
+			}
 			
 		}
 		
 	}
 	
+	//初始化数据
 	override fun initData() {
-	
+		refresh()
 	}
-
-
-/*    //create pop of jobPicker
-    private fun createJobPop() {
-        hideKeyboard()
-        binding.btnjobdown.setImageResource(R.drawable.icn_chevron_down_black)
-        val pop = context?.let { ContractDialog(it) }
-        pop?.show()
-        //pop click listener
-        pop?.setOnClickListener(object : BottomDialogView.OnMyClickListener {
-            @SuppressLint("SetTextI18n")
-            override fun onFinishClick() {
-                binding.tvWork.text = pop.job
-            }
-        })
-
-    }*/
+	
+	//刷新
+	private fun refresh() {
+		if (context!!.checkNet()) {
+			viewModel.getMessageList().doOnSubscribe {
+				binding.recMessage.adapter?.notifyDataSetChanged()
+			}.bindLife()
+		} else {
+			viewModel.isRefreshing.postValue(false)
+		}
+	}
 	
 	
 }

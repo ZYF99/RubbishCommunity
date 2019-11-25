@@ -19,6 +19,7 @@ import com.example.rubbishcommunity.ui.home.find.dynamic.detail.DynamicDetailFra
 import com.example.rubbishcommunity.ui.home.find.dynamic.detail.innercomment.InnerCommentFragment
 import com.example.rubbishcommunity.ui.home.message.chat.ChatFragment
 import com.example.rubbishcommunity.ui.home.homepage.newsdetail.NewsDetailFragment
+import com.example.rubbishcommunity.ui.home.homepage.search.SearchFragment
 import com.example.rubbishcommunity.ui.release.dynamic.ReleaseDynamicFragment
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
 import com.example.rubbishcommunity.utils.SoftKeyBroadManager
@@ -53,7 +54,7 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 	
 	
 	override fun initBefore() {
-
+	
 	}
 	
 	@SuppressLint("ResourceType")
@@ -90,6 +91,8 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 					RegisterFragment()
 				"news" -> //注册界面
 					NewsDetailFragment()
+				"search" -> //搜索界面
+					SearchFragment()
 				"password" -> //修改密码界面
 					PasswordFragment()
 				"basicInfo" -> //基本信息界面
@@ -110,8 +113,6 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 			supportFragmentManager.beginTransaction().show(currentFragment!!).commit()
 		}
 	}
-	
-	
 }
 
 
@@ -146,10 +147,17 @@ fun jumpToBasicInfo(context: Context) {
 }
 
 //跳转至文章详情界面
-fun jumpToNewsDetail(context: Context,newsUrl:String) {
+fun jumpToNewsDetail(context: Context, newsUrl: String) {
 	val bundle = Bundle()
 	bundle.putString("tag", "news")
-	bundle.putString("newsUrl",newsUrl)
+	bundle.putString("newsUrl", newsUrl)
+	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
+}
+
+//跳转至搜索界面
+fun jumpToSearch(context: Context) {
+	val bundle = Bundle()
+	bundle.putString("tag", "search")
 	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }
 
@@ -185,7 +193,7 @@ fun jumpToInnerComment(context: Context, commentList: List<Comment>) {
 }
 
 //跳转至聊天界面
-fun jumpToChat(context: Context,openId:String) {
+fun jumpToChat(context: Context, openId: String) {
 	val bundle = Bundle()
 	bundle.putString("tag", "chat")
 	bundle.putString("uid", openId)

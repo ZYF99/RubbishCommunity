@@ -107,21 +107,20 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 	
 	//注册并登陆
 	private fun registerAndLogin() {
-		if (!isNetworkAvailable()) {
-			(activity as ContainerActivity).showNetErrorSnackBar()
-			return
+		if (context!!.checkNet()) {
+			//真实register
+			viewModel.registerAndLogin()?.doOnSuccess {
+				
+				//注册并登陆成功,跳转至完善信息界面主界面，由主界面判断是否需要完善信息
+				//完善信息成功，跳转至主界面
+				startActivity(Intent(context, MainActivity::class.java))
+				(context as Activity).finish()
+				
+				/*jumpToBasicInfo(context!!)*/
+			}?.bindLife()
+		}else{
+			viewModel.isLoading.postValue(false)
 		}
-		
-		//真实register
-		viewModel.registerAndLogin()?.doOnSuccess {
-			
-			//注册并登陆成功,跳转至完善信息界面主界面，由主界面判断是否需要完善信息
-			//完善信息成功，跳转至主界面
-			startActivity(Intent(context, MainActivity::class.java))
-			(context as Activity).finish()
-			
-			/*jumpToBasicInfo(context!!)*/
-		}?.bindLife()
 	}
 	
 	
@@ -131,7 +130,7 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 	
 	
 	override fun onBackPressed(): Boolean {
-		if(!isHidden){
+		if (!isHidden) {
 			(activity as ContainerActivity).replaceLogin()
 			return true
 		}

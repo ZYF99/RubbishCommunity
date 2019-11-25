@@ -3,7 +3,6 @@ package com.example.rubbishcommunity.ui.home.find.dynamic
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.manager.api.DynamicService
-import com.example.rubbishcommunity.manager.api.UserService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.ui.base.BaseViewModel
@@ -20,7 +19,7 @@ class DynamicViewModel(application: Application) : BaseViewModel(application) {
 	
 	val dynamicList = MutableLiveData<MutableList<Dynamic>>()
 	
-	val isRefreshing = MutableLiveData<Boolean>()
+	val isRefreshing = MutableLiveData(false)
 	
 	
 	fun getDynamicList() {
@@ -28,17 +27,15 @@ class DynamicViewModel(application: Application) : BaseViewModel(application) {
 			.compose(dealRefresh())
 			.switchThread()
 			.doOnSuccess {
-				//dynamicList.value = it
+				dynamicList.value = it
 			}
 			.compose(dealErrorCode())
 			.compose(dealError())
-			.doOnSubscribe {
-				mockData()
-			}.bindLife()
+			.bindLife()
 	}
 	
 	
-	private fun mockData() {
+	fun mockData() {
 		val gridImgUrls9: MutableList<String> = mutableListOf()
 		gridImgUrls9.add("http://b-ssl.duitang.com/uploads/blog/201508/16/20150816193236_kKUfm.jpeg")
 		gridImgUrls9.add("http://img0.imgtn.bdimg.com/it/u=2426212861,900117439&fm=27&gp=0.jpg")
@@ -89,14 +86,13 @@ class DynamicViewModel(application: Application) : BaseViewModel(application) {
 			"dsafaerwg"
 		)
 		
-		
-		
-		dynamicList.value = mutableListOf(
-			item9,
-			item2,
-			item3
+		dynamicList.value?.addAll(
+			mutableListOf(
+				item9,
+				item2,
+				item3
+			)
 		)
-		
 	}
 	
 	

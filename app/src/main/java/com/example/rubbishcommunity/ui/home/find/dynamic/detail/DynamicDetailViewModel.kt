@@ -22,10 +22,10 @@ class DynamicDetailViewModel(application: Application) : BaseViewModel(applicati
 	val content = MutableLiveData<String>()
 	
 	//图片列表
-	val imgList = MutableLiveData<List<String>>()
+	val imgList = MutableLiveData<MutableList<String>>()
 	
 	//评论列表
-	val commentList = MutableLiveData<List<Comment>>()
+	val commentList = MutableLiveData<MutableList<Comment>>()
 	
 	//位置
 	val location = MutableLiveData<String>()
@@ -50,7 +50,7 @@ class DynamicDetailViewModel(application: Application) : BaseViewModel(applicati
 		title.value = "标题标题"
 		
 		content.value = "内容内容\n" + "内容内容\n" + "内容内容\n" + "内容内容\n" + "内容内容\n"
-		val myImgList = listOf(
+		val myImgList = mutableListOf(
 			"http://b-ssl.duitang.com/uploads/blog/201508/16/20150816193236_kKUfm.jpeg",
 			"http://img0.imgtn.bdimg.com/it/u=2426212861,900117439&fm=27&gp=0.jpg",
 			"http://img0.imgtn.bdimg.com/it/u=1330684766,2510236939&fm=27&gp=0.jpg",
@@ -99,7 +99,7 @@ class DynamicDetailViewModel(application: Application) : BaseViewModel(applicati
 				innerComment
 			)
 		)
-		val myCommentList = listOf(
+		val myCommentList = mutableListOf(
 			comment,
 			comment,
 			comment,

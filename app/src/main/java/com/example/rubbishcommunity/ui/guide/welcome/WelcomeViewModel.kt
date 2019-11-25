@@ -49,9 +49,9 @@ class WelcomeViewModel(application: Application) : BaseViewModel(application) {
 /*    private fun <T> dealRefresh(): SingleTransformer<T, T> {
         return SingleTransformer { obs ->
             obs
-                .doOnSubscribe { isRefreshing.postValue(true) }
-                .doOnSuccess { isRefreshing.postValue(false) }
-                .doOnError { isRefreshing.postValue(false) }
+                .doOnSubscribe { isLoading.postValue(true) }
+                .doOnSuccess { isLoading.postValue(false) }
+                .doOnError { isLoading.postValue(false) }
         }
     }*/
 	

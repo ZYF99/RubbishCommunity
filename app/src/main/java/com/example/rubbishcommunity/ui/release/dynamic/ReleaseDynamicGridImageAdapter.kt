@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.FilterImageListItemBinding
 import com.luck.picture.lib.config.PictureConfig
@@ -49,7 +50,7 @@ class ReleaseDynamicGridImageAdapter(
 	
 	
 	
-	fun replaceDates(newList: MutableList<LocalMedia>) {
+	fun replaceData(newList: MutableList<LocalMedia>) {
 		imgList.clear()
 		imgList.addAll(newList)
 		notifyDataSetChanged()
@@ -88,7 +89,9 @@ class ReleaseDynamicGridImageAdapter(
 		if (getItemViewType(position) == TYPE_CAMERA) {
 			binding.ivContent.run {
 				setImageResource(R.drawable.icon_add_pic)
-				setOnClickListener { onAddPicClick }
+				setOnClickListener {
+					onAddPicClick()
+				}
 			}
 			binding.linDel.visibility = View.INVISIBLE
 		} else {

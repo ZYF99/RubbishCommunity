@@ -9,9 +9,9 @@ import com.example.rubbishcommunity.databinding.InnerCommentBinding
 import com.example.rubbishcommunity.model.Comment
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.ui.container.jumpToInnerComment
-import com.example.rubbishcommunity.ui.base.hideInput
 import com.example.rubbishcommunity.ui.home.find.dynamic.detail.CommentListAdapter
-import com.example.rubbishcommunity.ui.base.showInput
+import com.example.rubbishcommunity.ui.utils.hideSoftKeyBoard
+import com.example.rubbishcommunity.ui.utils.openSoftKeyBoard
 import com.jakewharton.rxbinding2.view.RxView
 import java.util.concurrent.TimeUnit
 
@@ -34,14 +34,11 @@ class InnerCommentFragment : BindingFragment<InnerCommentBinding, InnerCommentVi
 		//显示输入框，隐藏下方按钮
 		binding.linComment.root.visibility = View.VISIBLE
 		//弹出键盘
-		showInput(
-			activity as Activity,
-			binding.linComment.editComment
-		)
+		activity!!.openSoftKeyBoard(binding.linComment.editComment)
 	}
 	
 	override fun initBefore() {
-		viewModel.run { init((activity!!.intent.getSerializableExtra("commentList")) as List<Comment>) }
+		viewModel.init((activity!!.intent.getSerializableExtra("commentList")) as MutableList<Comment>)
 	}
 	
 	override fun initWidget() {
@@ -68,7 +65,7 @@ class InnerCommentFragment : BindingFragment<InnerCommentBinding, InnerCommentVi
 			if (!viewModel.inputComment.value.isNullOrEmpty()) {
 				viewModel.inputComment.postValue("")
 				MyApplication.showToast("回复原文：${viewModel.inputComment.value}")
-				hideInput(activity as Activity)
+				activity!!.hideSoftKeyBoard()
 			} else {
 				MyApplication.showToast("回复不能为空")
 			}

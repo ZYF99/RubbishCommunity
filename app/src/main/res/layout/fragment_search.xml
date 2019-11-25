@@ -3,189 +3,143 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <data class="HomePageBinding">
+    <data class="SearchBinding">
+
+        <import type="android.view.View" />
 
         <variable
                 name="vm"
-                type="com.example.rubbishcommunity.ui.home.homepage.HomePageViewModel" />
+                type="com.example.rubbishcommunity.ui.home.homepage.search.SearchViewModel" />
 
     </data>
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="18dp">
+            android:paddingTop="10dp">
 
-
-        <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/appbar"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
-                app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/tool_bar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:contentInsetStart="0dp"
-                    app:contentInsetStartWithNavigation="0dp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-
-                    <ImageView
-                            android:id="@+id/imageView6"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:layout_weight="0"
-                            android:src="@drawable/icn_menu"
-
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
-                            android:id="@+id/linear_search"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="16dp"
-                            android:gravity="center"
-
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
-
-
-                        <EditText
-                                android:id="@+id/text_search"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@null"
-                                android:maxLength="10"
-                                android:textColor="@color/black"
-                                android:singleLine="true"
-                                android:textSize="16sp" />
-
-                        <ImageView
-                                android:id="@+id/img_search"
-                                android:layout_width="22dp"
-                                android:layout_height="22dp"
-                                android:layout_gravity="end"
-                                android:layout_marginStart="4dp"
-                                android:layout_weight="0"
-                                android:backgroundTint="@color/black"
-                                android:tint="@color/black"
-                                android:visibility="visible"
-                                app:srcCompat="@drawable/icn_search" />
-
-
-                    </LinearLayout>
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            </androidx.appcompat.widget.Toolbar>
-
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/swipe"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/appbar">
+                app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.core.widget.NestedScrollView
-                android:id="@+id/scrollview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorLayoutBg"
->
-
-            <LinearLayout
+            <com.google.android.material.appbar.AppBarLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="20dp">
+                    android:background="@color/white"
+                    android:maxLength="3"
+                    android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                        android:id="@+id/mCollapsingToolbarLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                        app:title="搜索">
+
+                    <androidx.appcompat.widget.Toolbar
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLength="3"
+                            app:contentInsetStart="0dp">
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="12dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                            <ImageView
+                                    android:id="@+id/btn_send"
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    android:layout_weight="0"
+                                    app:srcCompat="@drawable/ic_back" />
+
+                            <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="16dp"
+                                    android:background="@drawable/bg_lin_search"
+                                    android:gravity="center_vertical"
+                                    android:paddingTop="8dp"
+                                    android:paddingBottom="8dp">
+
+
+                                <ImageView
+                                        android:id="@+id/imageView11"
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:layout_marginStart="16dp"
+                                        android:layout_weight="0"
+                                        app:srcCompat="@drawable/icn_search" />
+
+                                <EditText
+                                        android:id="@+id/search_edit"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:background="@null"
+                                        android:ems="10"
+                                        android:hint="输入您要查询的垃圾名称"
+                                        android:imeOptions="actionSearch"
+                                        android:inputType="text"
+                                        android:maxLines="1"
+                                        android:paddingStart="16dp"
+                                        android:paddingEnd="16dp"
+                                        android:text="@={vm.searchKey}"
+                                        android:textSize="12sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </androidx.appcompat.widget.Toolbar>
+
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </com.google.android.material.appbar.AppBarLayout>
+
+
+            <androidx.core.widget.NestedScrollView
+                    android:id="@+id/scrollview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorLayoutBg"
+                    android:fillViewport="true"
+                    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
                 <LinearLayout
-                        android:id="@+id/img_linear"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                    <TextView
-                            android:id="@+id/textView2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:text="杂图"
-                            android:textColor="@color/black"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recycler_img"
+                    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                            android:id="@+id/swipe"
                             android:layout_width="match_parent"
-                            android:layout_height="160dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="16dp"
-                            android:orientation="horizontal"
-                            tools:listitem="@layout/item_dynamic_grid_image" />
+                            android:layout_height="match_parent">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rec_search_list"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="20dp" />
+
+                    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+
+                    <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp" />
                 </LinearLayout>
 
-                <LinearLayout
-                        android:id="@+id/linearLayout7"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/img_linear">
+            </androidx.core.widget.NestedScrollView>
 
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:text="推文"
-                            android:textColor="@color/black"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recycler_news"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="16dp"
-                            android:orientation="vertical"
-                            android:paddingBottom="160dp"
-                            tools:listitem="@layout/cell_news" />
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-
-        </androidx.core.widget.NestedScrollView>
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -7,7 +7,6 @@ import androidx.annotation.RequiresApi
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.ui.guide.AnimatorUtils
-import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.jakewharton.rxbinding2.view.RxView
 import java.util.concurrent.TimeUnit
 
@@ -32,8 +31,8 @@ class PasswordFragment : BindingFragment<PasswordFragBinding, PasswordViewModel>
 	override
 	fun initBefore() {
 		binding.vm = viewModel
-
-
+		
+		
 		viewModel.init()
 		//初始化动画工具
 		animationUtils = AnimatorUtils(
@@ -94,40 +93,43 @@ class PasswordFragment : BindingFragment<PasswordFragBinding, PasswordViewModel>
 	//发送邮箱
 	private fun sendEmail() {
 		//网络检查
-		if (!isNetworkAvailable()) {
-			(activity as ContainerActivity).showNetErrorSnackBar()
-			return
+		if (context!!.checkNet()) {
+			//发送邮箱验证码
+			viewModel.sendEmail()?.doOnSuccess {
+				//发送成功
+			}?.bindLife()
+		} else {
+			viewModel.isLoading.postValue(false)
 		}
-		//发送邮箱验证码
-		viewModel.sendEmail()?.doOnSuccess {
-			//发送成功
-		}?.bindLife()
+		
 	}
 	
 	//发送验证码
 	private fun sendVerifyCode() {
 		//网络检查
-		if (!isNetworkAvailable()) {
-			(activity as ContainerActivity).showNetErrorSnackBar()
-			return
+		if (context!!.checkNet()) {
+			//发送邮箱验证码
+			viewModel.sendVerifyCode()?.doOnSuccess {
+				//发送成功
+			}?.bindLife()
+		} else {
+			viewModel.isLoading.postValue(false)
 		}
-		//发送邮箱验证码
-		viewModel.sendVerifyCode()?.doOnSuccess {
-			//发送成功
-		}?.bindLife()
 	}
 	
 	//发送新密码至服务器
 	private fun sendPassword() {
 		//网络检查
-		if (!isNetworkAvailable()) {
-			(activity as ContainerActivity).showNetErrorSnackBar()
-			return
+		if (context!!.checkNet()) {
+			//发送新密码至服务器
+			viewModel.editPassword()?.doOnSuccess {
+				//修改密码成功
+			}?.bindLife()
+		} else {
+			viewModel.isLoading.postValue(false)
 		}
-		//发送新密码至服务器
-		viewModel.editPassword()?.doOnSuccess {
-			//修改密码成功
-		}?.bindLife()
+		
+		
 	}
 	
 	

@@ -3,17 +3,17 @@ package com.example.rubbishcommunity.ui.home.find.dynamic.detail
 import android.app.Activity
 import android.view.View
 import androidx.core.widget.NestedScrollView
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.DynamicDetailBinding
 import com.example.rubbishcommunity.ui.*
 import com.example.rubbishcommunity.ui.base.BindingFragment
-import com.example.rubbishcommunity.ui.base.hideInput
-import com.example.rubbishcommunity.ui.base.showInput
 import com.example.rubbishcommunity.ui.container.jumpToInnerComment
 import com.example.rubbishcommunity.ui.home.find.dynamic.DynamicListGridImageAdapter
-import com.example.rubbishcommunity.ui.home.find.dynamic.MyGridLayoutManager
+import com.example.rubbishcommunity.ui.utils.hideSoftKeyBoard
+import com.example.rubbishcommunity.ui.utils.openSoftKeyBoard
 
 
 class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetailViewModel>(
@@ -35,17 +35,15 @@ class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetai
 		binding.cardBtn.visibility = View.GONE
 		binding.linComment.root.visibility = View.VISIBLE
 		//弹出键盘
-		showInput(
-			activity as Activity,
-			binding.linComment.editComment
-		)
+		activity!!.openSoftKeyBoard(binding.linComment.editComment)
+		
 	}
 	
 	//隐藏键盘及输入框
 	private fun hideInputDialog() {
 		if (mManager.isSoftKeyboardOpened) {
 			//隐藏键盘
-			hideInput(activity as Activity)
+			activity!!.hideSoftKeyBoard()
 		}
 	}
 	
@@ -60,7 +58,7 @@ class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetai
 		//照片列表
 		binding.imgRec.run {
 			layoutManager =
-				MyGridLayoutManager(context, 3)
+				GridLayoutManager(context, 3)
 			adapter = DynamicListGridImageAdapter(
 				viewModel.imgList.value!!
 			) { position ->
@@ -97,7 +95,7 @@ class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetai
 			if (!viewModel.inputComment.value.isNullOrEmpty()) {
 				viewModel.inputComment.postValue("")
 				MyApplication.showToast("回复原文：${viewModel.inputComment.value}")
-				hideInput(activity as Activity)
+				activity!!.hideSoftKeyBoard()
 			} else {
 				MyApplication.showToast("回复不能为空")
 			}
@@ -122,7 +120,7 @@ class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetai
 					null -> MyApplication.showToast("回复原文 ：${viewModel.inputComment.value}")
 					else -> MyApplication.showToast("回复第${replyPosition}条评论 ：${viewModel.inputComment.value}")
 				}
-				hideInput(activity as Activity)
+				activity!!.hideSoftKeyBoard()
 			} else {
 				MyApplication.showToast("回复不能为空")
 			}

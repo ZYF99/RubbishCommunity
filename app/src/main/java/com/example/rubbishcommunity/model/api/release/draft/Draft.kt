@@ -10,11 +10,10 @@ package com.example.rubbishcommunity.model.api.release.draft
  * 草稿
  * */
 data class Draft(
-	val msg: String,
 	val classify: Int,
-	val dynamic: String,
+	val dynamic: String?,
 	val latitude: Double,
 	val longitude: Double,
 	val pictures: List<String>,
-	val topic: String
+	val topic: String?
 )

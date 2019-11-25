@@ -6,9 +6,15 @@
 
     <data class="ChatMsgCellBinding">
 
+        <import type="android.view.View"/>
+
         <variable
                 name="chatMessage"
                 type="com.example.rubbishcommunity.model.ChatMessage" />
+
+        <variable
+                name="localOpenId"
+                type="String" />
 
         <variable
                 name="myAvatar"
@@ -40,8 +46,9 @@
                 tools:ignore="RtlCompat" />
 
         <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/leftimg"
+                android:id="@+id/left_img"
                 imageUrl="@{chatMessage.iconUrl}"
+                android:visibility="@{ (chatMessage.openId == localOpenId) ? View.GONE:View.VISIBLE}"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_marginStart="8dp"
@@ -59,14 +66,15 @@
                 android:layout_marginBottom="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/rightimg"
-                app:layout_constraintStart_toEndOf="@id/leftimg"
+                app:layout_constraintEnd_toStartOf="@id/right_img"
+                app:layout_constraintStart_toEndOf="@id/left_img"
                 app:layout_constraintTop_toBottomOf="@+id/cell_msg_time">
 
             <androidx.cardview.widget.CardView
                     android:id="@+id/leftcard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="@{ (chatMessage.openId == localOpenId) ? View.GONE:View.VISIBLE}"
                     android:layout_alignParentStart="true"
                     android:layout_margin="4dp"
                     app:cardCornerRadius="6dp">
@@ -86,9 +94,10 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                    android:id="@+id/rightcard"
+                    android:id="@+id/right_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="@{ (chatMessage.openId == localOpenId) ? View.VISIBLE:View.GONE}"
                     android:layout_alignParentEnd="true"
                     android:layout_margin="4dp"
                     app:cardCornerRadius="6dp">
@@ -111,8 +120,9 @@
         </RelativeLayout>
 
         <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/rightimg"
+                android:id="@+id/right_img"
                 imageUrl='@{myAvatar}'
+                android:visibility="@{ (chatMessage.openId == localOpenId) ? View.VISIBLE:View.GONE}"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_marginEnd="8dp"

@@ -19,7 +19,7 @@ class NetErrorInterceptor : Interceptor {
 		val response = chain.proceed(chain.request())
 		
 		
-		if (response.code() in 400..503)
+		if (response.code() in 401..503)
 			throw ServerError(response.code(), response.message())
 		return response
 	}

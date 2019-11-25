@@ -173,11 +173,18 @@ dependencies {
     //Log
     implementation 'com.jakewharton.timber:timber:4.7.0'
 
-    //Android arch
-    def library_lifecycle_version = "1.1.1"
-    implementation "android.arch.lifecycle:reactivestreams:${library_lifecycle_version}"
+    //lifecycle_version
+    def lifecycle_version = "2.1.0"
+/*    implementation "android.arch.lifecycle:reactivestreams:${library_lifecycle_version}"
     implementation "android.arch.lifecycle:extensions:${library_lifecycle_version}"
     kapt "android.arch.lifecycle:compiler:${library_lifecycle_version}"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:${library_lifecycle_version}"*/
+
+
+    //Lifecycle
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
 
     //Rx
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
@@ -218,8 +225,7 @@ dependencies {
     //没有使用特殊Header，可以不加这行
     implementation 'com.github.recruit-lifestyle:WaveSwipeRefreshLayout:1.6'
     implementation "com.scwang.smartrefresh:SmartRefreshHeader:$rootProject.ext.smartrefreshlayoutVersion"
-    //BRVAH 强大的recyclerView框架
-    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$rootProject.ext.brvahVersion"
+
     implementation 'com.google.android.material:material:1.0.0'
 
     implementation 'com.google.android.gms:play-services-maps:17.0.0'

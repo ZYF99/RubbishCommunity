@@ -8,6 +8,7 @@ import com.example.rubbishcommunity.model.api.release.ReleaseDynamicRequestModel
 import com.example.rubbishcommunity.model.api.release.ReleaseDynamicResultModel
 import com.example.rubbishcommunity.model.api.release.draft.ClearDraftResultModel
 import com.example.rubbishcommunity.model.api.release.draft.Draft
+import com.example.rubbishcommunity.model.api.release.draft.GetDraftResultModel
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -28,7 +29,7 @@ interface DynamicService {
 	//拉取动态草稿
 	@Headers("Content-Type: application/json;charset=UTF-8")
 	@GET("api/moments/draft")
-	fun getDraft(): Single<ResultModel<Draft>>
+	fun getDraft(): Single<ResultModel<GetDraftResultModel>>
 	
 	//清空动态草稿
 	@DELETE("api/moments/draft")
