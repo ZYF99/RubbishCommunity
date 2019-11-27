@@ -51,7 +51,6 @@ class WelcomeFragment : BindingFragment<WelcomeBinding, WelcomeViewModel>(
 	}
 	
 	override fun initData() {
-		viewModel.searchWord.value = "纸巾"
 		viewModel.search()
 	}
 

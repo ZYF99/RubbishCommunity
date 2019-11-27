@@ -1,53 +1,44 @@
 package com.example.rubbishcommunity.ui.home.mine;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.TextView;
-import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.widget.NestedScrollView;
 
-public class TranslucentBehavior extends CoordinatorLayout.Behavior<Toolbar> {
+public class   TranslucentBehavior extends CoordinatorLayout.Behavior<View> {
 
-    /**标题栏的高度*/
-    private int mToolbarHeight = 0;
+    /**标题栏距 '依附的滑动控件' 的高度*/
+    private float deltaY = 0;
 
     public TranslucentBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     @Override
-    public boolean layoutDependsOn(CoordinatorLayout parent, Toolbar child, View dependency) {
-        return dependency instanceof TextView;
+    public boolean layoutDependsOn(CoordinatorLayout parent, View child, View dependency) {
+        return dependency instanceof NestedScrollView;
     }
 
     /**
-     * 必须要加上  layout_anchor，对方也要layout_collapseMode才能使用
+     * 依附控件状态改变时的回调
      */
     @Override
-    public boolean onDependentViewChanged(CoordinatorLayout parent, Toolbar child, View dependency) {
+    public boolean onDependentViewChanged(CoordinatorLayout parent, View child, View dependency) {
 
-        // 初始化高度
-        if (mToolbarHeight == 0) {
-            mToolbarHeight = child.getBottom() * 2;//为了更慢的
-        }
-        //
-        //计算toolbar从开始移动到最后的百分比
-        float percent = dependency.getY() / mToolbarHeight;
-
-        //百分大于1，直接赋值为1
-        if (percent >= 1) {
-            percent = 1f;
+        if (deltaY == 0) {
+            deltaY = dependency.getY() - child.getHeight();
         }
 
-        // 计算alpha通道值
-        float alpha = percent * 255;
+        float dy = dependency.getY() - child.getHeight();
+        dy = dy < 0 ? 0 : dy;
 
 
-        //设置背景颜色
-        child.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
+        float alpha = 1 - (dy / deltaY);
+        float y = -(dy / deltaY) * child.getHeight();
 
+        child.setTranslationY(y);
+        child.setAlpha(alpha);
         return true;
     }
 }

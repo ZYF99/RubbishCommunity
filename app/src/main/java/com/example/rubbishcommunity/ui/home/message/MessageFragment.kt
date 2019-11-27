@@ -10,8 +10,9 @@ import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MessageBinding
 import com.example.rubbishcommunity.model.Person
+import com.example.rubbishcommunity.ui.adapter.ITEM_SWIPE_VERTICAL
+import com.example.rubbishcommunity.ui.adapter.attachItemSwipe
 import com.example.rubbishcommunity.ui.container.jumpToChat
-import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.home.message.friends.FriendListAdapter
 import com.example.rubbishcommunity.ui.widget.DragBounceView
 import com.jakewharton.rxbinding2.view.RxView
@@ -52,16 +53,34 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
 		//消息列表
 		binding.recMessage.run {
 			layoutManager = LinearLayoutManager(context)
-			adapter = MessageListAdapter(viewModel.messageList.value!!, { position ->
-				if (!isDrawerOpen)//侧边栏未开启
+			adapter = MessageListAdapter(
+				viewModel.messageList.value!!,
+				{ position ->
+					//if (!isDrawerOpen)//侧边栏未开启
 					jumpToChat(
 						context!!,
 						viewModel.messageList.value!![position].uid
 					)
-			}, { position ->
-				MyApplication.showToast("删除$position")
-			}
+				},
+				{ position ->
+					MyApplication.showToast("删除$position")
+				}
 			)
+			
+/*			setOnLongClickListener {
+				//onSwipeStart 交换开始
+				binding.refreshLayout.isEnabled = false
+				false
+			}*/
+			
+			//添加拖拽互换位置功能
+			attachItemSwipe(ITEM_SWIPE_VERTICAL, {
+				//onSwipeStart 交换开始
+				binding.refreshLayout.isEnabled = false
+			}, {
+				//onSwiped 交换完成
+				binding.refreshLayout.isEnabled = true
+			})
 		}
 		
 		//侧拉条点击
@@ -121,7 +140,6 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
 			adapter = FriendListAdapter(friendList) { position ->
 				jumpToChat(context, friendList[position].uid)
 			}
-			
 		}
 		
 	}
@@ -141,6 +159,5 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
 			viewModel.isRefreshing.postValue(false)
 		}
 	}
-	
 	
 }

@@ -34,7 +34,6 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 	//动画工具
 	private lateinit var animationUtils: AnimatorUtils
 	
-	
 	override
 	fun initBefore() {
 		binding.vm = viewModel
@@ -98,7 +97,6 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 			//弹出服务协议窗口
 			showContractDialog()
 		}
-		
 	}
 	
 	//登陆
@@ -138,5 +136,4 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 		}
 		return false
 	}
-	
 }

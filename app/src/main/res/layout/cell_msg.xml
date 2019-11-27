@@ -10,12 +10,14 @@
     </data>
 
     <androidx.cardview.widget.CardView
+            android:id="@+id/root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardElevation="2dp"
             android:layout_marginBottom="4dp">
 
     <com.mcxtzhang.swipemenulib.SwipeMenuLayout
+            android:id="@+id/swipe_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"

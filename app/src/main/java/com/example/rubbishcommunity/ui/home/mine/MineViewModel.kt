@@ -9,6 +9,7 @@ import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.mine.UsrProfile
 import com.example.rubbishcommunity.persistence.getLocalUserInfo
 import com.example.rubbishcommunity.ui.base.BaseViewModel
+import com.example.rubbishcommunity.utils.switchThread
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -31,7 +32,7 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 		
 		//获取用户详细信息
 		apiService.getUserProfile()
-			.subscribeOn(Schedulers.io())
+			.switchThread()
 			.compose(dealErrorCode())
 			.compose(dealError())
 			.doOnSuccess {
@@ -43,8 +44,8 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 	
 	fun logout(): Single<ResultModel<String>> {
 		return apiService.logout()
-			.subscribeOn(Schedulers.io())
-			.observeOn(AndroidSchedulers.mainThread())
+			.switchThread()
+			.compose(dealErrorCode())
 			.compose(dealError())
 	}
 	

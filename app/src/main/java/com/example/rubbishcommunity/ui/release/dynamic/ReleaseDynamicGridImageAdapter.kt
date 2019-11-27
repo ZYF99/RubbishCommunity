@@ -1,63 +1,53 @@
 package com.example.rubbishcommunity.ui.release.dynamic
 
 import android.content.Context
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.FilterImageListItemBinding
+import com.example.rubbishcommunity.ui.adapter.BaseRecyclerAdapter
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.tools.DateUtils
 import com.luck.picture.lib.tools.StringUtils
 
+
 const val TYPE_CAMERA = 1
 const val TYPE_PICTURE = 2
-
 
 /**
  * 添加图片的RecyclerView适配器
  * */
-
 class ReleaseDynamicGridImageAdapter(
 	private val context: Context,
 	private val imgList: MutableList<LocalMedia>,
 	private val onAddPicClick:()->Unit,
 	private val onGridItemClick:(Int,View)->Unit,
 	private val onGridItemDelClick:(Int)->Unit
-) : RecyclerView.Adapter<ReleaseDynamicGridImageAdapter.ViewHolder>() {
-	
-	
-	private val mInflater: LayoutInflater = LayoutInflater.from(context)
+) : BaseRecyclerAdapter<LocalMedia, FilterImageListItemBinding>(
+		R.layout.item_filter_grid_image,
+		{
+		
+		}
+	){
+	override val baseList: MutableList<LocalMedia>
+		get() = imgList
+		
 	private val selectMax = 9
 	
 	override
 	fun getItemCount(): Int {
-		return if (imgList.size < selectMax) {
-			imgList.size + 1
+		return if (baseList.size < selectMax) {
+			baseList.size + 1
 		} else {
-			imgList.size
+			baseList.size
 		}
 	}
-	
-	
-	
-	fun replaceData(newList: MutableList<LocalMedia>) {
-		imgList.clear()
-		imgList.addAll(newList)
-		notifyDataSetChanged()
-	}
-	
-	
-	inner class ViewHolder internal constructor(view: View) : RecyclerView.ViewHolder(view)
 	
 	override
 	fun getItemViewType(position: Int): Int {
@@ -68,23 +58,13 @@ class ReleaseDynamicGridImageAdapter(
 		}
 	}
 	
-	/**
-	 * 创建ViewHolder
-	 */
-	override
-	fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
-		val view = mInflater.inflate(R.layout.item_filter_grid_image, viewGroup, false)
-		return ViewHolder(view)
-	}
-	
 	private fun isShowAddItem(position: Int): Boolean {
-		val size = imgList.size
+		val size = baseList.size
 		return position == size
 	}
 	
-	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+	override fun bindData(binding: FilterImageListItemBinding, position: Int) {
 		
-		val binding: FilterImageListItemBinding = DataBindingUtil.bind(holder.itemView)!!
 		//少于8张，显示继续添加的图标
 		if (getItemViewType(position) == TYPE_CAMERA) {
 			binding.ivContent.run {
@@ -101,15 +81,15 @@ class ReleaseDynamicGridImageAdapter(
 					// 这里有时会返回-1造成数据下标越界,具体可参考getAdapterPosition()源码，
 					// 通过源码分析应该是bindViewHolder()暂未绘制完成导致，知道原因的也可联系我~感谢
 					if (position != RecyclerView.NO_POSITION) {
-						imgList.removeAt(position)
+						baseList.removeAt(position)
 						notifyItemRemoved(position)
-						notifyItemRangeChanged(position, imgList.size)
+						notifyItemRangeChanged(position, baseList.size)
 						
 						onGridItemDelClick(position)
 					}
 				}
 			}
-			val item = imgList[position]
+			val item = baseList[position]
 			val mimeType = item.mimeType
 			val path: String =
 				when {
@@ -154,12 +134,10 @@ class ReleaseDynamicGridImageAdapter(
 				onGridItemClick(position, v)
 			}
 		}
+		
 	}
 	
-	
 }
-
-
 
 
 

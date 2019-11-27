@@ -19,7 +19,7 @@ import org.kodein.di.generic.instance
 
 class WelcomeViewModel(application: Application) : BaseViewModel(application) {
 	private val rubbishService by instance<RubbishService>()
-	val searchWord = MutableLiveData<String>()
+	val searchWord = MutableLiveData("纸巾")
 	val searchResultList = MutableLiveData<MutableList<SearchKeyConclusion>>()
 	
 	

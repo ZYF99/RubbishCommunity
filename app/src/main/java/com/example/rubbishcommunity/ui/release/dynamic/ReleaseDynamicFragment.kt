@@ -14,6 +14,8 @@ import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ReleaseDynamicBinding
+import com.example.rubbishcommunity.ui.adapter.ITEM_SWIPE_FREE
+import com.example.rubbishcommunity.ui.adapter.attachItemSwipe
 import com.example.rubbishcommunity.ui.showGallery
 import com.example.rubbishcommunity.ui.utils.ErrorData
 import com.example.rubbishcommunity.ui.utils.ErrorType
@@ -116,14 +118,16 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 		//已选图片列表
 		binding.imgRec.run {
 			layoutManager = FullyGridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
-			val recAdapter = ReleaseDynamicGridImageAdapter(
+			attachItemSwipe(ITEM_SWIPE_FREE, {}, {
+			
+			})
+			adapter = ReleaseDynamicGridImageAdapter(
 				context,
 				viewModel.selectedList.value ?: mutableListOf(),
 				onAddPicClick,
 				onGridItemClick,
 				onGridItemDelClick
 			)
-			adapter = recAdapter
 		}
 		
 		//发布按钮
@@ -183,7 +187,7 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 			}?.doOnSuccess {
 				//获取Token列表成功
 			}?.bindLife()
-		}else{
+		} else {
 			viewModel.isLoading.postValue(false)
 		}
 	}

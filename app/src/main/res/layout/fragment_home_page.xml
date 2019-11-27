@@ -11,7 +11,7 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -25,16 +25,19 @@
                 android:background="@color/colorWhite"
                 app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.CollapsingToolbarLayout
                     android:id="@+id/tool_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:layout_scrollFlags="scroll|enterAlways|snap"
                     app:contentInsetStart="0dp"
                     app:contentInsetStartWithNavigation="0dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
                         android:orientation="horizontal">
 
 
@@ -93,15 +96,17 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            </androidx.appcompat.widget.Toolbar>
-
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
+
+
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipe"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/appbar">
@@ -187,7 +192,7 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 </layout>

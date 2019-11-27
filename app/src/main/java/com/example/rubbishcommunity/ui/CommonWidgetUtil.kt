@@ -5,7 +5,6 @@ import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.ui.adapter.ImagePagerAdapter
 import com.example.rubbishcommunity.ui.widget.FullScreenDialog
 import com.jakewharton.rxbinding2.view.RxView
-import com.luck.picture.lib.entity.LocalMedia
 import kotlinx.android.synthetic.main.pop_gallery.*
 
 class CommonWidgetUtil {

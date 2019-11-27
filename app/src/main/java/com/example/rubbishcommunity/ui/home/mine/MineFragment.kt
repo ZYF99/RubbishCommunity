@@ -9,6 +9,7 @@ import com.example.rubbishcommunity.databinding.MineBinding
 import com.example.rubbishcommunity.persistence.saveLoginState
 import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.example.rubbishcommunity.ui.container.jumoToPassword
+import com.example.rubbishcommunity.ui.container.jumpToLogin
 import com.example.rubbishcommunity.ui.home.MainActivity
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 
@@ -27,6 +28,7 @@ class MineFragment : BindingFragment<MineBinding, MineViewModel>(
 		//刷新状态监听
 		viewModel.isRefreshing.observeNonNull {
 			binding.refreshLayout.isRefreshing = it
+			binding.refreshLayout.isEnabled = it
 			binding.rootLayout.isEnabled = !it
 		}
 		
@@ -38,29 +40,10 @@ class MineFragment : BindingFragment<MineBinding, MineViewModel>(
 		
 		//注销按钮
 		binding.btnLogout.setOnClickListener {
-			/*				//注销流
-				viewModel.getUserProfile().doOnSuccess {
-					when (it.meta.code) {
-						200 -> {
-							//注销成功
-							saveLoginState(false)
-							startActivity(Intent(context, ContainerActivity::class.java))
-							(context as Activity).finish()
-						}
-						else -> {
-							//注销失败
-							
-						}
-					}
-				}*/
+			//注销
+			logout()
 			
-			//模拟注销成功
-			//注销成功
-			saveLoginState(false)
-			(context as Activity).finish()
-			val bundle = Bundle()
-			bundle.putString("tag", "login")
-			startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
+			
 		}
 		
 		
@@ -81,6 +64,16 @@ class MineFragment : BindingFragment<MineBinding, MineViewModel>(
 		} else {
 			viewModel.refreshUserInfo()
 		}
+	}
+	
+	private fun logout() {
+		viewModel.logout()
+			.doOnSuccess {
+			//注销成功
+			saveLoginState(false)
+			activity?.finish()
+			jumpToLogin(context!!)
+		}.bindLife()
 	}
 	
 	override fun initData() {

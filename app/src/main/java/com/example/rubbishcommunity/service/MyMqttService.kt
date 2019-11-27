@@ -19,6 +19,7 @@ import org.eclipse.paho.client.mqttv3.MqttCallbackExtended
 import org.eclipse.paho.android.service.MqttAndroidClient
 import androidx.core.app.NotificationCompat
 import com.example.rubbishcommunity.BuildConfig
+import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.persistence.getLocalEmail
 import com.example.rubbishcommunity.ui.utils.sendSimpleNotification
@@ -97,15 +98,16 @@ class MyMqttService : Service() {
 				
 				override fun onFailure(asyncActionToken: IMqttToken, exception: Throwable) {
 					//连接失败
+					MyApplication.showWarning("MQTT连接失败:${exception.message}")
 					exception.printStackTrace()
 				}
 			})
 		} catch (ex: MqttException) {
 			ex.printStackTrace()
+			MyApplication.showWarning("MQTT异常：${ex.message}")
 		}
 		//适配8.0service
 		startForeground()
-		
 	}
 	
 	private fun startForeground() {
