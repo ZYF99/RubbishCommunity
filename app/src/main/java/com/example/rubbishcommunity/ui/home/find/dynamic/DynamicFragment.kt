@@ -40,7 +40,6 @@ class DynamicFragment : BindingFragment<DynamicBinding, DynamicViewModel>(
 			}
 		}
 		
-		viewModel.mockData()
 		
 	}
 	

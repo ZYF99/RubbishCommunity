@@ -130,6 +130,7 @@ fun getLocalEmail(): String {
 	return (SharedPreferencesUtils.getData("email", "") as String)
 }
 
+
 //得到存储的密码
 fun getLocalPassword(): String {
 	return (SharedPreferencesUtils.getData("password", "") as String)

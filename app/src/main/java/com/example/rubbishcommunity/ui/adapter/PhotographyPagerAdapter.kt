@@ -24,7 +24,8 @@ class PhotographyPagerAdapter(
 	
 	override fun instantiateItem(container: ViewGroup, position: Int): Any {
 		val root =
-			LayoutInflater.from(context).inflate(R.layout.cell_page_classification, container, false)
+			LayoutInflater.from(context)
+				.inflate(R.layout.cell_page_classification, container, false)
 		container.addView(root)
 		val binding: SearchKeyConclusionBinding = DataBindingUtil.bind(root)!!
 		binding.searchKeyConclusion = list[position]
@@ -46,18 +47,12 @@ class PhotographyPagerAdapter(
 	override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
 		container.removeView(`object` as View)
 	}
-	interface ItemClickListener{
-		fun onItemClick(position: Int,vieW:View)
-	}
 	
 	
-	
-	private fun startClickAnimation(root:View){
+	private fun startClickAnimation(root: View) {
 		val animatorSet = AnimatorSet()
 		val scaleY = ObjectAnimator.ofFloat(root, "scaleY", 1.toFloat(), 1.1.toFloat())
 		val scaleX = ObjectAnimator.ofFloat(root, "scaleX", 1.toFloat(), 1.1.toFloat())
-		
-		
 		val scaleXNew = ObjectAnimator.ofFloat(root, "scaleX", 1.1.toFloat(), 1.toFloat())
 		val scaleYNew = ObjectAnimator.ofFloat(root, "scaleY", 1.1.toFloat(), 1.toFloat())
 		animatorSet.duration = 300

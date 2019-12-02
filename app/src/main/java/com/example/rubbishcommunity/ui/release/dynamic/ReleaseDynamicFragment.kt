@@ -46,8 +46,7 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	//添加图片按钮点击事件
 	private val onAddPicClick: () -> Unit = {
 		//获取写的权限
-		val rxPermission = RxPermissions(activity as Activity)
-		rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+		RxPermissions(activity as Activity).requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 			.doOnNext { permission ->
 				if (permission.granted) {// 用户已经同意该权限
 					//第二种方式，直接进入相册，有拍照得按钮的
@@ -63,7 +62,7 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 						)
 					)
 					if (!permission.shouldShowRequestPermissionRationale) {
-						showLeadToSettingDialog()
+						context!!.showLeadToSettingDialog()
 					}
 				}
 			}
@@ -212,7 +211,7 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	
 	//退出警告
 	private fun exit() {
-		if (viewModel.title.value!!.isNotEmpty() && viewModel.content.value!!.isNotEmpty()) {
+		if (viewModel.selectedList.value!!.isNotEmpty() || viewModel.title.value!!.isNotEmpty() || viewModel.content.value!!.isNotEmpty()) {
 			//退出编辑警告
 			AlertDialog.Builder(context!!)
 				.setTitle(R.string.release_exit_dialog_title)
@@ -236,26 +235,7 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 		
 	}
 	
-	//引导用户去设置界面的弹窗
-	private fun showLeadToSettingDialog() {
-		//解释原因，并且引导用户至设置页手动授权
-		AlertDialog.Builder(context!!)
-			.setMessage(
-				"获取相关权限失败:\n\n" +
-						"使用摄像头，\n" +
-						"读取、写入或删除存储空间\n\n" +
-						"这将导致图片无法添加，点击'去授权'到设置页面手动授权"
-			)
-			.setPositiveButton("去授权") { _, _ ->
-				//引导用户至设置页手动授权
-				val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-				val uri = Uri.fromParts("package", context?.packageName, null)
-				intent.data = uri
-				startActivity(intent)
-			}
-			.setNegativeButton("取消") { _, _ ->
-			}.show()
-	}
+
 	
 	//返回按钮
 	override fun onBackPressed(): Boolean {

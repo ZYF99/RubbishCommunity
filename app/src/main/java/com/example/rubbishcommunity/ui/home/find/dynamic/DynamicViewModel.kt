@@ -23,6 +23,8 @@ class DynamicViewModel(application: Application) : BaseViewModel(application) {
 	
 	
 	fun getDynamicList() {
+		mockData()
+		
 		return dynamicService.getDynamicList(0)
 			.compose(dealRefresh())
 			.switchThread()
@@ -35,7 +37,7 @@ class DynamicViewModel(application: Application) : BaseViewModel(application) {
 	}
 	
 	
-	fun mockData() {
+	private fun mockData() {
 		val gridImgUrls9: MutableList<String> = mutableListOf()
 		gridImgUrls9.add("http://b-ssl.duitang.com/uploads/blog/201508/16/20150816193236_kKUfm.jpeg")
 		gridImgUrls9.add("http://img0.imgtn.bdimg.com/it/u=2426212861,900117439&fm=27&gp=0.jpg")
@@ -86,13 +88,12 @@ class DynamicViewModel(application: Application) : BaseViewModel(application) {
 			"dsafaerwg"
 		)
 		
-		dynamicList.value?.addAll(
-			mutableListOf(
-				item9,
-				item2,
-				item3
-			)
+		dynamicList.value = mutableListOf(
+			item9,
+			item2,
+			item3
 		)
+		
 	}
 	
 	

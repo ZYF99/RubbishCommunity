@@ -1,59 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
     <data class="FindBinding">
-        <variable name="vm"
-                type="com.example.rubbishcommunity.ui.home.find.FindViewModel"/>
+
+        <variable
+                name="vm"
+                type="com.example.rubbishcommunity.ui.home.find.FindViewModel" />
     </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingTop="10dp">
 
         <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appbar"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
+                android:background="@color/white"
                 android:paddingTop="10dp"
-                android:background="@color/white">
-
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:expandedTitleMarginStart="20dp"
                     app:expandedTitleMarginBottom="60dp"
-                    app:title="发现新世界"
-                    app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
+                    app:expandedTitleMarginStart="20dp"
+                    app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+                    app:title="发现新世界">
 
                 <androidx.appcompat.widget.Toolbar
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
                         android:layout_marginBottom="40dp"
-                        app:layout_collapseMode="pin"/>
+                        app:layout_collapseMode="pin" />
 
                 <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tab"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
                         android:layout_gravity="bottom"
+                        android:layout_marginLeft="10dp"
                         android:background="@color/white"
+                        app:tabIndicatorColor="@color/colorApp"
                         app:tabRippleColor="@null"
                         app:tabSelectedTextColor="@color/colorApp"
-                        app:tabTextColor="@color/text_second"
-                        app:tabIndicatorColor="@color/colorApp">
+                        app:tabTextColor="@color/text_second">
 
                     <com.google.android.material.tabs.TabItem
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="动态"/>
+                            android:text="动态" />
 
                     <com.google.android.material.tabs.TabItem
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="投票"/>
+                            android:text="投票" />
 
                 </com.google.android.material.tabs.TabLayout>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -64,8 +69,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fillViewport="true"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-                >
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -75,7 +80,7 @@
                 <androidx.viewpager.widget.ViewPager
                         android:id="@+id/findpager"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
 
             </LinearLayout>
 

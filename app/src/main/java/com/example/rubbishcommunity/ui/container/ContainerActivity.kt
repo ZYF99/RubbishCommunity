@@ -2,9 +2,12 @@ package com.example.rubbishcommunity.ui.container
 
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ContainerBinding
@@ -20,14 +23,17 @@ import com.example.rubbishcommunity.ui.home.find.dynamic.detail.innercomment.Inn
 import com.example.rubbishcommunity.ui.home.message.chat.ChatFragment
 import com.example.rubbishcommunity.ui.home.homepage.newsdetail.NewsDetailFragment
 import com.example.rubbishcommunity.ui.home.homepage.search.SearchFragment
+import com.example.rubbishcommunity.ui.home.homepage.search.cameraSearch.CameraSearchFragment
 import com.example.rubbishcommunity.ui.release.dynamic.ReleaseDynamicFragment
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
 import com.example.rubbishcommunity.utils.SoftKeyBroadManager
+import rx_activity_result2.RxActivityResult
 import java.io.Serializable
 
 
 class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(),
 	SoftKeyBroadManager.SoftKeyboardStateListener {
+	
 	
 	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
 		binding.root.scrollTo(0, keyboardHeightInPx)
@@ -54,7 +60,7 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 	
 	
 	override fun initBefore() {
-	
+		binding.vm = viewModel
 	}
 	
 	@SuppressLint("ResourceType")
@@ -93,6 +99,8 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 					NewsDetailFragment()
 				"search" -> //搜索界面
 					SearchFragment()
+				"CameraSearch" -> //搜索界面
+					CameraSearchFragment()
 				"password" -> //修改密码界面
 					PasswordFragment()
 				"basicInfo" -> //基本信息界面
@@ -159,6 +167,27 @@ fun jumpToSearch(context: Context) {
 	val bundle = Bundle()
 	bundle.putString("tag", "search")
 	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
+}
+
+//跳转至拍照搜索界面
+fun jumpToCameraSearch(fragment: Fragment) {
+	val bundle = Bundle()
+	bundle.putString("tag", "CameraSearch")
+	//fragment.context?.startActivity(Intent(fragment.context, ContainerActivity::class.java).putExtras(bundle))
+	
+	RxActivityResult.on(fragment)
+		.startIntent(Intent(fragment.context, ContainerActivity::class.java).putExtras(bundle))
+		.doOnNext {
+			(fragment.activity as ContainerActivity).viewModel.run {
+				
+				MyApplication.showSuccess(it.data().getStringExtra("searchKey"))
+				
+				keyWordFromCamera.postValue(
+					it.data().getStringExtra("searchKey")
+				)
+			}
+		}.subscribe()
+	
 }
 
 

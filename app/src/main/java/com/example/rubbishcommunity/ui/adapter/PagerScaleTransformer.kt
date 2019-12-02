@@ -3,7 +3,7 @@ package com.example.rubbishcommunity.ui.adapter
 import android.view.View
 import androidx.viewpager.widget.ViewPager
 
-class GalleryPagerTransformer : ViewPager.PageTransformer {
+class PagerScaleTransformer : ViewPager.PageTransformer {
 	
 	/**
 	 * Y方向最小缩放值

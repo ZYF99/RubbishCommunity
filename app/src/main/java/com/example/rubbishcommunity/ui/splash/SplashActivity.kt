@@ -15,7 +15,7 @@ class SplashActivity : BindingActivity<SplashBinding, SplashViewModel>() {
 	override val layRes: Int = R.layout.activity_splash
 	
 	override fun initBefore() {
-	
+		binding.vm = viewModel
 	}
 	
 	override fun initWidget() {

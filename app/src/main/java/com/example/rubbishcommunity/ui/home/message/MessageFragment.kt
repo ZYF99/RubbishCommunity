@@ -66,7 +66,7 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
 					MyApplication.showToast("删除$position")
 				}
 			)
-			
+
 /*			setOnLongClickListener {
 				//onSwipeStart 交换开始
 				binding.refreshLayout.isEnabled = false

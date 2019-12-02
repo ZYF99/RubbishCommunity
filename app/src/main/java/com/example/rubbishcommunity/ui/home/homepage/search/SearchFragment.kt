@@ -1,19 +1,27 @@
 package com.example.rubbishcommunity.ui.home.homepage.search
 
 
-import android.view.inputmethod.EditorInfo
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.baidu.location.LocationClient
+import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.SearchBinding
-
+import com.example.rubbishcommunity.ui.container.ContainerActivity
+import com.example.rubbishcommunity.ui.container.jumpToCameraSearch
 import com.example.rubbishcommunity.ui.utils.hideSoftKeyBoard
 import com.example.rubbishcommunity.ui.utils.openSoftKeyBoard
+import com.example.rubbishcommunity.utils.checkLocationPermissionAndGetLocation
+import com.jakewharton.rxbinding2.widget.RxTextView
+import org.kodein.di.generic.instance
+import java.util.concurrent.TimeUnit
 
 
 class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 	SearchViewModel::class.java, R.layout.fragment_search
 ) {
+	private val locationClient by instance<LocationClient>()
+	
 	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
 	}
 	
@@ -47,35 +55,57 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 			(binding.recSearchList.adapter as SearchListAdapter).replaceData(it)
 		}
 		
-		//返回按钮
-		binding.btnSend.setOnClickListener {
-			activity?.finish()
+		
+		
+		
+		(activity as ContainerActivity).viewModel.run {
+			keyWordFromCamera.observeNonNull {
+				viewModel.searchKey.postValue(it)
+			}
 		}
+		
+		
+		
+		
 		
 		//搜索输入框的监听
-		binding.searchEdit.setOnEditorActionListener { view, actionId, keyEvent ->
-			when (actionId) {
-				EditorInfo.IME_ACTION_SEARCH -> loading()
-			}
-			false
-		}
+		RxTextView.textChanges(binding.searchEdit)
+			.debounce(1, TimeUnit.SECONDS)
+			.skip(1)
+			.doOnNext {
+				searchKey()
+			}.bindLife()
+		
 		
 		//结果列表
-		binding.recSearchList.apply {
+		binding.recSearchList.run {
 			layoutManager = LinearLayoutManager(context)
 			adapter = SearchListAdapter(
-				viewModel.searchList.value?: mutableListOf()
+				viewModel.searchList.value ?: mutableListOf()
 			) { position ->
 			
 			}
 		}
+		
+		
+		//拍照搜索按钮
+		binding.btnCamera.setOnClickListener {
+			jumpToCameraSearch(this)
+		}
+		
+		//语音搜索按钮
+		binding.btnMac.setOnClickListener {
+		
+		
+		}
 	}
 	
 	override fun initData() {
-	
+		getLocation()
 	}
 	
-	private fun loading() {
+	//查询关键字分类
+	private fun searchKey() {
 		if (context!!.checkNet()) {
 			viewModel.analysisAndSearch()
 		} else {
@@ -83,6 +113,15 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 		}
 	}
 	
+	//获取定位
+	private fun getLocation() {
+		checkLocationPermissionAndGetLocation(
+			activity!!,
+			locationClient
+		) {
+			viewModel.location.postValue(it)
+		}?.bindLife()
+	}
 	
 }
 

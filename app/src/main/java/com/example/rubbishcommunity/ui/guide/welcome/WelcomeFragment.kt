@@ -4,7 +4,7 @@ import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.WelcomeBinding
 import com.example.rubbishcommunity.persistence.getLoginState
-import com.example.rubbishcommunity.ui.adapter.GalleryPagerTransformer
+import com.example.rubbishcommunity.ui.adapter.PagerScaleTransformer
 import com.example.rubbishcommunity.ui.adapter.PhotographyPagerAdapter
 import com.example.rubbishcommunity.ui.container.jumpToRegister
 import com.jakewharton.rxbinding2.view.RxView
@@ -30,11 +30,12 @@ class WelcomeFragment : BindingFragment<WelcomeBinding, WelcomeViewModel>(
 		binding.vm = viewModel
 		binding.photographyPager.run {
 			offscreenPageLimit = 2
-			setPageTransformer(false, GalleryPagerTransformer())
+			setPageTransformer(false, PagerScaleTransformer())
 		}
 		binding.searchEdit.run {
 			RxTextView.textChanges(this)
-				.debounce(1, TimeUnit.SECONDS).skip(1)
+				.debounce(1, TimeUnit.SECONDS)
+				.skip(1)
 				.doOnNext {
 					viewModel.search()
 				}.bindLife()
@@ -43,6 +44,7 @@ class WelcomeFragment : BindingFragment<WelcomeBinding, WelcomeViewModel>(
 			jumpToRegister(context!!)
 			activity?.finish()
 		}.bindLife()
+		
 		viewModel.searchResultList.observeNonNull {
 			binding.photographyPager.adapter =
 				PhotographyPagerAdapter(context!!, viewModel.searchResultList.value ?: listOf())

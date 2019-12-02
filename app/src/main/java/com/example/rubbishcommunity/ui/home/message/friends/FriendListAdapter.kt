@@ -13,8 +13,7 @@ class FriendListAdapter(
 	R.layout.cell_friend,
 	onCellClick
 ) {
-	override val baseList: MutableList<Person>
-		get() = list
+	override val baseList: MutableList<Person> = list
 	
 	override fun bindData(binding: FriendListCellBinding, position: Int) {
 		binding.person = list[position]

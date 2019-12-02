@@ -5,13 +5,13 @@ import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.SearchCellBinding
 import com.example.rubbishcommunity.model.api.search.SearchKeyConclusion
 import com.example.rubbishcommunity.ui.adapter.BaseRecyclerAdapter
-
+import com.example.rubbishcommunity.ui.adapter.EmptyRecyclerAdapter
 
 
 class SearchListAdapter(
 	val list: MutableList<SearchKeyConclusion>,
 	onCellClick: (Int) -> Unit
-) : BaseRecyclerAdapter<SearchKeyConclusion, SearchCellBinding>(
+) : EmptyRecyclerAdapter<SearchKeyConclusion, SearchCellBinding>(
 	R.layout.cell_search,
 	onCellClick
 ) {

@@ -5,15 +5,15 @@ import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.VoteCellBinding
 import com.example.rubbishcommunity.model.Vote
 import com.example.rubbishcommunity.ui.adapter.BaseRecyclerAdapter
+import com.example.rubbishcommunity.ui.adapter.EmptyRecyclerAdapter
 
 class VoteListAdapter(
 	val list: MutableList<Vote>,
 	onCellClick: (Int) -> Unit
-) :
-	BaseRecyclerAdapter<Vote, VoteCellBinding>(
-		R.layout.cell_vote,
-		onCellClick
-	) {
+) : EmptyRecyclerAdapter<Vote, VoteCellBinding>(
+	R.layout.cell_vote,
+	onCellClick
+) {
 	override val baseList: MutableList<Vote>
 		get() = list
 	

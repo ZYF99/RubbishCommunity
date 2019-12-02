@@ -6,13 +6,14 @@ import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.DynamicListCellBinding
 import com.example.rubbishcommunity.model.Dynamic
 import com.example.rubbishcommunity.ui.adapter.BaseRecyclerAdapter
+import com.example.rubbishcommunity.ui.adapter.EmptyRecyclerAdapter
 import com.example.rubbishcommunity.ui.showGallery
 
 
 class DynamicListAdapter(
 	val list: MutableList<Dynamic>,
 	onCellClick: (Int) -> Unit
-) : BaseRecyclerAdapter<Dynamic, DynamicListCellBinding>(
+) : EmptyRecyclerAdapter<Dynamic, DynamicListCellBinding>(
 	R.layout.cell_dynamic,
 	onCellClick
 ) {

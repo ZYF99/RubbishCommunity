@@ -19,15 +19,13 @@
             android:paddingEnd="8dp"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
-            android:layout_margin="4dp"
-            app:cardCornerRadius="8dp">
+            android:layout_margin="8dp">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cell"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
                 android:visibility="visible"
                 tools:ignore="RtlSymmetry">
 
@@ -36,14 +34,14 @@
                     android:id="@+id/cell_seach_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:ellipsize="end"
                     android:maxEms="6"
                     android:singleLine="true"
                     android:text="@{searchConclusion.name}"
                     android:textColor="@android:color/black"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="前男友" />
@@ -53,13 +51,15 @@
                     android:id="@+id/cell_seach_class"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:padding="4dp"
                     android:text='@{searchConclusion.category.name}'
                     android:textColor="@color/text_second"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/cell_seach_name"
+                    app:layout_constraintTop_toBottomOf="@+id/cell_seach_name"
                     tools:ignore="RtlCompat"
                     tools:text="有害垃圾" />
 

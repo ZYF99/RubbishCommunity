@@ -2,12 +2,16 @@ package com.example.rubbishcommunity.ui.base
 
 
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.AndroidViewModel
@@ -117,6 +121,27 @@ constructor(
 			MyApplication.showError(context!!.getString(R.string.net_unavailable))
 			false
 		}else true
+	}
+	
+	//引导用户去设置界面的弹窗
+	 fun Context.showLeadToSettingDialog() {
+		//解释原因，并且引导用户至设置页手动授权
+		AlertDialog.Builder(this)
+			.setMessage(
+				"获取相关权限失败:\n\n" +
+						"使用摄像头，\n" +
+						"读取、写入或删除存储空间\n\n" +
+						"这将导致图片无法添加，点击'去授权'到设置页面手动授权"
+			)
+			.setPositiveButton("去授权") { _, _ ->
+				//引导用户至设置页手动授权
+				val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+				val uri = Uri.fromParts("package", context?.packageName, null)
+				intent.data = uri
+				startActivity(intent)
+			}
+			.setNegativeButton("取消") { _, _ ->
+			}.show()
 	}
 	
 }

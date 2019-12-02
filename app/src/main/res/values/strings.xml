@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">美社</string>
+    <string name="app_brief">您身边的环境助手</string>
 
     <string name="brief">environment life</string>
 
@@ -12,6 +13,13 @@
     <!--Homepage errorData dialog-->
 
     <string name="homepage_dialog_button_setting">设置wifi</string>
+
+    <string name="list_null_data">呃～这里是空的～</string>
+
+    <!--Search Fragment-->
+    <string name="current_city">当前城市</string>
+    <string name="small_button_camera">拍照查询</string>
+    <string name="small_button_mac">语音查询</string>
 
     <!--Homepage errorData dialog - No wifi-->
     <string name="net_unavailable">网络错误</string>

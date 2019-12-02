@@ -8,13 +8,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.example.rubbishcommunity.R
 import java.util.*
+
 
 abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 constructor(
 	private val layoutRes: Int,
 	private val onCellClick: (Int) -> Unit
-) : RecyclerView.Adapter<BaseRecyclerAdapter.BaseSimpleViewHolder<Binding>>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 	
 	abstract val baseList: MutableList<Bean>
 	
@@ -26,24 +28,27 @@ constructor(
 		}
 	}
 	
+	
 	override fun onCreateViewHolder(
 		parent: ViewGroup,
 		viewType: Int
-	): BaseSimpleViewHolder<Binding> {
-		return BaseSimpleViewHolder(
+	): RecyclerView.ViewHolder {
+		return BaseSimpleViewHolder<Binding>(
 			LayoutInflater.from(parent.context).inflate(layoutRes, parent, false)
 		)
 	}
 	
 	override fun getItemCount() = baseList.size
 	
-	override fun onBindViewHolder(holder: BaseSimpleViewHolder<Binding>, position: Int) {
-		
+	
+	override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+		holder as BaseSimpleViewHolder<Binding>
 		holder.binding!!.root.setOnClickListener {
 			onCellClick(position)
 		}
 		bindData(holder.binding!!, position)
 	}
+	
 	
 	abstract fun bindData(binding: Binding, position: Int)
 	

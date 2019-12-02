@@ -24,11 +24,11 @@ class HomePageFragment : BindingFragment<HomePageBinding, HomePageViewModel>(
 	override fun onSoftKeyboardClosed() {
 	}
 	
-	override fun initBefore() {}
+	override fun initBefore() {
+		binding.vm = viewModel
+	}
 	
 	override fun initWidget() {
-		binding.vm = viewModel
-		viewModel.init()
 		
 		//刷新状态监听
 		viewModel.isRefreshing.observeNonNull {
@@ -80,12 +80,11 @@ class HomePageFragment : BindingFragment<HomePageBinding, HomePageViewModel>(
 	private fun refresh() {
 		if (context!!.checkNet()) {
 			viewModel.getNews()
-			//viewModel.getPhotography()
+			viewModel.getPhotography()
 		} else {
 			viewModel.isRefreshing.postValue(false)
 		}
 	}
-	
 	
 	
 }

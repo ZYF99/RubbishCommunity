@@ -3,6 +3,7 @@ package com.example.rubbishcommunity.ui.home.homepage.search
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.baidu.location.BDLocation
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.manager.api.RubbishService
 import com.example.rubbishcommunity.manager.dealError
@@ -26,6 +27,9 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
 	val searchList = MutableLiveData<MutableList<SearchKeyConclusion>>()
 	
 	val searchKey = MutableLiveData("")
+	
+	//位置
+	val location = MutableLiveData<BDLocation>()
 	
 	val shouldShowInput = MutableLiveData<Boolean>()
 	
@@ -55,7 +59,9 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
 			}.doOnSuccess {
 				searchList.postValue(it.data)
 				shouldShowInput.postValue(false)
-			}.bindLife()
+			}.compose(dealRefresh())
+			
+			.bindLife()
 	}
 	
 	

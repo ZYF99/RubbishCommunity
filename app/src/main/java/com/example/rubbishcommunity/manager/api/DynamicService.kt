@@ -48,12 +48,13 @@ interface DynamicService {
 	@GET("dynamics?")
 	fun getDynamicList(@Query("offset") offset: Int): Single<MutableList<Dynamic>>
 	
+	@GET("votes?")
+	fun getVoteList(@Query("offset") offset: Int): Single<MutableList<Vote>>
+	
 	@GET("dynamic?")
 	fun getDynamic(@Query("dynamicId") Id: String): Single<Dynamic>
 	
-	
-	@GET("votes?")
-	fun getVoteList(@Query("offset") offset: Int): Single<List<Vote>>
+
 	
 	@GET("vote?")
 	fun getVote(@Query("voteId") Id: String): Single<Vote>
