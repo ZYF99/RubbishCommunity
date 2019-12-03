@@ -52,8 +52,12 @@ class CameraSearchFragment : BindingFragment<CameraSearchBinding, CameraSearchVi
 						ErrorType.NO_CAMERA,
 						"没有权限拍照"
 					)
+					
+					
 					if (!permission.shouldShowRequestPermissionRationale) {
 						context!!.showLeadToSettingDialog()
+					}else{
+						activity!!.finish()
 					}
 				}
 			}
@@ -104,7 +108,6 @@ class CameraSearchFragment : BindingFragment<CameraSearchBinding, CameraSearchVi
 		val analyzerConfig = ImageAnalysisConfig.Builder().apply {
 			/*			setTargetResolution(Size(1280, 720))*/
 			// 旋转
-			setTargetRotation(ROTATION_270)
 			setImageReaderMode(
 				ImageAnalysis.ImageReaderMode.ACQUIRE_LATEST_IMAGE
 			)

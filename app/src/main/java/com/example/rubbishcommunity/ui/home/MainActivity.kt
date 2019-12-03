@@ -97,17 +97,21 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	}
 	
 	override fun initData() {
-		//启动mqtt服务
+	
+/*		//启动mqtt服务
 		bindService(
 			Intent(this, MyMqttService::class.java),
 			mqServiceConnection,
 			Context.BIND_AUTO_CREATE
-		)
+		)*/
+		
 	}
 	
 	
 	private fun publishMqMsg(string: String) {
-		mqServiceConnection.getMqttService().publishMessage(string)
+/*		//发布消息
+		mqServiceConnection.getMqttService().publishMessage(string)*/
+		
 	}
 	
 	
@@ -155,27 +159,14 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 		}).showAbove(binding.btnAdd)
 	}
 
-/*    private fun startByRxActivityResult() {
-        RxActivityResult.on(this)
-            .startIntent(Intent(this, CollectionActivity::class.java))
-            .map { result -> result.data() }
-            .doOnNext {
-                if (targetFragment is FindFragment) {
-                    val deleteArray: MutableList<String> = it.getSerializableExtra("deleteArray") as MutableList<String>
-                    (targetFragment as FindFragment).updateListFromDeletes(deleteArray)
-                }
-            }.bindLife()
-    }*/
+
 	
 	override fun onDestroy() {
 		super.onDestroy()
-		// 退订MQTT
-		unbindService(mqServiceConnection)
-/*		mqttUnsubscribe(viewModel.mqttClient)
-			.doOnSuccess {
-				Log.d("AAAAA", "退订MQTT成功")
-			}.bindLife()
-		*/
+		
+/*		// 退订MQTT
+		unbindService(mqServiceConnection)*/
+
 	}
 	
 	override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {

@@ -19,17 +19,23 @@ import io.reactivex.SingleTransformer
 fun <T> dealErrorCode(): SingleTransformer<T, T> {
 	return SingleTransformer { obs ->
 		obs.doOnSuccess { result ->
-			if (result is ResultModel<*>) {
-				when (result.meta.code) {
-					in 1000..1999 -> {
-						return@doOnSuccess
-					}
-					else -> {
-						throw ApiException(result as ResultModel<*>)
+			when (result) {
+				is ResultModel<*> -> {//LeoWong的API错误
+					when (result.meta.code) {
+						in 1000..1999 -> {
+							return@doOnSuccess
+						}
+						else -> {
+							throw ApiException(result as ResultModel<*>)
+						}
 					}
 				}
-			} else {
-				return@doOnSuccess
+				
+				
+				
+				else -> {
+					return@doOnSuccess
+				}
 			}
 		}
 	}

@@ -19,8 +19,7 @@ var instance: MyApplication? = null
 
 
 class MyApplication : MultiDexApplication(), KodeinAware {
-	
-	val classificationMap =  HashMap<Int,Category>()
+
 	
 	override val kodein = Kodein.lazy {
 		import(apiModule)

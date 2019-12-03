@@ -2,13 +2,11 @@ package com.example.rubbishcommunity.ui.guide.welcome
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.manager.api.RubbishService
-import com.example.rubbishcommunity.manager.api.UserService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
-import com.example.rubbishcommunity.model.api.search.Category
 import com.example.rubbishcommunity.model.api.search.SearchKeyConclusion
+import com.example.rubbishcommunity.persistence.getClassificationMap
 import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.hankcs.hanlp.HanLP
 import io.reactivex.Single
@@ -24,18 +22,19 @@ class WelcomeViewModel(application: Application) : BaseViewModel(application) {
 	
 	
 	fun search() {
-		if ((searchWord.value?:"").isNotEmpty()) {
+		if ((searchWord.value ?: "").isNotEmpty()) {
 			Single.fromCallable {
+				//HanLp做一次预操作
 				HanLP.extractSummary(searchWord.value, 1)[0]
 			}.flatMap {
 				rubbishService.searchClassification(it)
 			}.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.doOnSuccess { result ->
-					result.data.forEach { searchConclusion ->
-						searchConclusion.category =
-							MyApplication.instance.classificationMap[searchConclusion.sortId]
-								?: Category.getNull()
+					result.data.forEach { searchKeyConclusion ->
+						searchKeyConclusion.category = getClassificationMap().filter { category ->
+							category.id == searchKeyConclusion.sortId
+						}[0]
 					}
 					searchResultList.value = result.data
 				}

@@ -1,9 +1,14 @@
 package com.example.rubbishcommunity.persistence
 
+
+import android.annotation.SuppressLint
+import android.util.SparseArray
 import com.baidu.location.BDLocation
 import com.example.rubbishcommunity.model.api.mine.UsrProfile
+import com.example.rubbishcommunity.model.api.search.Category
 import com.example.rubbishcommunity.utils.getAgeByBirth
 import com.example.rubbishcommunity.utils.stringToDate
+import java.util.HashMap
 
 //存储用于验证的信息
 fun saveVerifyInfo(
@@ -64,6 +69,25 @@ fun saveUserInfo(usrProfile: UsrProfile) {
 		usrProfile
 	)
 }
+
+
+//存储分类信息
+fun saveClassificationMap(map: List<Category>) {
+	SharedPreferencesUtils.putListData(
+		"classificationMap",
+		map.toMutableList()
+	)
+}
+
+//分类信息
+@SuppressLint("UseSparseArrays")
+fun getClassificationMap(): List<Category> {
+	return SharedPreferencesUtils.getListData(
+		"classificationMap",
+		Category::class.java
+	)
+}
+
 
 //获取用户基本信息
 fun getLocalUserInfo(): UsrProfile {

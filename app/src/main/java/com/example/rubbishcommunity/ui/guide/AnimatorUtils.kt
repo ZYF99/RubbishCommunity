@@ -17,8 +17,6 @@ class AnimatorUtils(
 	private val progressView: View,
 	private val transView: View,
 	private val btnReact: View
-
-
 ) {
 	@SuppressLint("ObjectAnimatorBinding")
 	fun startTransAnimation() {

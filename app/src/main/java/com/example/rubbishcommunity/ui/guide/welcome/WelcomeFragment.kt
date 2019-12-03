@@ -55,7 +55,5 @@ class WelcomeFragment : BindingFragment<WelcomeBinding, WelcomeViewModel>(
 	override fun initData() {
 		viewModel.search()
 	}
-
-	
 	
 }

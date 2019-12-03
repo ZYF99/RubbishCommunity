@@ -3,7 +3,6 @@ package com.example.rubbishcommunity.ui.home.homepage.search
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.baidu.location.LocationClient
-import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.SearchBinding
@@ -65,9 +64,6 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 		}
 		
 		
-		
-		
-		
 		//搜索输入框的监听
 		RxTextView.textChanges(binding.searchEdit)
 			.debounce(1, TimeUnit.SECONDS)
@@ -106,7 +102,7 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 	
 	//查询关键字分类
 	private fun searchKey() {
-		if (context!!.checkNet()) {
+		if (context!!.checkNet() && viewModel.searchKey.value!!.isNotEmpty()) {
 			viewModel.analysisAndSearch()
 		} else {
 			viewModel.isLoading.postValue(false)

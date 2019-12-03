@@ -19,9 +19,6 @@ import io.reactivex.disposables.Disposable
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import timber.log.Timber
-import android.widget.EditText
-import android.app.Activity
-import android.view.View
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.utils.BindLife
 import com.example.rubbishcommunity.ui.utils.*

@@ -28,6 +28,9 @@ class CameraSearchViewModel(application: Application) : BaseViewModel(applicatio
 			.switchThread()
 			.compose(dealError())
 			.doOnSuccess {
+				it.result.sortByDescending {thing ->
+					thing.score
+				}
 				thingList.postValue(it.result)
 			}.bindLife()
 		

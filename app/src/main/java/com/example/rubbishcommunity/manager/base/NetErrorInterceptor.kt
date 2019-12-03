@@ -1,5 +1,6 @@
 package com.example.rubbishcommunity.manager.base
 
+
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
@@ -19,8 +20,11 @@ class NetErrorInterceptor : Interceptor {
 		val response = chain.proceed(chain.request())
 		
 		
-		if (response.code() in 401..503)
-			throw ServerError(response.code(), response.message())
+		if (response.code() in 400..503)
+			throw ServerError(
+				response.code(),
+				response.body()?.string() ?: ""
+			)
 		return response
 	}
 }

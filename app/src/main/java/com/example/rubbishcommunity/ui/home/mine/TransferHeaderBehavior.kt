@@ -61,8 +61,7 @@ class TransferHeaderBehavior(
 		child: ImageView,
 		dependency: View
 	): Boolean {
-
-		Log.d("~~NestedScrollView", "nestedScrollViewY" + dependency.y)
+		
 		
 		
 		if (originalScaleX == 0f) {
@@ -84,28 +83,23 @@ class TransferHeaderBehavior(
 		if (originalDependencyY == 0) {
 			// 计算依附的 NestedScrollView 的Y轴坐标
 			originalDependencyY = dependency.y.toInt()
-			Log.d("~~~~~", "originalDependencyY" + originalDependencyY+"\n")
+
 		}
 		
 		if (origionalY == 0) {
 			// 计算自身Y轴坐标
 			origionalY = child.y.toInt()
-			Log.d("~~~~~", "origionalY" + origionalY+"\n")
+
 			
 			percentY = origionalY.toFloat()/originalDependencyY.toFloat()
 			
-			Log.d("~~~~~", "percentY" + percentY+"\n")
+
 		}
 		
 		
 		val deltaY = originalDependencyY - dependency.y
 		
-		Log.d("~~~~~", "percentY" + percentY+"\n")
-		
-		Log.d("~~~~~", "deltaY" + deltaY+"\n")
-	
-		
-		Log.d("~~~~~", "shouldDeltaY" + (percentY * deltaY)+"\n")
+
 		
 		
 		
@@ -114,8 +108,7 @@ class TransferHeaderBehavior(
 		if(y < context.dp2px(24f)){
 			y = context.dp2px(24f).toFloat()
 		}
-		
-		Log.d("~~~~~", "y" + y + "\n")
+
 		
 		child.y = y
 		

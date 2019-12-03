@@ -33,7 +33,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="AasdfqwdfUY"
+                tools:text="AasdfqwdsrgfvdgvfUY"
                 android:textColor="@color/white" />
 
 

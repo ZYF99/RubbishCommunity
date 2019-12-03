@@ -1,6 +1,6 @@
 package com.example.rubbishcommunity.model.api
 
-import java.io.Serializable
+
 
 data class NewsResult(
 	val reason:String,
@@ -19,5 +19,6 @@ val date:String,
 val category:String,
 val author_name:String,
 val url:String,
-val thumbnail_pic_s:String
+val thumbnail_pic_s:String,
+val thumbnail_pic_s02:String
 )

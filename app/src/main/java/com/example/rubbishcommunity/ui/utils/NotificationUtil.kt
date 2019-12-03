@@ -13,7 +13,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
-import com.example.rubbishcommunity.service.MyMqttService.Companion.CHANNEL_ID_STRING
+import com.example.rubbishcommunity.service.CHANNEL_ID_STRING
 import com.example.rubbishcommunity.ui.home.MainActivity
 
 /**

@@ -2,7 +2,6 @@ package com.example.rubbishcommunity.ui.container
 
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -178,14 +177,15 @@ fun jumpToCameraSearch(fragment: Fragment) {
 	RxActivityResult.on(fragment)
 		.startIntent(Intent(fragment.context, ContainerActivity::class.java).putExtras(bundle))
 		.doOnNext {
-			(fragment.activity as ContainerActivity).viewModel.run {
-				
-				MyApplication.showSuccess(it.data().getStringExtra("searchKey"))
-				
-				keyWordFromCamera.postValue(
-					it.data().getStringExtra("searchKey")
-				)
+			if (it.resultCode() == 1) {
+				(fragment.activity as ContainerActivity).viewModel.run {
+					MyApplication.showSuccess(it.data().getStringExtra("searchKey") ?: "")
+					keyWordFromCamera.postValue(
+						it.data().getStringExtra("searchKey")
+					)
+				}
 			}
+			
 		}.subscribe()
 	
 }

@@ -78,7 +78,7 @@ fun initLocationOption(context: Context): LocationClient {
 
 
 //检查权限并获取定位
-fun checkLocationPermissionAndGetLocation(
+fun  checkLocationPermissionAndGetLocation(
 	activity: Activity,
 	locationClient: LocationClient,
 	onReceiveLocation: (BDLocation) -> Unit

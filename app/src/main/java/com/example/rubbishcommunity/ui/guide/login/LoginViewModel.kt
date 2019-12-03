@@ -67,7 +67,6 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 			).delay(1, TimeUnit.SECONDS)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
-				.compose(dealLoading())
 				.compose(dealErrorCode())
 				.compose(dealError())
 				.doOnSuccess {
@@ -87,6 +86,7 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 					//登陆状态置为true
 					saveLoginState(true)
 				}
+				.compose(dealLoading())
 		}
 		return null
 	}
@@ -94,7 +94,7 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 	private fun judgeLoginParams(): Boolean {
 		if (userName.value!!.isNotEmpty() && password.value!!.isNotEmpty()) {
 			if (userName.value!!.length > 4) {
-				if (password.value!!.length in 4..16) {
+				if (password.value!!.length in 6..16) {
 					return true
 				} else {
 					sendError(

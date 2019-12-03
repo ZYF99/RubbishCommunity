@@ -45,14 +45,14 @@ class HomePageViewModel(application: Application) : BaseViewModel(application) {
 	
 	fun getPhotography() {
 		mockData()
-		juheService.getPhotography()
+/*		juheService.getPhotography()
 			.switchThread()
 			.doOnSuccess {
 				photographyList.value = it
 			}
 			.compose(dealError())
 			.compose(dealRefresh())
-			.bindLife()
+			.bindLife()*/
 	}
 	
 	private fun mockData() {

@@ -28,6 +28,12 @@ import com.example.rubbishcommunity.ui.utils.sendSimpleNotification
 /**
  * @author Zhangyf
  */
+
+const val TAG = "nlgMqttService"
+const val TOPIC_TO_QA = "/s2c/task_quality/"
+const val PUBLISH_TOPIC = "SystemDec"
+const val CHANNEL_ID_STRING = "用于显示即使消息"
+
 class MyMqttService : Service() {
 	private var mqttAndroidClient: MqttAndroidClient? = null
 	inner class CustomBinder : Binder() {
@@ -61,7 +67,11 @@ class MyMqttService : Service() {
 			
 			override fun messageArrived(topic: String, message: MqttMessage) {
 				//订阅的消息送达，推送notify
+				
+				
 				sendSimpleNotification(applicationContext, topic, message.toString())
+				
+				
 			}
 			
 			override fun deliveryComplete(token: IMqttDeliveryToken) {
@@ -77,9 +87,9 @@ class MyMqttService : Service() {
 		//设置超时时间，单位为秒
 		//mqttConnectOptions.setConnectionTimeout(2);
 		//心跳时间，单位为秒。即多长时间确认一次Client端是否在线
-		mqttConnectOptions.keepAliveInterval = 2;
+		mqttConnectOptions.keepAliveInterval = 2
 		//允许同时发送几条消息（未收到broker确认信息）
-		//mqttConnectOptions.setMaxInflight(10);
+		//mqttConnectOptions.setMaxInflight(10)
 		//选择MQTT版本
 		mqttConnectOptions.mqttVersion = MqttConnectOptions.MQTT_VERSION_3_1_1
 		try {
@@ -191,12 +201,7 @@ class MyMqttService : Service() {
 		mqttAndroidClient = null
 	}
 	
-	companion object {
-		private const val TAG = "nlgMqttService"
-		private const val TOPIC_TO_QA = "/s2c/task_quality/"
-		private const val PUBLISH_TOPIC = "SystemDec"
-		
-		const val CHANNEL_ID_STRING = "用于显示即使消息"
-		
-	}
+
+
+
 }
