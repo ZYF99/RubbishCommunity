@@ -46,7 +46,7 @@
         <!-- AK鉴权 -->
         <meta-data
                 android:name="com.baidu.lbsapi.API_KEY"
-                android:value="W0ggyVG5n2aAoM6zd2bEmii8Dzg4WEcy" />
+                android:value="AOmgGu9nfQfcYI6KQukQnipwvGN6ofyc" />
         <activity
                 android:name=".ui.container.ContainerActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize"

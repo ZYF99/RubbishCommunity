@@ -71,6 +71,10 @@ fun <T> dealError(): SingleTransformer<T, T> {
 						error.str
 					)
 				}
+				is NoLocationException -> {
+					sendError(ErrorType.NO_LOCATION, "请打开定位权限以便于我们精准扶贫！！～")
+				}
+				
 				else -> sendError(
 					ErrorData(
 						ErrorType.UNEXPECTED

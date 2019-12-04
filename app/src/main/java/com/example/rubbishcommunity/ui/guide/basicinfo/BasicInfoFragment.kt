@@ -8,10 +8,11 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import com.baidu.location.LocationClient
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.BasicInfoFragBinding
+import com.example.rubbishcommunity.initLocationClient
+import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.ui.container.jumpToLogin
@@ -28,7 +29,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.kodein.di.generic.instance
 import java.util.concurrent.TimeUnit
 
 
@@ -36,7 +36,6 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 	BasicInfoViewModel::class.java, R.layout.fragment_basic_info
 ) {
 	
-	private val locationClient by instance<LocationClient>()
 	
 	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
 	
@@ -146,12 +145,12 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 			}.bindLife()
 		
 		//获取定位
-		checkLocationPermissionAndGetLocation(
-			activity!!, locationClient
+		
+		(activity!! as BindingActivity<*, *>).checkLocationPermissionAndGetLocation(
+			initLocationClient(context!!)
 		) {
 			viewModel.location.postValue(it)
-		}?.bindLife()
-		
+		}
 		
 	}
 	

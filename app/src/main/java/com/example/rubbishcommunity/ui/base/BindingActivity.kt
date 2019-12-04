@@ -20,8 +20,13 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import timber.log.Timber
 import com.example.rubbishcommunity.MyApplication
+import com.example.rubbishcommunity.manager.dealPermissionError
+import com.example.rubbishcommunity.manager.dealPermissionErrorMsg
 import com.example.rubbishcommunity.utils.BindLife
 import com.example.rubbishcommunity.ui.utils.*
+import com.example.rubbishcommunity.utils.getLocation
+import com.luck.picture.lib.permissions.RxPermissions
+import io.reactivex.Observable
 
 
 abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
@@ -154,6 +159,17 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 	
 	
 }
+
+fun BindingActivity<*, *>.rxRequestPermission(vararg permissions: String): Observable<Boolean> {
+	return RxPermissions(this).request(
+		*permissions
+	).compose(dealPermissionErrorMsg())
+		.compose(dealPermissionError())
+}
+
+
+
+
 
 
 

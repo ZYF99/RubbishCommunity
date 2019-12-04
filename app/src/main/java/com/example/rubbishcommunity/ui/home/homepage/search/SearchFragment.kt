@@ -2,24 +2,24 @@ package com.example.rubbishcommunity.ui.home.homepage.search
 
 
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.baidu.location.LocationClient
+import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.SearchBinding
+import com.example.rubbishcommunity.initLocationClient
+import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.example.rubbishcommunity.ui.container.jumpToCameraSearch
 import com.example.rubbishcommunity.ui.utils.hideSoftKeyBoard
 import com.example.rubbishcommunity.ui.utils.openSoftKeyBoard
 import com.example.rubbishcommunity.utils.checkLocationPermissionAndGetLocation
 import com.jakewharton.rxbinding2.widget.RxTextView
-import org.kodein.di.generic.instance
 import java.util.concurrent.TimeUnit
 
 
 class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 	SearchViewModel::class.java, R.layout.fragment_search
 ) {
-	private val locationClient by instance<LocationClient>()
 	
 	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
 	}
@@ -111,12 +111,11 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 	
 	//获取定位
 	private fun getLocation() {
-		checkLocationPermissionAndGetLocation(
-			activity!!,
-			locationClient
+		(activity!! as BindingActivity<*, *>).checkLocationPermissionAndGetLocation(
+			initLocationClient(context!!)
 		) {
 			viewModel.location.postValue(it)
-		}?.bindLife()
+		}
 	}
 	
 }

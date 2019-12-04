@@ -4,18 +4,17 @@ import android.Manifest
 import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.net.Uri
-import android.provider.Settings
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
-import com.baidu.location.LocationClient
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ReleaseDynamicBinding
+import com.example.rubbishcommunity.initLocationClient
 import com.example.rubbishcommunity.ui.adapter.ITEM_SWIPE_FREE
 import com.example.rubbishcommunity.ui.adapter.attachItemSwipe
+import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.ui.showGallery
 import com.example.rubbishcommunity.ui.utils.ErrorData
 import com.example.rubbishcommunity.ui.utils.ErrorType
@@ -29,19 +28,20 @@ import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.permissions.RxPermissions
 import io.reactivex.Single
-import org.kodein.di.generic.instance
 import java.util.concurrent.TimeUnit
 
 
 class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDynamicViewModel>(
 	ReleaseDynamicViewModel::class.java, R.layout.fragment_release_dynamic
 ) {
-	private val locationClient by instance<LocationClient>()
+	
+	
 	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
 	}
 	
 	override fun onSoftKeyboardClosed() {
 	}
+	
 	
 	//添加图片按钮点击事件
 	private val onAddPicClick: () -> Unit = {
@@ -164,12 +164,11 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	
 	//获取定位
 	private fun getLocation() {
-		checkLocationPermissionAndGetLocation(
-			activity!!,
-			locationClient
+		(activity!! as BindingActivity<*, *>).checkLocationPermissionAndGetLocation(
+			initLocationClient(context!!)
 		) {
 			viewModel.location.postValue(it)
-		}?.bindLife()
+		}
 	}
 	
 	
@@ -235,7 +234,6 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 		
 	}
 	
-
 	
 	//返回按钮
 	override fun onBackPressed(): Boolean {
