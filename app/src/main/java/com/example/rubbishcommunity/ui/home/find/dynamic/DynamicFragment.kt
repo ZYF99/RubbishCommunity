@@ -4,7 +4,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.DynamicBinding
+import com.example.rubbishcommunity.model.api.mine.UsrProfile
 import com.example.rubbishcommunity.ui.container.jumpToDynamicDetail
+import com.example.rubbishcommunity.ui.widget.UserInfoDialog
 
 
 class DynamicFragment : BindingFragment<DynamicBinding, DynamicViewModel>(
@@ -34,13 +36,20 @@ class DynamicFragment : BindingFragment<DynamicBinding, DynamicViewModel>(
 		//动态列表
 		binding.recDynamic.run {
 			layoutManager = LinearLayoutManager(context)
-			adapter = DynamicListAdapter(viewModel.dynamicList.value?: mutableListOf()) { position ->
-				//开启详情页
-				jumpToDynamicDetail(context, viewModel.dynamicList.value!![position].id!!)
-			}
+			adapter = DynamicListAdapter(viewModel.dynamicList.value ?: mutableListOf(),
+				{ position ->
+					//开启详情页
+					jumpToDynamicDetail(context, viewModel.dynamicList.value!![position].id!!)
+				},
+				{ position ->
+					UserInfoDialog(
+						context,
+						UsrProfile.getDefault()
+					) {
+						//TODO 点击后跳转主页
+					}.show()
+				})
 		}
-		
-		
 	}
 	
 	override fun initData() {
@@ -48,11 +57,12 @@ class DynamicFragment : BindingFragment<DynamicBinding, DynamicViewModel>(
 	}
 	
 	private fun refresh() {
-		if (context!!.checkNet()) {
+		context!!.checkNet().doOnComplete {
 			viewModel.getDynamicList()
-		} else {
+		}.doOnError {
 			viewModel.isRefreshing.postValue(false)
-		}
+		}.bindLife()
+		
 	}
 	
 }

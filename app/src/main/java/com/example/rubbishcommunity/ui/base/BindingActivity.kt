@@ -1,9 +1,7 @@
 package com.example.rubbishcommunity.ui.base
 
 
-import android.content.Context
 import android.os.Bundle
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -20,13 +18,8 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import timber.log.Timber
 import com.example.rubbishcommunity.MyApplication
-import com.example.rubbishcommunity.manager.dealPermissionError
-import com.example.rubbishcommunity.manager.dealPermissionErrorMsg
 import com.example.rubbishcommunity.utils.BindLife
 import com.example.rubbishcommunity.ui.utils.*
-import com.example.rubbishcommunity.utils.getLocation
-import com.luck.picture.lib.permissions.RxPermissions
-import io.reactivex.Observable
 
 
 abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
@@ -106,46 +99,23 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 		finish()
 	}
 	
-	//hide keyBoard
-	fun hideKeyboard() {
-		val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-		if (imm!!.isActive)
-			imm.hideSoftInputFromWindow(
-				currentFocus?.windowToken,
-				InputMethodManager.HIDE_NOT_ALWAYS
-			)
-	}
-	
 	//实际'异常'处理者
 	fun handleError() {
 		errorDisposable = getErrorObs()
 			.observeOn(AndroidSchedulers.mainThread())
 			.doOnNext {
-				supportActionBar
+				//supportActionBar
 				when (it.errorType) {
-					ErrorType.NO_WIFI -> MyApplication.showError(it.errorContent)
-					ErrorType.INPUT_ERROR -> MyApplication.showWarning(it.errorContent)
-					ErrorType.NO_LOCATION -> MyApplication.showWarning(it.errorContent)
-					ErrorType.NO_CAMERA -> MyApplication.showWarning(it.errorContent)
-					ErrorType.REGISTER_OR_LOGIN_FAILED -> MyApplication.showError(it.errorContent)
+					ErrorType.UI_ERROR -> MyApplication.showWarning(it.errorContent)
+					ErrorType.API_ERROR -> MyApplication.showError(it.errorContent)
 					ErrorType.SERVERERROR -> MyApplication.showError(it.errorContent)
 					else -> {
 						if (errorDialog?.isShowing != true) {
-							showUnexpectedDialog(this)
+							showUnexpectedDialog()
 						}
 					}
 				}
 			}.subscribe({}, { Timber.e(it) })
-	}
-	
-	
-	fun showNetErrorSnackBar() {
-		sendError(
-			ErrorData(
-				ErrorType.NO_WIFI,
-				"没有网络"
-			)
-		)
 	}
 	
 	
@@ -160,12 +130,7 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 	
 }
 
-fun BindingActivity<*, *>.rxRequestPermission(vararg permissions: String): Observable<Boolean> {
-	return RxPermissions(this).request(
-		*permissions
-	).compose(dealPermissionErrorMsg())
-		.compose(dealPermissionError())
-}
+
 
 
 

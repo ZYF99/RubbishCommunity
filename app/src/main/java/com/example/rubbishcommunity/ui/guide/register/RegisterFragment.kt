@@ -1,14 +1,12 @@
 package com.example.rubbishcommunity.ui.guide.register
 
-import android.Manifest
+
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.RegisterFragBinding
 import com.example.rubbishcommunity.persistence.getLoginState
@@ -16,8 +14,8 @@ import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.ui.guide.AnimatorUtils
 import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.example.rubbishcommunity.ui.home.MainActivity
+import com.example.rubbishcommunity.utils.checkIMEIPermission
 import com.jakewharton.rxbinding2.view.RxView
-import com.tbruyelle.rxpermissions2.RxPermissions
 import java.util.concurrent.TimeUnit
 
 
@@ -71,35 +69,18 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 			//未登陆
 			
 			//下一步按钮
-			RxView.clicks(binding.btnNext)
-				.throttleFirst(2, TimeUnit.SECONDS)
-				.doOnNext {
-					//IMEI权限检查
-					if (activity?.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-						//无权限时申请权限
-						RxPermissions(activity as Activity).request(Manifest.permission.READ_PHONE_STATE)
-							.subscribe {
-								if (it) {
-									//申请权限通过直接登陆
-									registerAndLogin()
-								} else {
-									MyApplication.showToast("您必须给予权限才能完成注册！")
-								}
-							}
-					} else {
-						//有权限，直接注册
-						registerAndLogin()
-					}
-					
-					
+			binding.btnNext.setOnClickListener {
+				checkIMEIPermission().doOnNext {
+					//申请权限通过直接登陆
+					registerAndLogin()
 				}.bindLife()
+			}
 			
 			//返回登陆按钮
 			RxView.clicks(binding.btnBack).throttleFirst(2, TimeUnit.SECONDS)
 				.doOnNext {
 					(activity as ContainerActivity).replaceLogin()
 				}.bindLife()
-			
 		}
 		
 		
@@ -107,7 +88,7 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 	
 	//注册并登陆
 	private fun registerAndLogin() {
-		if (context!!.checkNet()) {
+		context!!.checkNet().doOnComplete {
 			//真实register
 			viewModel.registerAndLogin()?.doOnSuccess {
 				
@@ -118,9 +99,9 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 				
 				/*jumpToBasicInfo(context!!)*/
 			}?.bindLife()
-		}else{
+		}.doOnError {
 			viewModel.isLoading.postValue(false)
-		}
+		}.bindLife()
 	}
 	
 	

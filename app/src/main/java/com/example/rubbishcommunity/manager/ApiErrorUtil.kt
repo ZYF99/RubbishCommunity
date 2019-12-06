@@ -8,6 +8,7 @@ import com.example.rubbishcommunity.ui.utils.ErrorType
 import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.utils.*
 import io.reactivex.SingleTransformer
+import java.net.SocketTimeoutException
 
 
 /**
@@ -26,12 +27,10 @@ fun <T> dealErrorCode(): SingleTransformer<T, T> {
 							return@doOnSuccess
 						}
 						else -> {
-							throw ApiException(result as ResultModel<*>)
+							throw ApiError(result as ResultModel<*>)
 						}
 					}
 				}
-				
-				
 				
 				else -> {
 					return@doOnSuccess
@@ -47,9 +46,9 @@ fun <T> dealError(): SingleTransformer<T, T> {
 	return SingleTransformer { obs ->
 		obs.doOnError { error ->
 			when (error) {
-				is ApiException -> {
+				is ApiError -> {
 					sendError(
-						ErrorType.REGISTER_OR_LOGIN_FAILED,
+						ErrorType.API_ERROR,
 						error.result.meta.msg
 					)
 				}
@@ -59,22 +58,25 @@ fun <T> dealError(): SingleTransformer<T, T> {
 						error.msg
 					)
 				}
-				is QiNiuUpLoadException -> {
+				is SocketTimeoutException -> {
 					sendError(
-						ErrorType.REGISTER_OR_LOGIN_FAILED,
+						ErrorType.API_ERROR,
+						"请求超时～"
+					)
+				}
+				
+				is QiNiuUpLoadError -> {
+					sendError(
+						ErrorType.SERVERERROR,
 						error.responseInfo.error
 					)
 				}
 				is HanLPInputError -> {
 					sendError(
-						ErrorType.INPUT_ERROR,
+						ErrorType.UI_ERROR,
 						error.str
 					)
 				}
-				is NoLocationException -> {
-					sendError(ErrorType.NO_LOCATION, "请打开定位权限以便于我们精准扶贫！！～")
-				}
-				
 				else -> sendError(
 					ErrorData(
 						ErrorType.UNEXPECTED
@@ -86,5 +88,5 @@ fun <T> dealError(): SingleTransformer<T, T> {
 }
 
 //业务异常，非服务异常
-data class ApiException(val result: ResultModel<*>) :
+data class ApiError(val result: ResultModel<*>) :
 	Throwable()

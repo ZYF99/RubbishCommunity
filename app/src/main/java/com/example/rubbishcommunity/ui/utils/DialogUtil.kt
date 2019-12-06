@@ -2,6 +2,7 @@ package com.example.rubbishcommunity.ui.utils
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import com.example.rubbishcommunity.R
@@ -43,9 +44,29 @@ fun showNoWifiDialog(context: Context, okAction: () -> Unit): AlertDialog {
 	return dialog
 }
 
+//引导用户去设置界面的弹窗
+fun Context.showLeadToSettingDialog(permissionStr: String) {
+	//解释原因，并且引导用户至设置页手动授权
+	AlertDialog.Builder(this)
+		.setMessage(
+			"获取${permissionStr}权限失败:\n" +
+					"读取、写入或删除存储空间\n" +
+					"点击'去授权'到设置页面手动授权"
+		)
+		.setPositiveButton("去授权") { _, _ ->
+			//引导用户至设置页手动授权
+			val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+			val uri = Uri.fromParts("package", packageName, null)
+			intent.data = uri
+			startActivity(intent)
+		}
+		.setNegativeButton("取消") { _, _ ->
+		}.show()
+}
 
-fun showUnexpectedDialog(context: Context): AlertDialog {
-	val dialog = AlertDialog.Builder(context)
+
+fun Context.showUnexpectedDialog(): AlertDialog {
+	val dialog = AlertDialog.Builder(this)
 		.setTitle(R.string.homepage_dialog_title_unexpected)
 		.setNegativeButton(R.string.ok, null)
 		.create()
@@ -84,14 +105,8 @@ data class ErrorData(val errorType: ErrorType, val errorContent: String = "")
 
 // '异常' 类型
 enum class ErrorType {
-	INPUT_ERROR,
-	NO_WIFI,
-	NO_CAMERA,
-	NO_PERMISSION,
-	NO_LOCATION,
-	REGISTER_OR_LOGIN_FAILED,
-	UNEXPECTED,
+	UI_ERROR,
+	API_ERROR,
 	SERVERERROR,
-	//七牛云上传失败
-	QINIU_UPLOAD_FAILED,
+	UNEXPECTED,
 }

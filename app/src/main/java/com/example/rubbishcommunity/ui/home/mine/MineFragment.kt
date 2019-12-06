@@ -1,16 +1,12 @@
 package com.example.rubbishcommunity.ui.home.mine
 
-import android.app.Activity
-import android.content.Intent
-import android.os.Bundle
+
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MineBinding
 import com.example.rubbishcommunity.persistence.saveLoginState
-import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.example.rubbishcommunity.ui.container.jumoToPassword
 import com.example.rubbishcommunity.ui.container.jumpToLogin
-import com.example.rubbishcommunity.ui.home.MainActivity
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 
 class MineFragment : BindingFragment<MineBinding, MineViewModel>(
@@ -58,22 +54,22 @@ class MineFragment : BindingFragment<MineBinding, MineViewModel>(
 	
 	
 	private fun refresh() {
-		if (!isNetworkAvailable()) {
-			(activity as MainActivity).showNetErrorSnackBar()
-			viewModel.isRefreshing.value = false
-		} else {
+		context!!.checkNet().doOnComplete {
 			viewModel.refreshUserInfo()
-		}
+		}.doOnError {
+			showNetErrorSnackBar()
+			viewModel.isRefreshing.value = false
+		}.bindLife()
 	}
 	
 	private fun logout() {
 		viewModel.logout()
 			.doOnSuccess {
-			//注销成功
-			saveLoginState(false)
-			activity?.finish()
-			jumpToLogin(context!!)
-		}.bindLife()
+				//注销成功
+				saveLoginState(false)
+				activity?.finish()
+				jumpToLogin(context!!)
+			}.bindLife()
 	}
 	
 	override fun initData() {

@@ -1,9 +1,8 @@
 package com.example.rubbishcommunity.ui.guide.login
 
-import android.Manifest
+
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
@@ -16,7 +15,7 @@ import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.example.rubbishcommunity.ui.container.jumoToPassword
 import com.example.rubbishcommunity.ui.utils.hideSoftKeyBoard
 import com.example.rubbishcommunity.ui.widget.ContractDialog
-import com.tbruyelle.rxpermissions2.RxPermissions
+import com.example.rubbishcommunity.utils.checkIMEIPermission
 
 
 class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
@@ -62,24 +61,12 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 		}
 		
 		//登录按钮
-		
 		binding.btnLogin.setOnClickListener {
 			//IMEI权限检查
-			if (activity?.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-				//无权限时申请权限
-				RxPermissions(activity as Activity).request(Manifest.permission.READ_PHONE_STATE)
-					.subscribe {
-						if (it) {
-							//申请权限通过直接登陆
-							login()
-						} else {
-							activity?.finish()
-						}
-					}
-			} else {
-				//有权限，直接登录
+			checkIMEIPermission().doOnNext {
+				//申请权限通过直接登陆
 				login()
-			}
+			}.bindLife()
 		}
 		
 		
@@ -103,16 +90,16 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 	@RequiresApi(Build.VERSION_CODES.O)
 	private fun login() {
 		//网络检查
-		if(context!!.checkNet()){
+		context!!.checkNet().doOnComplete {
 			//真实login
 			viewModel.login()?.doOnSuccess {
 				//登录成功
 				startActivity(Intent(context, MainActivity::class.java))
 				(context as Activity).finish()
 			}?.bindLife()
-		}else{
+		}.doOnError {
 			viewModel.isLoading.postValue(false)
-		}
+		}.bindLife()
 	}
 	
 	
@@ -124,8 +111,8 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 	//协议弹窗
 	private fun showContractDialog() {
 		activity!!.hideSoftKeyBoard()
-		ContractDialog(context) { //onFinishClick event
-		
+		ContractDialog(context) {
+			//onFinishClick event
 		}.show()
 	}
 	

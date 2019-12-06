@@ -93,42 +93,41 @@ class PasswordFragment : BindingFragment<PasswordFragBinding, PasswordViewModel>
 	//发送邮箱
 	private fun sendEmail() {
 		//网络检查
-		if (context!!.checkNet()) {
+		context!!.checkNet().doOnComplete {
 			//发送邮箱验证码
 			viewModel.sendEmail()?.doOnSuccess {
 				//发送成功
 			}?.bindLife()
-		} else {
+		}.doOnError {
 			viewModel.isLoading.postValue(false)
-		}
+		}.bindLife()
 		
 	}
 	
 	//发送验证码
 	private fun sendVerifyCode() {
 		//网络检查
-		if (context!!.checkNet()) {
+		context!!.checkNet().doOnComplete {
 			//发送邮箱验证码
 			viewModel.sendVerifyCode()?.doOnSuccess {
 				//发送成功
 			}?.bindLife()
-		} else {
+		}.doOnError {
 			viewModel.isLoading.postValue(false)
-		}
+		}.bindLife()
 	}
 	
 	//发送新密码至服务器
 	private fun sendPassword() {
 		//网络检查
-		if (context!!.checkNet()) {
+		context!!.checkNet().doOnComplete {
 			//发送新密码至服务器
 			viewModel.editPassword()?.doOnSuccess {
 				//修改密码成功
 			}?.bindLife()
-		} else {
+		}.doOnError {
 			viewModel.isLoading.postValue(false)
-		}
-		
+		}.bindLife()
 		
 	}
 	

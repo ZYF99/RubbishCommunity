@@ -52,7 +52,7 @@ class PasswordViewModel(application: Application) : BaseViewModel(application) {
 		}else{
 			sendError(
 				ErrorData(
-					ErrorType.INPUT_ERROR,
+					ErrorType.UI_ERROR,
 					"请输入正确的邮箱"
 				)
 			)
@@ -79,7 +79,7 @@ class PasswordViewModel(application: Application) : BaseViewModel(application) {
 		}else{
 			sendError(
 				ErrorData(
-					ErrorType.INPUT_ERROR,
+					ErrorType.UI_ERROR,
 					"请完整输入验证码${(verifyCode.value?:"").length}"
 				)
 			)
@@ -100,7 +100,7 @@ class PasswordViewModel(application: Application) : BaseViewModel(application) {
 		}else{
 			sendError(
 				ErrorData(
-					ErrorType.INPUT_ERROR,
+					ErrorType.UI_ERROR,
 					"两次密码不一致"
 				)
 			)
@@ -118,7 +118,7 @@ class PasswordViewModel(application: Application) : BaseViewModel(application) {
 				} else {
 					sendError(
 						ErrorData(
-							ErrorType.INPUT_ERROR,
+							ErrorType.UI_ERROR,
 							"密码长度为6-16位"
 						)
 					)
@@ -126,7 +126,7 @@ class PasswordViewModel(application: Application) : BaseViewModel(application) {
 			} else {
 				sendError(
 					ErrorData(
-						ErrorType.INPUT_ERROR,
+						ErrorType.UI_ERROR,
 						"用户名必须大于4位"
 					)
 				)
@@ -134,7 +134,7 @@ class PasswordViewModel(application: Application) : BaseViewModel(application) {
 		} else {
 			sendError(
 				ErrorData(
-					ErrorType.INPUT_ERROR,
+					ErrorType.UI_ERROR,
 					"用户名和密码不能为空"
 				)
 			)

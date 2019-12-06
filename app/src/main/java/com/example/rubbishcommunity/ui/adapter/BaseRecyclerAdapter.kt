@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rubbishcommunity.R
+import java.lang.Exception
 import java.util.*
 
 
@@ -74,8 +74,13 @@ constructor(
 	fun onItemMove(fromPosition: Int, toPosition: Int) {
 		//交换位置
 		if (toPosition >= 0 && toPosition < baseList.size) {
-			Collections.swap(baseList, fromPosition, toPosition)
-			notifyItemMoved(fromPosition, toPosition)
+			try {
+				Collections.swap(baseList, fromPosition, toPosition)
+				notifyItemMoved(fromPosition, toPosition)
+			} catch (e: Exception) {
+				e.printStackTrace()
+			}
+			
 		}
 	}
 }
@@ -149,8 +154,7 @@ fun RecyclerView.attachItemSwipe(decoration: Int, onSwipeStart: () -> Unit, onSw
 		override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
 		
 		
-	})
-		.attachToRecyclerView(this)
+	}).attachToRecyclerView(this)
 	
 	
 }

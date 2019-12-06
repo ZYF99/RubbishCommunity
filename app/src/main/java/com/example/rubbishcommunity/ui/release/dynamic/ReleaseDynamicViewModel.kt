@@ -5,10 +5,12 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.baidu.location.BDLocation
 import com.example.rubbishcommunity.*
+import com.example.rubbishcommunity.manager.UiError
 import com.example.rubbishcommunity.manager.api.DynamicService
 import com.example.rubbishcommunity.manager.api.ImageService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
+import com.example.rubbishcommunity.manager.dealUiError
 import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.release.draft.Draft
@@ -17,6 +19,7 @@ import com.example.rubbishcommunity.ui.utils.ErrorType
 import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.utils.*
 import com.luck.picture.lib.entity.LocalMedia
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import org.kodein.di.generic.instance
@@ -51,14 +54,8 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 	private val imageService by instance<ImageService>()
 	private val dynamicService by instance<DynamicService>()
 	
-	fun init() {
-		//必须初始化控件上的值
-		
-		getDraft()
-	}
 	
-	
-	private fun getDraft() {
+	fun getDraft() {
 		selectedList.value =
 			when {
 				SharedPreferencesUtils.getListData(
@@ -86,9 +83,16 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 			.bindLife()
 	}
 	
-	fun saveDraft() {
-		if (title.value!!.isNotEmpty()) {
-			if (content.value!!.isNotEmpty()) {
+	
+	fun saveDraft(): Completable =
+		Completable.create { emitter ->
+			when {
+				title.value!!.isNullOrEmpty() -> emitter.onError(UiError("添加标题后才能存草稿哦～"))
+				content.value!!.isNullOrEmpty() -> emitter.onError(UiError("添加内容后才能存草稿哦～"))
+				else -> emitter.onComplete()
+			}
+		}.compose(dealUiError())
+			.doOnComplete {
 				SharedPreferencesUtils.putListData("draft_selectedList", selectedList.value!!)
 				dynamicService.saveDraft(
 					Draft(
@@ -108,13 +112,8 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 					.compose(dealErrorCode())
 					.compose(dealError())
 					.bindLife()
-			} else {
-				sendError(ErrorType.INPUT_ERROR,"添加内容后才能存草稿哦～")
 			}
-		} else {
-			sendError(ErrorType.INPUT_ERROR,"添加标题后才能存草稿哦～")
-		}
-	}
+	
 	
 	fun clearDraft() {
 		SharedPreferencesUtils.putListData("draft_selectedList", mutableListOf())
@@ -131,40 +130,38 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 	}
 	
 	//上传图片并发布动态
-	fun release(onReleaseSuccess: (String) -> Unit): Single<ResultModel<Map<String, String>>>? {
-		if (judgeReleaseParams()) {
-			if (selectedList.value!!.isNotEmpty()) {
-				//有图片
-				//上传图片至七牛云
-				return upLoadImageList(
-					imageService,
-					selectedList.value!!,
-					{
+	fun release(): Completable {
+		return Completable.create { emitter ->
+			judgeReleaseParams().doOnComplete {
+				if (selectedList.value!!.isNotEmpty()) {//有图片,上传图片至七牛云
+					imageService.upLoadImageList(
+						selectedList.value!!
+					) {
+						//进度更新
+						progress.postValue(it)
+					}.doOnSuccess {
 						//上传图片列表成功
 						isLoading.postValue(false)
 						progress.postValue(0)
-						onReleaseSuccess(it)
-					}, {
-						//进度更新
-						progress.postValue(it)
-					}).compose(dealLoading())
-			} else {
-				//没图片
-				//直接发动态
-				/*		return apiService.releaseDynamic(
-							ReleaseDynamicRequestModel(
-								"!!!!我要发布动态!!!!"
-							)
-					).subscribeOn(Schedulers.io())
-							.observeOn(AndroidSchedulers.mainThread())
-							.compose(dealLoading())
-							.compose(dealErrorCode())
-							.compose(dealError())*/
-			}
-			
-			
-		}
-		return null
+						
+						emitter.onComplete() //todo 还未判断动态发布是否成功
+					}.compose(dealLoading())
+						.bindLife()
+				} else {
+					//没图片
+					//直接发动态
+					/*		return apiService.releaseDynamic(
+								ReleaseDynamicRequestModel(
+									"!!!!我要发布动态!!!!"
+								)
+						).subscribeOn(Schedulers.io())
+								.observeOn(AndroidSchedulers.mainThread())
+								.compose(dealLoading())
+								.compose(dealErrorCode())
+								.compose(dealError())*/
+				}
+			}.compose(dealUiError()).bindLife()
+		}.compose(dealUiError())
 	}
 	
 	
@@ -177,23 +174,14 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 		}
 	}
 	
-	private fun judgeReleaseParams(): Boolean {
-		if (title.value!!.isNotEmpty()) {
-			if (content.value?.isNotEmpty()!!) {
-				return true
-			} else {
-				sendError(
-					ErrorType.INPUT_ERROR, "说点什么吧～"
-				)
+	private fun judgeReleaseParams(): Completable =
+		Completable.create { emitter ->
+			when {
+				(title.value!!.isNullOrEmpty()) -> emitter.onError(UiError("添加一个标题吧～"))
+				(content.value!!.isNullOrEmpty()) -> emitter.onError(UiError("说点什么吧～"))
+				else -> emitter.onComplete()
 			}
-		} else {
-			sendError(
-				ErrorType.INPUT_ERROR,
-				"添加一个标题吧～"
-			)
 		}
-		return false
-	}
 }
 
 

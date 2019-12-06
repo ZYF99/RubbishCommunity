@@ -1,6 +1,7 @@
 package com.example.rubbishcommunity.ui.release.dynamic
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -26,18 +27,16 @@ const val TYPE_PICTURE = 2
 class ReleaseDynamicGridImageAdapter(
 	private val context: Context,
 	private val imgList: MutableList<LocalMedia>,
-	private val onAddPicClick:()->Unit,
-	private val onGridItemClick:(Int,View)->Unit,
-	private val onGridItemDelClick:(Int)->Unit
+	private val onAddPicClick: () -> Unit,
+	private val onGridItemClick: (Int, View) -> Unit,
+	private val onGridItemDelClick: (Int) -> Unit
 ) : BaseRecyclerAdapter<LocalMedia, FilterImageListItemBinding>(
-		R.layout.item_filter_grid_image,
-		{
-		
-		}
-	){
+	R.layout.item_filter_grid_image,
+	{}
+) {
 	override val baseList: MutableList<LocalMedia>
 		get() = imgList
-		
+	
 	private val selectMax = 9
 	
 	override
@@ -64,7 +63,6 @@ class ReleaseDynamicGridImageAdapter(
 	}
 	
 	override fun bindData(binding: FilterImageListItemBinding, position: Int) {
-		
 		//少于8张，显示继续添加的图标
 		if (getItemViewType(position) == TYPE_CAMERA) {
 			binding.ivContent.run {
@@ -84,7 +82,6 @@ class ReleaseDynamicGridImageAdapter(
 						baseList.removeAt(position)
 						notifyItemRemoved(position)
 						notifyItemRangeChanged(position, baseList.size)
-						
 						onGridItemDelClick(position)
 					}
 				}

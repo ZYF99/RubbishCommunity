@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import com.example.rubbishcommunity.R
 import java.text.SimpleDateFormat
-import java.time.Year
 import java.util.*
 
 class DatePopView(context: Context, private val clickListener:OnMyClickListener) : BottomDialogView(context){

@@ -1,6 +1,6 @@
 package com.example.rubbishcommunity.ui.utils
 
-import android.content.Context
+
 import androidx.fragment.app.Fragment
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
@@ -8,13 +8,12 @@ import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
 
 //打开选图界面
-fun Context.showAlbum(
-	fragment: Fragment,
+fun Fragment.showAlbum(
 	selectMax: Int,
 	selectedList: List<LocalMedia>?
 ) {
 	//参数很多，根据需要添加
-	PictureSelector.create(fragment)
+	PictureSelector.create(this)
 		.openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
 		.maxSelectNum(selectMax)// 最大图片选择数量
 		.minSelectNum(1)// 最小选择数量
@@ -46,11 +45,9 @@ fun Context.showAlbum(
 
 
 //打开选头像界面
-fun Context.showAvatarAlbum(
-	fragment: Fragment
-) {
+fun Fragment.showSingleAlbum() {
 	//参数很多，根据需要添加
-	PictureSelector.create(fragment)
+	PictureSelector.create(this)
 		.openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
 		.imageSpanCount(4)// 每行显示个数
 		.selectionMode(PictureConfig.SINGLE)// 多选 or 单选PictureConfig.MULTIPLE : PictureConfig.SINGLE

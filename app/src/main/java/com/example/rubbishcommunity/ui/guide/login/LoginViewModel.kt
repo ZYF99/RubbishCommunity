@@ -99,7 +99,7 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 				} else {
 					sendError(
 						ErrorData(
-							ErrorType.INPUT_ERROR,
+							ErrorType.UI_ERROR,
 							"密码长度为6-16位"
 						)
 					)
@@ -107,7 +107,7 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 			} else {
 				sendError(
 					ErrorData(
-						ErrorType.INPUT_ERROR,
+						ErrorType.UI_ERROR,
 						"用户名必须大于4位"
 					)
 				)
@@ -115,7 +115,7 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 		} else {
 			sendError(
 				ErrorData(
-					ErrorType.INPUT_ERROR,
+					ErrorType.UI_ERROR,
 					"用户名和密码不能为空"
 				)
 			)

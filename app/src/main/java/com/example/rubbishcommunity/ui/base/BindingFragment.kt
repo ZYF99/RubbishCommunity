@@ -21,8 +21,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
+import com.example.rubbishcommunity.manager.UiError
 import com.example.rubbishcommunity.utils.BindLife
 import com.example.rubbishcommunity.ui.SoftObservableFragment
+import com.example.rubbishcommunity.ui.utils.ErrorType
+import com.example.rubbishcommunity.ui.utils.sendError
+import io.reactivex.Completable
 import io.reactivex.disposables.CompositeDisposable
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.support.closestKodein
@@ -108,7 +112,6 @@ constructor(
 		return false
 	}
 	
-
 	
 	//check network
 	protected fun isNetworkAvailable() =
@@ -116,32 +119,17 @@ constructor(
 			?: false
 	
 	
-	fun Context.checkNet():Boolean{
-		return if(!isNetworkAvailable()){
-			MyApplication.showError(context!!.getString(R.string.net_unavailable))
-			false
-		}else true
-	}
+	fun Context.checkNet(): Completable =
+		Completable.create { emitter ->
+			if (!isNetworkAvailable()) emitter.onError(UiError(context!!.getString(R.string.net_unavailable)))
+			else emitter.onComplete()
+		}
 	
-	//引导用户去设置界面的弹窗
-	 fun Context.showLeadToSettingDialog() {
-		//解释原因，并且引导用户至设置页手动授权
-		AlertDialog.Builder(this)
-			.setMessage(
-				"获取相关权限失败:\n\n" +
-						"使用摄像头，\n" +
-						"读取、写入或删除存储空间\n\n" +
-						"这将导致图片无法添加，点击'去授权'到设置页面手动授权"
-			)
-			.setPositiveButton("去授权") { _, _ ->
-				//引导用户至设置页手动授权
-				val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-				val uri = Uri.fromParts("package", context?.packageName, null)
-				intent.data = uri
-				startActivity(intent)
-			}
-			.setNegativeButton("取消") { _, _ ->
-			}.show()
+	fun BindingFragment<*, *>.showNetErrorSnackBar() {
+		sendError(
+			ErrorType.UI_ERROR,
+			"没有网络"
+		)
 	}
 	
 }

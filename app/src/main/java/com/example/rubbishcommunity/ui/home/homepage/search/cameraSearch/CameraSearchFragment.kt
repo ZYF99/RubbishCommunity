@@ -1,22 +1,17 @@
 package com.example.rubbishcommunity.ui.home.homepage.search.cameraSearch
 
-import android.Manifest
-import android.app.Activity
 import android.graphics.Matrix
 import android.view.Surface
-import android.view.Surface.ROTATION_270
 import android.view.ViewGroup
 import androidx.camera.core.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.CameraSearchBinding
-import com.example.rubbishcommunity.ui.utils.ErrorType
-import com.example.rubbishcommunity.ui.utils.sendError
-import com.tbruyelle.rxpermissions2.RxPermissions
 import java.util.concurrent.Executors
 import android.content.Intent
 import com.example.rubbishcommunity.ui.container.ContainerActivity
+import com.example.rubbishcommunity.utils.checkCameraPermission
 
 
 class CameraSearchFragment : BindingFragment<CameraSearchBinding, CameraSearchViewModel>(
@@ -41,27 +36,12 @@ class CameraSearchFragment : BindingFragment<CameraSearchBinding, CameraSearchVi
 			(binding.recThing.adapter as ThingListAdapter).replaceData(it)
 		}
 		
-		//获取写的权限
-		RxPermissions(activity as Activity).requestEach(Manifest.permission.CAMERA)
-			.doOnNext { permission ->
-				if (permission.granted) {
-					// 用户已经同意该权限
-					binding.viewFinder.post { startCamera() }
-				} else {
-					sendError(
-						ErrorType.NO_CAMERA,
-						"没有权限拍照"
-					)
-					
-					
-					if (!permission.shouldShowRequestPermissionRationale) {
-						context!!.showLeadToSettingDialog()
-					}else{
-						activity!!.finish()
-					}
-				}
-			}
-			.bindLife()
+		//获取相机权限
+		checkCameraPermission().doOnNext {
+			binding.viewFinder.post { startCamera() }
+		}.bindLife()
+		
+		
 		
 		binding.viewFinder.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
 			updateTransform()
@@ -71,7 +51,7 @@ class CameraSearchFragment : BindingFragment<CameraSearchBinding, CameraSearchVi
 			layoutManager = LinearLayoutManager(context)
 			adapter = ThingListAdapter(
 				viewModel.thingList.value!!
-			) {position ->
+			) { position ->
 				//返回结果给Search界面
 				val intent = Intent(context!!, ContainerActivity::class.java)
 				intent.putExtra("searchKey", viewModel.thingList.value!![position].keyword)
@@ -155,7 +135,6 @@ class CameraSearchFragment : BindingFragment<CameraSearchBinding, CameraSearchVi
 		// Finally, apply transformations to our TextureView
 		binding.viewFinder.setTransform(matrix)
 	}
-	
 	
 	
 }

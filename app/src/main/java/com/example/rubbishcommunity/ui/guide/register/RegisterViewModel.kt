@@ -118,7 +118,7 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 			} else {
 				sendError(
 					ErrorData(
-						ErrorType.INPUT_ERROR,
+						ErrorType.UI_ERROR,
 						"密码长度为6-16位"
 					)
 				)
@@ -127,7 +127,7 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 		} else {
 			sendError(
 				ErrorData(
-					ErrorType.INPUT_ERROR,
+					ErrorType.UI_ERROR,
 					"请输入正确的邮箱"
 				)
 			)

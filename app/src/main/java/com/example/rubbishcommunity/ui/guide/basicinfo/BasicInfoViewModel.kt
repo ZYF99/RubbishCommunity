@@ -39,15 +39,13 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 	
 	//上传头像
 	fun upLoadAvatar(path: String) {
-		upLoadImage(
-			imageService, path,
-			{
-				avatar.postValue(path)
-			}, {
+		imageService.upLoadImage(path
+		) {
+			avatar.postValue(path)
+		}.doOnSuccess {
 			
-			}
-		)
-			.bindLife()
+		}.bindLife()
+		
 		
 	}
 	
@@ -124,7 +122,7 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 		
 		fun sendInputError(errorMsg: String) {
 			sendError(
-				ErrorType.INPUT_ERROR,
+				ErrorType.UI_ERROR,
 				errorMsg
 			)
 		}

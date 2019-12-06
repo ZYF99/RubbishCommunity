@@ -61,7 +61,7 @@
     <color name="colorWhite">#FFFFFF</color>
 
 
-    <color name="gang">#F3F3F3</color>
+    <color name="gang">#EBEBEB</color>
     <color name="star">#FFCC00</color>
     <color name="cell_idel">#ffffff</color>
     <color name="cell_touch">#A1C0C0C0</color>

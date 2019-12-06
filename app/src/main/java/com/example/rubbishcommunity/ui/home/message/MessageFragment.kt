@@ -66,12 +66,6 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
 					MyApplication.showToast("删除$position")
 				}
 			)
-
-/*			setOnLongClickListener {
-				//onSwipeStart 交换开始
-				binding.refreshLayout.isEnabled = false
-				false
-			}*/
 			
 			//添加拖拽互换位置功能
 			attachItemSwipe(ITEM_SWIPE_VERTICAL, {
@@ -151,13 +145,13 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
 	
 	//刷新
 	private fun refresh() {
-		if (context!!.checkNet()) {
+		context!!.checkNet().doOnComplete {
 			viewModel.getMessageList().doOnSubscribe {
 				binding.recMessage.adapter?.notifyDataSetChanged()
 			}.bindLife()
-		} else {
+		}.doOnError {
 			viewModel.isRefreshing.postValue(false)
-		}
+		}.bindLife()
 	}
 	
 }

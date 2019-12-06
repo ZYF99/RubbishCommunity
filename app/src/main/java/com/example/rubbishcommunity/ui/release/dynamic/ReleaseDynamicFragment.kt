@@ -1,7 +1,5 @@
 package com.example.rubbishcommunity.ui.release.dynamic
 
-import android.Manifest
-import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.view.View
@@ -14,19 +12,16 @@ import com.example.rubbishcommunity.databinding.ReleaseDynamicBinding
 import com.example.rubbishcommunity.initLocationClient
 import com.example.rubbishcommunity.ui.adapter.ITEM_SWIPE_FREE
 import com.example.rubbishcommunity.ui.adapter.attachItemSwipe
-import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.ui.showGallery
-import com.example.rubbishcommunity.ui.utils.ErrorData
-import com.example.rubbishcommunity.ui.utils.ErrorType
 import com.example.rubbishcommunity.utils.checkLocationPermissionAndGetLocation
-import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.ui.utils.showAlbum
+import com.example.rubbishcommunity.utils.checkStoragePermission
+import com.example.rubbishcommunity.utils.showLocationServiceDialog
 import com.jakewharton.rxbinding2.view.RxView
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
-import com.luck.picture.lib.permissions.RxPermissions
 import io.reactivex.Single
 import java.util.concurrent.TimeUnit
 
@@ -46,27 +41,10 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	//添加图片按钮点击事件
 	private val onAddPicClick: () -> Unit = {
 		//获取写的权限
-		RxPermissions(activity as Activity).requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-			.doOnNext { permission ->
-				if (permission.granted) {// 用户已经同意该权限
-					//第二种方式，直接进入相册，有拍照得按钮的
-					// 打开选图界面
-					context!!.showAlbum(this, 9, viewModel.selectedList.value!!)
-					//第一种方式，弹出选择和拍照的dialog
-					//showPop
-				} else {
-					sendError(
-						ErrorData(
-							ErrorType.NO_CAMERA,
-							"没有权限获取相册"
-						)
-					)
-					if (!permission.shouldShowRequestPermissionRationale) {
-						context!!.showLeadToSettingDialog()
-					}
-				}
-			}
-			.bindLife()
+		checkStoragePermission().doOnNext {
+			// 打开选图界面
+			showAlbum(9, viewModel.selectedList.value!!)
+		}.bindLife()
 	}
 	
 	//单项图片点击
@@ -83,22 +61,7 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 					},
 					position
 				)
-				// 预览图片 可自定长按保存路径
-				//PictureSelector.create(MainActivity.this).externalPicturePreview(position, "/custom_file", selectList);
-				/*		PictureSelector.create(this@ReleaseDynamicFragment).externalPicturePreview(
-							position,
-							viewModel.selectedList.value
-						)*/
 			}
-			
-			2 -> // 预览视频
-				PictureSelector.create(this@ReleaseDynamicFragment).externalPictureVideo(
-					media.path
-				)
-			3 -> // 预览音频
-				PictureSelector.create(this@ReleaseDynamicFragment).externalPictureAudio(
-					media.path
-				)
 		}
 	}
 	
@@ -116,7 +79,8 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	override fun initWidget() {
 		//已选图片列表
 		binding.imgRec.run {
-			layoutManager = FullyGridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
+			layoutManager = GridLayoutManager(context, 3)
+			//FullyGridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
 			attachItemSwipe(ITEM_SWIPE_FREE, {}, {
 			
 			})
@@ -157,37 +121,40 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	}
 	
 	override fun initData() {
-		viewModel.init()
+		//获取草稿
+		viewModel.getDraft()
 		//获取位置
 		getLocation()
 	}
 	
 	//获取定位
 	private fun getLocation() {
-		(activity!! as BindingActivity<*, *>).checkLocationPermissionAndGetLocation(
+		checkLocationPermissionAndGetLocation(
 			initLocationClient(context!!)
-		) {
+		).doOnNext {
 			viewModel.location.postValue(it)
-		}
+		}.doOnError {
+			//当没有定位权限时
+			showLocationServiceDialog {
+				getLocation()
+			}
+		}.bindLife()
 	}
 	
 	
 	//发布
 	private fun release() {
-		//网络检查
-		if (context!!.checkNet()) {
+		context!!.checkNet().doOnComplete {
 			//真实发布
-			viewModel.release {
+			viewModel.release().doOnComplete {
 				//发布成功
-				viewModel.clearDraft()
-				activity!!.finish()
 				MyApplication.showSuccess("发布成功")
-			}?.doOnSuccess {
-				//获取Token列表成功
+				activity!!.finish()
 			}?.bindLife()
-		} else {
+		}.doOnError {
+			//没有网络
 			viewModel.isLoading.postValue(false)
-		}
+		}.bindLife()
 	}
 	
 	
@@ -216,11 +183,10 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 				.setTitle(R.string.release_exit_dialog_title)
 				.setMessage(R.string.release_exit_dialog_msg)
 				.setPositiveButton(R.string.release_exit_dialog_save) { _, _ ->
-					Single.fromCallable {
-						viewModel.saveDraft()
-					}.doOnSuccess {
-						activity!!.finish()
-					}.bindLife()
+					viewModel.saveDraft()
+						.doOnComplete {
+							activity!!.finish()
+						}.bindLife()
 				}
 				.setNegativeButton(R.string.exit) { _, _ ->
 					activity?.finish()
@@ -230,8 +196,6 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 		} else {
 			activity!!.finish()
 		}
-		
-		
 	}
 	
 	

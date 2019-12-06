@@ -43,5 +43,29 @@ class UsrProfile(
 				""
 			)
 		}
+		
+		fun getDefault(): UsrProfile {
+			return UsrProfile(
+				"张天霸",
+				"https://profile.csdnimg.cn/A/6/F/3_ethanco",
+				"法国",
+				"四川",
+				"加州",
+				"第五大道",
+				66,
+				"1901-01-23",
+				"代码清洁工",
+				"男",
+				"哈哈哈哈哈哈哈哈哈awsl",
+				88,
+				"关你屁事",
+				"剑桥大学",
+				"宇宙飞船",
+				"梭梭树",
+				"中文",
+				"https://profile.csdnimg.cn/A/6/F/3_ethanco"
+			)
+		}
+		
 	}
 }

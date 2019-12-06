@@ -36,4 +36,11 @@
     <string name="release_exit_dialog_save">存入并退出</string>
 
 
+    <!--权限被永久拒绝的弹窗-->
+    <string name="permission_unavailable">权限被关闭</string>
+    <string name="permission_need_open_message">权限被永久拒绝，点击去授权到设置界面手动打开权限</string>
+    <string name="permission_set">去授权</string>
+
+
+
 </resources>

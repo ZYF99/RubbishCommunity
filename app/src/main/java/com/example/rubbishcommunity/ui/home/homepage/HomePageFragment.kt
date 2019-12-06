@@ -78,12 +78,14 @@ class HomePageFragment : BindingFragment<HomePageBinding, HomePageViewModel>(
 	}
 	
 	private fun refresh() {
-		if (context!!.checkNet()) {
+		
+		context!!.checkNet().doOnComplete {
 			viewModel.getNews()
 			viewModel.getPhotography()
-		} else {
+		}.doOnError {
 			viewModel.isRefreshing.postValue(false)
-		}
+		}.bindLife()
+		
 	}
 	
 	

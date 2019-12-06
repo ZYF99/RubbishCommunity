@@ -1,10 +1,8 @@
 package com.example.rubbishcommunity.ui.guide.basicinfo
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
@@ -12,20 +10,17 @@ import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.BasicInfoFragBinding
 import com.example.rubbishcommunity.initLocationClient
-import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.ui.container.jumpToLogin
 import com.example.rubbishcommunity.ui.guide.AnimatorUtils
 import com.example.rubbishcommunity.ui.widget.DatePopView
-import com.example.rubbishcommunity.utils.checkLocationPermissionAndGetLocation
-import com.example.rubbishcommunity.ui.utils.showAvatarAlbum
-import com.example.rubbishcommunity.utils.stringToDate
+import com.example.rubbishcommunity.ui.utils.showSingleAlbum
+import com.example.rubbishcommunity.utils.*
 import com.jakewharton.rxbinding2.view.RxView
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.entity.LocalMedia
-import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -81,7 +76,7 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 		//头像图片
 		RxView.clicks(binding.imgAvatar).throttleFirst(2, TimeUnit.SECONDS)
 			.doOnNext {
-				context!!.showAvatarAlbum(this)
+				showSingleAlbum()
 			}.bindLife()
 		
 		//性别图片
@@ -114,24 +109,12 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 		//进入社区按钮
 		RxView.clicks(binding.btnRegister)
 			.throttleFirst(2, TimeUnit.SECONDS)
-			.doOnNext {
+			.flatMap {
 				//IMEI权限检查
-				if (activity?.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-					//无权限时申请权限
-					RxPermissions(activity as Activity).request(Manifest.permission.READ_PHONE_STATE)
-						.subscribe {
-							if (it) {
-								//申请权限通过直接登陆
-								completeInfo()
-							} else {
-								MyApplication.showToast("您必须给予权限才能完成注册！")
-							}
-						}.bindLife()
-				} else {
-					//有权限，直接注册
+				checkIMEIPermission().doOnNext {
+					//申请权限通过直接登陆
 					completeInfo()
 				}
-				
 			}.bindLife()
 		
 		
@@ -143,16 +126,26 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 				jumpToLogin(context!!)
 				(context as Activity).finish()
 			}.bindLife()
-		
 		//获取定位
-		
-		(activity!! as BindingActivity<*, *>).checkLocationPermissionAndGetLocation(
-			initLocationClient(context!!)
-		) {
-			viewModel.location.postValue(it)
-		}
+		getLocation()
 		
 	}
+	
+	
+	//获取定位
+	private fun getLocation() {
+		checkLocationPermissionAndGetLocation(
+			initLocationClient(context!!)
+		).doOnNext {
+			viewModel.location.postValue(it)
+		}.doOnError {
+			//当没有定位权限时
+			showLocationServiceDialog {
+				getLocation()
+			}
+		}.bindLife()
+	}
+	
 	
 	//初始化数据
 	override fun initData() {
@@ -173,8 +166,9 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 	//倒计时
 	private fun countDown() {
 		binding.btnCode.isEnabled = false
-		Observable.interval(0, 1, TimeUnit.SECONDS).take(60).subscribeOn(Schedulers.io())
-			.observeOn(AndroidSchedulers.mainThread())
+		Observable.interval(0, 1, TimeUnit.SECONDS)
+			.take(60)
+			.switchThread()
 			.doOnNext {
 				binding.btnCode.text = "${60 - it}秒"
 			}.doOnComplete {
@@ -186,14 +180,16 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 	//完善信息并进入社区
 	private fun completeInfo() {
 		//完善信息
-		if (context!!.checkNet()) {
+		context!!.checkNet().doOnComplete {
 			viewModel.completeInfo()?.doOnSuccess {
 				//完善信息成功并已将更新后的数据存入本地
 				//跳转至主界面
 				startActivity(Intent(context, MainActivity::class.java))
 				(context as Activity).finish()
 			}?.bindLife()
-		}
+		}.doOnError {
+			viewModel.isLoading.postValue(false)
+		}.bindLife()
 	}
 	
 	//选图后的回调

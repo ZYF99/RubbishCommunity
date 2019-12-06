@@ -2,7 +2,6 @@ package com.example.rubbishcommunity.ui.home.homepage.search
 
 
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.SearchBinding
@@ -13,6 +12,7 @@ import com.example.rubbishcommunity.ui.container.jumpToCameraSearch
 import com.example.rubbishcommunity.ui.utils.hideSoftKeyBoard
 import com.example.rubbishcommunity.ui.utils.openSoftKeyBoard
 import com.example.rubbishcommunity.utils.checkLocationPermissionAndGetLocation
+import com.example.rubbishcommunity.utils.showLocationServiceDialog
 import com.jakewharton.rxbinding2.widget.RxTextView
 import java.util.concurrent.TimeUnit
 
@@ -102,20 +102,27 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 	
 	//查询关键字分类
 	private fun searchKey() {
-		if (context!!.checkNet() && viewModel.searchKey.value!!.isNotEmpty()) {
-			viewModel.analysisAndSearch()
-		} else {
+		context!!.checkNet().doOnComplete {
+			if (viewModel.searchKey.value!!.isNotEmpty()) {
+				viewModel.analysisAndSearch()
+			}
+		}.doOnError {
 			viewModel.isLoading.postValue(false)
-		}
+		}.bindLife()
 	}
 	
 	//获取定位
 	private fun getLocation() {
-		(activity!! as BindingActivity<*, *>).checkLocationPermissionAndGetLocation(
+		checkLocationPermissionAndGetLocation(
 			initLocationClient(context!!)
-		) {
+		).doOnNext {
 			viewModel.location.postValue(it)
-		}
+		}.doOnError {
+			//当没有定位权限时
+			showLocationServiceDialog {
+				getLocation()
+			}
+		}.bindLife()
 	}
 	
 }
