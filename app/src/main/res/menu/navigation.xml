@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/nav_selector_home"
-        android:title="首页" />
+            android:id="@+id/navigation_home"
+            android:icon="@drawable/nav_selector_home"
+            android:title="首页"
+            app:showAsAction="always" />
 
     <item
-        android:id="@+id/navigation_find"
-        android:icon="@drawable/nav_selector_find"
-        android:title="发现" />
+            android:id="@+id/navigation_find"
+            android:icon="@drawable/nav_selector_find"
+            android:title="发现"
+            app:showAsAction="always" />
 
     <item
             android:id="@+id/navigation_null"
-            android:icon="@null"
-            android:title="@null"
             android:enabled="false"
-         />
+            android:checked="false"
+            android:checkable="false"
+            android:icon="@null"
+            android:title="@null" />
 
     <item
             android:id="@+id/navigation_message"
             android:icon="@drawable/nav_selector_message"
-            android:title="消息" />
+            android:title="消息"
+            app:showAsAction="always" />
 
 
     <item
-        android:id="@+id/navigation_mine"
-        android:icon="@drawable/nav_selector_mine"
-        android:title="我的" />
+            android:id="@+id/navigation_mine"
+            android:icon="@drawable/nav_selector_mine"
+            android:title="我的"
+            app:showAsAction="always" />
 
 </menu>

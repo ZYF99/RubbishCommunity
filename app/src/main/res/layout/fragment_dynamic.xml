@@ -23,7 +23,6 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorLayoutBg"
                 android:orientation="vertical"
                 app:layout_scrollFlags="scroll">
 
@@ -32,7 +31,6 @@
                     android:id="@+id/refreshLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorLayoutBg"
                     app:srlAccentColor="@color/colorApp"
                     app:srlEnablePreviewInEditMode="true"
                     app:srlHeaderTriggerRate="0.3"

@@ -4,6 +4,9 @@ package com.example.rubbishcommunity.ui.home
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Outline
+import android.graphics.Path
+import android.graphics.Rect
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import com.example.rubbishcommunity.ui.home.find.FindFragment
@@ -24,7 +27,11 @@ import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Single
 import java.util.concurrent.TimeUnit
 import android.view.KeyEvent.KEYCODE_BACK
+import android.view.View
+import android.view.ViewOutlineProvider
 import com.example.rubbishcommunity.ui.home.homepage.HomePageFragment
+import com.example.rubbishcommunity.ui.utils.dp2px
+import kotlinx.android.synthetic.main.fragment_welcome.*
 
 
 class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
@@ -48,9 +55,7 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 			add(R.id.maincontainer, currentFragment as Fragment)
 			commit()
 		}
-		RxView.clicks(binding.btnAdd).doOnNext {
-			showAddDialog()
-		}.bindLife()
+		
 		
 		//底部导航栏
 		binding.bottomnavigation.setOnNavigationItemSelectedListener {
@@ -72,6 +77,12 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 			}
 			true
 		}
+		
+		//添加fab
+		RxView.clicks(binding.fabAdd).doOnNext {
+			showAddDialog()
+		}.bindLife()
+		
 		
 		//发个消息来测试
 		RxView.clicks(binding.btnSendMqttSmg)
@@ -97,7 +108,7 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	}
 	
 	override fun initData() {
-	
+
 /*		//启动mqtt服务
 		bindService(
 			Intent(this, MyMqttService::class.java),
@@ -156,18 +167,9 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 			override fun onDismiss() {
 			
 			}
-		}).showAbove(binding.btnAdd)
+		}).showAbove(binding.fabAdd)
 	}
-
-
 	
-	override fun onDestroy() {
-		super.onDestroy()
-		
-/*		// 退订MQTT
-		unbindService(mqServiceConnection)*/
-
-	}
 	
 	override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
 		if (keyCode == KEYCODE_BACK) {
@@ -179,7 +181,6 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 		}
 		return super.onKeyDown(keyCode, event)
 	}
-	
 	
 	
 }

@@ -1,78 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
     <data class="MainBinding">
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
     </data>
-    <LinearLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/btn_send_mqtt_smg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:clickable="true"
+                        android:tint="@color/white"
+                        app:layout_constraintBottom_toBottomOf="@+id/maincontainer"
+                        app:layout_constraintEnd_toEndOf="@+id/maincontainer"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/icon_email" />
+
+
+                <FrameLayout
+                        android:id="@+id/maincontainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                </FrameLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <com.example.rubbishcommunity.ui.widget.GapBottomNavigationView
+                android:id="@+id/bottomnavigation"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/colorTransparent"
+                android:elevation="5dp"
+                app:itemBackground="@null"
+                app:itemIconTint="@color/black"
+                app:itemTextColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:menu="@menu/navigation"
+                tools:targetApi="lollipop" />
 
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/btn_send_mqtt_smg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:clickable="true"
-                    app:layout_constraintBottom_toTopOf="@+id/btn_add"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:tint="@color/white"
-                    app:srcCompat="@drawable/icon_email" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="42dp"
+                android:backgroundTint="@color/white"
+                android:backgroundTintMode="screen"
+                android:elevation="4dp"
+                android:src="@android:drawable/ic_input_add"
+                android:tint="@color/black"
+                app:borderWidth="0dp"
+                app:fabSize="normal"
+                app:layout_constraintBottom_toBottomOf="@+id/bottomnavigation"
+                app:layout_constraintEnd_toEndOf="@+id/bottomnavigation"
+                app:layout_constraintStart_toStartOf="@+id/bottomnavigation"
+                app:rippleColor="@color/colorAccent" />
 
 
-            <FrameLayout
-                    android:id="@+id/maincontainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:background="@color/colorLayoutBg"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginBottom="0dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/bottomnavigation">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </FrameLayout>
-
-            <com.example.rubbishcommunity.ui.widget.GapBottomNavigationView
-                    android:id="@+id/bottomnavigation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:itemBackground="@null"
-                    android:elevation="5dp"
-                    app:itemTextColor="@color/black"
-                    app:itemIconTint="@color/black"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:background="@color/colorTransparent"
-                    app:menu="@menu/navigation"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    tools:targetApi="lollipop">
-
-            </com.example.rubbishcommunity.ui.widget.GapBottomNavigationView>
-
-
-            <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/icon_add"
-                    android:elevation="8dp"
-                    android:clickable="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/bottomnavigation"
-                    app:layout_constraintBottom_toTopOf="@+id/bottomnavigation"
-                    android:id="@+id/btn_add"/>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </LinearLayout>
 </layout>
