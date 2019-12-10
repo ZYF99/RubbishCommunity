@@ -15,6 +15,7 @@ import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
 import com.example.rubbishcommunity.persistence.*
 import com.example.rubbishcommunity.ui.utils.*
+import com.example.rubbishcommunity.utils.switchThread
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -44,9 +45,9 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 	fun login(): Single<ResultModel<LoginOrRegisterResultModel>>? {
 		val versionName =
 			getVersionName(MyApplication.instance)
-		val deviceBrand = getDeviceBrand
-		val osVersion = getSystemVersion
-		val systemModel = getSystemModel
+		val deviceBrand = deviceBrand
+		val osVersion = systemVersion
+		val systemModel = systemModel
 		
 		if (judgeLoginParams()) {
 			return apiService.loginOrRegister(
@@ -65,8 +66,7 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 					userName.value?:""
 				)
 			).delay(1, TimeUnit.SECONDS)
-				.subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread())
+				.switchThread()
 				.compose(dealErrorCode())
 				.compose(dealError())
 				.doOnSuccess {

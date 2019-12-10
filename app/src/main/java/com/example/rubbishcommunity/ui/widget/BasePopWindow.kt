@@ -10,9 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.PopupWindow
-import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
-import kotlin.math.abs
 import android.util.DisplayMetrics
 
 

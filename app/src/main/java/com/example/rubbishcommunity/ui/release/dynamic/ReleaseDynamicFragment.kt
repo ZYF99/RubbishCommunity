@@ -22,7 +22,6 @@ import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
-import io.reactivex.Single
 import java.util.concurrent.TimeUnit
 
 

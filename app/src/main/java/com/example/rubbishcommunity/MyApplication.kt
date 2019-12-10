@@ -55,7 +55,6 @@ class MyApplication : MultiDexApplication(), KodeinAware {
 		RxActivityResult.register(this)
 		instance = this
 		initHanLP()
-		
 	}
 	
 

@@ -33,7 +33,7 @@ val systemLanguageList: Array<Locale>
  *
  * @return 系统版本号
  */
-val getSystemVersion: String
+val systemVersion: String
 	get() = android.os.Build.VERSION.RELEASE
 
 
@@ -62,7 +62,7 @@ fun getVersionName(context: Context): String? {
  *
  * @return 手机型号
  */
-val getSystemModel: String
+val systemModel: String
 	get() = android.os.Build.MODEL
 
 /**
@@ -70,7 +70,7 @@ val getSystemModel: String
  *
  * @return 手机厂商
  */
-val getDeviceBrand: String
+val deviceBrand: String
 	get() = android.os.Build.BRAND
 
 /**

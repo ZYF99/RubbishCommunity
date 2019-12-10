@@ -2,11 +2,7 @@ package com.example.rubbishcommunity.ui.home
 
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
-import android.graphics.Outline
-import android.graphics.Path
-import android.graphics.Rect
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import com.example.rubbishcommunity.ui.home.find.FindFragment
@@ -16,7 +12,6 @@ import com.example.rubbishcommunity.databinding.MainBinding
 import com.example.rubbishcommunity.persistence.getLocalNeedMoreInfo
 import com.example.rubbishcommunity.persistence.getLocalVerifiedEmail
 import com.example.rubbishcommunity.service.MqServiceConnection
-import com.example.rubbishcommunity.service.MyMqttService
 import com.example.rubbishcommunity.ui.container.jumpToBasicInfo
 import com.example.rubbishcommunity.ui.container.jumpToReleaseDynamic
 import com.example.rubbishcommunity.ui.home.message.MessageFragment
@@ -27,11 +22,7 @@ import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Single
 import java.util.concurrent.TimeUnit
 import android.view.KeyEvent.KEYCODE_BACK
-import android.view.View
-import android.view.ViewOutlineProvider
 import com.example.rubbishcommunity.ui.home.homepage.HomePageFragment
-import com.example.rubbishcommunity.ui.utils.dp2px
-import kotlinx.android.synthetic.main.fragment_welcome.*
 
 
 class MainActivity : BindingActivity<MainBinding, MainViewModel>() {

@@ -28,9 +28,7 @@ class DragBounceView : ConstraintLayout {
 		context,
 		attrs,
 		defStyle
-	) {
-	}
-	
+	)
 	fun setBouncedragListener(bounceDragListener: BounceDragListener){
 		this.bounceDragListener = bounceDragListener
 	}

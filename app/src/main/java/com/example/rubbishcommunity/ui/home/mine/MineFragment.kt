@@ -69,7 +69,15 @@ class MineFragment : BindingFragment<MineBinding, MineViewModel>(
 				saveLoginState(false)
 				activity?.finish()
 				jumpToLogin(context!!)
-			}.bindLife()
+			}
+			.doOnSubscribe {
+				//模拟注销成功
+				saveLoginState(false)
+				activity?.finish()
+				jumpToLogin(context!!)
+			}
+			
+			.bindLife()
 	}
 	
 	override fun initData() {

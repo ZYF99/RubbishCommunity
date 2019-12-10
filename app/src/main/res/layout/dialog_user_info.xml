@@ -16,7 +16,8 @@
         <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="36dp"
+                android:layout_gravity="center"
+                android:layout_margin="48dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="2dp">
 
@@ -168,5 +169,6 @@
 
 
         </androidx.cardview.widget.CardView>
+
 
 </layout>

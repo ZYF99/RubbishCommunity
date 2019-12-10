@@ -15,8 +15,7 @@ class CustomDrawerLayout : DrawerLayout {
 		context,
 		attrs,
 		defStyle
-	) {
-	}
+	)
 	
 	override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
 		var widthMeasureSpec = widthMeasureSpec

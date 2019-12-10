@@ -45,9 +45,9 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 	fun registerAndLogin(): Single<ResultModel<LoginOrRegisterResultModel>>? {
 		val versionName =
 			getVersionName(MyApplication.instance)
-		val deviceBrand = getDeviceBrand
-		val osVersion = getSystemVersion
-		val systemModel = getSystemModel
+		val deviceBrand = deviceBrand
+		val osVersion = systemVersion
+		val systemModel = systemModel
 		
 		if (judgeRegisterPrams(email.value!!,password.value!!)) {
 			return apiService.loginOrRegister(

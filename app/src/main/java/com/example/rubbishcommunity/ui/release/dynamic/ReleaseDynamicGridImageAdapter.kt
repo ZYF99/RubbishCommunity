@@ -1,7 +1,6 @@
 package com.example.rubbishcommunity.ui.release.dynamic
 
 import android.content.Context
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
