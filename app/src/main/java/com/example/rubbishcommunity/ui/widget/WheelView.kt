@@ -51,7 +51,7 @@ class WheelView(context: Context, attributeSet: AttributeSet) : View(context, at
      */
     private var mMoveLen = 0f
     private var isInit = false
-    private var mSelectListener: OnSelectListener? = null
+    private var mOnSelected:((String)->Unit)? = null
     private var timer: Timer? = null
     private var mTask: MyTimerTask? = null
 
@@ -78,12 +78,13 @@ class WheelView(context: Context, attributeSet: AttributeSet) : View(context, at
     }
 
 
-    fun setOnSelectListener(listener: OnSelectListener) {
-        mSelectListener = listener
+    fun setOnSelectListener(onSelected: (String)->Unit) {
+         mOnSelected = onSelected
     }
 
     private fun performSelect() {
-        mSelectListener?.onSelect(mDataList!![mCurrentSelected])
+        mOnSelected?.invoke(mDataList!![mCurrentSelected])
+
     }
 
     fun setData(data: MutableList<String>) {
@@ -260,10 +261,6 @@ class WheelView(context: Context, attributeSet: AttributeSet) : View(context, at
             handler.sendMessage(handler.obtainMessage())
         }
 
-    }
-
-    interface OnSelectListener {
-        fun onSelect(text: String)
     }
 
 

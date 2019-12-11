@@ -28,6 +28,10 @@ interface UserService {
 	@POST("api/account/profile/new")
 	fun completeInfo(@Body completeInfoRequestModel: CompleteInfoRequestModel): Single<ResultModel<String>>
 	
+	//修改用户信息
+	@PUT("api/account/profile/modify")
+	fun editInfo(@Body modifyMap: HashMap<String,String>): Single<ResultModel<String>>
+	
 	//刷新用户详细信息
 	@GET("api/account/profile/refresh")
 	fun getUserProfile(): Single<ResultModel<UsrProfileResp>>

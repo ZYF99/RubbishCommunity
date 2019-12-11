@@ -12,7 +12,7 @@ import com.example.rubbishcommunity.databinding.LoginFragBinding
 import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.guide.AnimatorUtils
 import com.example.rubbishcommunity.ui.container.ContainerActivity
-import com.example.rubbishcommunity.ui.container.jumoToPassword
+import com.example.rubbishcommunity.ui.container.jumpToPassword
 import com.example.rubbishcommunity.ui.utils.hideSoftKeyBoard
 import com.example.rubbishcommunity.ui.widget.ContractDialog
 import com.example.rubbishcommunity.utils.checkIMEIPermission
@@ -77,7 +77,7 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 		//服务协议按钮
 		binding.btnForgetPassword.setOnClickListener {
 			//跳转至修改密码界面
-			jumoToPassword(context!!)
+			jumpToPassword(context!!)
 		}
 		//服务协议按钮
 		binding.btnContract.setOnClickListener {

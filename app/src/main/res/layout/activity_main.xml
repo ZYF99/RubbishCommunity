@@ -12,39 +12,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_send_mqtt_smg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:tint="@color/white"
+                app:layout_constraintBottom_toTopOf="@+id/fab_add"
+                app:layout_constraintEnd_toEndOf="@+id/bottomnavigation"
+                app:srcCompat="@drawable/icon_email" />
 
+        <FrameLayout
+                android:id="@+id/maincontainer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/btn_send_mqtt_smg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:clickable="true"
-                        android:tint="@color/white"
-                        app:layout_constraintBottom_toBottomOf="@+id/maincontainer"
-                        app:layout_constraintEnd_toEndOf="@+id/maincontainer"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/icon_email" />
-
-
-                <FrameLayout
-                        android:id="@+id/maincontainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1.0">
-
-                </FrameLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
 
 
         <com.example.rubbishcommunity.ui.widget.GapBottomNavigationView
@@ -54,21 +41,21 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="16dp"
-                android:padding="8dp"
-                app:elevation="1dp"
-                android:clickable="false"
                 android:backgroundTint="@color/white"
-                app:labelVisibilityMode="labeled"
-                app:cornerRadius="12dp"
+                android:clickable="false"
+                android:padding="8dp"
                 app:anchor_fab="@id/fab_add"
-                app:shadow_length="12"
+                app:cornerRadius="12dp"
+                app:elevation="1dp"
                 app:itemBackground="@null"
                 app:itemIconTint="@color/black"
                 app:itemTextColor="@color/black"
+                app:labelVisibilityMode="labeled"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:menu="@menu/navigation"
+                app:shadow_length="12"
                 tools:targetApi="lollipop" />
 
 
@@ -78,10 +65,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="36dp"
                 android:backgroundTint="@color/colorWhite"
-                app:elevation="2dp"
                 android:src="@android:drawable/ic_input_add"
                 android:tint="@color/black"
                 app:borderWidth="0dp"
+                app:elevation="2dp"
                 app:fabSize="normal"
                 app:layout_constraintBottom_toBottomOf="@+id/bottomnavigation"
                 app:layout_constraintEnd_toEndOf="@+id/bottomnavigation"

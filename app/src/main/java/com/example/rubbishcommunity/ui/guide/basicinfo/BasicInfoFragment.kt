@@ -22,8 +22,6 @@ import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.entity.LocalMedia
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 
@@ -60,7 +58,6 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 	@SuppressLint("CheckResult", "SetTextI18n")
 	override fun initWidget() {
 		
-		
 		//观测是否在Loading
 		viewModel.isLoading.observeNonNull {
 			if (it) {
@@ -74,31 +71,28 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 		
 		
 		//头像图片
-		RxView.clicks(binding.imgAvatar).throttleFirst(2, TimeUnit.SECONDS)
-			.doOnNext {
-				showSingleAlbum()
-			}.bindLife()
+		binding.imgAvatar.setOnClickListener {
+			showSingleAlbum()
+		}
 		
 		//性别图片
-		RxView.clicks(binding.imgGender).throttleFirst(2, TimeUnit.SECONDS)
-			.doOnNext {
-				if (viewModel.gender.value == "男") {
-					viewModel.gender.value = "女"
-				} else {
-					viewModel.gender.value = "男"
-				}
-			}.bindLife()
+		binding.imgGender.setOnClickListener {
+			if (viewModel.gender.value == "男") {
+				viewModel.gender.value = "女"
+			} else {
+				viewModel.gender.value = "男"
+			}
+		}
 		
 		//生日文本
 		RxView.clicks(binding.tvBirthday).throttleFirst(2, TimeUnit.SECONDS)
 			.doOnNext {
-				DatePopView(context!!, object : DatePopView.OnMyClickListener {
-					override fun onFinishClick(year: String, month: String, day: String) {
-						viewModel.birthInt.value = stringToDate("$year$month$day").time
-						viewModel.birthString.value = "$year$month$day"
-					}
-				}).show()
+				DatePopView(context!!, null) { year, month, day ->
+					viewModel.birthInt.value = stringToDate("$year$month$day").time
+					viewModel.birthString.value = "$year$month$day"
+				}.show()
 			}.bindLife()
+		
 		
 		//发送验证码按钮
 		RxView.clicks(binding.btnCode).throttleFirst(2, TimeUnit.SECONDS).doOnNext {

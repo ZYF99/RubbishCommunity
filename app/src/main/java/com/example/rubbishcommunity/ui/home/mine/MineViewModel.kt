@@ -8,18 +8,17 @@ import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.mine.UsrProfile
 import com.example.rubbishcommunity.persistence.getLocalUserInfo
+import com.example.rubbishcommunity.persistence.saveUserInfo
 import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.utils.switchThread
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import org.kodein.di.generic.instance
 
 
 class MineViewModel(application: Application) : BaseViewModel(application) {
 	
-	private val apiService by instance<UserService>()
+	private val userService by instance<UserService>()
 	
 	val userInfo = MutableLiveData<UsrProfile>()
 	val isRefreshing = MutableLiveData<Boolean>()
@@ -27,23 +26,23 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 	
 	fun refreshUserInfo() {
 		//获取用户详细信息
-		val usrProfile = getLocalUserInfo()
-		userInfo.postValue(usrProfile)
+		userInfo.postValue(getLocalUserInfo())
 		
 		//获取用户详细信息
-		apiService.getUserProfile()
+		userService.getUserProfile()
 			.switchThread()
 			.compose(dealErrorCode())
 			.compose(dealError())
 			.doOnSuccess {
 				userInfo.postValue(it.data.usrProfile)
+				saveUserInfo(it.data.usrProfile)
 			}.compose(dealRefreshing())
 			.bindLife()
 	}
 	
 	
 	fun logout(): Single<ResultModel<String>> {
-		return apiService.logout()
+		return userService.logout()
 			.switchThread()
 			.compose(dealErrorCode())
 			.compose(dealError())

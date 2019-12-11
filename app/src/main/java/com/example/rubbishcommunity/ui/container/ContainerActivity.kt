@@ -23,6 +23,7 @@ import com.example.rubbishcommunity.ui.home.message.chat.ChatFragment
 import com.example.rubbishcommunity.ui.home.homepage.newsdetail.NewsDetailFragment
 import com.example.rubbishcommunity.ui.home.homepage.search.SearchFragment
 import com.example.rubbishcommunity.ui.home.homepage.search.cameraSearch.CameraSearchFragment
+import com.example.rubbishcommunity.ui.home.mine.editinfo.EditInfoFragment
 import com.example.rubbishcommunity.ui.release.dynamic.ReleaseDynamicFragment
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
 import com.example.rubbishcommunity.utils.SoftKeyBroadManager
@@ -104,6 +105,8 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 					PasswordFragment()
 				"basicInfo" -> //基本信息界面
 					BasicInfoFragment()
+				"editInfo" -> //修改信息界面
+					EditInfoFragment()
 				"releaseDynamic" -> // 发布动态界面
 					ReleaseDynamicFragment()
 				"dynamicDetail" -> //动态详情界面
@@ -138,12 +141,20 @@ fun jumpToRegister(context: Context) {
 }
 
 //跳转至修改密码的界面
-fun jumoToPassword(context: Context) {
+fun jumpToPassword(context: Context) {
 	val bundle = Bundle()
 	bundle.putString("tag", "password")
-	
 	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }
+
+//从'我的'界面跳转至'修改信息'界面
+fun jumpToEditInfo(context: Context) {
+	val bundle = Bundle()
+	bundle.putString("tag", "editInfo")
+	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
+}
+
+
 
 //跳转至完善基本信息的界面
 fun jumpToBasicInfo(context: Context) {
@@ -172,8 +183,6 @@ fun jumpToSearch(context: Context) {
 fun jumpToCameraSearch(fragment: Fragment) {
 	val bundle = Bundle()
 	bundle.putString("tag", "CameraSearch")
-	//fragment.context?.startActivity(Intent(fragment.context, ContainerActivity::class.java).putExtras(bundle))
-	
 	RxActivityResult.on(fragment)
 		.startIntent(Intent(fragment.context, ContainerActivity::class.java).putExtras(bundle))
 		.doOnNext {

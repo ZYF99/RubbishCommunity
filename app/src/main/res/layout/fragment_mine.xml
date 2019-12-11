@@ -3,7 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <data class="MineBinding">
+    <data class="MineFragmentBinding">
 
         <import type="android.view.View" />
 
@@ -212,6 +212,7 @@
                                     app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                                 <ImageView
+                                        android:id="@+id/btn_setting"
                                         android:layout_width="24dp"
                                         android:layout_height="24dp"
                                         android:layout_marginStart="8dp"
@@ -599,6 +600,7 @@
                     android:background="@color/white"
                     android:elevation="4dp"
                     android:paddingTop="12dp"
+                    android:contentInsetStart="0dp"
                     android:text="hello world"
                     android:textAlignment="center"
                     app:layout_behavior=".ui.home.mine.TranslucentBehavior">
@@ -606,6 +608,7 @@
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/colorWhite"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="6dp">

@@ -1,18 +1,18 @@
 package com.example.rubbishcommunity.ui.widget
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.view.LayoutInflater
 import com.example.rubbishcommunity.R
+import com.example.rubbishcommunity.databinding.ContractDialogBinding
 
-class ContractDialog(context: Context?, private val onFinishClick: ()->Unit) : BottomDialogView(context) {
+class ContractDialog(
+    context: Context?,
+    private val onFinishClick: ()->Unit
+) : BottomDialogView<ContractDialogBinding>(
+    context,
+    R.layout.dialog_contract) {
     
-    @SuppressLint("InflateParams")
-    override var bView = LayoutInflater.from(context).inflate(R.layout.dialog_contract,null)!!
-
     override fun initView() {
-        btnFinish = bView.findViewById(R.id.btn_finish)
-        btnFinish.setOnClickListener {
+        childBinding!!.btnFinish.setOnClickListener {
             dismiss()
             onFinishClick.invoke()
         }

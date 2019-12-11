@@ -1,15 +1,17 @@
 package com.example.rubbishcommunity.ui.home.mine
 
 
+
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
-import com.example.rubbishcommunity.databinding.MineBinding
+import com.example.rubbishcommunity.databinding.MineFragmentBinding
 import com.example.rubbishcommunity.persistence.saveLoginState
-import com.example.rubbishcommunity.ui.container.jumoToPassword
+import com.example.rubbishcommunity.ui.container.jumpToEditInfo
+import com.example.rubbishcommunity.ui.container.jumpToPassword
 import com.example.rubbishcommunity.ui.container.jumpToLogin
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 
-class MineFragment : BindingFragment<MineBinding, MineViewModel>(
+class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 	MineViewModel::class.java, R.layout.fragment_mine
 ) {
 	
@@ -28,18 +30,20 @@ class MineFragment : BindingFragment<MineBinding, MineViewModel>(
 			binding.rootLayout.isEnabled = !it
 		}
 		
+		//设置按钮
+		binding.btnSetting.setOnClickListener {
+			jumpToEditInfo(context!!)
+		}
 		
 		//账号安全按钮
 		binding.btnSafe.setOnClickListener {
-			jumoToPassword(context!!)
+			jumpToPassword(context!!)
 		}
 		
 		//注销按钮
 		binding.btnLogout.setOnClickListener {
 			//注销
 			logout()
-			
-			
 		}
 		
 		
@@ -76,13 +80,18 @@ class MineFragment : BindingFragment<MineBinding, MineViewModel>(
 				activity?.finish()
 				jumpToLogin(context!!)
 			}
-			
 			.bindLife()
 	}
 	
 	override fun initData() {
-		refresh()
+	
 	}
 	
+	
+	override fun onResume() {
+		super.onResume()
+		//回到该页面时重新加载数据
+		refresh()
+	}
 	
 }
