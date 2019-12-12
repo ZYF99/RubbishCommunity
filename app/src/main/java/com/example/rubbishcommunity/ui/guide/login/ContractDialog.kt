@@ -1,8 +1,9 @@
-package com.example.rubbishcommunity.ui.widget
+package com.example.rubbishcommunity.ui.guide.login
 
 import android.content.Context
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ContractDialogBinding
+import com.example.rubbishcommunity.ui.widget.BottomDialogView
 
 class ContractDialog(
     context: Context?,

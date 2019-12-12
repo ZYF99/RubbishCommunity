@@ -9,13 +9,23 @@ import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.util.*
 
+@BindingAdapter("dateFromServer")
+fun getDateStringFromServer(textView: TextView, stringFromServer: String) {
+	val formatter = SimpleDateFormat("YYYY-MM-DD HH:mm:ss")
+	val date = formatter.parse(stringFromServer)
+	val calendar = Calendar.getInstance()
+	calendar.time = date
+	val year = calendar.get(Calendar.YEAR)
+	val month = calendar.get(Calendar.MONTH) +1
+	val day = calendar.get(Calendar.DAY_OF_MONTH)
+	textView.text = "${year}年${month}月${day}日"
+}
 
 fun stringToDate(string: String): Date {
 	val format = SimpleDateFormat("yyyy年MM月dd日")
-	val pos = ParsePosition(0)
 	var date = Date()
 	try {
-		date = format.parse(string, pos)!!
+		date = format.parse(string)!!
 	} catch (e: ParseException) {
 		MyApplication.showError("转换日期失败：${e.message}")
 	}

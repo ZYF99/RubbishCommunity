@@ -102,7 +102,7 @@
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
-            <com.example.rubbishcommunity.ui.widget.DragBounceView
+            <com.example.rubbishcommunity.ui.home.message.DragBounceView
                     android:id="@+id/btn_expand"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-            </com.example.rubbishcommunity.ui.widget.DragBounceView>
+            </com.example.rubbishcommunity.ui.home.message.DragBounceView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

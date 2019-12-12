@@ -18,7 +18,6 @@ import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.utils.*
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.kodein.di.generic.instance
 import java.util.*
@@ -39,21 +38,19 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 	
 	//上传头像
 	fun upLoadAvatar(path: String) {
-		imageService.upLoadImage(path
+		imageService.upLoadImage(
+			path
 		) {
 			avatar.postValue(path)
 		}.doOnSuccess {
 			
 		}.bindLife()
-		
-		
 	}
 	
 	//发送邮箱验证码
 	fun sendEmail(): Single<ResultModel<String>> {
 		return apiService.sendEmail(getLocalEmail())
-			.subscribeOn(Schedulers.io())
-			.observeOn(AndroidSchedulers.mainThread())
+			.switchThread()
 			.compose(dealErrorCode())
 			.compose(dealError())
 	}
@@ -90,9 +87,7 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 					birthString.value!!,
 					location.value ?: BDLocation()
 				)
-			}
-				.observeOn(AndroidSchedulers.mainThread())
-				.compose(dealErrorCode())
+			}.compose(dealErrorCode())
 				.compose(dealError())
 				.compose(dealLoading())
 		} else {

@@ -1,6 +1,5 @@
 package com.example.rubbishcommunity.ui.home.find.dynamic.detail
 
-import android.app.Activity
 import android.view.View
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.GridLayoutManager
@@ -8,12 +7,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.DynamicDetailBinding
-import com.example.rubbishcommunity.ui.*
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.ui.container.jumpToInnerComment
 import com.example.rubbishcommunity.ui.home.find.dynamic.DynamicListGridImageAdapter
 import com.example.rubbishcommunity.ui.utils.hideSoftKeyBoard
 import com.example.rubbishcommunity.ui.utils.openSoftKeyBoard
+import com.example.rubbishcommunity.ui.utils.showGallery
 
 
 class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetailViewModel>(
@@ -62,7 +61,11 @@ class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetai
 			adapter = DynamicListGridImageAdapter(
 				viewModel.imgList.value!!
 			) { position ->
-				showGallery(context, viewModel.imgList.value!!, position)
+				showGallery(
+					context,
+					viewModel.imgList.value!!,
+					position
+				)
 			}
 		}
 		

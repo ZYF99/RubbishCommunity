@@ -1,10 +1,11 @@
-package com.example.rubbishcommunity.ui.widget
+package com.example.rubbishcommunity.ui.home
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import com.example.rubbishcommunity.R
+import com.example.rubbishcommunity.ui.widget.BasePopWindow
 import com.jakewharton.rxbinding2.view.RxView
 import java.util.concurrent.TimeUnit
 

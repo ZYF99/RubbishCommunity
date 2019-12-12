@@ -16,7 +16,6 @@ import com.example.rubbishcommunity.ui.container.jumpToBasicInfo
 import com.example.rubbishcommunity.ui.container.jumpToReleaseDynamic
 import com.example.rubbishcommunity.ui.home.message.MessageFragment
 import com.example.rubbishcommunity.ui.home.mine.MineFragment
-import com.example.rubbishcommunity.ui.widget.AddDialog
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Single
@@ -145,20 +144,22 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	}
 	
 	private fun showAddDialog() {
-		AddDialog(this, object : AddDialog.OnAddDialogClickListener {
-			override fun onDynamicClick() {
-				//开启发布动态界面
-				jumpToReleaseDynamic(this@MainActivity)
-			}
-			
-			override fun onVoteClick() {
-			
-			}
-			
-			override fun onDismiss() {
-			
-			}
-		}).showAbove(binding.fabAdd)
+		AddDialog(
+			this,
+			object : AddDialog.OnAddDialogClickListener {
+				override fun onDynamicClick() {
+					//开启发布动态界面
+					jumpToReleaseDynamic(this@MainActivity)
+				}
+				
+				override fun onVoteClick() {
+				
+				}
+				
+				override fun onDismiss() {
+				
+				}
+			}).showAbove(binding.fabAdd)
 	}
 	
 	

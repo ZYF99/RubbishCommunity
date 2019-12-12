@@ -55,7 +55,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:menu="@menu/navigation"
-                app:shadow_length="12"
+                app:shadow_length="8"
                 tools:targetApi="lollipop" />
 
 

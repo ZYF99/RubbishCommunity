@@ -5,10 +5,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.DynamicListCellBinding
 import com.example.rubbishcommunity.model.Dynamic
-import com.example.rubbishcommunity.ui.adapter.BaseRecyclerAdapter
 import com.example.rubbishcommunity.ui.adapter.EmptyRecyclerAdapter
-import com.example.rubbishcommunity.ui.showGallery
-import com.example.rubbishcommunity.ui.widget.UserInfoDialog
+import com.example.rubbishcommunity.ui.utils.showGallery
 
 
 class DynamicListAdapter(
@@ -38,7 +36,11 @@ class DynamicListAdapter(
 			adapter = DynamicListGridImageAdapter(
 				list[position].images
 			) { position ->
-				showGallery(context, list[position].images, position)
+				showGallery(
+					context,
+					list[position].images,
+					position
+				)
 			}
 		}
 		binding.cellAuthorPortrait.setOnClickListener {

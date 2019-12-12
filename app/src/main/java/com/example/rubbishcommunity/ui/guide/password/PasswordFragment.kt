@@ -32,8 +32,6 @@ class PasswordFragment : BindingFragment<PasswordFragBinding, PasswordViewModel>
 	fun initBefore() {
 		binding.vm = viewModel
 		
-		
-		viewModel.init()
 		//初始化动画工具
 		animationUtils = AnimatorUtils(
 			(binding.linContent.layoutParams as ViewGroup.MarginLayoutParams).leftMargin,
@@ -84,7 +82,6 @@ class PasswordFragment : BindingFragment<PasswordFragBinding, PasswordViewModel>
 					
 					}
 				}
-				
 			}.bindLife()
 		
 		
@@ -108,10 +105,8 @@ class PasswordFragment : BindingFragment<PasswordFragBinding, PasswordViewModel>
 	private fun sendVerifyCode() {
 		//网络检查
 		context!!.checkNet().doOnComplete {
-			//发送邮箱验证码
-			viewModel.sendVerifyCode()?.doOnSuccess {
-				//发送成功
-			}?.bindLife()
+			//跳转至第三步
+			viewModel.judgeCodeAndGoStep3()
 		}.doOnError {
 			viewModel.isLoading.postValue(false)
 		}.bindLife()

@@ -14,7 +14,6 @@ import com.example.rubbishcommunity.ui.adapter.ITEM_SWIPE_VERTICAL
 import com.example.rubbishcommunity.ui.adapter.attachItemSwipe
 import com.example.rubbishcommunity.ui.container.jumpToChat
 import com.example.rubbishcommunity.ui.home.message.friends.FriendListAdapter
-import com.example.rubbishcommunity.ui.widget.DragBounceView
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

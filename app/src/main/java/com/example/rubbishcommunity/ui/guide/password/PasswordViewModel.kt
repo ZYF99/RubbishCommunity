@@ -7,7 +7,9 @@ import com.example.rubbishcommunity.manager.api.UserService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.ResultModel
+import com.example.rubbishcommunity.model.api.password.ResetPasswordRequestModel
 import com.example.rubbishcommunity.ui.utils.*
+import com.example.rubbishcommunity.utils.switchThread
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,28 +21,25 @@ class PasswordViewModel(application: Application) : BaseViewModel(application) {
 	
 	
 	//当前步骤
-	val currentStep = MutableLiveData<Int>()
+	val currentStep = MutableLiveData<Int>(STEP_INPUT_EMAIL)
 	//账号
-	val userName = MutableLiveData<String>()
+	val userAccount = MutableLiveData<String>("")
 	//密码
-	val password = MutableLiveData<String>()
+	val password = MutableLiveData<String>("")
 	//再次验证的密码
-	val rePassword = MutableLiveData<String>()
+	val rePassword = MutableLiveData<String>("")
 	//邮箱验证码
-	val verifyCode = MutableLiveData<String>()
+	val verifyCode = MutableLiveData<String>("")
 	//是否正在Loading
-	val isLoading = MutableLiveData<Boolean>()
+	val isLoading = MutableLiveData<Boolean>(false)
 	
 	private val apiService by instance<UserService>()
 	
-	fun init() {
-		currentStep.value = STEP_INPUT_EMAIL
-	}
-
+	
 	//发送邮箱，获取验证码
 	fun sendEmail(): Single<ResultModel<String>>? {
-		if(isEmail(userName.value?:"")){
-			return apiService.sendEmail(userName.value!!)
+		if (isEmail(userAccount.value ?: "")) {
+			return apiService.sendEmail(userAccount.value!!)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.compose(dealErrorCode())
@@ -49,7 +48,7 @@ class PasswordViewModel(application: Application) : BaseViewModel(application) {
 					//发送成功，将当前步骤设置为第二步输入验证码
 					currentStep.value = STEP_INPUT_CODE
 				}
-		}else{
+		} else {
 			sendError(
 				ErrorData(
 					ErrorType.UI_ERROR,
@@ -60,59 +59,53 @@ class PasswordViewModel(application: Application) : BaseViewModel(application) {
 		}
 	}
 	
-	//发送验证码至服务器
-	fun sendVerifyCode(): Single<ResultModel<String>>? {
-		if(((verifyCode.value?:"").length)==6){
-			//发送验证码
-			return apiService.sendVerifyCode(verifyCode.value!!)
-				.subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread())
-				.compose(dealErrorCode())
-				.compose(dealError())
-				.doOnSuccess {
-					//发送成功,将当前步骤设置为第三步输入新密码
-					currentStep.value = STEP_INPUT_PASSWORD
-				}.doOnSubscribe {
-					//模拟发送成功,将当前步骤设置为第三步输入新密码
-					currentStep.value = STEP_INPUT_PASSWORD
-				}
-		}else{
+	//验证验证码并跳至最后一步
+	fun judgeCodeAndGoStep3() {
+		if (((verifyCode.value ?: "").length) == 6) {
+			//将当前步骤设置为第三步输入新密码
+			currentStep.value = STEP_INPUT_PASSWORD
+		} else {
 			sendError(
 				ErrorData(
 					ErrorType.UI_ERROR,
-					"请完整输入验证码${(verifyCode.value?:"").length}"
+					"请完整输入验证码${(verifyCode.value ?: "").length}"
 				)
 			)
-			return null
 		}
 	}
 	
 	//发送新密码至服务器
 	fun editPassword(): Single<ResultModel<String>>? {
-		if(password.value!=null&&rePassword.value!=null&&(password.value.equals(rePassword.value))){
-			//发送验证码
-			return apiService.editPassword(password.value!!)
-				.subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread())
-				.compose(dealErrorCode())
-				.compose(dealError())
-				.compose(dealLoading())
-		}else{
-			sendError(
-				ErrorData(
-					ErrorType.UI_ERROR,
-					"两次密码不一致"
+		if (password.value != null
+			&& rePassword.value != null
+			&& (password.value.equals(rePassword.value))
+		) {
+			
+			if (judgePassword()) {
+				//发送验证码
+				return apiService.editPassword(
+					ResetPasswordRequestModel(
+						verifyCode.value!!,
+						userAccount.value!!,
+						password.value!!
+					)
 				)
-			)
+					.switchThread()
+					.compose(dealErrorCode())
+					.compose(dealError())
+					.compose(dealLoading())
+			}
+			return null
+		} else {
+			sendError(ErrorType.UI_ERROR, "两次密码不一致")
 			return null
 		}
 	}
 	
 	
-	
 	private fun judgePassword(): Boolean {
-		if (userName.value!!.isNotEmpty() && password.value!!.isNotEmpty()) {
-			if (userName.value!!.length > 4) {
+		if (userAccount.value!!.isNotEmpty() && password.value!!.isNotEmpty()) {
+			if (userAccount.value!!.length > 4) {
 				if (password.value!!.length in 4..16) {
 					return true
 				} else {
@@ -141,7 +134,6 @@ class PasswordViewModel(application: Application) : BaseViewModel(application) {
 		}
 		return false
 	}
-	
 	
 	
 	private fun <T> dealLoading(): SingleTransformer<T, T> {

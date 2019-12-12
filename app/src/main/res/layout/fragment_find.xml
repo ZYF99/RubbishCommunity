@@ -15,53 +15,48 @@
             android:layout_height="match_parent"
             android:paddingTop="10dp">
 
+
         <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appbar"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:paddingTop="10dp"
-                android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+                android:paddingTop="10dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="发现新世界"
+                    android:textColor="@color/black"
+                    android:textSize="32sp"
+                    app:layout_scrollFlags="scroll|enterAlways|snap" />
 
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:expandedTitleMarginBottom="60dp"
-                    app:expandedTitleMarginStart="20dp"
-                    app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-                    app:title="发现新世界">
+            <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tab"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:background="@color/white"
+                    app:tabIndicatorColor="@color/colorApp"
+                    app:tabRippleColor="@null"
+                    app:tabSelectedTextColor="@color/colorApp"
+                    app:tabTextColor="@color/text_second">
 
-                <androidx.appcompat.widget.Toolbar
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:layout_marginBottom="40dp"
-                        app:layout_collapseMode="pin" />
-
-                <com.google.android.material.tabs.TabLayout
-                        android:id="@+id/tab"
-                        android:layout_width="150dp"
+                <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_marginLeft="10dp"
-                        android:background="@color/white"
-                        app:tabIndicatorColor="@color/colorApp"
-                        app:tabRippleColor="@null"
-                        app:tabSelectedTextColor="@color/colorApp"
-                        app:tabTextColor="@color/text_second">
+                        android:text="动态" />
 
-                    <com.google.android.material.tabs.TabItem
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="动态" />
+                <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="投票" />
 
-                    <com.google.android.material.tabs.TabItem
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="投票" />
+            </com.google.android.material.tabs.TabLayout>
 
-                </com.google.android.material.tabs.TabLayout>
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
         </com.google.android.material.appbar.AppBarLayout>
 
 

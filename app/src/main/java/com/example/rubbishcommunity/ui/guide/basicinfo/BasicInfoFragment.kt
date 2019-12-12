@@ -53,9 +53,7 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 		)
 		
 	}
-	
-	@RequiresApi(Build.VERSION_CODES.O)
-	@SuppressLint("CheckResult", "SetTextI18n")
+
 	override fun initWidget() {
 		
 		//观测是否在Loading
@@ -85,13 +83,12 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 		}
 		
 		//生日文本
-		RxView.clicks(binding.tvBirthday).throttleFirst(2, TimeUnit.SECONDS)
-			.doOnNext {
-				DatePopView(context!!, null) { year, month, day ->
-					viewModel.birthInt.value = stringToDate("$year$month$day").time
-					viewModel.birthString.value = "$year$month$day"
-				}.show()
-			}.bindLife()
+		binding.tvBirthday.setOnClickListener {
+			DatePopView(context!!) { year, month, day ,birthLong ->
+				viewModel.birthInt.value = stringToDate("$year$month$day").time
+				viewModel.birthString.value = "$year$month$day"
+			}.show()
+		}
 		
 		
 		//发送验证码按钮

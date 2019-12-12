@@ -5,7 +5,11 @@
     <data class="EditNameDialogBinding">
 
         <variable
-                name="name"
+                name="title"
+                type="String" />
+
+        <variable
+                name="text"
                 type="String" />
     </data>
 
@@ -18,10 +22,9 @@
             android:padding="16dp">
 
         <TextView
-                android:id="@+id/textView12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="修改昵称"
+                android:text="@{title}"
                 android:textColor="@color/colorAccent" />
 
         <EditText
@@ -30,10 +33,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
+                android:textCursorDrawable="@color/colorAccent"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:maxLength="8"
-                android:text="@={name}"
+                android:text="@={text}"
                 android:textColor="@color/black"
                 tools:text="Zhangyf" />
 

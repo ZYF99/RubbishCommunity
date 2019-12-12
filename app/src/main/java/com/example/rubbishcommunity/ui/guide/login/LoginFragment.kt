@@ -14,7 +14,6 @@ import com.example.rubbishcommunity.ui.guide.AnimatorUtils
 import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.example.rubbishcommunity.ui.container.jumpToPassword
 import com.example.rubbishcommunity.ui.utils.hideSoftKeyBoard
-import com.example.rubbishcommunity.ui.widget.ContractDialog
 import com.example.rubbishcommunity.utils.checkIMEIPermission
 
 

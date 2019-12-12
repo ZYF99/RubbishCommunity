@@ -1,25 +1,28 @@
-package com.example.rubbishcommunity.ui.widget
+package com.example.rubbishcommunity.ui.home.mine.editinfo
 
 
 import android.content.Context
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.EditNameDialogBinding
+import com.example.rubbishcommunity.ui.widget.BottomDialogView
 
-class EditNameDialog(
+class EditTextDialog(
 	context: Context?,
-	private val oldName: String,
+	private val title: String,
+	private val text: String,
 	val onConfirmClick: (String) -> Unit
 ) : BottomDialogView<EditNameDialogBinding>(
 	context,
-	R.layout.dialog_edit_name
+	R.layout.dialog_edit_text
 ) {
 	
 	override fun initView() {
 		setCancelable(true)
-		childBinding.name = oldName
+		childBinding.title = title
+		childBinding.text = text
 		childBinding.btnConfirm.setOnClickListener {
 			dismiss()
-			onConfirmClick(childBinding.name ?: oldName)
+			onConfirmClick(childBinding.text ?: text)
 		}
 	}
 	

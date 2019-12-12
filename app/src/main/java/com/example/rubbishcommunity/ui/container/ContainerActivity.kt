@@ -11,7 +11,7 @@ import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ContainerBinding
 import com.example.rubbishcommunity.model.Comment
-import com.example.rubbishcommunity.ui.SoftObservableFragment
+import com.example.rubbishcommunity.ui.base.SoftObservableFragment
 import com.example.rubbishcommunity.ui.guide.basicinfo.BasicInfoFragment
 import com.example.rubbishcommunity.ui.guide.login.LoginFragment
 import com.example.rubbishcommunity.ui.guide.password.PasswordFragment
@@ -56,7 +56,8 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 	
 	override val clazz: Class<ContainerViewModel> = ContainerViewModel::class.java
 	override val layRes: Int = R.layout.activity_container
-	private var currentFragment: SoftObservableFragment? = SoftObservableFragment()
+	private var currentFragment: SoftObservableFragment? =
+		SoftObservableFragment()
 	
 	
 	override fun initBefore() {
@@ -105,7 +106,7 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 					PasswordFragment()
 				"basicInfo" -> //基本信息界面
 					BasicInfoFragment()
-				"editInfo" -> //修改信息界面
+				"editUserInfo" -> //修改信息界面
 					EditInfoFragment()
 				"releaseDynamic" -> // 发布动态界面
 					ReleaseDynamicFragment()
@@ -150,7 +151,7 @@ fun jumpToPassword(context: Context) {
 //从'我的'界面跳转至'修改信息'界面
 fun jumpToEditInfo(context: Context) {
 	val bundle = Bundle()
-	bundle.putString("tag", "editInfo")
+	bundle.putString("tag", "editUserInfo")
 	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }
 

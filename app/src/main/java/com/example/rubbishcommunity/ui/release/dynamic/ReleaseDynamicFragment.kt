@@ -12,7 +12,7 @@ import com.example.rubbishcommunity.databinding.ReleaseDynamicBinding
 import com.example.rubbishcommunity.initLocationClient
 import com.example.rubbishcommunity.ui.adapter.ITEM_SWIPE_FREE
 import com.example.rubbishcommunity.ui.adapter.attachItemSwipe
-import com.example.rubbishcommunity.ui.showGallery
+import com.example.rubbishcommunity.ui.utils.showGallery
 import com.example.rubbishcommunity.utils.checkLocationPermissionAndGetLocation
 import com.example.rubbishcommunity.ui.utils.showAlbum
 import com.example.rubbishcommunity.utils.checkStoragePermission

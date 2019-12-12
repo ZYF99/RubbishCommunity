@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.widget
+package com.example.rubbishcommunity.ui.home.message
 
 import android.content.Context
 import android.util.AttributeSet
@@ -15,7 +15,7 @@ class DragBounceView : ConstraintLayout {
 	private var originTop: Int = 0  // 点击时的绝对top坐标
 	private var originRight: Int = 0  // 点击时的绝对right坐标
 	private var originBottom: Int = 0  // 点击时的绝对bottom坐标
-	private var bounceDragListener:BounceDragListener? = null
+	private var bounceDragListener: BounceDragListener? = null
 	
 	//是否拖动标识
 	private var isDrag = false

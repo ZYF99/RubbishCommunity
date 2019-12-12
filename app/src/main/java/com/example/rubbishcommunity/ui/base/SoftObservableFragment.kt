@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui
+package com.example.rubbishcommunity.ui.base
 
 import android.os.Bundle
 import android.view.View

@@ -13,16 +13,15 @@ import com.example.rubbishcommunity.model.api.mine.UsrProfile
 import android.graphics.drawable.ColorDrawable
 
 
-
 class UserInfoDialog(
 	context: Context,
 	private val userInfo: UsrProfile
 	, private val onDetailClick: () -> Unit
-) :
-	AlertDialog(context) {
+) : AlertDialog(context) {
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+		
 		
 		val binding = DataBindingUtil.inflate<UserInfoDialogBinding>(
 			LayoutInflater.from(context),
@@ -32,13 +31,12 @@ class UserInfoDialog(
 		)
 		setContentView(binding.root)
 		window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-		
 		binding.userInfo = userInfo
 		binding.btnDetail.setOnClickListener {
 			dismiss()
 			onDetailClick()
 		}
-
+		
 	}
 	
 }

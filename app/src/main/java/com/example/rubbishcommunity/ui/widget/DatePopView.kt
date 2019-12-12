@@ -9,32 +9,47 @@ import java.util.*
 
 class DatePopView(
 	context: Context,
-	private val birthString: String?,
-	private val onFinishClick: (String, String, String) -> Unit
-
+	private val onFinishClick: (String, String, String, Long) -> Unit
 ) : BottomDialogView<DatePickerBinding>(
 	context,
 	R.layout.datepickerview
 ) {
-	var years = ""
+	
+	private var birthString: String? = null
+	private var birthLong: Long? = null
+	private var years = ""
 	var months = ""
 	var days = ""
 	
+	constructor(
+		context: Context,
+		birthString: String,
+		onFinishClick: (String, String, String, Long) -> Unit
+	) : this(
+		context,
+		onFinishClick
+	) {
+		this.birthString = birthString
+	}
+	
+	
 	override fun initView() {
-		val date = getCurrentDate()
+		
+		var date = getCurrentDate()
 		if (birthString == null) {
 			years = date.get(Calendar.YEAR).toString() + "年"
-			months = date.get(Calendar.MONTH).toString() + "月"
+			months = (date.get(Calendar.MONTH) + 1).toString() + "月"
 			days = date.get(Calendar.DATE).toString() + "日"
 		} else {
-			val date = stringToDate(birthString)
-			years = "${date.year}年"
-			months = "${date.month}月"
-			days = "${date.day}日"
+			val dateS = stringToDate(birthString!!)
+			date = Calendar.getInstance().run {
+				time = dateS
+				this
+			}
+			years = date.get(Calendar.YEAR).toString() + "年"
+			months = (date.get(Calendar.MONTH) + 1).toString() + "月"
+			days = date.get(Calendar.DATE).toString() + "日"
 		}
-		years = date.get(Calendar.YEAR).toString() + "年"
-		months = date.get(Calendar.MONTH).toString() + "月"
-		days = date.get(Calendar.DATE).toString() + "日"
 		
 		
 		//定义滚动选择器的数据项（年月日的）
@@ -84,7 +99,10 @@ class DatePopView(
 		
 		childBinding.btnFinish.setOnClickListener {
 			dismiss()
-			onFinishClick(years, months, days)
+			birthLong = Calendar.getInstance().apply {
+				time = stringToDate("$years$months$days")
+			}.timeInMillis
+			onFinishClick(years, months, days, birthLong!!)
 		}
 		
 	}

@@ -1,16 +1,9 @@
 package com.example.rubbishcommunity.utils
 
-import com.example.rubbishcommunity.manager.ApiError
 import com.example.rubbishcommunity.manager.api.ImageService
-import com.example.rubbishcommunity.manager.base.ServerError
 import com.example.rubbishcommunity.manager.dealError
-import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.GetQiNiuTokenRequestModel
-import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.persistence.getLocalEmail
-import com.example.rubbishcommunity.ui.utils.ErrorData
-import com.example.rubbishcommunity.ui.utils.ErrorType
-import com.example.rubbishcommunity.ui.utils.sendError
 import com.luck.picture.lib.entity.LocalMedia
 import com.qiniu.android.http.ResponseInfo
 import com.qiniu.android.storage.UpProgressHandler
@@ -50,7 +43,7 @@ fun ImageService.upLoadImage(
 							true,
 							UpProgressHandler { _, percent ->
 								//上传中，返回进度
-								onUpdateProgress(percent.toInt() * 100)
+								onUpdateProgress((percent * 100).toInt())
 							}, null
 						)
 					)

@@ -6,6 +6,7 @@ import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
 import com.example.rubbishcommunity.model.api.mine.UserCardResultModel
 import com.example.rubbishcommunity.model.api.mine.UsrProfileResp
+import com.example.rubbishcommunity.model.api.password.ResetPasswordRequestModel
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -29,8 +30,11 @@ interface UserService {
 	fun completeInfo(@Body completeInfoRequestModel: CompleteInfoRequestModel): Single<ResultModel<String>>
 	
 	//修改用户信息
+	//修改用户昵称
 	@PUT("api/account/profile/modify")
-	fun editInfo(@Body modifyMap: HashMap<String,String>): Single<ResultModel<String>>
+	fun editUserInfo(@Body modifyMap: HashMap<String, String>): Single<ResultModel<String>>
+	
+	
 	
 	//刷新用户详细信息
 	@GET("api/account/profile/refresh")
@@ -46,10 +50,8 @@ interface UserService {
 	
 	//修改密码
 	@PUT("api/account/password/modify")
-	fun editPassword(@Path("password") password: String): Single<ResultModel<String>>
+	fun editPassword(@Body passwordReq: ResetPasswordRequestModel): Single<ResultModel<String>>
 	
-	//发送邮箱的验证码至服务器
-	@POST("api/common/{verifyCode}/send")
-	fun sendVerifyCode(@Path("verifyCode") verifyCode: String): Single<ResultModel<String>>
+
 	
 }
