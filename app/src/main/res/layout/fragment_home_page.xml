@@ -15,7 +15,7 @@
             android:id="@+id/root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="18dp">
+            android:fitsSystemWindows="true">
 
 
         <com.google.android.material.appbar.AppBarLayout
@@ -29,17 +29,17 @@
                     android:id="@+id/tool_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_scrollFlags="scroll|enterAlways|snap"
                     app:contentInsetStart="0dp"
-                    app:contentInsetStartWithNavigation="0dp">
+                    app:contentInsetStartWithNavigation="0dp"
+                    app:layout_scrollFlags="scroll|enterAlways|snap">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/colorWhite"
+                        android:orientation="horizontal"
                         android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:orientation="horizontal">
+                        android:paddingBottom="8dp">
 
 
                     <ImageView
@@ -74,8 +74,8 @@
                                 android:layout_height="wrap_content"
                                 android:background="@null"
                                 android:maxLength="10"
-                                android:textColor="@color/black"
                                 android:singleLine="true"
+                                android:textColor="@color/black"
                                 android:textSize="16sp" />
 
                         <ImageView
@@ -102,7 +102,6 @@
         </com.google.android.material.appbar.AppBarLayout>
 
 
-
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipe"
                 android:layout_width="match_parent"
@@ -112,84 +111,87 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/appbar">
 
-        <androidx.core.widget.NestedScrollView
-                android:id="@+id/scrollview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <LinearLayout
+            <androidx.core.widget.NestedScrollView
+                    android:id="@+id/scrollview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="20dp">
-
+                    android:layout_height="wrap_content">
 
                 <LinearLayout
-                        android:id="@+id/img_linear"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical">
-
-                    <TextView
-                            android:id="@+id/textView2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:text="杂图"
-                            android:textColor="@color/black"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recycler_photography"
-                            android:layout_width="match_parent"
-                            android:layout_height="160dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="16dp"
-                            android:orientation="horizontal"
-                            tools:listitem="@layout/item_dynamic_grid_image" />
-                </LinearLayout>
-
-                <LinearLayout
-                        android:id="@+id/linearLayout7"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
                         android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/img_linear">
+                        android:paddingTop="20dp">
 
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:text="推文"
-                            android:textColor="@color/black"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recycler_news"
+                    <LinearLayout
+                            android:id="@+id/img_linear"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
                             android:layout_marginTop="10dp"
-                            android:layout_marginEnd="16dp"
+                            android:orientation="vertical">
+
+                        <TextView
+                                android:id="@+id/textView2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:text="杂图"
+                                android:textColor="@color/black"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+
+                        <com.zhouwei.mzbanner.MZBannerView
+                                android:id="@+id/banner"
+                                android:layout_width="match_parent"
+                                android:layout_height="164dp"
+                                android:layout_marginTop="10dp"
+                                app:canLoop="true"
+                                app:indicatorAlign="center"
+                                app:indicatorPaddingLeft="20dp"
+                                app:open_mz_mode="true" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:id="@+id/linearLayout7"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
                             android:orientation="vertical"
-                            android:paddingBottom="160dp"
-                            tools:listitem="@layout/cell_news" />
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/img_linear">
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:text="推文"
+                                android:textColor="@color/black"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recycler_news"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="16dp"
+                                android:orientation="vertical"
+                                android:paddingBottom="160dp"
+                                tools:listitem="@layout/cell_news" />
+                    </LinearLayout>
+
+
                 </LinearLayout>
 
 
-            </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
 
-
-        </androidx.core.widget.NestedScrollView>
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

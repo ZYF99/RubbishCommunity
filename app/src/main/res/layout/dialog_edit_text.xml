@@ -11,6 +11,11 @@
         <variable
                 name="text"
                 type="String" />
+
+        <variable
+                name="maxLength"
+                type="Integer" />
+
     </data>
 
     <LinearLayout
@@ -28,7 +33,7 @@
                 android:textColor="@color/colorAccent" />
 
         <EditText
-                android:id="@+id/edit_name"
+                android:id="@+id/edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -36,7 +41,7 @@
                 android:textCursorDrawable="@color/colorAccent"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:maxLength="8"
+                android:maxLength="@{maxLength}"
                 android:text="@={text}"
                 android:textColor="@color/black"
                 tools:text="Zhangyf" />

@@ -77,7 +77,6 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 		})
 	}
 	
-	
 	override fun onBackPressed() {
 		//得到当前activity下的所有Fragment
 		val fragments = supportFragmentManager.fragments

@@ -2,17 +2,12 @@ package com.example.rubbishcommunity.ui.home.homepage
 
 
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.HomePageBinding
 import com.example.rubbishcommunity.ui.container.jumpToNewsDetail
 import com.example.rubbishcommunity.ui.container.jumpToSearch
-import com.hankcs.hanlp.HanLP
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 
 class HomePageFragment : BindingFragment<HomePageBinding, HomePageViewModel>(
@@ -41,18 +36,17 @@ class HomePageFragment : BindingFragment<HomePageBinding, HomePageViewModel>(
 		}
 		
 		viewModel.photographyList.observeNonNull {
-			(binding.recyclerPhotography.adapter as PhotographyListAdapter).replaceData(it)
+			binding.banner.run {
+				pause()
+				setPages(it.toList()) { BannerViewHolder(it) }
+				start()
+			}
 		}
 		
-		binding.recyclerPhotography.apply {
-			layoutManager = LinearLayoutManager(context).apply {
-				orientation = LinearLayoutManager.HORIZONTAL
-			}
-			adapter = PhotographyListAdapter(
-				viewModel.photographyList.value!!
-			)
-			
-		}
+		
+		
+		
+		
 		binding.recyclerNews.apply {
 			layoutManager = LinearLayoutManager(context)
 			adapter = NewsListAdapter(
@@ -88,6 +82,16 @@ class HomePageFragment : BindingFragment<HomePageBinding, HomePageViewModel>(
 		
 	}
 	
+	override fun onResume() {
+		super.onResume()
+		binding.banner.start()
+	}
 	
+	override fun onPause() {
+		super.onPause()
+		binding.banner.pause()
+	}
 }
+
+
 

@@ -29,6 +29,4 @@ open class SoftObservableFragment : Fragment(), SoftKeyBroadManager.SoftKeyboard
 		//销毁时移除软键盘监听
 		mManager.removeSoftKeyboardStateListener(this)
 	}
-	
-	
 }

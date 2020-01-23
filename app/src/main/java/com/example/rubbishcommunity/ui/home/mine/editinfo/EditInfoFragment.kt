@@ -37,7 +37,8 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 		binding.btnName.setOnClickListener {
 			showEditDialog(
 				"昵称",
-				viewModel.name.value!!
+				viewModel.name.value!!,
+				8
 			) {
 				viewModel.aboutMe.value = it
 				viewModel.editName()
@@ -54,8 +55,9 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 		
 		//修改生日按钮
 		binding.btnBirthday.setOnClickListener {
-			DatePopView(context!!, binding.tvDate.text.toString()) { year, month, day, birthLong ->
-				viewModel.editBirthDay(birthLong)
+			DatePopView(context!!, viewModel.birthday.value!!) { year, month, day, birthLong ->
+				viewModel.birthday.value = birthLong
+				viewModel.editBirthDay()
 			}.show()
 		}
 		
@@ -63,7 +65,8 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 		binding.btnSignature.setOnClickListener {
 			showEditDialog(
 				"个人签名",
-				viewModel.signature.value!!
+				viewModel.signature.value!!,
+				20
 			) {
 				viewModel.signature.value = it
 				viewModel.editSignature()
@@ -74,7 +77,8 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 		binding.btnProfession.setOnClickListener {
 			showEditDialog(
 				"职业",
-				viewModel.profession.value!!
+				viewModel.profession.value!!,
+				10
 			) {
 				viewModel.profession.value = it
 				viewModel.editProfession()
@@ -85,7 +89,8 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 		binding.btnAboutMe.setOnClickListener {
 			showEditDialog(
 				"分类宣言",
-				viewModel.aboutMe.value!!
+				viewModel.aboutMe.value!!,
+				20
 			) {
 				viewModel.aboutMe.value = it
 				viewModel.editAboutMe()
@@ -100,11 +105,17 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 	
 	
 	//弹出修改文字按钮
-	private fun showEditDialog(title: String, oldText: String, onFinish: (String) -> Unit) {
+	private fun showEditDialog(
+		title: String,
+		oldText: String,
+		maxLength: Int,
+		onFinish: (String) -> Unit
+	) {
 		EditTextDialog(
 			context!!,
 			title,
-			oldText
+			oldText,
+			maxLength
 		) {
 			onFinish(it)
 		}.show()

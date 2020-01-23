@@ -22,6 +22,7 @@ import io.reactivex.Single
 import java.util.concurrent.TimeUnit
 import android.view.KeyEvent.KEYCODE_BACK
 import com.example.rubbishcommunity.ui.home.homepage.HomePageFragment
+import android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
 
 
 class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
@@ -40,6 +41,11 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	override fun initWidget() {
 		//状态栏字体黑色
 		StatusBarUtil.setStatusTextColor(true, this)
+/*		window.setFlags(
+			FLAG_LAYOUT_NO_LIMITS,
+			FLAG_LAYOUT_NO_LIMITS
+		)*/
+		
 		//不需要验证邮箱和完善信息,初始化home界面
 		supportFragmentManager.beginTransaction().apply {
 			add(R.id.maincontainer, currentFragment as Fragment)
@@ -159,6 +165,7 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 				override fun onDismiss() {
 				
 				}
+				
 			}).showAbove(binding.fabAdd)
 	}
 	
@@ -173,6 +180,4 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 		}
 		return super.onKeyDown(keyCode, event)
 	}
-	
-	
 }

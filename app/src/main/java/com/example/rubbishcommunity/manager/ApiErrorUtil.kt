@@ -71,12 +71,14 @@ fun <T> dealError(): SingleTransformer<T, T> {
 						error.responseInfo.error
 					)
 				}
+				
 				is HanLPInputError -> {
 					sendError(
 						ErrorType.UI_ERROR,
 						error.str
 					)
 				}
+				
 				else -> sendError(
 					ErrorData(
 						ErrorType.UNEXPECTED

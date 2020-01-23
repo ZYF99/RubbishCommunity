@@ -3,8 +3,10 @@ package com.example.rubbishcommunity.manager.base;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
+
 import com.example.rubbishcommunity.LocationOutClass;
 import com.google.protobuf.InvalidProtocolBufferException;
+
 import java.util.Base64;
 
 
@@ -20,15 +22,11 @@ public class Test {
         try {
             LocationOutClass.Location parseFrom = LocationOutClass.Location.parseFrom(
                     Base64.getDecoder().decode(str)
-
             );
             System.out.println(parseFrom.toString());
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
-
-
-
     }
 
 

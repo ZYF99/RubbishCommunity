@@ -96,11 +96,11 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 					LoginFragment()
 				"register" -> //注册界面
 					RegisterFragment()
-				"news" -> //注册界面
+				"news" -> //新闻界面
 					NewsDetailFragment()
 				"search" -> //搜索界面
 					SearchFragment()
-				"CameraSearch" -> //搜索界面
+				"CameraSearch" -> //拍照搜索界面
 					CameraSearchFragment()
 				"password" -> //修改密码界面
 					PasswordFragment()

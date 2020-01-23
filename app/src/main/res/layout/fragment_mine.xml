@@ -15,11 +15,7 @@
 
     </data>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/refreshLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:targetApi="lollipop">
+
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:id="@+id/rootLayout"
@@ -304,7 +300,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scrollbars="none"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -601,7 +597,6 @@
                     android:elevation="4dp"
                     android:paddingTop="12dp"
                     android:contentInsetStart="0dp"
-                    android:text="hello world"
                     android:textAlignment="center"
                     app:layout_behavior=".ui.home.mine.TranslucentBehavior">
 
@@ -648,6 +643,5 @@
             </Toolbar>
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </layout>

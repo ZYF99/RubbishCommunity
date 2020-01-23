@@ -13,39 +13,14 @@
 
     </data>
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-
-        <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
+        <ImageView
+                android:id="@+id/gird_img"
+                imageUrl="@{photography.imgUrl}"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintDimensionRatio="h,5:4"
-                app:cardBackgroundColor="#00FFFFFF"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:elevation="4dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/bg_welcome" />
 
 
-            <ImageView
-                    android:id="@+id/gird_img"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="1dp"
-                    android:scaleType="centerCrop"
-                    imageUrl="@{photography.imgUrl}"
-                    tools:src="@drawable/bg_welcome"/>
-
-        </androidx.cardview.widget.CardView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -10,7 +10,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/white">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_send_mqtt_smg"
@@ -46,7 +47,7 @@
                 android:padding="8dp"
                 app:anchor_fab="@id/fab_add"
                 app:cornerRadius="12dp"
-                app:elevation="1dp"
+                app:elevation="5dp"
                 app:itemBackground="@null"
                 app:itemIconTint="@color/black"
                 app:itemTextColor="@color/black"
@@ -68,7 +69,7 @@
                 android:src="@android:drawable/ic_input_add"
                 android:tint="@color/black"
                 app:borderWidth="0dp"
-                app:elevation="2dp"
+                android:elevation="6dp"
                 app:fabSize="normal"
                 app:layout_constraintBottom_toBottomOf="@+id/bottomnavigation"
                 app:layout_constraintEnd_toEndOf="@+id/bottomnavigation"

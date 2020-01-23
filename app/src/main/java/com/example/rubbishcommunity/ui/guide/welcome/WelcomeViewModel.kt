@@ -8,6 +8,7 @@ import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.search.SearchKeyConclusion
 import com.example.rubbishcommunity.persistence.getClassificationMap
 import com.example.rubbishcommunity.ui.base.BaseViewModel
+import com.example.rubbishcommunity.utils.switchThread
 import com.hankcs.hanlp.HanLP
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -28,8 +29,7 @@ class WelcomeViewModel(application: Application) : BaseViewModel(application) {
 				HanLP.extractSummary(searchWord.value, 1)[0]
 			}.flatMap {
 				rubbishService.searchClassification(it)
-			}.subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread())
+			}.switchThread()
 				.doOnSuccess { result ->
 					result.data.forEach { searchKeyConclusion ->
 						searchKeyConclusion.category = getClassificationMap().filter { category ->

@@ -9,7 +9,6 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 
-
 android {
     signingConfigs {
         debug {
@@ -55,8 +54,8 @@ android {
                     remove java
                 }
                 task.builtins {
-                    java { }
-                    cpp { }
+                    java {}
+                    cpp {}
                 }
             }
         }
@@ -76,7 +75,6 @@ android {
                 outputFileName = "垃圾智慧处理云社区.apk"
             }
     }
-
 
 
     sourceSets {
@@ -170,10 +168,6 @@ android {
 }
 
 
-
-
-
-
 dependencies {
 
     def kotpref_version = "2.9.2"
@@ -208,6 +202,9 @@ dependencies {
     api 'com.google.protobuf:protoc:3.10.1'
     implementation 'com.squareup.retrofit2:converter-protobuf:2.2.0'
 
+
+    //coverFlow
+    implementation 'com.github.lishide:ImgCoverFlow:v1.0.1'
 
     //richtext
     implementation 'com.zzhoujay.richtext:richtext:3.0.7'

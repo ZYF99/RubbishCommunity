@@ -15,7 +15,8 @@
     <com.example.rubbishcommunity.ui.widget.CustomDrawerLayout
             android:id="@+id/drawerlayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

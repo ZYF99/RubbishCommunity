@@ -14,8 +14,6 @@ import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.utils.switchThread
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import org.kodein.di.generic.instance
 
 
@@ -60,17 +58,17 @@ class HomePageViewModel(application: Application) : BaseViewModel(application) {
 			Photography(
 				"",
 				"",
-				"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1573557155327&di=44f5ec8ef0f6fcbbf28131b3f9af5df5&imgtype=0&src=http%3A%2F%2Fn.sinaimg.cn%2Fsinacn%2F20171020%2F68fc-fymzzpv8123943.jpg"
+				"https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1198494063,2664295875&fm=26&gp=0.jpg"
 			),
 			Photography(
 				"",
 				"",
-				"http://img1.imgtn.bdimg.com/it/u=3053304738,3863903291&fm=26&gp=0.jpg"
+				"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3242519757,1446733678&fm=26&gp=0.jpg"
 			),
 			Photography(
 				"",
 				"",
-				"http://img3.imgtn.bdimg.com/it/u=3774166848,2531253577&fm=26&gp=0.jpg"
+				"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=472761312,239862010&fm=26&gp=0.jpg"
 			)
 		)
 	}
@@ -93,8 +91,7 @@ class HomePageViewModel(application: Application) : BaseViewModel(application) {
 	
 	fun search(str: String): Single<ResultModel<MutableList<SearchKeyConclusion>>> {
 		return rubbishService.searchClassification(str)
-			.subscribeOn(Schedulers.io())
-			.observeOn(AndroidSchedulers.mainThread())
+			.switchThread()
 			.compose(dealErrorCode())
 			.compose(dealError())
 	}
@@ -102,10 +99,8 @@ class HomePageViewModel(application: Application) : BaseViewModel(application) {
 	
 	private fun <T> dealRefresh(): SingleTransformer<T, T> {
 		return SingleTransformer { obs ->
-			obs
-				.doOnSubscribe { isRefreshing.postValue(true) }
-				.doOnSuccess { isRefreshing.postValue(false) }
-				.doOnError { isRefreshing.postValue(false) }
+			obs.doOnSubscribe { isRefreshing.postValue(true) }
+				.doFinally { isRefreshing.postValue(false) }
 		}
 	}
 	

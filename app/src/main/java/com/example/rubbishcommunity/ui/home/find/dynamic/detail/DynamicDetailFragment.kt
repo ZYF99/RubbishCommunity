@@ -134,5 +134,4 @@ class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetai
 	
 	}
 	
-	
 }

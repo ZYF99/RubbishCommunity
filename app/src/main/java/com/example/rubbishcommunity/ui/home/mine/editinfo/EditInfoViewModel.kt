@@ -31,7 +31,7 @@ class EditInfoViewModel(application: Application) : BaseViewModel(application) {
 	val avatar = MutableLiveData("")
 	val name = MutableLiveData("默认昵称")
 	val gender = MutableLiveData("男")
-	val birthString = MutableLiveData("1111-11-11 00:00:00")
+	val birthday = MutableLiveData<Long>(0)
 	val signature = MutableLiveData("")
 	val profession = MutableLiveData("")
 	val aboutMe = MutableLiveData("")
@@ -46,11 +46,11 @@ class EditInfoViewModel(application: Application) : BaseViewModel(application) {
 			//onProgress
 			Log.d("PROGRESS", uploadProgress.value!!.toString())
 			uploadProgress.postValue(it)
-		}.flatMap {
-			userService.editUserInfo(hashMapOf(Pair("avatar", avatar.value!!)))
+		}.flatMap { key ->
+			avatar.postValue(key)
+			userService.editUserInfo(hashMapOf(Pair("avatar", key)))
 				.switchThread()
-		}.doOnSuccess {}
-			.compose(dealErrorCode())
+		}.compose(dealErrorCode())
 			.compose(dealError())
 			.compose(dealRefreshing())
 			.bindLife()
@@ -72,11 +72,8 @@ class EditInfoViewModel(application: Application) : BaseViewModel(application) {
 	
 	//修改生日
 	@SuppressLint("SimpleDateFormat")
-	fun editBirthDay(birthLong: Long) {
-		editUserInfo("birthday", birthLong.toString())
-			.doOnSuccess {
-				birthString.postValue(SimpleDateFormat("yyyy-mm-dd hh:mm:ss").format(Date(birthLong)))
-			}
+	fun editBirthDay() {
+		editUserInfo("birthday", birthday.toString())
 			.bindLife()
 	}
 	
@@ -107,7 +104,7 @@ class EditInfoViewModel(application: Application) : BaseViewModel(application) {
 			this@EditInfoViewModel.avatar.postValue(avatar)
 			this@EditInfoViewModel.name.postValue(name)
 			this@EditInfoViewModel.gender.postValue(gender)
-			this@EditInfoViewModel.birthString.postValue(birthday)
+			this@EditInfoViewModel.birthday.postValue(birthday)
 			this@EditInfoViewModel.signature.postValue(signature)
 			this@EditInfoViewModel.profession.postValue(profession)
 			this@EditInfoViewModel.aboutMe.postValue(aboutMe)

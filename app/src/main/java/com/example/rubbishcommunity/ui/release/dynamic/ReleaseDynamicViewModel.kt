@@ -12,15 +12,11 @@ import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.manager.dealUiError
 import com.example.rubbishcommunity.ui.base.BaseViewModel
-import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.release.draft.Draft
 import com.example.rubbishcommunity.persistence.SharedPreferencesUtils
-import com.example.rubbishcommunity.ui.utils.ErrorType
-import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.utils.*
 import com.luck.picture.lib.entity.LocalMedia
 import io.reactivex.Completable
-import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import org.kodein.di.generic.instance
 
@@ -139,11 +135,8 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 					) {
 						//进度更新
 						progress.postValue(it)
-					}.doOnSuccess {
+					}.doOnSuccess { resultKeyList ->
 						//上传图片列表成功
-						isLoading.postValue(false)
-						progress.postValue(0)
-						
 						emitter.onComplete() //todo 还未判断动态发布是否成功
 					}.compose(dealLoading())
 						.bindLife()
@@ -160,15 +153,15 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 								.compose(dealErrorCode())
 								.compose(dealError())*/
 				}
-			}.compose(dealUiError()).bindLife()
+			}.compose(dealUiError())
+				.bindLife()
 		}.compose(dealUiError())
 	}
 	
 	
 	private fun <T> dealLoading(): SingleTransformer<T, T> {
 		return SingleTransformer { obs ->
-			obs
-				.doOnSubscribe { isLoading.postValue(true) }
+			obs.doOnSubscribe { isLoading.postValue(true) }
 				.doOnSuccess { isLoading.postValue(false) }
 				.doOnError { isLoading.postValue(false) }
 		}

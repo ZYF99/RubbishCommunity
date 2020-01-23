@@ -1,6 +1,5 @@
 package com.example.rubbishcommunity.manager.base
 
-
 import okhttp3.Interceptor
 import okhttp3.Response
 import okhttp3.ResponseBody

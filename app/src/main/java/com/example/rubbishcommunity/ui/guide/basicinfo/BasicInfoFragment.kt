@@ -1,15 +1,13 @@
 package com.example.rubbishcommunity.ui.guide.basicinfo
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.BasicInfoFragBinding
 import com.example.rubbishcommunity.initLocationClient
+import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.ui.container.jumpToLogin
@@ -85,8 +83,7 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 		//生日文本
 		binding.tvBirthday.setOnClickListener {
 			DatePopView(context!!) { year, month, day ,birthLong ->
-				viewModel.birthInt.value = stringToDate("$year$month$day").time
-				viewModel.birthString.value = "$year$month$day"
+				viewModel.birthday.value = birthLong
 			}.show()
 		}
 		

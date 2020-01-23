@@ -1,27 +1,30 @@
 package com.example.rubbishcommunity.utils
 
 import android.annotation.SuppressLint
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
 import com.example.rubbishcommunity.MyApplication
+import com.example.rubbishcommunity.R
 import java.text.ParseException
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.util.*
 
-@BindingAdapter("dateFromServer")
-fun getDateStringFromServer(textView: TextView, stringFromServer: String) {
-	val formatter = SimpleDateFormat("YYYY-MM-DD HH:mm:ss")
-	val date = formatter.parse(stringFromServer)
-	val calendar = Calendar.getInstance()
-	calendar.time = date
-	val year = calendar.get(Calendar.YEAR)
-	val month = calendar.get(Calendar.MONTH) +1
-	val day = calendar.get(Calendar.DAY_OF_MONTH)
-	textView.text = "${year}年${month}月${day}日"
+fun long2DateString(timeStamp: Long): String {
+	val format = SimpleDateFormat("yyyy年MM月dd日")
+	val date = Date(timeStamp)
+	return format.format(date)
 }
 
-fun stringToDate(string: String): Date {
+@BindingAdapter("birthday")
+fun long2Birthday(textView: TextView, birthLong: Long) {
+	textView.text = long2DateString(birthLong)
+}
+
+
+fun string2Date(string: String): Date {
 	val format = SimpleDateFormat("yyyy年MM月dd日")
 	var date = Date()
 	try {
@@ -133,7 +136,6 @@ private fun judgeRecentRime(oldTime: Date, newTime: Date): Int {
 			//至少七天前
 			OUT_SEVEN_DAY
 		}
-		
 	}
 	
 }

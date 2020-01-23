@@ -62,7 +62,6 @@ class DynamicFragment : BindingFragment<DynamicBinding, DynamicViewModel>(
 		}.doOnError {
 			viewModel.isRefreshing.postValue(false)
 		}.bindLife()
-		
 	}
 	
 }

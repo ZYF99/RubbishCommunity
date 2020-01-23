@@ -112,7 +112,6 @@ class ApiClient private constructor(val retrofit: Retrofit, val okHttpClient: Ok
 				chain.proceed(request)
 			}.build()
 			
-			
 			if (BuildConfig.ALLOW_ALL_CERTIFICATES)
 				setAllowAllCerTificates()
 			

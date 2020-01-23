@@ -4,7 +4,6 @@ package com.example.rubbishcommunity.manager
 import com.example.rubbishcommunity.ui.utils.ErrorType
 import com.example.rubbishcommunity.ui.utils.sendError
 import io.reactivex.CompletableTransformer
-import io.reactivex.SingleTransformer
 
 
 /**
@@ -27,7 +26,7 @@ fun dealUiError(): CompletableTransformer {
 				else -> {
 					sendError(
 						ErrorType.UNEXPECTED,
-						error.message ?: "!!!!"
+						error.message ?: "未知错误"
 					)
 				}
 			}

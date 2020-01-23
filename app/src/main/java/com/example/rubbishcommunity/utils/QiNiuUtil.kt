@@ -1,9 +1,11 @@
 package com.example.rubbishcommunity.utils
 
+import android.util.Log
 import com.example.rubbishcommunity.manager.api.ImageService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.model.api.GetQiNiuTokenRequestModel
 import com.example.rubbishcommunity.persistence.getLocalEmail
+import com.google.gson.JsonObject
 import com.luck.picture.lib.entity.LocalMedia
 import com.qiniu.android.http.ResponseInfo
 import com.qiniu.android.storage.UpProgressHandler
@@ -13,6 +15,7 @@ import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.json.JSONObject
 
 //七牛云工具
 class QiNiuUtil
@@ -36,7 +39,8 @@ fun ImageService.upLoadImage(
 						it.value,
 						{ key, responseInfo, response ->
 							//上传成功，返回结果
-							emitter.onSuccess("$key, $responseInfo, $response")
+							Log.d("QQQQ", "$key")
+							emitter.onSuccess(key)
 						}, UploadOptions(
 							null,
 							"test-type",
@@ -58,7 +62,7 @@ fun ImageService.upLoadImage(
 fun ImageService.upLoadImageList(
 	imagePathList: List<LocalMedia>,
 	onUpdateProgress: (Int) -> Unit
-): Single<String> {
+): Single<List<String>> {
 	val pathList = mutableListOf<String>()
 	val upKeyList = mutableListOf<String>()
 	var mill = System.currentTimeMillis()
@@ -73,6 +77,7 @@ fun ImageService.upLoadImageList(
 			.observeOn(AndroidSchedulers.mainThread())
 			.compose(dealQiNiuErrorCode())
 			.doOnSuccess { tokenRsp ->
+				val resultKeyList = mutableListOf<String>()
 				tokenRsp.data.map { entry ->
 					//key是图片在七牛云的上的相对path，value是上传所需token
 					val index = upKeyList.indexOf(entry.key)
@@ -81,11 +86,12 @@ fun ImageService.upLoadImageList(
 						{ key, responseInfo, response ->
 							if (index == imagePathList.size - 1) {
 								//已经全部上传成功，返回结果
-								emitter.onSuccess("$key, $responseInfo, $response")
+								resultKeyList.add(key)
+								emitter.onSuccess(resultKeyList)
 							}
 						}, UploadOptions(
 							null, "test-type", true,
-							UpProgressHandler { key, percent ->
+							UpProgressHandler { _, percent ->
 								//上传中，返回进度
 								onUpdateProgress(((100 / (pathList.size)) * percent).toInt())
 							}, null

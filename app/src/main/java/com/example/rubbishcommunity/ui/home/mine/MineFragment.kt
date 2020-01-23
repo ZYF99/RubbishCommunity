@@ -25,8 +25,8 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 		
 		//刷新状态监听
 		viewModel.isRefreshing.observeNonNull {
-			binding.refreshLayout.isRefreshing = it
-			binding.refreshLayout.isEnabled = it
+/*			binding.refreshLayout.isRefreshing = it
+			binding.refreshLayout.isEnabled = it*/
 			binding.rootLayout.isEnabled = !it
 		}
 		
@@ -47,12 +47,12 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 		}
 		
 		
-		//下拉刷新
+/*		//下拉刷新
 		RxSwipeRefreshLayout.refreshes(binding.refreshLayout)
 			.doOnNext {
 				refresh()
 			}
-			.bindLife()
+			.bindLife()*/
 		
 	}
 	

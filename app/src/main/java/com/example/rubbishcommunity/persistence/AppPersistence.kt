@@ -2,13 +2,11 @@ package com.example.rubbishcommunity.persistence
 
 
 import android.annotation.SuppressLint
-import android.util.SparseArray
 import com.baidu.location.BDLocation
 import com.example.rubbishcommunity.model.api.mine.UsrProfile
 import com.example.rubbishcommunity.model.api.search.Category
 import com.example.rubbishcommunity.utils.getAgeByBirth
-import com.example.rubbishcommunity.utils.stringToDate
-import java.util.HashMap
+import java.util.*
 
 //存储用于验证的信息
 fun saveVerifyInfo(
@@ -102,7 +100,7 @@ fun updateSomeUserInfo(
 	avatar: String,
 	gender: String,
 	name: String,
-	birthString: String,
+	birthday: Long,
 	location: BDLocation
 ) {
 	val oldUserInfo: UsrProfile = getLocalUserInfo()
@@ -114,8 +112,8 @@ fun updateSomeUserInfo(
 			location.province,
 			location.city,
 			location.street,
-			getAgeByBirth(stringToDate(birthString)),
-			birthString,
+			getAgeByBirth(Date(birthday)),
+			birthday,
 			oldUserInfo.profession,
 			gender,
 			oldUserInfo.signature,

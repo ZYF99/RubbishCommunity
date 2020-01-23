@@ -29,8 +29,7 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 	val gender = MutableLiveData("男")
 	val location = MutableLiveData<BDLocation>()
 	val name = MutableLiveData("")
-	val birthInt = MutableLiveData<Long>(0)
-	val birthString = MutableLiveData("")
+	val birthday = MutableLiveData(23558400000) //1970-10-1 00:00:00
 	
 	val isLoading = MutableLiveData(false)
 	private val apiService by instance<UserService>()
@@ -40,10 +39,8 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 	fun upLoadAvatar(path: String) {
 		imageService.upLoadImage(
 			path
-		) {
-			avatar.postValue(path)
-		}.doOnSuccess {
-			
+		) {}.doOnSuccess { key ->
+			avatar.postValue(key)
 		}.bindLife()
 	}
 	
@@ -61,7 +58,7 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 			return apiService.completeInfo(
 				CompleteInfoRequestModel(
 					avatar.value!!,
-					birthInt.value!!,
+					birthday.value!!,
 					(verifyCode.value!!).toUpperCase(Locale.ENGLISH),
 					gender.value!!,
 					0,
@@ -84,7 +81,7 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 					avatar.value!!,
 					gender.value!!,
 					name.value!!,
-					birthString.value!!,
+					birthday.value!!,
 					location.value ?: BDLocation()
 				)
 			}.compose(dealErrorCode())
@@ -129,10 +126,6 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 			}
 			name.value!!.length in 3..10 -> {
 				sendInputError("昵称长度必须大于2位")
-				false
-			}
-			birthString.value!!.length > 4 -> {
-				sendInputError("请选择出生日期")
 				false
 			}
 			avatar.value!!.isNotEmpty() -> {

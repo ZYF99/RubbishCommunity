@@ -1,6 +1,5 @@
 package com.example.rubbishcommunity.ui.home.find.dynamic.detail.innercomment
 
-import android.app.Activity
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.MyApplication
