@@ -16,13 +16,13 @@
             android:id="@+id/drawerlayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true">
+            android:paddingTop="@dimen/statusBarSize"
+            android:theme="@style/AppTheme">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingTop="10dp">
+                android:layout_height="match_parent">
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                     android:layout_width="match_parent"
@@ -34,10 +34,8 @@
 
                 <com.google.android.material.appbar.AppBarLayout
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
-                        android:background="@color/colorWhite"
-                        android:maxLength="3"
-                        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+                        android:layout_height="150dp"
+                        android:background="@color/colorWhite">
 
                     <com.google.android.material.appbar.CollapsingToolbarLayout
                             android:id="@+id/mCollapsingToolbarLayout"

@@ -16,7 +16,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="14dp">
+            android:theme="@style/AppTheme">
 
         <androidx.cardview.widget.CardView
                 android:id="@+id/appbar"

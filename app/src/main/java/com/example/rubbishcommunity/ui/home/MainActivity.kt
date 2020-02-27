@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit
 import android.view.KeyEvent.KEYCODE_BACK
 import com.example.rubbishcommunity.ui.home.homepage.HomePageFragment
 import android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+import com.example.rubbishcommunity.ui.container.jumpToSearch
 
 
 class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
@@ -80,11 +81,12 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 		}.bindLife()
 		
 		
-		//发个消息来测试
-		RxView.clicks(binding.btnSendMqttSmg)
+		//跳转至搜索界面
+		RxView.clicks(binding.btnSearch)
 			.throttleFirst(2, TimeUnit.SECONDS)
 			.doOnNext {
-				publishMqMsg("我是mq消息")
+				jumpToSearch(this)
+				//publishMqMsg("我是mq消息")
 /*				mqttPublish(viewModel.mqttClient).doOnSuccess {
 					MyApplication.showSuccess("send success")
 				}.bindLife()*/

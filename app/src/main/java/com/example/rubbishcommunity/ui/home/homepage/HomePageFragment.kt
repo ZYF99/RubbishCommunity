@@ -56,10 +56,6 @@ class HomePageFragment : BindingFragment<HomePageBinding, HomePageViewModel>(
 			}
 		}
 		
-		binding.linearSearch.setOnClickListener {
-			jumpToSearch(context!!)
-		}
-		
 		RxSwipeRefreshLayout.refreshes(binding.swipe).doOnNext {
 			refresh()
 		}.bindLife()

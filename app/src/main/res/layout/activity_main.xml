@@ -14,14 +14,14 @@
             android:background="@color/white">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btn_send_mqtt_smg"
+                android:id="@+id/btn_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:tint="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/fab_add"
                 app:layout_constraintEnd_toEndOf="@+id/bottomnavigation"
-                app:srcCompat="@drawable/icon_email" />
+                android:src="@drawable/icn_search" />
 
         <FrameLayout
                 android:id="@+id/maincontainer"

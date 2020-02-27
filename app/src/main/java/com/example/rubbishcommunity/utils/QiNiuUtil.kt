@@ -1,11 +1,10 @@
 package com.example.rubbishcommunity.utils
 
-import android.util.Log
+
 import com.example.rubbishcommunity.manager.api.ImageService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.model.api.GetQiNiuTokenRequestModel
 import com.example.rubbishcommunity.persistence.getLocalEmail
-import com.google.gson.JsonObject
 import com.luck.picture.lib.entity.LocalMedia
 import com.qiniu.android.http.ResponseInfo
 import com.qiniu.android.storage.UpProgressHandler
@@ -15,7 +14,6 @@ import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.json.JSONObject
 
 //七牛云工具
 class QiNiuUtil
@@ -39,7 +37,6 @@ fun ImageService.upLoadImage(
 						it.value,
 						{ key, responseInfo, response ->
 							//上传成功，返回结果
-							Log.d("QQQQ", "$key")
 							emitter.onSuccess(key)
 						}, UploadOptions(
 							null,
@@ -83,7 +80,7 @@ fun ImageService.upLoadImageList(
 					val index = upKeyList.indexOf(entry.key)
 					UploadManager().put(
 						pathList[index], upKeyList[index], entry.value,
-						{ key, responseInfo, response ->
+						{ key, _, _ ->
 							if (index == imagePathList.size - 1) {
 								//已经全部上传成功，返回结果
 								resultKeyList.add(key)

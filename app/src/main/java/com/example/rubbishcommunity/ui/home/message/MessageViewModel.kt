@@ -33,7 +33,7 @@ class MessageViewModel(application: Application) : BaseViewModel(application) {
 			}.doOnSubscribe {
 				val item = Message(
 					"eqtwruy8",
-					"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1564501096061&di=a38d4fdc3cd3f8b8fc05d5aa1cea9f97&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0137015b23fd90a8012034f7594657.jpg%401280w_1l_2o_100sh.jpg",
+					"https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=a9e671b9a551f3dedcb2bf64a4eff0ec/4610b912c8fcc3cef70d70409845d688d53f20f7.jpg",
 					"dsfsdf", "参与绿色行动，保护美丽家园。\n", "2019.8.21"
 				)
 				messageList.value = mutableListOf(item, item, item, item)

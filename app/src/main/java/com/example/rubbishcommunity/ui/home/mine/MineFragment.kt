@@ -24,35 +24,17 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 		//binding.collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE)
 		
 		//刷新状态监听
-		viewModel.isRefreshing.observeNonNull {
-/*			binding.refreshLayout.isRefreshing = it
-			binding.refreshLayout.isEnabled = it*/
-			binding.rootLayout.isEnabled = !it
-		}
+		viewModel.isRefreshing.observeNonNull { binding.rootLayout.isEnabled = !it }
 		
 		//设置按钮
-		binding.btnSetting.setOnClickListener {
-			jumpToEditInfo(context!!)
-		}
+		binding.btnSetting.setOnClickListener { jumpToEditInfo(context!!) }
 		
 		//账号安全按钮
-		binding.btnSafe.setOnClickListener {
-			jumpToPassword(context!!)
-		}
+		binding.btnSafe.setOnClickListener { jumpToPassword(context!!) }
 		
 		//注销按钮
-		binding.btnLogout.setOnClickListener {
-			//注销
-			logout()
-		}
+		binding.btnLogout.setOnClickListener { logout() }
 		
-		
-/*		//下拉刷新
-		RxSwipeRefreshLayout.refreshes(binding.refreshLayout)
-			.doOnNext {
-				refresh()
-			}
-			.bindLife()*/
 		
 	}
 	

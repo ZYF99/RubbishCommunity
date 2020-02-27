@@ -44,13 +44,11 @@ class EditInfoViewModel(application: Application) : BaseViewModel(application) {
 			avatar.value!!
 		) {
 			//onProgress
-			Log.d("PROGRESS", uploadProgress.value!!.toString())
 			uploadProgress.postValue(it)
 		}.flatMap { key ->
-			avatar.postValue(key)
-			userService.editUserInfo(hashMapOf(Pair("avatar", key)))
-				.switchThread()
-		}.compose(dealErrorCode())
+			userService.editUserInfo(hashMapOf(Pair("avatar", getImageUrlFromServer(key))))
+		}.switchThread()
+			.compose(dealErrorCode())
 			.compose(dealError())
 			.compose(dealRefreshing())
 			.bindLife()
@@ -130,3 +128,5 @@ class EditInfoViewModel(application: Application) : BaseViewModel(application) {
 		}
 	}
 }
+
+fun getImageUrlFromServer(key: String) = "http://image.upuphub.com/$key"
