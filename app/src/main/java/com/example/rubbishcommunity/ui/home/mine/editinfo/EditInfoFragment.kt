@@ -22,7 +22,6 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 	
 	override fun initWidget() {
 		
-		
 		//返回按钮
 		binding.toolbar.toolbar.setNavigationOnClickListener {
 			activity!!.finish()
@@ -66,7 +65,7 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 			showEditDialog(
 				"个人签名",
 				viewModel.signature.value!!,
-				20
+				30
 			) {
 				viewModel.signature.value = it
 				viewModel.editSignature()
@@ -90,7 +89,7 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 			showEditDialog(
 				"分类宣言",
 				viewModel.aboutMe.value!!,
-				20
+				30
 			) {
 				viewModel.aboutMe.value = it
 				viewModel.editAboutMe()

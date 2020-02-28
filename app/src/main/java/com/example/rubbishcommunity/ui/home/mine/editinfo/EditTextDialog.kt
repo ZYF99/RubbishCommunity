@@ -22,6 +22,7 @@ class EditTextDialog(
 		setCancelable(true)
 		childBinding.title = title
 		childBinding.text = text
+		childBinding.maxLength = maxLength
 		childBinding.editText.filters = arrayOf(InputFilter.LengthFilter(maxLength))
 		childBinding.btnConfirm.setOnClickListener {
 			dismiss()

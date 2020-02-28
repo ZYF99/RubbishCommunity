@@ -40,7 +40,7 @@
                 android:layout_marginBottom="16dp"
                 android:textCursorDrawable="@color/colorAccent"
                 android:ems="10"
-                android:inputType="textPersonName"
+                android:inputType="text"
                 android:maxLength="@{maxLength}"
                 android:text="@={text}"
                 android:textColor="@color/black"

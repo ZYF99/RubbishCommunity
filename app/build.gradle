@@ -12,13 +12,13 @@ apply plugin: 'kotlin-kapt'
 android {
     signingConfigs {
         debug {
-            storeFile file('/Users/zhangyf/key.jks')
+            storeFile file('../@keystore/key.jks')
             storePassword 'Wby0907'
             keyAlias = 'key'
             keyPassword 'Wby0907'
         }
         release {
-            storeFile file('/Users/zhangyf/key.jks')
+            storeFile file('../@keystore/key.jks')
             storePassword 'Wby0907'
             keyAlias = 'key'
             keyPassword 'Wby0907'

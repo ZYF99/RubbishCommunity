@@ -5,6 +5,8 @@
 
     <data class="EditInfoFragmentBinding">
 
+        <import type="android.view.View" />
+
         <variable
                 name="vm"
                 type="com.example.rubbishcommunity.ui.home.mine.editinfo.EditInfoViewModel" />
@@ -63,9 +65,10 @@
                 <ProgressBar
                         android:id="@+id/progressBar"
                         style="?android:attr/progressBarStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
                         android:progress="@{vm.uploadProgress}"
+                        android:visibility="@{vm.isUpdating()?View.VISIBLE:View.GONE}"
                         bind:layout_constraintBottom_toBottomOf="@+id/circleImageView2"
                         bind:layout_constraintEnd_toEndOf="@+id/circleImageView2"
                         bind:layout_constraintStart_toStartOf="@+id/circleImageView2"
@@ -74,8 +77,8 @@
                 <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/circleImageView2"
                         imageUrl="@{vm.avatar}"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:layout_weight="0"
                         android:scaleType="centerCrop"
                         bind:layout_constraintBottom_toBottomOf="parent"
@@ -106,7 +109,7 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0"
                     android:text="昵称"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
@@ -114,10 +117,11 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0"
+                    android:layout_weight="1"
                     android:text="@{vm.name}"
+                    android:textAlignment="textEnd"
                     android:textColor="@color/black"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     tools:text="Zhangyf" />
         </LinearLayout>
 
@@ -137,10 +141,9 @@
                 android:paddingBottom="12dp">
 
             <TextView
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0"
                     android:text="性别"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
@@ -148,10 +151,11 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0"
+                    android:layout_weight="1"
                     android:text="@{vm.gender}"
+                    android:textAlignment="textEnd"
                     android:textColor="@color/black"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     tools:text="男" />
         </LinearLayout>
 
@@ -179,17 +183,17 @@
 
             <TextView
                     android:id="@+id/tv_date"
+                    birthday="@{vm.birthday}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    birthday="@{vm.birthday}"
                     android:layout_alignParentEnd="true"
                     android:textColor="@color/black"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     tools:text="1998年11月10日" />
         </RelativeLayout>
 
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/btn_signature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -204,24 +208,28 @@
                 android:paddingBottom="12dp">
 
             <TextView
+                    android:id="@+id/textView12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:text="个人签名"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    bind:layout_constraintStart_toStartOf="parent"
+                    bind:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_weight="0"
-                    android:background="@null"
                     android:text="@={vm.signature}"
+                    android:textAlignment="textEnd"
                     android:textColor="@color/black"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
+                    bind:layout_constraintBottom_toBottomOf="parent"
+                    bind:layout_constraintEnd_toEndOf="parent"
+                    bind:layout_constraintStart_toEndOf="@id/textView12"
+                    bind:layout_constraintTop_toTopOf="parent"
                     tools:text="亲爱的热爱的" />
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
                 android:id="@+id/tip_2"
@@ -234,7 +242,7 @@
                 android:text="额外信息"
                 android:textColor="@color/colorAccent" />
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/btn_profession"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -250,26 +258,32 @@
 
             <TextView
 
+                    android:id="@+id/textView14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:text="职业"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    bind:layout_constraintBottom_toBottomOf="parent"
+                    bind:layout_constraintStart_toStartOf="parent"
+                    bind:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_weight="0"
-                    android:background="@null"
                     android:text="@{vm.profession}"
+                    android:textAlignment="textEnd"
                     android:textColor="@color/black"
                     android:textSize="14sp"
+                    bind:layout_constraintBottom_toBottomOf="parent"
+                    bind:layout_constraintEnd_toEndOf="parent"
+                    bind:layout_constraintStart_toEndOf="@+id/textView14"
+                    bind:layout_constraintTop_toTopOf="parent"
                     tools:text="亲爱的热爱的" />
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/btn_about_me"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -284,23 +298,29 @@
                 android:paddingBottom="12dp">
 
             <TextView
+                    android:id="@+id/textView15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="分类宣言"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    bind:layout_constraintBottom_toBottomOf="parent"
+                    bind:layout_constraintStart_toStartOf="parent"
+                    bind:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_weight="0"
-                    android:background="@null"
                     android:text="@{vm.aboutMe}"
+                    android:textAlignment="textEnd"
                     android:textColor="@color/black"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
+                    bind:layout_constraintBottom_toBottomOf="parent"
+                    bind:layout_constraintEnd_toEndOf="parent"
+                    bind:layout_constraintStart_toEndOf="@+id/textView15"
+                    bind:layout_constraintTop_toTopOf="parent"
                     tools:text="亲爱的热爱的" />
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 </layout>

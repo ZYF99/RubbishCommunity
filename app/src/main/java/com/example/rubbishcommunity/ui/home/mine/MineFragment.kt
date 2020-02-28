@@ -1,7 +1,6 @@
 package com.example.rubbishcommunity.ui.home.mine
 
 
-
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MineFragmentBinding
@@ -9,7 +8,6 @@ import com.example.rubbishcommunity.persistence.saveLoginState
 import com.example.rubbishcommunity.ui.container.jumpToEditInfo
 import com.example.rubbishcommunity.ui.container.jumpToPassword
 import com.example.rubbishcommunity.ui.container.jumpToLogin
-import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 
 class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 	MineViewModel::class.java, R.layout.fragment_mine
@@ -68,7 +66,6 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 	override fun initData() {
 	
 	}
-	
 	
 	override fun onResume() {
 		super.onResume()

@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            android:fitsSystemWindows="true"
             android:paddingTop="@dimen/statusBarSize"
             android:theme="@style/AppTheme">
 
@@ -34,7 +33,7 @@
                     android:layout_height="wrap_content"
                     app:contentInsetStart="0dp"
                     app:contentInsetStartWithNavigation="0dp"
-                    app:layout_scrollFlags="scroll|enterAlways|snap">
+                    app:layout_scrollFlags="scroll|snap|enterAlways">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"

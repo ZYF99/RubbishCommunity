@@ -2,7 +2,6 @@ package com.example.rubbishcommunity.ui.home.mine.editinfo
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.manager.api.ImageService
 import com.example.rubbishcommunity.manager.api.UserService
@@ -14,19 +13,13 @@ import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.utils.switchThread
 import com.example.rubbishcommunity.utils.upLoadImage
 import io.reactivex.Single
-import io.reactivex.SingleTransformer
 import org.kodein.di.generic.instance
-import java.text.SimpleDateFormat
-import java.util.*
-
 
 class EditInfoViewModel(application: Application) : BaseViewModel(application) {
 	
 	private val userService by instance<UserService>()
 	private val imageService by instance<ImageService>()
-	
 	val toolbarTitle = MutableLiveData("编辑资料")
-	
 	val uploadProgress = MutableLiveData(0)
 	val avatar = MutableLiveData("")
 	val name = MutableLiveData("默认昵称")
@@ -35,8 +28,7 @@ class EditInfoViewModel(application: Application) : BaseViewModel(application) {
 	val signature = MutableLiveData("")
 	val profession = MutableLiveData("")
 	val aboutMe = MutableLiveData("")
-	
-	val isRefreshing = MutableLiveData(false)
+	val isUpdating = MutableLiveData(false)
 	
 	//修改头像
 	fun editAvatar() {
@@ -46,11 +38,10 @@ class EditInfoViewModel(application: Application) : BaseViewModel(application) {
 			//onProgress
 			uploadProgress.postValue(it)
 		}.flatMap { key ->
-			userService.editUserInfo(hashMapOf(Pair("avatar", getImageUrlFromServer(key))))
+			editUserInfo("avatar", getImageUrlFromServer(key))
 		}.switchThread()
 			.compose(dealErrorCode())
 			.compose(dealError())
-			.compose(dealRefreshing())
 			.bindLife()
 	}
 	
@@ -71,7 +62,7 @@ class EditInfoViewModel(application: Application) : BaseViewModel(application) {
 	//修改生日
 	@SuppressLint("SimpleDateFormat")
 	fun editBirthDay() {
-		editUserInfo("birthday", birthday.toString())
+		editUserInfo("birthday", birthday.value.toString())
 			.bindLife()
 	}
 	
@@ -115,18 +106,10 @@ class EditInfoViewModel(application: Application) : BaseViewModel(application) {
 		).switchThread()
 			.compose(dealErrorCode())
 			.compose(dealError())
-			.compose(dealRefreshing())
-		
+			.doOnSubscribe { isUpdating.postValue(true) }
+			.doFinally { isUpdating.postValue(false) }
 	}
 	
-	
-	private fun <T> dealRefreshing(): SingleTransformer<T, T> {
-		return SingleTransformer { obs ->
-			obs.doOnSubscribe { isRefreshing.postValue(true) }
-				.doOnSuccess { isRefreshing.postValue(false) }
-				.doOnError { isRefreshing.postValue(false) }
-		}
-	}
 }
 
 fun getImageUrlFromServer(key: String) = "http://image.upuphub.com/$key"
