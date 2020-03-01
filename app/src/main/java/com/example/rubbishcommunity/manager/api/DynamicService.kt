@@ -24,7 +24,7 @@ interface DynamicService {
 	//上传动态草稿
 	@Headers("Content-Type: application/json;charset=UTF-8")
 	@POST("api/moments/draft")
-	fun saveDraft(@Body draft: Draft): Single<ResultModel<String>>
+	fun saveDraft(@Body draft: Draft): Single<ResultModel<Long>>
 	
 	//拉取动态草稿
 	@Headers("Content-Type: application/json;charset=UTF-8")

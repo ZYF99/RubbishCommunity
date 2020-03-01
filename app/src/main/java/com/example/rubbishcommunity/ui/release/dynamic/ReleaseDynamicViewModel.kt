@@ -68,11 +68,8 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 			.switchThread()
 			.doOnSuccess {
 				val draftData = it.data
-				title.postValue(draftData.topic ?: "")
-				content.postValue(draftData.dynamic ?: "")
-				/*	selectedList.postValue(
-						draftData.pictures
-					)*/
+				title.postValue(draftData?.title ?: "")
+				content.postValue(draftData?.content ?: "")
 			}.compose(dealLoading())
 			.compose(dealErrorCode())
 			.compose(dealError())
@@ -87,28 +84,28 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 				content.value!!.isNullOrEmpty() -> emitter.onError(UiError("添加内容后才能存草稿哦～"))
 				else -> emitter.onComplete()
 			}
-		}.compose(dealUiError())
-			.doOnComplete {
-				SharedPreferencesUtils.putListData("draft_selectedList", selectedList.value!!)
-				dynamicService.saveDraft(
-					Draft(
-						1,
-						content.value!!,
-						location.value?.latitude ?: 0.0,
-						location.value?.longitude ?: 0.0,
-						selectedList.value?.map {
-							it.path
-						}!!,
-						title.value!!
-					)
-				).switchThread()
-					.doOnSuccess {
-						MyApplication.showSuccess("已存入草稿箱～")
-					}.compose(dealLoading())
-					.compose(dealErrorCode())
-					.compose(dealError())
-					.bindLife()
-			}
+		}.doOnComplete {
+			SharedPreferencesUtils.putListData("draft_selectedList", selectedList.value!!)
+			dynamicService.saveDraft(
+				Draft(
+					1,
+					content.value!!,
+					location.value?.latitude ?: 0.0,
+					location.value?.longitude ?: 0.0,
+					selectedList.value?.map {
+						it.path
+					}!!,
+					title.value!!,
+					"default_topic"
+				)
+			).switchThread()
+				.doOnSuccess {
+					MyApplication.showSuccess("已存入草稿箱～")
+				}.compose(dealLoading())
+				.compose(dealErrorCode())
+				.compose(dealError())
+				.bindLife()
+		}
 	
 	
 	fun clearDraft() {
@@ -170,8 +167,8 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 	private fun judgeReleaseParams(): Completable =
 		Completable.create { emitter ->
 			when {
-				(title.value!!.isNullOrEmpty()) -> emitter.onError(UiError("添加一个标题吧～"))
-				(content.value!!.isNullOrEmpty()) -> emitter.onError(UiError("说点什么吧～"))
+				(title.value?.isEmpty() ?: true) -> emitter.onError(UiError("添加一个标题吧～"))
+				(content.value?.isEmpty() ?: true) -> emitter.onError(UiError("说点什么吧～"))
 				else -> emitter.onComplete()
 			}
 		}
