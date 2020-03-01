@@ -52,7 +52,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:text="@{message.title,default=通知消息}"
+                    android:text="@{message.title}"
                     android:textColor="@android:color/black"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toStartOf="@+id/cell_msg_time"
@@ -64,7 +64,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:text="@{message.uid,default=张大峰}"
+                    android:text="@{message.uid}"
                     android:textColor="#AAAAAA"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -79,7 +79,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:padding="4dp"
-                    android:text='@{message.time,default="17:40"}'
+                    android:text='@{message.time}'
                     android:textColor="#AAAAAA"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"

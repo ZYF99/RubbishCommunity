@@ -1,16 +1,24 @@
 package com.example.rubbishcommunity.utils
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
 import com.baidu.location.BDAbstractLocationListener
 import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
 import android.location.LocationManager
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.os.Bundle
 import android.provider.Settings
+import androidx.core.app.ActivityCompat
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import io.reactivex.Observable
+import io.reactivex.Single
 import rx_activity_result2.RxActivityResult
 import timber.log.Timber
 
@@ -48,6 +56,42 @@ fun BindingFragment<*, *>.checkLocationPermissionAndGetLocation(
 		}
 	}
 	
+	@SuppressLint("MissingPermission")
+	fun getLocationByAndroid() :Observable<Location>{
+		return Observable.create<Location> { emitter ->
+			val myLocationManager =
+				context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+			val a = myLocationManager.getProvider(LocationManager.GPS_PROVIDER)
+			if (ActivityCompat.checkSelfPermission(
+					context!!,
+					Manifest.permission.ACCESS_FINE_LOCATION
+				) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+					context!!,
+					Manifest.permission.ACCESS_COARSE_LOCATION
+				) == PackageManager.PERMISSION_GRANTED
+			)
+				myLocationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, object :
+					LocationListener {
+					override fun onLocationChanged(location: Location?) {
+						if (location != null)
+							emitter.onNext(location)
+					}
+					
+					override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+					
+					}
+					
+					override fun onProviderEnabled(provider: String?) {
+					
+					}
+					
+					override fun onProviderDisabled(provider: String?) {
+					
+					}
+				}, null)
+		}
+	}
+	
 	
 	//确保打开定位服务后开始定位
 	fun checkLocationServiceIsOpen(): Observable<Any> {
@@ -67,6 +111,7 @@ fun BindingFragment<*, *>.checkLocationPermissionAndGetLocation(
 			checkLocationServiceIsOpen()
 		}.flatMap {
 			getLocation()
+			//getLocationByAndroid()
 		}
 		.doOnError { error ->
 			when (error) {

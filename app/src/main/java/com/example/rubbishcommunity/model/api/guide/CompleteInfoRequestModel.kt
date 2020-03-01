@@ -1,6 +1,7 @@
 package com.example.rubbishcommunity.model.api.guide
 
 data class CompleteInfoRequestModel(
+	val email:String,
 	val avatar: String,
 	val birthday: Long,
 	val code: String,

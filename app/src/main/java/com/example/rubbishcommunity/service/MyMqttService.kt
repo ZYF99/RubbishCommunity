@@ -22,8 +22,9 @@ import com.example.rubbishcommunity.BuildConfig
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.persistence.getLocalEmail
+import com.example.rubbishcommunity.persistence.getLocalUin
+import com.example.rubbishcommunity.persistence.getLocalUserInfo
 import com.example.rubbishcommunity.ui.utils.sendSimpleNotification
-
 
 /**
  * @author Zhangyf
@@ -36,20 +37,23 @@ const val CHANNEL_ID_STRING = "用于显示即使消息"
 
 class MyMqttService : Service() {
 	private var mqttAndroidClient: MqttAndroidClient? = null
+	
 	inner class CustomBinder : Binder() {
 		val service: MyMqttService
 			get() = this@MyMqttService
 	}
+	
 	override fun onBind(intent: Intent): IBinder {
 		return CustomBinder()
 	}
+	
 	override fun onCreate() {
 		super.onCreate()
 		//mqtt服务器的地址
 		val serverUri = BuildConfig.MQTT_URL
 		//新建Client,以设备ID作为client ID
 		mqttAndroidClient =
-			MqttAndroidClient(this@MyMqttService, serverUri, getLocalEmail())
+			MqttAndroidClient(this@MyMqttService, serverUri, "UA:${getLocalUin()}")
 		mqttAndroidClient?.setCallback(object : MqttCallbackExtended {
 			override fun connectComplete(reconnect: Boolean, serverURI: String) {
 				//连接成功
@@ -68,10 +72,7 @@ class MyMqttService : Service() {
 			override fun messageArrived(topic: String, message: MqttMessage) {
 				//订阅的消息送达，推送notify
 				
-				
 				sendSimpleNotification(applicationContext, topic, message.toString())
-				
-				
 			}
 			
 			override fun deliveryComplete(token: IMqttDeliveryToken) {
@@ -84,6 +85,8 @@ class MyMqttService : Service() {
 		mqttConnectOptions.isAutomaticReconnect = true
 		//是否清空客户端的连接记录。若为true，则断开后，broker将自动清除该客户端连接信息
 		mqttConnectOptions.isCleanSession = false
+		//设置Mq连接的userName
+		mqttConnectOptions.userName = getLocalEmail()
 		//设置超时时间，单位为秒
 		//mqttConnectOptions.setConnectionTimeout(2);
 		//心跳时间，单位为秒。即多长时间确认一次Client端是否在线
@@ -173,7 +176,6 @@ class MyMqttService : Service() {
 		} catch (ex: MqttException) {
 			ex.printStackTrace()
 		}
-		
 	}
 	
 	//发布消息
@@ -187,21 +189,20 @@ class MyMqttService : Service() {
 		}
 	}
 	
-	override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-		return super.onStartCommand(intent, flags, startId)
-	}
-	
 	override fun onDestroy() {
-		super.onDestroy()
 		//服务退出时client断开连接
 		mqttAndroidClient?.unregisterResources()
 		mqttAndroidClient?.close()
 		mqttAndroidClient?.disconnect()
 		mqttAndroidClient?.setCallback(null)
 		mqttAndroidClient = null
+		super.onDestroy()
 	}
 	
-
-
-
+	override fun onUnbind(intent: Intent?): Boolean {
+		mqttAndroidClient?.unregisterResources()
+		return super.onUnbind(intent)
+	}
+	
+	
 }

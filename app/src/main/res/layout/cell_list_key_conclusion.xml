@@ -30,7 +30,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="@{keyConclusion.name,default=AAA}"
+                android:text="@{keyConclusion.name}"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -46,7 +46,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:padding="4dp"
-                android:text='@{classfication,default="1111"}'
+                android:text='@{classfication}'
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"

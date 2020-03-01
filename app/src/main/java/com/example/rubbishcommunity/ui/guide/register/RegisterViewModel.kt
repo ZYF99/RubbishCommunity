@@ -91,6 +91,7 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 				.doOnSuccess {
 					//持久化得到的token以及用户登录的信息
 					saveVerifyInfo(
+						it.data.uin,
 						email.value?:"",
 						password.value?:"",
 						it.data.token,

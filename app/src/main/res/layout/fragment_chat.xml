@@ -39,7 +39,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="@{vm.toolbarTitle,default=Toolbar标题}"
+                        android:text="@{vm.toolbarTitle}"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 

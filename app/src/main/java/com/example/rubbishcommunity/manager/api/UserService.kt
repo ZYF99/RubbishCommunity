@@ -8,6 +8,7 @@ import com.example.rubbishcommunity.model.api.mine.UserCardResultModel
 import com.example.rubbishcommunity.model.api.mine.UsrProfileResp
 import com.example.rubbishcommunity.model.api.password.ResetPasswordRequestModel
 import io.reactivex.Single
+import okhttp3.ResponseBody
 import retrofit2.http.*
 
 /**
@@ -17,7 +18,7 @@ import retrofit2.http.*
  */
 interface UserService {
 	
-	//登陆或注册
+	//登录或注册
 	@POST("api/account/login")
 	fun loginOrRegister(@Body loginOrRegisterRequestModel: LoginOrRegisterRequestModel): Single<ResultModel<LoginOrRegisterResultModel>>
 	
@@ -35,7 +36,6 @@ interface UserService {
 	fun editUserInfo(@Body modifyMap: HashMap<String, String>): Single<ResultModel<String>>
 	
 	
-	
 	//刷新用户详细信息
 	@GET("api/account/profile/refresh")
 	fun getUserProfile(): Single<ResultModel<UsrProfileResp>>
@@ -46,12 +46,11 @@ interface UserService {
 	
 	//注销
 	@POST("api/account/logout")
-	fun logout(): Single<ResultModel<String>>
+	fun logout(): Single<ResponseBody>
 	
 	//修改密码
 	@PUT("api/account/password/modify")
 	fun editPassword(@Body passwordReq: ResetPasswordRequestModel): Single<ResultModel<String>>
 	
-
 	
 }

@@ -92,7 +92,7 @@ class MyApplication : MultiDexApplication(), KodeinAware {
 			//setLocationPurpose(LocationClientOption.BDLocationPurpose.Sport)
 			
 			//可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
-			// isLocationNotify = false
+			 isLocationNotify = true
 			
 			
 			//可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
@@ -117,11 +117,11 @@ class MyApplication : MultiDexApplication(), KodeinAware {
 			
 			
 			//设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者，该模式下开发者无需再关心定位间隔是多少，定位SDK本身发现位置变化就会及时回调给开发者
-			//setOpenAutoNotifyMode()
+			setOpenAutoNotifyMode()
 			
 			
 			//设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者
-			//setOpenAutoNotifyMode(3000, 1, LocationClientOption.LOC_SENSITIVITY_HIGHT)
+			setOpenAutoNotifyMode(3000, 1, LocationClientOption.LOC_SENSITIVITY_HIGHT)
 		}
 	}
 }

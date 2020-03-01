@@ -48,7 +48,6 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 		val deviceBrand = deviceBrand
 		val osVersion = systemVersion
 		val systemModel = systemModel
-		
 		if (judgeLoginParams()) {
 			return apiService.loginOrRegister(
 				LoginOrRegisterRequestModel(
@@ -72,6 +71,7 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 				.doOnSuccess {
 					//持久化得到的token以及用户登录的信息
 					saveVerifyInfo(
+						it.data.uin,
 						userName.value?:"",
 						password.value?:"",
 						it.data.token,

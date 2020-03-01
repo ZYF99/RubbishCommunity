@@ -33,7 +33,7 @@
                     android:textColor="@color/black"
                     android:layout_gravity="center"
                     android:textSize="18sp"
-                    android:text="@{title,default=Toolbar标题}" />
+                    android:text="@{title}" />
 
         </androidx.appcompat.widget.Toolbar>
 

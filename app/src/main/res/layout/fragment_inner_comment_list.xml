@@ -53,7 +53,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text='@{vm.innerCommentList != null ? vm.innerCommentList.size+"条回复":"此条无评论",default="12条回复"}'
+                        android:text='@{vm.innerCommentList != null ? vm.innerCommentList.size+@string/unit_comment:@string/no_comment}'
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"

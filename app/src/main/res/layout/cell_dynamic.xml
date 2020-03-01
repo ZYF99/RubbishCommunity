@@ -86,7 +86,7 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="24dp"
                         android:lineSpacingExtra="4dp"
-                        android:text="@{dynamic.content,default = asdasdasdsdgcfuydegwbcfvygdewuyhcfgvwyubvcuygdwchiudvwuyvwhdsbvchjudwvcdvwcbdhjwcv}"
+                        android:text="@{dynamic.content}"
                         android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

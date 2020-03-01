@@ -10,6 +10,7 @@ import java.util.*
 
 //存储用于验证的信息
 fun saveVerifyInfo(
+	uin:Int,
 	userName: String,
 	password: String,
 	token: String,
@@ -17,6 +18,10 @@ fun saveVerifyInfo(
 	emailVerifiedFlag: Boolean,
 	needMoreInfoFlag: Boolean
 ) {
+	SharedPreferencesUtils.putData(
+		"uin",
+		uin
+	)
 	SharedPreferencesUtils.putData(
 		"email",
 		userName
@@ -95,6 +100,14 @@ fun getLocalUserInfo(): UsrProfile {
 	) as UsrProfile)
 }
 
+//获取用户uin
+fun getLocalUin(): Int {
+	return (SharedPreferencesUtils.getData(
+		"uin",
+		0
+	) as Int)
+}
+
 //更新部分基本信息
 fun updateSomeUserInfo(
 	avatar: String,
@@ -108,10 +121,10 @@ fun updateSomeUserInfo(
 		UsrProfile(
 			name,
 			avatar,
-			location.country,
-			location.province,
-			location.city,
-			location.street,
+			location.country?:"中国",
+			location.province?:"四川",
+			location.city?:"成都",
+			location.street?:"天府大道",
 			getAgeByBirth(Date(birthday)),
 			birthday,
 			oldUserInfo.profession,
