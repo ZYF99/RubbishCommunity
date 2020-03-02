@@ -1,6 +1,7 @@
 package com.example.rubbishcommunity.ui.guide.basicinfo
 
 import android.app.Application
+import android.location.Location
 import androidx.lifecycle.MutableLiveData
 import com.baidu.location.BDLocation
 import com.example.rubbishcommunity.manager.api.ImageService
@@ -13,12 +14,12 @@ import com.example.rubbishcommunity.model.api.guide.CompleteInfoRequestModel
 import com.example.rubbishcommunity.persistence.changeEmailVerifiedFlag
 import com.example.rubbishcommunity.persistence.getLocalEmail
 import com.example.rubbishcommunity.persistence.updateSomeUserInfo
+import com.example.rubbishcommunity.ui.home.mine.editinfo.getImageUrlFromServer
 import com.example.rubbishcommunity.ui.utils.ErrorType
 import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.utils.*
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
-import io.reactivex.schedulers.Schedulers
 import org.kodein.di.generic.instance
 import java.util.*
 
@@ -30,7 +31,6 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 	val location = MutableLiveData<BDLocation>()
 	val name = MutableLiveData("")
 	val birthday = MutableLiveData(23558400000) //1970-10-1 00:00:00
-	
 	val isLoading = MutableLiveData(false)
 	private val apiService by instance<UserService>()
 	private val imageService by instance<ImageService>()
@@ -40,7 +40,7 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 		imageService.upLoadImage(
 			path
 		) {}.doOnSuccess { key ->
-			avatar.postValue(key)
+			avatar.postValue(getImageUrlFromServer(key))
 		}.bindLife()
 	}
 	
@@ -57,23 +57,25 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 		if (judgeCompleteInfoParams()) {
 			return apiService.completeInfo(
 				CompleteInfoRequestModel(
+					getLocalEmail(),
 					avatar.value!!,
 					birthday.value!!,
 					(verifyCode.value!!).toUpperCase(Locale.ENGLISH),
 					gender.value!!,
 					0,
 					CompleteInfoRequestModel.LocationReq(
-						location.value?.city!!,
-						location.value?.country!!,
-						location.value?.district!!,
+						location.value?.city?:"成都",
+						location.value?.country?:"中国",
+						location.value?.district?:"高新区",
 						location.value?.latitude ?: 0.0,
 						location.value?.longitude ?: 0.0,
-						location.value?.province ?: "",
-						location.value?.street ?: ""
+						location.value?.province ?: "四川",
+						location.value?.street ?: "默认街道"
 					),
 					name.value!!
 				)
-			).subscribeOn(Schedulers.io()).doOnSuccess {
+			).switchThread()
+				.doOnSuccess {
 				//改变邮箱验证状态为已验证
 				changeEmailVerifiedFlag(true)
 				//更新本地基本信息
@@ -84,7 +86,8 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 					birthday.value!!,
 					location.value ?: BDLocation()
 				)
-			}.compose(dealErrorCode())
+			}
+				.compose(dealErrorCode())
 				.compose(dealError())
 				.compose(dealLoading())
 		} else {
@@ -124,11 +127,11 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 				sendInputError("请输入完整的验证码")
 				false
 			}
-			name.value!!.length in 3..10 -> {
+			!(name.value!!.length in 3..10) -> {
 				sendInputError("昵称长度必须大于2位")
 				false
 			}
-			avatar.value!!.isNotEmpty() -> {
+			avatar.value!!.isEmpty() -> {
 				sendInputError("请先上传头像")
 				false
 			}

@@ -184,9 +184,7 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 				.setMessage(R.string.release_exit_dialog_msg)
 				.setPositiveButton(R.string.release_exit_dialog_save) { _, _ ->
 					viewModel.saveDraft()
-						.doOnComplete {
-							activity!!.finish()
-						}.bindLife()
+						.doOnComplete { activity!!.finish() }.bindLife()
 				}
 				.setNegativeButton(R.string.exit) { _, _ ->
 					activity?.finish()

@@ -63,7 +63,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginLeft="10dp"
-                            android:text="@{vm.title,default=昵称}"
+                            android:text="@{vm.title}"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
                 </LinearLayout>
@@ -106,7 +106,7 @@
                             android:layout_marginTop="16dp"
                             android:layout_marginBottom="16dp"
                             android:gravity="start"
-                            android:text="@{vm.title,default=标题}"
+                            android:text="@{vm.title}"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
 
@@ -122,7 +122,7 @@
                             android:lineSpacingExtra="8dp"
                             android:maxLines="20"
                             android:minHeight="100dp"
-                            android:text="@={vm.content,default=这里是内容啊啊啊啊啊啊啊}"
+                            android:text="@={vm.content}"
                             android:textColor="@color/black"
                             android:textColorHint="@color/text_second"
                             android:textCursorDrawable="@drawable/my_cursor"
@@ -184,7 +184,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
                             android:layout_weight="0"
-                            android:text='@{"共"+vm.commentList.size()+"条评论",default=共123条评论}'
+                            android:text='@{vm.commentList.size()+@string/unit_comment}'
                             android:textColor="@color/text_third"
                             android:textSize="14sp" />
 
@@ -247,7 +247,7 @@
                                 android:gravity="center"
                                 android:paddingTop="12dp"
                                 android:paddingBottom="12dp"
-                                android:text='@{"赞 "+vm.likeNum,default="赞 668"}'
+                                android:text='@{@string/like+vm.likeNum}'
                                 android:textColor="@color/text_third"
                                 android:textSize="16sp"
                                 tools:targetApi="lollipop" />

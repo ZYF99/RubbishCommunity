@@ -34,7 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text_third"
-                    android:text="@{comment.user.name,default=盎司}" />
+                    android:text="@{comment.user.name}" />
 
             <TextView
                     android:id="@+id/tv_content"
@@ -44,7 +44,7 @@
                     android:layout_marginBottom="8dp"
                     android:textSize="16sp"
                     android:textColor="@color/black"
-                    android:text="@{comment.content,default=内容内容投票能发光2佛都是为你们疯狂破第三方第三方阿迪失望反倒是我但说无妨门得分}"/>
+                    android:text="@{comment.content}"/>
 
             <LinearLayout
                     android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
                         android:background="?android:attr/selectableItemBackground"
                         android:clickable="true"
                         android:focusable="true"
-                        android:text='@{comment.time,default="2019.4.6"}' />
+                        android:text='@{comment.time}' />
                 <TextView
                         android:id="@+id/btn_reply"
                         android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:textColor="@color/text_third"
-                    android:text='@{comment.innerCommentList != null ? comment.innerCommentList.size+"条回复":"此条无评论",default="12条回复"}' />
+                    android:text='@{comment.innerCommentList != null ? comment.innerCommentList.size+@string/unit_comment:@string/no_comment}' />
 
 
         </LinearLayout>

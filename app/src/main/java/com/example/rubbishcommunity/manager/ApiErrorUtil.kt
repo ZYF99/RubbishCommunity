@@ -7,6 +7,7 @@ import com.example.rubbishcommunity.ui.utils.ErrorData
 import com.example.rubbishcommunity.ui.utils.ErrorType
 import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.utils.*
+import com.google.android.gms.common.api.ApiException
 import io.reactivex.SingleTransformer
 import java.net.SocketTimeoutException
 

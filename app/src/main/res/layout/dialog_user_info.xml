@@ -10,9 +10,6 @@
                 type="com.example.rubbishcommunity.model.api.mine.UsrProfile" />
     </data>
 
-
-
-
         <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -103,7 +100,7 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text='@{userInfo.age+"岁"}'
+                            android:text='@{userInfo.age+@string/age}'
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             tools:text="18岁" />
@@ -166,8 +163,6 @@
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
         </androidx.cardview.widget.CardView>
 
 

@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.manager.api.UserService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
-import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.mine.UsrProfile
 import com.example.rubbishcommunity.persistence.getLocalUserInfo
 import com.example.rubbishcommunity.persistence.saveUserInfo
@@ -13,8 +12,8 @@ import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.utils.switchThread
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
+import okhttp3.ResponseBody
 import org.kodein.di.generic.instance
-
 
 class MineViewModel(application: Application) : BaseViewModel(application) {
 	
@@ -40,8 +39,7 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 			.bindLife()
 	}
 	
-	
-	fun logout(): Single<ResultModel<String>> {
+	fun logout(): Single<ResponseBody> {
 		return userService.logout()
 			.switchThread()
 			.compose(dealErrorCode())

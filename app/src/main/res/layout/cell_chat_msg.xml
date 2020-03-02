@@ -88,7 +88,7 @@
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
                         android:singleLine="false"
-                        android:text='@{chatMessage.content,default="leftMsg"}'
+                        android:text='@{chatMessage.content}'
                         android:textColor="@android:color/black"
                         android:textSize="16sp" />
             </androidx.cardview.widget.CardView>
@@ -111,7 +111,7 @@
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
                         android:singleLine="false"
-                        android:text='@{chatMessage.content,default="rightMsg"}'
+                        android:text='@{chatMessage.content}'
                         android:textColor="@android:color/black"
                         android:textSize="16sp" />
             </androidx.cardview.widget.CardView>

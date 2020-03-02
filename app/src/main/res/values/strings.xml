@@ -10,6 +10,9 @@
     <string name="cancel">取消</string>
     <string name="exit">退出</string>
 
+    <string name="gender_male">男</string>
+    <string name="gender_female">女</string>
+
     <!--Homepage errorData dialog-->
 
     <string name="homepage_dialog_button_setting">设置wifi</string>
@@ -20,6 +23,10 @@
     <string name="current_city">当前城市</string>
     <string name="small_button_camera">拍照查询</string>
     <string name="small_button_mac">语音查询</string>
+    <string name="unit_comment">条回复</string>
+    <string name="no_comment">此条无评论</string>
+    <string name="like">赞</string>
+    <string name="age">岁</string>
 
     <!--Homepage errorData dialog - No wifi-->
     <string name="net_unavailable">网络错误</string>

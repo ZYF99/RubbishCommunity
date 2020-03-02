@@ -1,7 +1,7 @@
 package com.example.rubbishcommunity.ui.home
 
-
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
@@ -22,17 +22,14 @@ import io.reactivex.Single
 import java.util.concurrent.TimeUnit
 import android.view.KeyEvent.KEYCODE_BACK
 import com.example.rubbishcommunity.ui.home.homepage.HomePageFragment
-import android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+import com.example.rubbishcommunity.service.MyMqttService
 import com.example.rubbishcommunity.ui.container.jumpToSearch
-
 
 class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	override val clazz: Class<MainViewModel> = MainViewModel::class.java
 	override val layRes: Int = R.layout.activity_main
 	private var currentFragment: Fragment? = HomePageFragment()
-	
 	private val mqServiceConnection = MqServiceConnection()
-	
 	
 	override fun initBefore() {
 	
@@ -106,13 +103,13 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	}
 	
 	override fun initData() {
-
-/*		//启动mqtt服务
+		
+		//启动mqtt服务
 		bindService(
 			Intent(this, MyMqttService::class.java),
 			mqServiceConnection,
 			Context.BIND_AUTO_CREATE
-		)*/
+		)
 		
 	}
 	
@@ -171,6 +168,10 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 			}).showAbove(binding.fabAdd)
 	}
 	
+	override fun onDestroy() {
+		unbindService(mqServiceConnection)
+		super.onDestroy()
+	}
 	
 	override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
 		if (keyCode == KEYCODE_BACK) {

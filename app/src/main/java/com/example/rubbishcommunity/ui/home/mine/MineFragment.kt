@@ -51,14 +51,8 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 			.doOnSuccess {
 				//注销成功
 				saveLoginState(false)
-				activity?.finish()
 				jumpToLogin(context!!)
-			}
-			.doOnSubscribe {
-				//模拟注销成功
-				saveLoginState(false)
 				activity?.finish()
-				jumpToLogin(context!!)
 			}
 			.bindLife()
 	}

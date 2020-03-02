@@ -15,9 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorGuideBack"
-            android:paddingTop="@dimen/statusBarSize"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            android:paddingTop="@dimen/statusBarSize">
 
 
         <LinearLayout
@@ -58,6 +57,7 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/img_avatar"
+                        imageUrlWithAddIcon="@{vm.avatar}"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginStart="16dp"
@@ -66,25 +66,24 @@
                         android:layout_marginBottom="16dp"
                         android:elevation="4dp"
                         android:text="注册您的账号"
-                        tools:src="@drawable/icon_add_pic"
                         android:textColor="@color/white"
                         android:textSize="16sp"
-                        imageUrlWithAddIcon="@{vm.avatar}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/icon_add_pic" />
 
                 <ImageView
                         android:id="@+id/img_gender"
+                        gender="@{vm.gender}"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:elevation="4dp"
-                        android:layout_marginBottom="8dp"
                         android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
                         android:background="@drawable/bg_circle"
-                        android:backgroundTint='@{vm.gender == null?@color/colorMale:@color/colorFemale,default=@color/colorMale}'
-                        android:src='@{vm.gender == "男"?@drawable/icon_gendermale:@drawable/icon_genderfemale,default=@drawable/icon_gendermale}'
+                        android:backgroundTint='@{vm.gender == @string/gender_male?@color/colorMale:@color/colorFemale,default=@color/colorMale}'
+                        android:elevation="4dp"
                         android:padding="4dp"
                         android:tint="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -146,8 +145,6 @@
                 tools:targetApi="lollipop">
 
 
-
-
             <LinearLayout
                     android:id="@+id/lin_code"
                     android:layout_width="match_parent"
@@ -181,8 +178,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:hint="输入收到的验证码"
                             android:digits="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789"
+                            android:hint="输入收到的验证码"
                             android:inputType="textCapWords"
                             android:maxLength="6"
                             android:padding="12dp"
@@ -294,20 +291,18 @@
                         app:srcCompat="@drawable/icon_birthday" />
 
 
-
-
-                    <TextView
-                            android:id="@+id/tv_birthday"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:ems="10"
-                            android:maxLength="16"
-                            android:padding="12dp"
-                            birthday="@{vm.birthday}"
-                            android:textColor="@color/text_hint"
-                            android:textColorHint="@color/text_hint"
-                            android:textSize="14sp" />
+                <TextView
+                        android:id="@+id/tv_birthday"
+                        birthday="@{vm.birthday}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:ems="10"
+                        android:maxLength="16"
+                        android:padding="12dp"
+                        android:textColor="@color/text_hint"
+                        android:textColorHint="@color/text_hint"
+                        android:textSize="14sp" />
 
 
             </LinearLayout>

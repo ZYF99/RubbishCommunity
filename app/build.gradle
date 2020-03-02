@@ -10,7 +10,7 @@ apply plugin: 'kotlin-kapt'
 
 
 android {
-    signingConfigs {
+/*    signingConfigs {
         debug {
             storeFile file('../@keystore/key.jks')
             storePassword 'Wby0907'
@@ -23,7 +23,7 @@ android {
             keyAlias = 'key'
             keyPassword 'Wby0907'
         }
-    }
+    }*/
     compileSdkVersion 29
     buildToolsVersion "29.0.0"
     defaultConfig {
@@ -35,7 +35,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         manifestPlaceholders = [:]
-        signingConfig signingConfigs.release
+/*        signingConfig signingConfigs.release*/
         versionNameSuffix = '1.0'
     }
 
@@ -95,7 +95,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             //LeoWong api
-            buildConfigField("String", "BASE_URL", '"https://api.upuphub.com/"')
+            //buildConfigField("String", "BASE_URL", '"https://api.upuphub.com/"')
+            buildConfigField("String", "BASE_URL", '"http://192.168.0.110:18766/"')
 
             //聚合 api
             buildConfigField("String", "JUHE_APPKEY", '"214dc714d14b8eb6341080f3e14bc139"')
@@ -117,13 +118,14 @@ android {
             buildConfigField "boolean", "ALLOW_ALL_CERTIFICATES", "true"
 
             //MQTT
-            buildConfigField("String", "MQTT_URL", '"tcp://119.3.147.11:19099"')
+            buildConfigField("String", "MQTT_URL", '"tcp://192.168.0.127:1883"')
             buildConfigField("String", "MQTT_USERNAME", '"CloudZhang"')
             buildConfigField("String", "MQTT_PASSWORD", '"CloudZhang"')
         }
         debug {
             //LeoWong api
-            buildConfigField("String", "BASE_URL", '"https://api.upuphub.com/"')
+            //buildConfigField("String", "BASE_URL", '"https://api.upuphub.com/"')
+            buildConfigField("String", "BASE_URL", '"http://192.168.0.110:18766/"')
 
             //聚合 api
             buildConfigField("String", "JUHE_APPKEY", '"214dc714d14b8eb6341080f3e14bc139"')
@@ -145,7 +147,7 @@ android {
             buildConfigField "boolean", "ALLOW_ALL_CERTIFICATES", "true"
 
             //MQTT
-            buildConfigField("String", "MQTT_URL", '"tcp://119.3.147.11:19099"')
+            buildConfigField("String", "MQTT_URL", '"tcp://192.168.0.127:1883"')
             buildConfigField("String", "MQTT_USERNAME", '"CloudZhang"')
             buildConfigField("String", "MQTT_PASSWORD", '"CloudZhang"')
         }
