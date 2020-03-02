@@ -22,7 +22,7 @@ val apiModule = Kodein.Module {
 	
 	bind<ChatService>() with singleton { instance<ApiClient>().createService(ChatService::class.java) }
 	
-	bind<DynamicService>() with singleton { instance<ApiClient>().createService(DynamicService::class.java) }
+	bind<MomentService>() with singleton { instance<ApiClient>().createService(MomentService::class.java) }
 	
 	bind<ImageService>() with singleton { instance<ApiClient>().createService(ImageService::class.java) }
 	

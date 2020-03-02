@@ -5,7 +5,8 @@ import com.example.rubbishcommunity.utils.Constants
 
 object SharedPrefModel : KotprefModel() {
     override val kotprefName: String = Constants.SHARED_PREF_FILE_NAME
-    var accessToken: String by stringPref()
+    var draftSelectedImgList by stringPref()
+    var accessToken by stringPref()
     var tokenInfo : String by stringPref()
   
 

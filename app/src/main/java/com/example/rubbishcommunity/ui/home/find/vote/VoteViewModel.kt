@@ -2,9 +2,7 @@ package com.example.rubbishcommunity.ui.home.find.vote
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.example.rubbishcommunity.manager.api.DynamicService
-import com.example.rubbishcommunity.manager.api.RubbishService
-import com.example.rubbishcommunity.manager.api.UserService
+import com.example.rubbishcommunity.manager.api.MomentService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.model.Vote
@@ -16,7 +14,7 @@ import org.kodein.di.generic.instance
 class VoteViewModel(application: Application) : BaseViewModel(application) {
 	
 	
-	private val dynamicService by instance<DynamicService>()
+	private val dynamicService by instance<MomentService>()
 	
 	val voteList = MutableLiveData<MutableList<Vote>>()
 	

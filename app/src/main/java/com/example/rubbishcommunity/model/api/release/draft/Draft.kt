@@ -12,8 +12,8 @@ package com.example.rubbishcommunity.model.api.release.draft
 data class Draft(
 	val classify: Int,
 	val content: String?,
-	val latitude: Double,
-	val longitude: Double,
+	val latitude: Double?,
+	val longitude: Double?,
 	val pictures: List<String>,
 	val title: String?,
 	val topic: String?

@@ -22,7 +22,6 @@ import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
-import kotlinx.android.synthetic.main.fragment_chat.view.*
 import java.util.concurrent.TimeUnit
 
 
@@ -130,7 +129,7 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	//获取定位
 	private fun getLocation() {
 		checkLocationPermissionAndGetLocation(
-			initLocationClient(context!!)
+			initLocationClient(MyApplication.instance)
 		).doOnNext {
 			viewModel.location.postValue(it)
 		}.doOnError {
@@ -146,11 +145,11 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	private fun release() {
 		context!!.checkNet().doOnComplete {
 			//真实发布
-			viewModel.release().doOnComplete {
+			viewModel.release {
 				//发布成功
 				MyApplication.showSuccess("发布成功")
 				activity!!.finish()
-			}?.bindLife()
+			}
 		}.doOnError {
 			//没有网络
 			viewModel.isLoading.postValue(false)
@@ -177,14 +176,19 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	
 	//退出警告
 	private fun exit() {
-		if (viewModel.selectedList.value!!.isNotEmpty() || viewModel.title.value!!.isNotEmpty() || viewModel.content.value!!.isNotEmpty()) {
+		if (viewModel.selectedList.value!!.isNotEmpty()
+			|| viewModel.title.value!!.isNotEmpty()
+			|| viewModel.content.value!!.isNotEmpty()
+		) {
 			//退出编辑警告
 			AlertDialog.Builder(context!!)
 				.setTitle(R.string.release_exit_dialog_title)
 				.setMessage(R.string.release_exit_dialog_msg)
 				.setPositiveButton(R.string.release_exit_dialog_save) { _, _ ->
-					viewModel.saveDraft()
-						.doOnComplete { activity!!.finish() }.bindLife()
+					viewModel.saveDraft {
+						MyApplication.showSuccess("已存入草稿箱～")
+						activity?.finish()
+					}
 				}
 				.setNegativeButton(R.string.exit) { _, _ ->
 					activity?.finish()

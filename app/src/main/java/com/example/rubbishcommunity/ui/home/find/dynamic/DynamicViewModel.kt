@@ -2,7 +2,7 @@ package com.example.rubbishcommunity.ui.home.find.dynamic
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.example.rubbishcommunity.manager.api.DynamicService
+import com.example.rubbishcommunity.manager.api.MomentService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.ui.base.BaseViewModel
@@ -15,7 +15,7 @@ import org.kodein.di.generic.instance
 class DynamicViewModel(application: Application) : BaseViewModel(application) {
 	
 	
-	private val dynamicService by instance<DynamicService>()
+	private val dynamicService by instance<MomentService>()
 	
 	val dynamicList = MutableLiveData<MutableList<Dynamic>>()
 	

@@ -4,19 +4,16 @@ package com.example.rubbishcommunity.ui.release.dynamic
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.baidu.location.BDLocation
-import com.example.rubbishcommunity.*
-import com.example.rubbishcommunity.manager.UiError
-import com.example.rubbishcommunity.manager.api.DynamicService
+import com.example.rubbishcommunity.manager.api.MomentService
 import com.example.rubbishcommunity.manager.api.ImageService
-import com.example.rubbishcommunity.manager.dealError
-import com.example.rubbishcommunity.manager.dealErrorCode
-import com.example.rubbishcommunity.manager.dealUiError
+import com.example.rubbishcommunity.model.api.release.ReleaseMomentRequestModel
 import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.model.api.release.draft.Draft
 import com.example.rubbishcommunity.persistence.SharedPreferencesUtils
+import com.example.rubbishcommunity.ui.utils.ErrorType
+import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.utils.*
 import com.luck.picture.lib.entity.LocalMedia
-import io.reactivex.Completable
 import io.reactivex.SingleTransformer
 import org.kodein.di.generic.instance
 
@@ -48,113 +45,109 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 	val progress = MutableLiveData(0)
 	
 	private val imageService by instance<ImageService>()
-	private val dynamicService by instance<DynamicService>()
-	
+	private val momentService by instance<MomentService>()
 	
 	fun getDraft() {
-		selectedList.value =
-			when {
-				SharedPreferencesUtils.getListData(
-					"draft_selectedList",
-					LocalMedia::class.java
-				).isNullOrEmpty() -> mutableListOf()
-				else -> SharedPreferencesUtils.getListData(
-					"draft_selectedList",
-					LocalMedia::class.java
-				)
-			}
-		
-		dynamicService.getDraft()
-			.switchThread()
-			.doOnSuccess {
+		//获取本地的草稿图片列表
+		selectedList.value = SharedPreferencesUtils.getListData(
+			"draft_selectedList",
+			LocalMedia::class.java
+		)
+		//获取草稿
+		momentService.getDraft()
+			.compose(dealLoading())
+			.doOnApiSuccess {
 				val draftData = it.data
 				title.postValue(draftData?.title ?: "")
 				content.postValue(draftData?.content ?: "")
-			}.compose(dealLoading())
-			.compose(dealErrorCode())
-			.compose(dealError())
-			.bindLife()
+			}
 	}
 	
+	private fun getSaveDraftSingle(selectedImgList: List<String>? = selectedList.value?.map { it.path }) =
+		momentService.saveDraft(
+			Draft(
+				1,
+				content.value ?: "",
+				location.value?.latitude ?: 0.0,
+				location.value?.longitude ?: 0.0,
+				selectedImgList ?: emptyList(),
+				title.value!!,
+				"default_topic"
+			)
+		)
 	
-	fun saveDraft(): Completable =
-		Completable.create { emitter ->
-			when {
-				title.value!!.isNullOrEmpty() -> emitter.onError(UiError("添加标题后才能存草稿哦～"))
-				content.value!!.isNullOrEmpty() -> emitter.onError(UiError("添加内容后才能存草稿哦～"))
-				else -> emitter.onComplete()
+	
+	fun saveDraft(onSavedAction: () -> Unit) {
+		when {
+			title.value?.isEmpty() ?: true -> {
+				sendError(ErrorType.UI_ERROR, "添加个标题吧～")
+				return
 			}
-		}.doOnComplete {
-			SharedPreferencesUtils.putListData("draft_selectedList", selectedList.value!!)
-			dynamicService.saveDraft(
-				Draft(
-					1,
-					content.value!!,
-					location.value?.latitude ?: 0.0,
-					location.value?.longitude ?: 0.0,
-					selectedList.value?.map {
-						it.path
-					}!!,
-					title.value!!,
-					"default_topic"
-				)
-			).switchThread()
-				.doOnSuccess {
-					MyApplication.showSuccess("已存入草稿箱～")
-				}.compose(dealLoading())
-				.compose(dealErrorCode())
-				.compose(dealError())
-				.bindLife()
+			content.value?.isEmpty() ?: true -> {
+				sendError(ErrorType.UI_ERROR, "要先写点什么内容哦～")
+				return
+			}
 		}
+		SharedPreferencesUtils.putListData("draft_selectedList", selectedList.value!!)
+		getSaveDraftSingle()
+			.compose(dealLoading())
+			.doOnApiSuccess { onSavedAction.invoke() }
+	}
 	
 	
 	fun clearDraft() {
-		SharedPreferencesUtils.putListData("draft_selectedList", mutableListOf())
+		SharedPreferencesUtils.putListData(
+			"draft_selectedList",
+			emptyList<String>().toMutableList()
+		)
 		selectedList.value = mutableListOf()
 		title.value = ""
 		content.value = ""
-		dynamicService
+		momentService
 			.clearDraft()
-			.switchThread()
-			.compose(dealLoading())
-			.compose(dealErrorCode())
-			.compose(dealError())
-			.bindLife()
+			.doOnApiSuccess {
+			
+			}
 	}
 	
 	//上传图片并发布动态
-	fun release(): Completable {
-		return Completable.create { emitter ->
-			judgeReleaseParams().doOnComplete {
-				if (selectedList.value!!.isNotEmpty()) {//有图片,上传图片至七牛云
-					imageService.upLoadImageList(
-						selectedList.value!!
-					) {
-						//进度更新
-						progress.postValue(it)
-					}.doOnSuccess { resultKeyList ->
-						//上传图片列表成功
-						emitter.onComplete() //todo 还未判断动态发布是否成功
-					}.compose(dealLoading())
-						.bindLife()
-				} else {
-					//没图片
-					//直接发动态
-					/*		return apiService.releaseDynamic(
-								ReleaseDynamicRequestModel(
-									"!!!!我要发布动态!!!!"
-								)
-						).subscribeOn(Schedulers.io())
-								.observeOn(AndroidSchedulers.mainThread())
-								.compose(dealLoading())
-								.compose(dealErrorCode())
-								.compose(dealError())*/
+	fun release(onReleaseAction: () -> Unit) {
+		
+		fun getUploadImageListSingle() = imageService.upLoadImageList(
+			selectedList.value!!
+		) {
+			//进度更新
+			progress.postValue(it)
+		}
+		
+		fun getReleaseMomentSingle(momentsId:Long) = momentService.releaseMoment(
+			ReleaseMomentRequestModel(
+				location.value?.latitude,
+				location.value?.longitude,
+				momentsId
+			)
+		)
+		
+		fun getSaveDraftAndReleaseSingle(resultKeyList:List<String>? = null) =
+			getSaveDraftSingle(resultKeyList)
+			.flatMap {
+			//存草稿成功，上传动态
+			getReleaseMomentSingle(it.data.momentsId)
+		}
+		
+		if (selectedList.value!!.isNotEmpty()) {
+			//有图片,上传图片至七牛云
+			getUploadImageListSingle()
+				.flatMap { resultKeyList ->
+					//上传图片列表成功
+					//开始保存草稿并上传动态
+					getSaveDraftAndReleaseSingle(resultKeyList)
 				}
-			}.compose(dealUiError())
-				.bindLife()
-		}.compose(dealUiError())
+		} else {
+			//没有图片，直接存草稿
+			getSaveDraftAndReleaseSingle()
+		}.doOnApiSuccess { onReleaseAction.invoke() }
 	}
-	
 	
 	private fun <T> dealLoading(): SingleTransformer<T, T> {
 		return SingleTransformer { obs ->
@@ -164,14 +157,6 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 		}
 	}
 	
-	private fun judgeReleaseParams(): Completable =
-		Completable.create { emitter ->
-			when {
-				(title.value?.isEmpty() ?: true) -> emitter.onError(UiError("添加一个标题吧～"))
-				(content.value?.isEmpty() ?: true) -> emitter.onError(UiError("说点什么吧～"))
-				else -> emitter.onComplete()
-			}
-		}
 }
 
 

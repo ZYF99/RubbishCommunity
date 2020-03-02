@@ -16,10 +16,7 @@ class NetErrorInterceptor : Interceptor {
 	override fun intercept(chain: Interceptor.Chain?): Response? {
 		if (chain == null)
 			return null
-		
 		val response = chain.proceed(chain.request())
-		
-		
 		if (response.code() in 400..503)
 			throw ServerError(
 				response.code(),

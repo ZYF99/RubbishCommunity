@@ -15,6 +15,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import io.reactivex.Observable
@@ -31,33 +32,16 @@ fun BindingFragment<*, *>.checkLocationPermissionAndGetLocation(
 	
 	//真实获取定位
 	fun getLocation() = Observable.create<BDLocation?> {
-		locationClient.run {
-			registerLocationListener(
-				object : BDAbstractLocationListener() {
-					@SuppressLint("BinaryOperationInTimber")
-					override fun onReceiveLocation(bdLocation: BDLocation?) {
-						if (bdLocation != null) {
-							Timber.d(
-								" 经度 ${bdLocation.longitude}\\n\" +\"纬度 ${bdLocation.latitude}\\n\"\n" +
-										"\t\t\t\t +\"详细地址信息 ${bdLocation.addrStr}\\n\"\n" +
-										"\t\t\t\t +\"国家 ${bdLocation.country}\\n\"\n" +
-										"\t\t\t\t +\"省份 ${bdLocation.province}\\n\"\n" +
-										"\t\t\t\t +\"城市 ${bdLocation.city}\\n\"\n" +
-										"\t\t\t\t  +\"区县 ${bdLocation.district}\\n\"\n" +
-										"\t\t\t\t  +\"街道 ${bdLocation.street}\\n"
-							)
-							it.onNext(bdLocation)
-						} else
-							Timber.d("The Location Received is null")
-					}
-				}
-			)
-			start()
-		}
+		locationClient.registerLocationListener(object : BDAbstractLocationListener() {
+			override fun onReceiveLocation(bdLocation: BDLocation) {
+				it.onNext(bdLocation)
+			}
+		})
+		locationClient.start()
 	}
 	
 	@SuppressLint("MissingPermission")
-	fun getLocationByAndroid() :Observable<Location>{
+	fun getLocationByAndroid(): Observable<Location> {
 		return Observable.create<Location> { emitter ->
 			val myLocationManager =
 				context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager

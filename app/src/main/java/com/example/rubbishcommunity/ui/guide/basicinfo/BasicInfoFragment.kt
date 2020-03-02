@@ -131,7 +131,7 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 
 		
 		checkLocationPermissionAndGetLocation(
-			initLocationClient(context!!)
+			initLocationClient(MyApplication.instance)
 		).doOnNext {
 			viewModel.location.postValue(it)
 		}.doOnError {

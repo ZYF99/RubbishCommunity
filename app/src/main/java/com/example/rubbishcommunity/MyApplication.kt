@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.multidex.MultiDexApplication
 import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
+import com.chibatching.kotpref.Kotpref
 import com.example.rubbishcommunity.manager.base.apiModule
 import com.example.rubbishcommunity.persistence.SharedPreferencesUtils
 import com.example.rubbishcommunity.utils.*
@@ -52,6 +53,7 @@ class MyApplication : MultiDexApplication(), KodeinAware {
 			Timber.plant(Timber.DebugTree())
 		}
 		SharedPreferencesUtils.getInstance(this, "local")
+		Kotpref.init(this)
 		RxActivityResult.register(this)
 		instance = this
 		initHanLP()
@@ -64,7 +66,7 @@ class MyApplication : MultiDexApplication(), KodeinAware {
 /**
  * 初始化定位参数配置
  */
- fun initLocationClient(context: Context) :LocationClient{
+ fun initLocationClient(context: Context?) :LocationClient{
 	//定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
 	return LocationClient(context).apply {
 		locOption = LocationClientOption().apply {
@@ -76,7 +78,7 @@ class MyApplication : MultiDexApplication(), KodeinAware {
 			setCoorType("gcj02")
 			
 			//可选，默认0，即仅定位一次，设置发起连续定位请求的间隔需要大于等于1000ms才是有效的
-			setScanSpan(0)
+			setScanSpan(1000)
 			
 			//可选，设置是否需要地址信息，默认不需要
 			setIsNeedAddress(true)

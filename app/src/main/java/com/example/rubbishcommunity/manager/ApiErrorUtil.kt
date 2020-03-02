@@ -7,7 +7,6 @@ import com.example.rubbishcommunity.ui.utils.ErrorData
 import com.example.rubbishcommunity.ui.utils.ErrorType
 import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.utils.*
-import com.google.android.gms.common.api.ApiException
 import io.reactivex.SingleTransformer
 import java.net.SocketTimeoutException
 
@@ -45,7 +44,9 @@ fun <T> dealErrorCode(): SingleTransformer<T, T> {
 //处理错误信息
 fun <T> dealError(): SingleTransformer<T, T> {
 	return SingleTransformer { obs ->
-		obs.doOnError { error ->
+		obs.retry { reTryCount, error ->
+			(error as? ApiError)?.result?.meta?.code == -1000 && reTryCount < 3
+		}.doOnError { error ->
 			when (error) {
 				is ApiError -> {
 					sendError(
@@ -91,5 +92,4 @@ fun <T> dealError(): SingleTransformer<T, T> {
 }
 
 //业务异常，非服务异常
-data class ApiError(val result: ResultModel<*>) :
-	Throwable()
+data class ApiError(val result: ResultModel<*>) : Throwable()

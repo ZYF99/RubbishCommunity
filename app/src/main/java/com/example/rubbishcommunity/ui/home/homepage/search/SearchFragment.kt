@@ -1,7 +1,12 @@
 package com.example.rubbishcommunity.ui.home.homepage.search
 
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.baidu.location.BDAbstractLocationListener
+import com.baidu.location.BDLocation
+import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.SearchBinding
@@ -14,6 +19,7 @@ import com.example.rubbishcommunity.ui.utils.openSoftKeyBoard
 import com.example.rubbishcommunity.utils.checkLocationPermissionAndGetLocation
 import com.example.rubbishcommunity.utils.showLocationServiceDialog
 import com.jakewharton.rxbinding2.widget.RxTextView
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 
@@ -113,8 +119,10 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 	
 	//获取定位
 	private fun getLocation() {
+		
+
 		checkLocationPermissionAndGetLocation(
-			initLocationClient(context!!)
+			initLocationClient(activity?.applicationContext)
 		).doOnNext {
 			viewModel.location.postValue(it)
 		}.doOnError {
@@ -124,6 +132,8 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 			}
 		}.bindLife()
 	}
+
+	
 	
 }
 
