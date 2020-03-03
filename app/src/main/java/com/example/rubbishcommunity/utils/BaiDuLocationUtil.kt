@@ -13,9 +13,11 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import io.reactivex.Observable
@@ -26,6 +28,7 @@ import timber.log.Timber
 
 //private const val GPS_REQUEST_CODE = 20
 
+@RequiresApi(Build.VERSION_CODES.Q)
 fun BindingFragment<*, *>.checkLocationPermissionAndGetLocation(
 	locationClient: LocationClient
 ): Observable<BDLocation?> {
@@ -34,6 +37,7 @@ fun BindingFragment<*, *>.checkLocationPermissionAndGetLocation(
 	fun getLocation() = Observable.create<BDLocation?> {
 		locationClient.registerLocationListener(object : BDAbstractLocationListener() {
 			override fun onReceiveLocation(bdLocation: BDLocation) {
+				Log.d("!!", "${bdLocation.addrStr}")
 				it.onNext(bdLocation)
 			}
 		})

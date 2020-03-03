@@ -10,14 +10,14 @@ apply plugin: 'kotlin-kapt'
 
 
 android {
-    signingConfigs {
+/*    signingConfigs {
         debug {
             storeFile file('/Users/zhangyf/key.jks')
             storePassword 'Wby0907'
             keyAlias = 'key'
             keyPassword 'Wby0907'
         }
-    }
+    }*/
 
 /*    signingConfigs {
         debug {
@@ -43,9 +43,9 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-        manifestPlaceholders = [:]
-/*        signingConfig signingConfigs.release*/
-        versionNameSuffix = '1.0'
+/*        manifestPlaceholders = [:]
+        signingConfig signingConfigs.release
+        versionNameSuffix = '1.0'*/
     }
 
     protobuf {
@@ -94,9 +94,9 @@ android {
             proto {
                 srcDir 'src/main/proto'
             }
-/*            jniLibs.srcDirs = ['libs']*/
-            jniLibs.srcDir 'libs'
-            jni.srcDirs = []    //disable automatic ndk-build
+/*            jniLibs.srcDir 'libs'*/
+                jniLibs.srcDir 'libs'
+                jni.srcDirs = []    //disable automatic ndk-build
         }
     }
 
@@ -107,7 +107,7 @@ android {
 
             //LeoWong api
             buildConfigField("String", "BASE_URL", '"https://api.upuphub.com/"')
-            //buildConfigField("String", "BASE_URL", '"http://192.168.0.110:18766/"')
+            //buildConfigField("String", "BASE_URL", '"https://debug.upuphub.com/"')
 
             //聚合 api
             buildConfigField("String", "JUHE_APPKEY", '"214dc714d14b8eb6341080f3e14bc139"')
@@ -135,8 +135,8 @@ android {
         }
         debug {
             //LeoWong api
+            //buildConfigField("String", "BASE_URL", '"https://debug.upuphub.com/"')
             buildConfigField("String", "BASE_URL", '"https://api.upuphub.com/"')
-            //buildConfigField("String", "BASE_URL", '"http://192.168.0.110:18766/"')
 
             //聚合 api
             buildConfigField("String", "JUHE_APPKEY", '"214dc714d14b8eb6341080f3e14bc139"')
@@ -231,6 +231,7 @@ dependencies {
     //百度定位
     implementation files('libs/SecurityEnvSDK-release-1.1.0.jar')
     implementation files('libs/utdid4all-1.1.5.3_proguard.jar')
+    implementation files('libs/BaiduLBS_Android.jar')
 
     //百度识别
     implementation group: 'com.baidu.aip', name: 'java-sdk', version: '4.12.0'

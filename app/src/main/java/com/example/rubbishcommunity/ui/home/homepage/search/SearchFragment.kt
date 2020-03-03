@@ -1,17 +1,12 @@
 package com.example.rubbishcommunity.ui.home.homepage.search
 
-
-import android.annotation.SuppressLint
-import android.util.Log
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.baidu.location.BDAbstractLocationListener
-import com.baidu.location.BDLocation
-import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.SearchBinding
 import com.example.rubbishcommunity.initLocationClient
-import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.example.rubbishcommunity.ui.container.jumpToCameraSearch
 import com.example.rubbishcommunity.ui.utils.hideSoftKeyBoard
@@ -19,14 +14,13 @@ import com.example.rubbishcommunity.ui.utils.openSoftKeyBoard
 import com.example.rubbishcommunity.utils.checkLocationPermissionAndGetLocation
 import com.example.rubbishcommunity.utils.showLocationServiceDialog
 import com.jakewharton.rxbinding2.widget.RxTextView
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 
 class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 	SearchViewModel::class.java, R.layout.fragment_search
 ) {
-	
+
 	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
 	}
 	
@@ -60,15 +54,11 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 			(binding.recSearchList.adapter as SearchListAdapter).replaceData(it)
 		}
 		
-		
-		
-		
 		(activity as ContainerActivity).viewModel.run {
 			keyWordFromCamera.observeNonNull {
 				viewModel.searchKey.postValue(it)
 			}
 		}
-		
 		
 		//搜索输入框的监听
 		RxTextView.textChanges(binding.searchEdit)
@@ -77,7 +67,6 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 			.doOnNext {
 				searchKey()
 			}.bindLife()
-		
 		
 		//结果列表
 		binding.recSearchList.run {
@@ -88,7 +77,6 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 			
 			}
 		}
-		
 		
 		//拍照搜索按钮
 		binding.btnCamera.setOnClickListener {
@@ -102,6 +90,7 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 		}
 	}
 	
+	@RequiresApi(Build.VERSION_CODES.Q)
 	override fun initData() {
 		getLocation()
 	}
@@ -118,9 +107,8 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 	}
 	
 	//获取定位
+	@RequiresApi(Build.VERSION_CODES.Q)
 	private fun getLocation() {
-		
-
 		checkLocationPermissionAndGetLocation(
 			initLocationClient(activity?.applicationContext)
 		).doOnNext {

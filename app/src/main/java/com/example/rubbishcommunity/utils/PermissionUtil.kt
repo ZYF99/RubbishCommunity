@@ -1,6 +1,8 @@
 package com.example.rubbishcommunity.utils
 
 import android.Manifest
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.ui.utils.showLeadToSettingDialog
 import com.tbruyelle.rxpermissions2.Permission
@@ -50,10 +52,18 @@ fun BindingFragment<*, *>.checkIMEIPermission(onGetPermissionFailed: () -> Unit)
 
 
 //定位权限检查获取
+@RequiresApi(Build.VERSION_CODES.Q)
 fun BindingFragment<*, *>.checkLocationPermission(): Observable<Permission> =
 	rxCheckPermission(
 		Manifest.permission.READ_PHONE_STATE,
-		Manifest.permission.ACCESS_COARSE_LOCATION
+		Manifest.permission.WRITE_EXTERNAL_STORAGE,
+		Manifest.permission.RECORD_AUDIO,
+		Manifest.permission.LOCATION_HARDWARE,
+		Manifest.permission.CHANGE_WIFI_STATE,
+		Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS,
+		Manifest.permission.ACCESS_WIFI_STATE,
+		Manifest.permission.ACCESS_COARSE_LOCATION,
+		Manifest.permission.ACCESS_BACKGROUND_LOCATION
 	) {}
 
 

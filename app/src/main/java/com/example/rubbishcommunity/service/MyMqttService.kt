@@ -23,7 +23,6 @@ import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.persistence.getLocalEmail
 import com.example.rubbishcommunity.persistence.getLocalUin
-import com.example.rubbishcommunity.persistence.getLocalUserInfo
 import com.example.rubbishcommunity.ui.utils.sendSimpleNotification
 
 /**
@@ -32,8 +31,8 @@ import com.example.rubbishcommunity.ui.utils.sendSimpleNotification
 
 const val TAG = "nlgMqttService"
 const val TOPIC_TO_QA = "/s2c/task_quality/"
-const val PUBLISH_TOPIC = "SystemDec"
 const val CHANNEL_ID_STRING = "用于显示即使消息"
+val PUBLISH_TOPIC = "UA:${getLocalUin()}"
 
 class MyMqttService : Service() {
 	private var mqttAndroidClient: MqttAndroidClient? = null
@@ -59,9 +58,11 @@ class MyMqttService : Service() {
 				//连接成功
 				if (reconnect) {
 					// 由于clean Session ，我们需要重新订阅
-					subscribeToTopic(PUBLISH_TOPIC)
-				} else {
-				
+					try {
+						subscribeToTopic(PUBLISH_TOPIC)
+					}catch (e:Exception){
+					
+					}
 				}
 			}
 			
@@ -166,7 +167,7 @@ class MyMqttService : Service() {
 	//订阅消息
 	fun subscribeToTopic(subscriptionTopic: String) {
 		try {
-			mqttAndroidClient?.subscribe(subscriptionTopic, 1, null, object : IMqttActionListener {
+			mqttAndroidClient?.subscribe(subscriptionTopic, 1, "1", object : IMqttActionListener {
 				override fun onSuccess(asyncActionToken: IMqttToken) {
 				}
 				

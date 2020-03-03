@@ -104,12 +104,12 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	
 	override fun initData() {
 		
-		//启动mqtt服务
+/*		//启动mqtt服务
 		bindService(
 			Intent(this, MyMqttService::class.java),
 			mqServiceConnection,
 			Context.BIND_AUTO_CREATE
-		)
+		)*/
 		
 	}
 	
