@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.home.find.dynamic.detail.innercomment
+package com.example.rubbishcommunity.ui.home.find.moment.detail.innercomment
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData

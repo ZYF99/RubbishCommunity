@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.home.find.dynamic.detail
+package com.example.rubbishcommunity.ui.home.find.moment.detail
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData

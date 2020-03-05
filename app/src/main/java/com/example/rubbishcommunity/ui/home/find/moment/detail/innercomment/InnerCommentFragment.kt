@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.home.find.dynamic.detail.innercomment
+package com.example.rubbishcommunity.ui.home.find.moment.detail.innercomment
 
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,7 +8,7 @@ import com.example.rubbishcommunity.databinding.InnerCommentBinding
 import com.example.rubbishcommunity.model.Comment
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.ui.container.jumpToInnerComment
-import com.example.rubbishcommunity.ui.home.find.dynamic.detail.CommentListAdapter
+import com.example.rubbishcommunity.ui.home.find.moment.detail.CommentListAdapter
 import com.example.rubbishcommunity.ui.utils.hideSoftKeyBoard
 import com.example.rubbishcommunity.ui.utils.openSoftKeyBoard
 import com.jakewharton.rxbinding2.view.RxView

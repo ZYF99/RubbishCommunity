@@ -1,12 +1,15 @@
-package com.example.rubbishcommunity.ui.home.find.dynamic
+package com.example.rubbishcommunity.ui.home.find.moment
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.manager.api.MomentService
 import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.manager.dealErrorCode
+import com.example.rubbishcommunity.model.api.LocationReq
+import com.example.rubbishcommunity.model.api.moments.GetMomentsRequestModel
 import com.example.rubbishcommunity.ui.base.BaseViewModel
-import com.example.rubbishcommunity.model.Dynamic
+import com.example.rubbishcommunity.model.api.moments.Moment
+import com.example.rubbishcommunity.model.api.moments.PageParam
 import com.example.rubbishcommunity.utils.switchThread
 import io.reactivex.SingleTransformer
 import org.kodein.di.generic.instance
@@ -14,10 +17,9 @@ import org.kodein.di.generic.instance
 
 class DynamicViewModel(application: Application) : BaseViewModel(application) {
 	
-	
 	private val dynamicService by instance<MomentService>()
 	
-	val dynamicList = MutableLiveData<MutableList<Dynamic>>()
+	val dynamicList = MutableLiveData<MutableList<Moment>>()
 	
 	val isRefreshing = MutableLiveData(false)
 	
@@ -25,11 +27,13 @@ class DynamicViewModel(application: Application) : BaseViewModel(application) {
 	fun getDynamicList() {
 		mockData()
 		
-		return dynamicService.getDynamicList(0)
+		return dynamicService.fetchMoments(
+			GetMomentsRequestModel(LocationReq(), PageParam(2, 10, null))
+		)
 			.compose(dealRefresh())
 			.switchThread()
 			.doOnSuccess {
-				dynamicList.value = it
+				//dynamicList.value = it
 			}
 			.compose(dealErrorCode())
 			.compose(dealError())
@@ -48,7 +52,7 @@ class DynamicViewModel(application: Application) : BaseViewModel(application) {
 		gridImgUrls9.add("http://img1.imgtn.bdimg.com/it/u=2909240217,602760474&fm=27&gp=0.jpg")
 		gridImgUrls9.add("http://img1.imgtn.bdimg.com/it/u=2909240217,602760474&fm=27&gp=0.jpg")
 		gridImgUrls9.add("http://img1.imgtn.bdimg.com/it/u=2909240217,602760474&fm=27&gp=0.jpg")
-		val item9 = Dynamic(
+		val item9 = Moment(
 			"dsfsdf",
 			"参与绿色行动，保护美丽家园。\n" +
 					"\n" +
@@ -63,7 +67,7 @@ class DynamicViewModel(application: Application) : BaseViewModel(application) {
 		gridImgUrls2.add("http://b-ssl.duitang.com/uploads/blog/201508/16/20150816193236_kKUfm.jpeg")
 		gridImgUrls2.add("http://img0.imgtn.bdimg.com/it/u=2426212861,900117439&fm=27&gp=0.jpg")
 		
-		val item2 = Dynamic(
+		val item2 = Moment(
 			"dsfsdf",
 			"参与绿色行动，保护美丽家园。\n" +
 					"\n" +
@@ -77,7 +81,7 @@ class DynamicViewModel(application: Application) : BaseViewModel(application) {
 		val gridImgUrls3: MutableList<String> = mutableListOf()
 		gridImgUrls3.add("http://b-ssl.duitang.com/uploads/blog/201508/16/20150816193236_kKUfm.jpeg")
 		
-		val item3 = Dynamic(
+		val item3 = Moment(
 			"dsfsdf",
 			"参与绿色行动，保护美丽家园。\n" +
 					"\n" +

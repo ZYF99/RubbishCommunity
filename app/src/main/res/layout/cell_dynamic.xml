@@ -9,7 +9,7 @@
 
         <variable
                 name="dynamic"
-                type="com.example.rubbishcommunity.model.Dynamic" />
+                type="com.example.rubbishcommunity.model.api.moments.Moment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

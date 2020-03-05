@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.home.find.dynamic.detail
+package com.example.rubbishcommunity.ui.home.find.moment.detail
 
 
 import com.example.rubbishcommunity.R

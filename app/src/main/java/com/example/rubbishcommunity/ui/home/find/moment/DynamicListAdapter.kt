@@ -1,23 +1,23 @@
-package com.example.rubbishcommunity.ui.home.find.dynamic
+package com.example.rubbishcommunity.ui.home.find.moment
 
 
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.DynamicListCellBinding
-import com.example.rubbishcommunity.model.Dynamic
+import com.example.rubbishcommunity.model.api.moments.Moment
 import com.example.rubbishcommunity.ui.adapter.EmptyRecyclerAdapter
 import com.example.rubbishcommunity.ui.utils.showGallery
 
 
 class DynamicListAdapter(
-	val list: MutableList<Dynamic>,
+	val list: MutableList<Moment>,
 	onCellClick: (Int) -> Unit,
 	val onHeaderClick:(Int) -> Unit
-) : EmptyRecyclerAdapter<Dynamic, DynamicListCellBinding>(
+) : EmptyRecyclerAdapter<Moment, DynamicListCellBinding>(
 	R.layout.cell_dynamic,
 	onCellClick
 ) {
-	override val baseList: MutableList<Dynamic>
+	override val baseList: MutableList<Moment>
 		get() = list
 	
 	override fun bindData(binding: DynamicListCellBinding, position: Int) {

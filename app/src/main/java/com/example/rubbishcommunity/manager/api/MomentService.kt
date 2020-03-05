@@ -1,9 +1,10 @@
 package com.example.rubbishcommunity.manager.api
 
 
-import com.example.rubbishcommunity.model.Dynamic
+import com.example.rubbishcommunity.model.api.moments.Moment
 import com.example.rubbishcommunity.model.Vote
 import com.example.rubbishcommunity.model.api.ResultModel
+import com.example.rubbishcommunity.model.api.moments.GetMomentsRequestModel
 import com.example.rubbishcommunity.model.api.release.ReleaseMomentRequestModel
 import com.example.rubbishcommunity.model.api.release.ReleaseMomentResultModel
 import com.example.rubbishcommunity.model.api.release.draft.ClearDraftResultModel
@@ -45,14 +46,14 @@ interface MomentService {
 	
 
 	
-	@GET("dynamics?")
-	fun getDynamicList(@Query("offset") offset: Int): Single<MutableList<Dynamic>>
+	@POST("api/moments/location/fetch")
+	fun fetchMoments(@Body getMomentsRequestModel: GetMomentsRequestModel): Single<GetMomentsRequestModel>
 	
 	@GET("votes?")
 	fun getVoteList(@Query("offset") offset: Int): Single<MutableList<Vote>>
 	
 	@GET("dynamic?")
-	fun getDynamic(@Query("dynamicId") Id: String): Single<Dynamic>
+	fun getDynamic(@Query("dynamicId") Id: String): Single<Moment>
 	
 	
 	

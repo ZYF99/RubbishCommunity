@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.home.find.dynamic
+package com.example.rubbishcommunity.ui.home.find.moment
 
 import android.content.Context
 import android.graphics.Rect

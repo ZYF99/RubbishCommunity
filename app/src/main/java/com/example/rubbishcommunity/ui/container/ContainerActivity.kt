@@ -17,8 +17,8 @@ import com.example.rubbishcommunity.ui.guide.login.LoginFragment
 import com.example.rubbishcommunity.ui.guide.password.PasswordFragment
 import com.example.rubbishcommunity.ui.guide.register.RegisterFragment
 import com.example.rubbishcommunity.ui.guide.welcome.WelcomeFragment
-import com.example.rubbishcommunity.ui.home.find.dynamic.detail.DynamicDetailFragment
-import com.example.rubbishcommunity.ui.home.find.dynamic.detail.innercomment.InnerCommentFragment
+import com.example.rubbishcommunity.ui.home.find.moment.detail.DynamicDetailFragment
+import com.example.rubbishcommunity.ui.home.find.moment.detail.innercomment.InnerCommentFragment
 import com.example.rubbishcommunity.ui.home.message.chat.ChatFragment
 import com.example.rubbishcommunity.ui.home.homepage.newsdetail.NewsDetailFragment
 import com.example.rubbishcommunity.ui.home.homepage.search.SearchFragment

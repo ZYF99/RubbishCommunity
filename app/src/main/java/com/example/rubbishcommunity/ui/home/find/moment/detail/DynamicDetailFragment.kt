@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.home.find.dynamic.detail
+package com.example.rubbishcommunity.ui.home.find.moment.detail
 
 import android.view.View
 import androidx.core.widget.NestedScrollView
@@ -9,7 +9,7 @@ import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.DynamicDetailBinding
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.ui.container.jumpToInnerComment
-import com.example.rubbishcommunity.ui.home.find.dynamic.DynamicListGridImageAdapter
+import com.example.rubbishcommunity.ui.home.find.moment.DynamicListGridImageAdapter
 import com.example.rubbishcommunity.ui.utils.hideSoftKeyBoard
 import com.example.rubbishcommunity.ui.utils.openSoftKeyBoard
 import com.example.rubbishcommunity.ui.utils.showGallery

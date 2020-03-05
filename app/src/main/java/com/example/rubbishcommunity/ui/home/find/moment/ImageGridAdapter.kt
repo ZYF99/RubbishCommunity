@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.home.find.dynamic
+package com.example.rubbishcommunity.ui.home.find.moment
 
 import android.annotation.SuppressLint
 import android.content.Context

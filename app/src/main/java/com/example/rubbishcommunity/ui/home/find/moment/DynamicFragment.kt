@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.home.find.dynamic
+package com.example.rubbishcommunity.ui.home.find.moment
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.ui.base.BindingFragment
