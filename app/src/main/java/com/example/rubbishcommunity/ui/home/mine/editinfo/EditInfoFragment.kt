@@ -12,7 +12,6 @@ import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.entity.LocalMedia
 
-
 class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewModel>(
 	EditInfoViewModel::class.java, R.layout.fragment_edit_info
 ) {
@@ -39,7 +38,7 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 				viewModel.name.value!!,
 				8
 			) {
-				viewModel.aboutMe.value = it
+				viewModel.name.value = it
 				viewModel.editName()
 			}
 		}
@@ -102,7 +101,6 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 		viewModel.initData()
 	}
 	
-	
 	//弹出修改文字按钮
 	private fun showEditDialog(
 		title: String,
@@ -132,6 +130,5 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 			}
 		}
 	}
-	
 	
 }

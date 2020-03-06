@@ -25,7 +25,7 @@ import com.example.rubbishcommunity.ui.home.homepage.newsdetail.NewsDetailFragme
 import com.example.rubbishcommunity.ui.home.homepage.search.SearchFragment
 import com.example.rubbishcommunity.ui.home.homepage.search.cameraSearch.CameraSearchFragment
 import com.example.rubbishcommunity.ui.home.mine.editinfo.EditInfoFragment
-import com.example.rubbishcommunity.ui.release.dynamic.ReleaseDynamicFragment
+import com.example.rubbishcommunity.ui.release.moments.ReleaseMomentFragment
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
 import com.example.rubbishcommunity.utils.SoftKeyBroadManager
 import com.example.rubbishcommunity.utils.globalGson
@@ -111,7 +111,7 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 				"editUserInfo" -> //修改信息界面
 					EditInfoFragment()
 				"releaseDynamic" -> // 发布动态界面
-					ReleaseDynamicFragment()
+					ReleaseMomentFragment()
 				"momentDetail" -> //动态详情界面
 					DynamicDetailFragment()
 				"innerComment" -> //内部评论列表界面

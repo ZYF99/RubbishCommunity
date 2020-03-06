@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.release.dynamic
+package com.example.rubbishcommunity.ui.release.moments
 
 import android.annotation.SuppressLint
 import android.content.Context

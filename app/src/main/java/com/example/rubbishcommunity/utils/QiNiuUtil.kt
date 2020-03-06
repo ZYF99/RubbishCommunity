@@ -14,6 +14,7 @@ import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 
 //七牛云工具
 class QiNiuUtil
@@ -84,6 +85,7 @@ fun ImageService.upLoadImageList(
 							if (index == imagePathList.size - 1) {
 								//已经全部上传成功，返回结果
 								resultKeyList.add(key)
+								Timber.d("~~~~~$resultKeyList")
 								emitter.onSuccess(resultKeyList)
 							}
 						}, UploadOptions(

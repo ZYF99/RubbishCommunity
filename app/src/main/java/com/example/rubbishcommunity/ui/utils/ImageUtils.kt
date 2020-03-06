@@ -12,19 +12,25 @@ import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import java.io.ByteArrayOutputStream
 import android.graphics.ImageFormat
+import com.example.rubbishcommunity.ui.home.mine.editinfo.getImageUrlFromServer
 
+fun judgeAndGetImageUrl(url:String) = when{
+	url.startsWith("http") || url.startsWith("upuphub") -> url
+	else -> getImageUrlFromServer(url)
+}
 
 @BindingAdapter("imageUrl")
-fun loadImage(imageView: ImageView, url: String?) {
-	Glide.with(imageView.context).load(url)
-		.placeholder(R.drawable.bg_404)
+fun loadImage(imageView: ImageView, url: String) {
+	Glide.with(imageView.context).load(judgeAndGetImageUrl(url))
+		.placeholder(R.color.white)
+		.skipMemoryCache(false)
 		.centerCrop()
 		.into(imageView)
 }
 
 @BindingAdapter("imageUrlWithAddIcon")
-fun loadImageWithAddIcon(imageView: ImageView, url: String?) {
-	Glide.with(imageView.context).load(url)
+fun loadImageWithAddIcon(imageView: ImageView, url: String) {
+	Glide.with(imageView.context).load(judgeAndGetImageUrl(url))
 		.placeholder(R.drawable.icon_add_pic)
 		.centerCrop()
 		.into(imageView)

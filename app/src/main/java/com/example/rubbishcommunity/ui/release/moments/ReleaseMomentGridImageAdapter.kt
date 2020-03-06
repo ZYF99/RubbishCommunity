@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.release.dynamic
+package com.example.rubbishcommunity.ui.release.moments
 
 import android.content.Context
 import android.view.View

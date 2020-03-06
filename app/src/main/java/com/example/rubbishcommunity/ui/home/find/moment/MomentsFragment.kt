@@ -7,6 +7,7 @@ import com.example.rubbishcommunity.databinding.FragmentMomentsBinding
 import com.example.rubbishcommunity.ui.base.setOnLoadMoreListener
 import com.example.rubbishcommunity.ui.container.jumpToMomentDetail
 import com.example.rubbishcommunity.ui.widget.UserInfoDialog
+import timber.log.Timber
 
 const val CLASSIFY_DYNAMIC = 1
 const val CLASSIFY_RECOVERY = 2
@@ -27,6 +28,7 @@ class MomentsFragment(val classify: Int = CLASSIFY_DYNAMIC) :
 		}
 		
 		viewModel.momentList.observeNonNull {
+			Timber.d("~~~~~${it.map { it.pictures }}")
 			(binding.recDynamic.adapter as MomentsListAdapter).replaceData(it)
 		}
 		

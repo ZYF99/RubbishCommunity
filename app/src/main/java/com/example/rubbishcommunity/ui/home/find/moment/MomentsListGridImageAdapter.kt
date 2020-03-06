@@ -15,6 +15,11 @@ class MomentsListGridImageAdapter(
 ) {
 	override fun bindData(binding: DynamicGridItemBinding, position: Int) {
 		binding.imgUrl = baseList[position]
+/*		Glide.with(binding.girdImg.context)
+			.load(baseList[position])
+			.placeholder(R.color.white)
+			.centerCrop()
+			.into(binding.girdImg)*/
 		binding.root.setOnClickListener {
 			onCellClick(position)
 		}

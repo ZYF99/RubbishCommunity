@@ -4,13 +4,13 @@
         xmlns:bind="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <data class="ReleaseDynamicBinding">
+    <data>
 
         <import type="android.view.View" />
 
         <variable
                 name="vm"
-                type="com.example.rubbishcommunity.ui.release.dynamic.ReleaseDynamicViewModel" />
+                type="com.example.rubbishcommunity.ui.release.moments.ReleaseMomentViewModel" />
 
 
     </data>

@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.release.dynamic
+package com.example.rubbishcommunity.ui.release.moments
 
 
 import android.app.Application
@@ -16,13 +16,14 @@ import com.example.rubbishcommunity.utils.*
 import com.luck.picture.lib.entity.LocalMedia
 import io.reactivex.SingleTransformer
 import org.kodein.di.generic.instance
+import timber.log.Timber
 
 /**
  * @author Zhangyf
  * @version 1.0
  * @date 2019/9/28 21:10
  */
-class ReleaseDynamicViewModel(application: Application) : BaseViewModel(application) {
+class ReleaseMomentViewModel(application: Application) : BaseViewModel(application) {
 	//Toolbar标题栏
 	val toolbarTitle = MutableLiveData("发布动态")
 	
@@ -91,7 +92,9 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 		SharedPreferencesUtils.putListData("draft_selectedList", selectedList.value!!)
 		getSaveDraftSingle()
 			.compose(dealLoading())
-			.doOnApiSuccess { onSavedAction.invoke() }
+			.doOnApiSuccess {
+				onSavedAction.invoke()
+			}
 	}
 	
 	
@@ -120,7 +123,7 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 			progress.postValue(it)
 		}
 		
-		fun getReleaseMomentSingle(momentsId:Long) = momentService.releaseMoment(
+		fun getReleaseMomentSingle(momentsId: Long) = momentService.releaseMoment(
 			ReleaseMomentRequestModel(
 				location.value?.latitude,
 				location.value?.longitude,
@@ -128,25 +131,29 @@ class ReleaseDynamicViewModel(application: Application) : BaseViewModel(applicat
 			)
 		)
 		
-		fun getSaveDraftAndReleaseSingle(resultKeyList:List<String>? = null) =
+		fun getSaveDraftAndReleaseSingle(resultKeyList: List<String>? = null) =
 			getSaveDraftSingle(resultKeyList)
-			.flatMap {
-			//存草稿成功，上传动态
-			getReleaseMomentSingle(it.data.momentsId)
-		}
+				.flatMap {
+					//存草稿成功，上传动态
+					getReleaseMomentSingle(it.data.momentsId)
+				}.switchThread()
 		
 		if (selectedList.value!!.isNotEmpty()) {
 			//有图片,上传图片至七牛云
 			getUploadImageListSingle()
 				.flatMap { resultKeyList ->
+					//todo fix this
 					//上传图片列表成功
 					//开始保存草稿并上传动态
+					Timber.d("!!!!!$resultKeyList")
 					getSaveDraftAndReleaseSingle(resultKeyList)
 				}
 		} else {
 			//没有图片，直接存草稿
 			getSaveDraftAndReleaseSingle()
-		}.doOnApiSuccess { onReleaseAction.invoke() }
+		}.doOnApiSuccess {
+			onReleaseAction.invoke()
+		}
 	}
 	
 	private fun <T> dealLoading(): SingleTransformer<T, T> {

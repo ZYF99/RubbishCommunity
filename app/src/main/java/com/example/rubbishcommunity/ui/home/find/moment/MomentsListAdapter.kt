@@ -60,18 +60,20 @@ class MomentsListAdapter(
 			adapter = LikeListAdapter(likeList) {
 				//点赞头像的点击事件
 			}
-			addItemDecoration(object : RecyclerView.ItemDecoration() {
-				override fun getItemOffsets(
-					outRect: Rect,
-					view: View,
-					parent: RecyclerView,
-					state: RecyclerView.State
-				) {
-					super.getItemOffsets(outRect, view, parent, state)
-					if (parent.getChildAdapterPosition(view) != (likeList.size - 1))
-						outRect.right = -6
-				}
-			})
+			if(itemDecorationCount<=0){
+				addItemDecoration(object : RecyclerView.ItemDecoration() {
+					override fun getItemOffsets(
+						outRect: Rect,
+						view: View,
+						parent: RecyclerView,
+						state: RecyclerView.State
+					) {
+						super.getItemOffsets(outRect, view, parent, state)
+						if (parent.getChildAdapterPosition(view) != (likeList.size - 1))
+							outRect.right = -6
+					}
+				})
+			}
 		}
 		val likeSize = likeList.size
 		binding.likeString = when {

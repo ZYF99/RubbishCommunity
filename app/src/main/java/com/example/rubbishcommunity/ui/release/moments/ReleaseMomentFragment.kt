@@ -1,14 +1,16 @@
-package com.example.rubbishcommunity.ui.release.dynamic
+package com.example.rubbishcommunity.ui.release.moments
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.os.Build
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
-import com.example.rubbishcommunity.databinding.ReleaseDynamicBinding
+import com.example.rubbishcommunity.databinding.FragmentReleaseMomentBinding
 import com.example.rubbishcommunity.initLocationClient
 import com.example.rubbishcommunity.ui.adapter.ITEM_SWIPE_FREE
 import com.example.rubbishcommunity.ui.adapter.attachItemSwipe
@@ -25,8 +27,8 @@ import com.luck.picture.lib.entity.LocalMedia
 import java.util.concurrent.TimeUnit
 
 
-class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDynamicViewModel>(
-	ReleaseDynamicViewModel::class.java, R.layout.fragment_release_dynamic
+class ReleaseMomentFragment : BindingFragment<FragmentReleaseMomentBinding, ReleaseMomentViewModel>(
+	ReleaseMomentViewModel::class.java, R.layout.fragment_release_moment
 ) {
 	
 	
@@ -119,6 +121,7 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 		
 	}
 	
+	@RequiresApi(Build.VERSION_CODES.Q)
 	override fun initData() {
 		//获取草稿
 		viewModel.getDraft()
@@ -127,6 +130,7 @@ class ReleaseDynamicFragment : BindingFragment<ReleaseDynamicBinding, ReleaseDyn
 	}
 	
 	//获取定位
+	@RequiresApi(Build.VERSION_CODES.Q)
 	private fun getLocation() {
 		checkLocationPermissionAndGetLocation(
 			initLocationClient(MyApplication.instance)
