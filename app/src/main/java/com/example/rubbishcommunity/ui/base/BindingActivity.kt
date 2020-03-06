@@ -22,8 +22,11 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import timber.log.Timber
 import com.example.rubbishcommunity.MyApplication
+import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.utils.BindLife
 import com.example.rubbishcommunity.ui.utils.*
+import com.example.rubbishcommunity.utils.switchThread
+import io.reactivex.Single
 
 
 abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
@@ -55,7 +58,8 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 		// 状态栏透明
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
 			window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-			window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+			window.decorView.systemUiVisibility =
+				View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 			window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
 			window.statusBarColor = Color.TRANSPARENT
 		}

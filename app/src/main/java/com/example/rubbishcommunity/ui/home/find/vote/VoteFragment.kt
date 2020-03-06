@@ -25,11 +25,9 @@ class VoteFragment : BindingFragment<VoteBinding, VoteViewModel>(
 		
 		binding.recVote.run {
 			layoutManager = LinearLayoutManager(context)
-			adapter = VoteListAdapter(
-				viewModel.voteList.value!!
-			) {
+			adapter = VoteListAdapter {
 			
-			}
+			}.apply { replaceData(viewModel.voteList.value!!) }
 		}
 		
 		

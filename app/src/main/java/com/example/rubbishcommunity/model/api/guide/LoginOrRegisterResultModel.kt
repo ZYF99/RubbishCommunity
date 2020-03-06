@@ -7,7 +7,6 @@ data class LoginOrRegisterResultModel(
 	val openId:String,
 	val token: String,
 	val profileCompletion:Int,
-	
 	val usrProfile: UsrProfile,
 	val usrSetting: UserSetting,
 	val usrStatusFlag: UsrStatusFlag,

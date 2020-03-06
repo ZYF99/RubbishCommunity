@@ -55,259 +55,234 @@
                     <de.hdodenhof.circleimageview.CircleImageView
                             android:layout_width="26dp"
                             android:layout_height="26dp"
-                            android:layout_marginLeft="20dp"
-                            android:src="@drawable/bg" />
+                            android:layout_marginStart="20dp"
+                            android:scaleType="centerCrop"
+                            imageUrl="@{vm.moment.publisher.avatar}"
+                            tools:src="@drawable/bg" />
 
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
-                            android:text="@{vm.title}"
+                            android:layout_marginStart="10dp"
+                            android:text="@{vm.moment.publisher.name}"
                             android:textColor="@color/black"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            tools:text="name" />
                 </LinearLayout>
 
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/refreshLayout"
-                android:layout_width="0dp"
+        <androidx.core.widget.NestedScrollView
+                android:id="@+id/nestedscroll"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@id/lin_bottom"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/appbar"
+                app:layout_constraintBottom_toTopOf="@id/lin_bottom"
+                android:background="#FFFFFF">
 
 
-                tools:targetApi="lollipop">
-
-            <androidx.core.widget.NestedScrollView
-                    android:id="@+id/nestedscroll"
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#FFFFFF">
+                    android:orientation="vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="16dp">
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="start"
+                        android:text="@{vm.moment.title}"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                <TextView
+                        android:id="@+id/release_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginRight="6dp"
+                        android:background="@null"
+                        android:ems="10"
+                        android:gravity="start"
+                        android:lineSpacingExtra="8dp"
+                        android:maxLines="20"
+                        android:minHeight="100dp"
+                        android:text="@{vm.moment.content}"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/text_second"
+                        android:textCursorDrawable="@drawable/my_cursor"
+                        android:textSize="14sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/img_rec"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="horizontal"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp" />
 
 
                 <LinearLayout
+                        android:id="@+id/btn_position"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingLeft="16dp"
-                        android:paddingTop="8dp"
-                        android:paddingRight="16dp">
+                        android:layout_weight="0"
+                        android:gravity="end"
+                        android:orientation="horizontal"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp">
 
                     <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginBottom="16dp"
-                            android:gravity="start"
-                            android:text="@{vm.title}"
-                            android:textColor="@color/black"
-                            android:textSize="18sp" />
-
-                    <TextView
-                            android:id="@+id/release_content"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="6dp"
-                            android:layout_marginRight="6dp"
-                            android:background="@null"
-                            android:ems="10"
-                            android:gravity="start"
-                            android:lineSpacingExtra="8dp"
-                            android:maxLines="20"
-                            android:minHeight="100dp"
-                            android:text="@={vm.content}"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/text_second"
-                            android:textCursorDrawable="@drawable/my_cursor"
-                            android:textSize="14sp" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/img_rec"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:nestedScrollingEnabled="false"
-                            android:layout_weight="0"
-                            android:orientation="horizontal"
-                            android:paddingTop="8dp"
-                            android:paddingBottom="8dp" />
-
-
-                    <LinearLayout
-                            android:id="@+id/btn_position"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0"
-                            android:gravity="end"
-                            android:orientation="horizontal"
-                            android:paddingTop="16dp"
-                            android:paddingBottom="16dp">
-
-                        <ImageView
-                                android:id="@+id/icon_position"
-                                android:layout_width="18dp"
-                                android:layout_height="18dp"
-                                android:layout_weight="0"
-                                android:tint="@color/text_second"
-                                app:srcCompat="@drawable/icon_location" />
-
-                        <TextView
-                                android:id="@+id/tv_position"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
-                                android:layout_weight="0"
-                                android:text="@{vm.location}"
-                                android:textColor="@color/text_second"
-                                android:textSize="12sp" />
-
-
-                    </LinearLayout>
-
-                    <View
-                            android:id="@+id/g"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="@color/colorGang" />
-
-                    <TextView
-                            android:id="@+id/tv_comment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dp"
-                            android:layout_weight="0"
-                            android:text='@{vm.commentList.size()+@string/unit_comment}'
-                            android:textColor="@color/text_third"
-                            android:textSize="14sp" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/comment_rec"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:nestedScrollingEnabled="false"
-                            android:layout_marginTop="4dp"
-                            android:layout_weight="0"
-                            android:minHeight="100dp"
-                            android:orientation="horizontal"
-                            android:paddingLeft="8dp"
-                            android:paddingTop="8dp"
-                            android:paddingRight="8dp"
-                            android:paddingBottom="8dp" />
+                            android:layout_marginStart="8dp"
+                            android:text="@{vm.moment.topic}"
+                            android:textColor="@color/text_second"
+                            android:textSize="12sp"
+                            tools:text="#gggg"/>
 
 
                 </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+                <View
+                        android:id="@+id/g"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@color/colorGang" />
 
+                <TextView
+                        android:id="@+id/tv_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="0"
+                        android:text='@{vm.moment.realCommentList.size()+@string/unit_comment}'
+                        android:textColor="@color/text_third"
+                        android:textSize="14sp" />
 
-
-
-
-
-                <FrameLayout
-                        android:id="@+id/lin_bottom"
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/comment_rec"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent">
+                        android:layout_marginTop="4dp"
+                        android:layout_weight="0"
+                        android:minHeight="100dp"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="horizontal"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="8dp" />
 
-                    <androidx.cardview.widget.CardView
-                            android:id="@+id/card_btn"
-                            android:layout_width="match_parent"
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <FrameLayout
+                android:id="@+id/lin_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.cardview.widget.CardView
+                    android:id="@+id/card_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="6dp">
+
+                <LinearLayout
+                        android:id="@+id/lin_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+
+                    <TextView
+                            android:id="@+id/btn_like"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="1dp"
-                            app:cardCornerRadius="0dp"
-                            app:cardElevation="6dp">
-                    <LinearLayout
-                            android:id="@+id/lin_btn"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
                             android:gravity="center"
-                            android:orientation="horizontal">
+                            android:paddingTop="12dp"
+                            android:paddingBottom="12dp"
+                            android:text='@{@string/like + vm.moment.likeList.size()}'
+                            android:textColor="@color/text_third"
+                            android:textSize="16sp"
+                            tools:text="赞 13" />
 
+                    <View
+                            android:id="@+id/view4"
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0"
+                            android:background="#7CE2E2E2" />
 
-                        <TextView
-                                android:id="@+id/btn_like"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="?android:attr/selectableItemBackground"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:gravity="center"
-                                android:paddingTop="12dp"
-                                android:paddingBottom="12dp"
-                                android:text='@{@string/like+vm.likeNum}'
-                                android:textColor="@color/text_third"
-                                android:textSize="16sp"
-                                tools:targetApi="lollipop" />
+                    <TextView
+                            android:id="@+id/btn_comment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:paddingTop="12dp"
+                            android:paddingBottom="12dp"
+                            android:text="评论"
+                            android:textColor="@color/text_third"
+                            android:textSize="16sp"
+                            tools:targetApi="lollipop" />
 
-                        <View
-                                android:id="@+id/view4"
-                                android:layout_width="1dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="0"
-                                android:background="#7CE2E2E2" />
+                    <View
+                            android:id="@+id/view6"
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0"
+                            android:background="#7CE2E2E2" />
 
-                        <TextView
-                                android:id="@+id/btn_comment"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="?android:attr/selectableItemBackground"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:gravity="center"
-                                android:paddingTop="12dp"
-                                android:paddingBottom="12dp"
-                                android:text="评论"
-                                android:textColor="@color/text_third"
-                                android:textSize="16sp"
-                                tools:targetApi="lollipop" />
+                    <TextView
+                            android:id="@+id/btn_trans"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:paddingTop="12dp"
+                            android:paddingBottom="12dp"
+                            android:text="转发"
+                            android:textColor="@color/text_third"
+                            android:textSize="16sp"
+                            tools:ignore="NewApi" />
 
-                        <View
-                                android:id="@+id/view6"
-                                android:layout_width="1dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="0"
-                                android:background="#7CE2E2E2" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-                        <TextView
-                                android:id="@+id/btn_trans"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="?android:attr/selectableItemBackground"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:gravity="center"
-                                android:paddingTop="12dp"
-                                android:paddingBottom="12dp"
-                                android:text="转发"
-                                android:textColor="@color/text_third"
-                                android:textSize="16sp"
-                                tools:ignore="NewApi" />
-
-                    </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-                    <include
-                            android:id="@+id/lin_comment"
-                            layout="@layout/layout_comment"
-                            android:visibility="gone"
-                            bind:commentInput="@={vm.inputComment}" />
-                </FrameLayout>
-
-
+            <include
+                    android:id="@+id/lin_comment"
+                    layout="@layout/layout_comment"
+                    android:visibility="gone"
+                    bind:commentInput="@={vm.inputComment}" />
+        </FrameLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,8 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.MyApplication
-import com.example.rubbishcommunity.manager.dealError
-import com.example.rubbishcommunity.manager.dealErrorCode
+import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.utils.BindLife
 import com.example.rubbishcommunity.utils.switchThread
 import io.reactivex.Single
@@ -32,11 +31,10 @@ abstract class BaseViewModel(application: Application) :
 		super.onCleared()
 	}
 	
-	protected fun <T:Any>Single<T>.doOnApiSuccess(onSuccessAction: ((T) -> Unit)?) =
+	protected fun <T> Single<T>.doOnApiSuccess(action: (T) -> Unit) =
 		switchThread()
-			.doOnSuccess { onSuccessAction?.invoke(it) }
-			.compose(dealErrorCode())
-			.compose(dealError())
+			.doOnSuccess { action.invoke(it) }
+			.catchApiError()
 			.bindLife()
 	
 	

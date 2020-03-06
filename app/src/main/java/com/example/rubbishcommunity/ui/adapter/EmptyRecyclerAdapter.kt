@@ -19,7 +19,7 @@ private const val VIEW_TYPE_EMPTY = 0
 abstract class EmptyRecyclerAdapter<Bean, Binding : ViewDataBinding>
 constructor(
 	private val layoutRes: Int,
-	private val onCellClick: (Int) -> Unit
+	private val onCellClick: (Bean) -> Unit
 ) : BaseRecyclerAdapter<Bean, Binding>(
 	layoutRes,
 	onCellClick
@@ -79,7 +79,7 @@ constructor(
 		if (holder is BaseSimpleViewHolder<*>) {
 			val rootHolder = holder as BaseSimpleViewHolder<Binding>
 			rootHolder.binding!!.root.setOnClickListener {
-				onCellClick(position)
+				onCellClick(baseList[position])
 			}
 			bindData(rootHolder.binding!!, position)
 		}

@@ -37,7 +37,7 @@
 
             <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tab"
-                    android:layout_width="150dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:background="@color/white"
@@ -55,6 +55,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="投票" />
+
+                <com.google.android.material.tabs.TabItem
+                        android:id="@+id/tabItem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="答题" />
 
             </com.google.android.material.tabs.TabLayout>
 

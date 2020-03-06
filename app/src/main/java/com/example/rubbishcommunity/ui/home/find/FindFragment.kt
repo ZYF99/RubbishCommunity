@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.FindBinding
-import com.example.rubbishcommunity.ui.home.find.moment.DynamicFragment
+import com.example.rubbishcommunity.ui.home.find.moment.CLASSIFY_DYNAMIC
+import com.example.rubbishcommunity.ui.home.find.moment.CLASSIFY_RECOVERY
+import com.example.rubbishcommunity.ui.home.find.moment.MomentsFragment
 import com.example.rubbishcommunity.ui.home.find.vote.VoteFragment
 
 
@@ -21,9 +23,12 @@ class FindFragment :
 	override fun initWidget() {
 		binding.vm = viewModel
 		binding.findpager.run {
-			val dynamicFragment = DynamicFragment()
-			val voteFragment = VoteFragment()
-			val fragList = listOf(Pair(dynamicFragment, "动态"), Pair(voteFragment, "投票"))
+			val dynamicFragment = MomentsFragment(CLASSIFY_DYNAMIC)
+			val recoveryFragment = MomentsFragment(CLASSIFY_RECOVERY)
+			val fragList = listOf(
+				Pair(dynamicFragment, "动态"), Pair(recoveryFragment, "回收"),
+				Pair(VoteFragment(), "答题")
+			)
 			adapter = FindPagerAdapter(childFragmentManager, fragList)
 		}
 		binding.tab.run {

@@ -1,7 +1,5 @@
 package com.example.rubbishcommunity.ui.home.message.chat
 
-
-
 import android.view.View
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ChatMsgCellBinding
@@ -11,16 +9,13 @@ import com.example.rubbishcommunity.persistence.getLocalUserInfo
 import com.example.rubbishcommunity.ui.adapter.BaseRecyclerAdapter
 import java.util.*
 
-
 class ChatListAdapter(
 	val list: MutableList<ChatMessage>,
-	onCellClick: (Int) -> Unit
+	onCellClick: (ChatMessage) -> Unit
 ) : BaseRecyclerAdapter<ChatMessage, ChatMsgCellBinding>(
 	R.layout.cell_chat_msg,
 	onCellClick
 ) {
-	override val baseList: MutableList<ChatMessage>
-		get() = list
 	private var lastMsg: ChatMessage? = null
 	
 	override fun bindData(binding: ChatMsgCellBinding, position: Int) {

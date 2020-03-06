@@ -10,7 +10,8 @@ import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ContainerBinding
-import com.example.rubbishcommunity.model.Comment
+import com.example.rubbishcommunity.model.api.moments.CommentReply
+import com.example.rubbishcommunity.model.api.moments.MomentContent
 import com.example.rubbishcommunity.ui.base.SoftObservableFragment
 import com.example.rubbishcommunity.ui.guide.basicinfo.BasicInfoFragment
 import com.example.rubbishcommunity.ui.guide.login.LoginFragment
@@ -27,6 +28,7 @@ import com.example.rubbishcommunity.ui.home.mine.editinfo.EditInfoFragment
 import com.example.rubbishcommunity.ui.release.dynamic.ReleaseDynamicFragment
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
 import com.example.rubbishcommunity.utils.SoftKeyBroadManager
+import com.example.rubbishcommunity.utils.globalGson
 import rx_activity_result2.RxActivityResult
 import java.io.Serializable
 
@@ -110,7 +112,7 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 					EditInfoFragment()
 				"releaseDynamic" -> // 发布动态界面
 					ReleaseDynamicFragment()
-				"dynamicDetail" -> //动态详情界面
+				"momentDetail" -> //动态详情界面
 					DynamicDetailFragment()
 				"innerComment" -> //内部评论列表界面
 					InnerCommentFragment()
@@ -209,19 +211,19 @@ fun jumpToReleaseDynamic(context: Context) {
 }
 
 //跳转至动态详情界面
-fun jumpToDynamicDetail(context: Context, dynamicId: String) {
+fun jumpToMomentDetail(context: Context, moment: MomentContent) {
 	val bundle = Bundle()
-	bundle.putString("tag", "dynamicDetail")
+	bundle.putString("tag", "momentDetail")
 	bundle.putSerializable(
-		"dynamicId",
-		dynamicId as Serializable
+		"moment",
+		globalGson.toJson(moment)
 	)
 	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }
 
 
 //跳转至内部评论列表界面
-fun jumpToInnerComment(context: Context, commentList: List<Comment>) {
+fun jumpToInnerComment(context: Context, commentList: List<CommentReply>) {
 	val bundle = Bundle()
 	bundle.putString("tag", "innerComment")
 	bundle.putSerializable(

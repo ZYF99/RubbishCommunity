@@ -10,14 +10,11 @@ import com.example.rubbishcommunity.ui.adapter.EmptyRecyclerAdapter
 
 class SearchListAdapter(
 	val list: MutableList<SearchKeyConclusion>,
-	onCellClick: (Int) -> Unit
+	onCellClick: (SearchKeyConclusion) -> Unit
 ) : EmptyRecyclerAdapter<SearchKeyConclusion, SearchCellBinding>(
 	R.layout.cell_search,
 	onCellClick
 ) {
-	override val baseList: MutableList<SearchKeyConclusion>
-		get() = list
-	
 	override fun bindData(binding: SearchCellBinding, position: Int) {
 		binding.searchConclusion = baseList[position]
 	}

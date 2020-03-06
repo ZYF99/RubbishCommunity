@@ -7,7 +7,7 @@
 
         <variable
                 name="comment"
-                type="com.example.rubbishcommunity.model.Comment" />
+                type="com.example.rubbishcommunity.model.api.moments.MomentComment" />
     </data>
 
     <LinearLayout
@@ -19,7 +19,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="26dp"
                 android:layout_height="26dp"
-                imageUrl="@{comment.user.portrait}"
+                imageUrl="@{comment.commentator.avatar}"
                 android:src="@drawable/bg" />
 
         <LinearLayout
@@ -34,7 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text_third"
-                    android:text="@{comment.user.name}" />
+                    android:text="@{comment.commentator.name}" />
 
             <TextView
                     android:id="@+id/tv_content"
@@ -58,7 +58,8 @@
                         android:background="?android:attr/selectableItemBackground"
                         android:clickable="true"
                         android:focusable="true"
-                        android:text='@{comment.time}' />
+                        time="@{comment.commentDate}"
+                        android:text='' />
                 <TextView
                         android:id="@+id/btn_reply"
                         android:layout_width="wrap_content"
@@ -84,11 +85,11 @@
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp"
                     android:backgroundTint="@color/gang"
-                    android:visibility="@{comment.innerCommentList != null ?View.VISIBLE:View.GONE}"
+                    android:visibility="@{comment.commentReplyList != null ?View.VISIBLE:View.GONE}"
                     android:clickable="true"
                     android:focusable="true"
                     android:textColor="@color/text_third"
-                    android:text='@{comment.innerCommentList != null ? comment.innerCommentList.size+@string/unit_comment:@string/no_comment}' />
+                    android:text='@{comment.commentReplyList != null ? comment.commentReplyList.size+@string/unit_comment:@string/no_comment}' />
 
 
         </LinearLayout>

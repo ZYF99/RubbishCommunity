@@ -3,13 +3,17 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <data class="DynamicListCellBinding">
+    <data>
 
         <import type="android.view.View" />
 
         <variable
-                name="dynamic"
-                type="com.example.rubbishcommunity.model.api.moments.Moment" />
+                name="moment"
+                type="com.example.rubbishcommunity.model.api.moments.MomentContent" />
+
+        <variable
+                name="likeString"
+                type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,11 +25,11 @@
         <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="7dp"
+                android:background="@color/white"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -40,10 +44,10 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/cell_author_portrait"
+                        imageUrl="@{moment.publisher.avatar}"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
                         android:layout_marginTop="16dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/nav_selector_find"
@@ -55,7 +59,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
                         android:orientation="vertical"
                         app:layout_constraintBottom_toBottomOf="@+id/cell_author_portrait"
                         app:layout_constraintStart_toEndOf="@+id/cell_author_portrait"
@@ -65,18 +68,33 @@
                             android:id="@+id/tv_dynamic_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{dynamic.id}"
+                            android:text="@{moment.publisher.name}"
                             android:textColor="@color/black" />
 
                     <TextView
                             android:id="@+id/tv_vote_date"
+                            time="@{moment.publishedDate}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="2019.09.07"
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
                 </LinearLayout>
+
+                <TextView
+                        android:id="@+id/tv_dynamic_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="24dp"
+                        android:lineSpacingExtra="4dp"
+                        android:text="@{moment.title}"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
                 <TextView
                         android:id="@+id/tv_dynamic_content"
@@ -86,26 +104,58 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="24dp"
                         android:lineSpacingExtra="4dp"
-                        android:text="@{dynamic.content}"
+                        android:text="@{moment.content}"
                         android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+                        app:layout_constraintTop_toBottomOf="@+id/tv_dynamic_title" />
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rec_img"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="32dp"
                         android:nestedScrollingEnabled="false"
                         android:scrollbars="none"
-                        app:layout_constraintBottom_toTopOf="@id/lin_btn"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_dynamic_content" />
+
+                <LinearLayout
+                        android:id="@+id/frame_like"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="32dp"
+                        app:layout_constraintBottom_toTopOf="@id/lin_btn"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rec_img">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rec_like"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false"
+                            android:scrollbars="none" />
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="4dp"
+                            android:textSize="12sp"
+                            android:gravity="center"
+                            android:textAlignment="center"
+                            android:text="@{likeString}"
+                            tools:text="等10人觉得很赞"/>
+
+                </LinearLayout>
+
 
                 <LinearLayout
                         android:id="@+id/lin_btn"

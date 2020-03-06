@@ -7,7 +7,7 @@
 
         <variable
                 name="userInfo"
-                type="com.example.rubbishcommunity.model.api.mine.UsrProfile" />
+                type="com.example.rubbishcommunity.model.api.SimpleProfileResp" />
     </data>
 
         <androidx.cardview.widget.CardView
@@ -39,7 +39,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
                         android:gravity="center"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/circleImageView">
@@ -53,30 +53,21 @@
                             android:textStyle="bold"
                             tools:text="Zhangyf" />
 
-                    <ImageView
-                            gender="@{userInfo.gender}"
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_weight="0"
-                            tools:src="@drawable/icon_gendermale"
-                            tools:tint="@color/colorMale" />
-
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:background="@drawable/bg_cornerbtn_pressed"
-                            android:paddingStart="8dp"
-                            android:paddingTop="2dp"
-                            android:paddingEnd="8dp"
-                            android:paddingBottom="2dp"
-                            android:text='@{"LV"+userInfo.level}'
+                            android:layout_marginTop="6dp"
+                            android:paddingStart="12dp"
+                            android:paddingTop="4dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="4dp"
+                            android:gravity="center"
+                            android:text='@{"LV"+userInfo.signature}'
                             android:textColor="@color/white"
                             android:textSize="12sp"
                             android:textStyle="bold"
-                            tools:text="LV2" />
+                            tools:text="dsfd;fksugjiofdjghiokfjhpkitgkfpoh" />
                 </LinearLayout>
 
                 <LinearLayout

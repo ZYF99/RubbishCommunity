@@ -8,14 +8,11 @@ import com.example.rubbishcommunity.ui.adapter.BaseRecyclerAdapter
 
 
 class ThingListAdapter(
-	val list: MutableList<Thing>,
-	onCellClick: (Int) -> Unit
+	onCellClick: (Thing) -> Unit
 ) : BaseRecyclerAdapter<Thing, ThingCellBinding>(
 	R.layout.cell_thing,
 	onCellClick
 ) {
-	override val baseList: MutableList<Thing>
-		get() = list
 	
 	override fun bindData(binding: ThingCellBinding, position: Int) {
 		binding.thing = baseList[position]

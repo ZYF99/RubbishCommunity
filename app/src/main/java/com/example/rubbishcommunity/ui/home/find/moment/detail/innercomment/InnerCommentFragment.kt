@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.InnerCommentBinding
-import com.example.rubbishcommunity.model.Comment
+import com.example.rubbishcommunity.model.api.moments.MomentComment
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.ui.container.jumpToInnerComment
 import com.example.rubbishcommunity.ui.home.find.moment.detail.CommentListAdapter
@@ -37,7 +37,7 @@ class InnerCommentFragment : BindingFragment<InnerCommentBinding, InnerCommentVi
 	}
 	
 	override fun initBefore() {
-		viewModel.init((activity!!.intent.getSerializableExtra("commentList")) as MutableList<Comment>)
+		viewModel.init((activity!!.intent.getSerializableExtra("commentList")) as MutableList<MomentComment>)
 	}
 	
 	override fun initWidget() {
@@ -46,17 +46,15 @@ class InnerCommentFragment : BindingFragment<InnerCommentBinding, InnerCommentVi
 		binding.recInnerComment.run {
 			layoutManager = LinearLayoutManager(context)
 			adapter = CommentListAdapter(
-				viewModel.innerCommentList.value!!,
 				{ position ->
-					(viewModel.innerCommentList.value?.get(position)?.innerCommentList)?.let { innerCommentList ->
-						jumpToInnerComment(context, innerCommentList)
+					(viewModel.innerCommentList.value?.get(position)?.commentReplyList)?.let { commentReplyList ->
+						jumpToInnerComment(context, commentReplyList)
 					}
 				}, { position ->
 					//回复
 					showInputDialog()
 					replyPosition = position
-				}
-			)
+				},viewModel.innerCommentList.value?: emptyList())
 		}
 		
 		//键盘上方的发送按钮

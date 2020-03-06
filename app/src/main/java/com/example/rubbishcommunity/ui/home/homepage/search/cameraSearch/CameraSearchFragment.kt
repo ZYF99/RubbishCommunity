@@ -49,15 +49,13 @@ class CameraSearchFragment : BindingFragment<CameraSearchBinding, CameraSearchVi
 		
 		binding.recThing.run {
 			layoutManager = LinearLayoutManager(context)
-			adapter = ThingListAdapter(
-				viewModel.thingList.value!!
-			) { position ->
+			adapter = ThingListAdapter { thing ->
 				//返回结果给Search界面
 				val intent = Intent(context!!, ContainerActivity::class.java)
-				intent.putExtra("searchKey", viewModel.thingList.value!![position].keyword)
+				intent.putExtra("searchKey", thing.keyword)
 				activity!!.setResult(1, intent)
 				activity!!.finish()
-			}
+			}.apply { replaceData(viewModel.thingList.value!!) }
 		}
 		
 	}

@@ -43,22 +43,20 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
 			}
 		}
 		
-		
 		//下拉刷新控件
 		binding.refreshLayout.setOnRefreshListener {
-			refresh()
+			viewModel.fetchMessageList()
 		}
 		
 		//消息列表
 		binding.recMessage.run {
 			layoutManager = LinearLayoutManager(context)
 			adapter = MessageListAdapter(
-				viewModel.messageList.value!!,
-				{ position ->
+				{ message ->
 					//if (!isDrawerOpen)//侧边栏未开启
 					jumpToChat(
 						context!!,
-						viewModel.messageList.value!![position].uid
+						message.uid
 					)
 				},
 				{ position ->
@@ -130,27 +128,16 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
 				)
 			)
 			layoutManager = LinearLayoutManager(context)
-			adapter = FriendListAdapter(friendList) { position ->
-				jumpToChat(context, friendList[position].uid)
-			}
+			adapter = FriendListAdapter { message ->
+				jumpToChat(context, message.uid)
+			}.apply { replaceData(friendList) }
 		}
 		
 	}
 	
 	//初始化数据
 	override fun initData() {
-		refresh()
-	}
-	
-	//刷新
-	private fun refresh() {
-		context!!.checkNet().doOnComplete {
-			viewModel.getMessageList().doOnSubscribe {
-				binding.recMessage.adapter?.notifyDataSetChanged()
-			}.bindLife()
-		}.doOnError {
-			viewModel.isRefreshing.postValue(false)
-		}.bindLife()
+		viewModel.fetchMessageList()
 	}
 	
 }

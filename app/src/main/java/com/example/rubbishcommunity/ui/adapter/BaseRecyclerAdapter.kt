@@ -13,13 +13,11 @@ import java.util.*
 
 
 abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
-constructor(
+	(
 	private val layoutRes: Int,
-	private val onCellClick: (Int) -> Unit
+	private val onCellClick: (Bean) -> Unit,
+	var baseList: List<Bean> = emptyList()
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-	
-	abstract val baseList: MutableList<Bean>
-	
 	class BaseSimpleViewHolder<Binding : ViewDataBinding>(
 		itemView: View
 	) : RecyclerView.ViewHolder(itemView) {
@@ -27,7 +25,6 @@ constructor(
 			DataBindingUtil.bind<Binding>(itemView)
 		}
 	}
-	
 	
 	override fun onCreateViewHolder(
 		parent: ViewGroup,
@@ -40,35 +37,19 @@ constructor(
 	
 	override fun getItemCount() = baseList.size
 	
-	
 	override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 		holder as BaseSimpleViewHolder<Binding>
 		holder.binding!!.root.setOnClickListener {
-			onCellClick(position)
+			onCellClick(baseList[position])
 		}
 		bindData(holder.binding!!, position)
 	}
 	
-	
 	abstract fun bindData(binding: Binding, position: Int)
 	
-	fun replaceData(newList: MutableList<Bean>) {
-		baseList.run {
-			clear()
-			addAll(newList)
-		}
+	fun replaceData(newList: List<Bean>) {
+		baseList = newList
 		notifyDataSetChanged()
-	}
-	
-	fun addData(data: Bean) {
-		baseList.add(data)
-		notifyItemInserted(baseList.size - 1)
-	}
-	
-	fun removeData(position: Int) {
-		baseList.removeAt(position)
-		notifyItemRemoved(position)
-		notifyItemRangeChanged(position, baseList.size)
 	}
 	
 	fun onItemMove(fromPosition: Int, toPosition: Int) {

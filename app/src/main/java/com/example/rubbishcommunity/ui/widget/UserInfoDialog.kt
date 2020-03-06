@@ -11,11 +11,12 @@ import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.UserInfoDialogBinding
 import com.example.rubbishcommunity.model.api.mine.UsrProfile
 import android.graphics.drawable.ColorDrawable
+import com.example.rubbishcommunity.model.api.SimpleProfileResp
 
 
 class UserInfoDialog(
 	context: Context,
-	private val userInfo: UsrProfile
+	private val userInfo: SimpleProfileResp
 	, private val onDetailClick: () -> Unit
 ) : AlertDialog(context) {
 	

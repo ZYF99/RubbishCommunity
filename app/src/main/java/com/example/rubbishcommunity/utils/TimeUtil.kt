@@ -18,8 +18,8 @@ fun long2DateString(timeStamp: Long): String {
 	return format.format(date)
 }
 
-@BindingAdapter("birthday")
-fun long2Birthday(textView: TextView, birthLong: Long) {
+@BindingAdapter("time")
+fun long2Date(textView: TextView, birthLong: Long) {
 	textView.text = long2DateString(birthLong)
 }
 

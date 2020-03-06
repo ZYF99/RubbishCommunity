@@ -33,9 +33,6 @@ class ReleaseDynamicGridImageAdapter(
 	R.layout.item_filter_grid_image,
 	{}
 ) {
-	override val baseList: MutableList<LocalMedia>
-		get() = imgList
-	
 	private val selectMax = 9
 	
 	override
@@ -78,9 +75,7 @@ class ReleaseDynamicGridImageAdapter(
 					// 这里有时会返回-1造成数据下标越界,具体可参考getAdapterPosition()源码，
 					// 通过源码分析应该是bindViewHolder()暂未绘制完成导致，知道原因的也可联系我~感谢
 					if (position != RecyclerView.NO_POSITION) {
-						baseList.removeAt(position)
-						notifyItemRemoved(position)
-						notifyItemRangeChanged(position, baseList.size)
+						replaceData(baseList.apply { toMutableList().removeAt(position) })
 						onGridItemDelClick(position)
 					}
 				}

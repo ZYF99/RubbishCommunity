@@ -7,6 +7,7 @@ import com.example.rubbishcommunity.ui.utils.ErrorData
 import com.example.rubbishcommunity.ui.utils.ErrorType
 import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.utils.*
+import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import java.net.SocketTimeoutException
 
@@ -15,6 +16,11 @@ import java.net.SocketTimeoutException
  * 处理异常返回码并抛出
  *
  * */
+
+
+fun <T> Single<T>.catchApiError(): Single<T> =
+	compose(dealErrorCode())
+		.compose(dealError())
 
 //resolve errorCode in Observable
 fun <T> dealErrorCode(): SingleTransformer<T, T> {

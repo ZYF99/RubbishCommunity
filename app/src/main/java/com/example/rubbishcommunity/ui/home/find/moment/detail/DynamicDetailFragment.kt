@@ -2,17 +2,20 @@ package com.example.rubbishcommunity.ui.home.find.moment.detail
 
 import android.view.View
 import androidx.core.widget.NestedScrollView
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.DynamicDetailBinding
+import com.example.rubbishcommunity.model.api.moments.MomentContent
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.ui.container.jumpToInnerComment
-import com.example.rubbishcommunity.ui.home.find.moment.DynamicListGridImageAdapter
+import com.example.rubbishcommunity.ui.home.find.moment.MomentsListGridImageAdapter
+import com.example.rubbishcommunity.ui.home.find.moment.getMomentsPictureLayoutManager
 import com.example.rubbishcommunity.ui.utils.hideSoftKeyBoard
 import com.example.rubbishcommunity.ui.utils.openSoftKeyBoard
 import com.example.rubbishcommunity.ui.utils.showGallery
+import com.example.rubbishcommunity.utils.globalGson
+import timber.log.Timber
 
 
 class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetailViewModel>(
@@ -48,25 +51,29 @@ class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetai
 	
 	
 	override fun initBefore() {
-		activity!!.intent.getStringExtra("dynamicId")
-		viewModel.init()
+		viewModel.moment.value =
+			globalGson.fromJson<MomentContent>(
+				activity!!.intent.getStringExtra(
+					"moment"
+				), MomentContent::class.java
+			)
+		
 	}
 	
 	override fun initWidget() {
 		binding.vm = viewModel
 		//照片列表
 		binding.imgRec.run {
-			layoutManager =
-				GridLayoutManager(context, 3)
-			adapter = DynamicListGridImageAdapter(
-				viewModel.imgList.value!!
-			) { position ->
-				showGallery(
-					context,
-					viewModel.imgList.value!!,
-					position
-				)
-			}
+			val pictures = viewModel.moment.value?.pictures
+			layoutManager = getMomentsPictureLayoutManager(context, pictures?.size ?: 1)
+			adapter =
+				MomentsListGridImageAdapter(pictures ?: emptyList()) { position ->
+					showGallery(
+						context,
+						pictures ?: emptyList(),
+						position
+					)
+				}
 		}
 		
 		//整体滑动监听
@@ -75,21 +82,23 @@ class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetai
 			hideInputDialog()
 		}
 		
-		
 		//评论列表
 		binding.commentRec.run {
+			val commentList = viewModel.moment.value?.realCommentList ?: emptyList()
+			Timber.d("~~~~~~~~${viewModel.moment.value?.momentCommentList}")
 			layoutManager = LinearLayoutManager(context)
 			adapter = CommentListAdapter(
-				viewModel.commentList.value!!, { position ->
+				{ position ->
 					//查看内部评论
 					jumpToInnerComment(
 						context,
-						viewModel.commentList.value!![position].innerCommentList ?: listOf()
+						commentList[position].commentReplyList
 					)
 				}, { position ->
 					showInputDialog()
 					replyPosition = position
-				}
+				},
+				commentList
 			)
 		}
 		

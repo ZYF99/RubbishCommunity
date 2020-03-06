@@ -8,25 +8,21 @@ import com.example.rubbishcommunity.ui.adapter.EmptyRecyclerAdapter
 
 
 class MessageListAdapter(
-	val list: MutableList<Message>,
-	val onCellClick: (Int) -> Unit,
+	val onCellClick: (Message) -> Unit,
 	val onDellClick: (Int) -> Unit
 ) : EmptyRecyclerAdapter<Message, MsgCellBinding>(
 	R.layout.cell_msg,
 	onCellClick
 ) {
-	override val baseList: MutableList<Message>
-		get() = list
-	
 	override fun bindData(binding: MsgCellBinding, position: Int) {
-		binding.message = list[position]
+		binding.message = baseList[position]
 		
 		binding.cell.setOnClickListener {
-			onCellClick(position)
+			onCellClick(baseList[position])
 		}
 		
 		binding.delete.setOnClickListener {
-			removeData(position)
+			replaceData(baseList.apply { toMutableList().removeAt(position) })
 			onDellClick(position)
 		}
 	}

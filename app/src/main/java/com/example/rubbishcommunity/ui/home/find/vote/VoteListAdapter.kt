@@ -8,16 +8,14 @@ import com.example.rubbishcommunity.ui.adapter.BaseRecyclerAdapter
 import com.example.rubbishcommunity.ui.adapter.EmptyRecyclerAdapter
 
 class VoteListAdapter(
-	val list: MutableList<Vote>,
-	onCellClick: (Int) -> Unit
+	onCellClick: (Vote) -> Unit
 ) : EmptyRecyclerAdapter<Vote, VoteCellBinding>(
 	R.layout.cell_vote,
 	onCellClick
 ) {
-	override val baseList: MutableList<Vote>
-		get() = list
+
 	
 	override fun bindData(binding: VoteCellBinding, position: Int) {
-		binding.vote = list[position]
+		binding.vote = baseList[position]
 	}
 }

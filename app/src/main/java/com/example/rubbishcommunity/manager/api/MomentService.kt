@@ -1,10 +1,10 @@
 package com.example.rubbishcommunity.manager.api
 
-
-import com.example.rubbishcommunity.model.api.moments.Moment
 import com.example.rubbishcommunity.model.Vote
 import com.example.rubbishcommunity.model.api.ResultModel
+import com.example.rubbishcommunity.model.api.moments.GetMomentsByClassifyRequestModel
 import com.example.rubbishcommunity.model.api.moments.GetMomentsRequestModel
+import com.example.rubbishcommunity.model.api.moments.GetMomentsResultModel
 import com.example.rubbishcommunity.model.api.release.ReleaseMomentRequestModel
 import com.example.rubbishcommunity.model.api.release.ReleaseMomentResultModel
 import com.example.rubbishcommunity.model.api.release.draft.ClearDraftResultModel
@@ -44,17 +44,14 @@ interface MomentService {
 	@POST("api/moments/publish")
 	fun releaseMoment(@Body releaseMomentRequestModel: ReleaseMomentRequestModel): Single<ResultModel<ReleaseMomentResultModel>>
 	
-
-	
 	@POST("api/moments/location/fetch")
-	fun fetchMoments(@Body getMomentsRequestModel: GetMomentsRequestModel): Single<GetMomentsRequestModel>
+	fun fetchMomentsByLocation(@Body getMomentsByLocationRequestModel: GetMomentsRequestModel): Single<ResultModel<GetMomentsResultModel>>
+	
+	@POST("api/moments/classify/fetch")
+	fun fetchMomentsByClassify(@Body getMomentsByClassifyRequestModel: GetMomentsByClassifyRequestModel): Single<ResultModel<GetMomentsResultModel>>
 	
 	@GET("votes?")
 	fun getVoteList(@Query("offset") offset: Int): Single<MutableList<Vote>>
-	
-	@GET("dynamic?")
-	fun getDynamic(@Query("dynamicId") Id: String): Single<Moment>
-	
 	
 	
 }
