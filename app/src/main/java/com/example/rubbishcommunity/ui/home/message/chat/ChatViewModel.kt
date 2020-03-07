@@ -4,8 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.manager.api.ChatService
 import com.example.rubbishcommunity.ui.base.BaseViewModel
-import com.example.rubbishcommunity.manager.api.UserService
-import com.example.rubbishcommunity.manager.dealError
+import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.ChatMessage
 import com.example.rubbishcommunity.persistence.getLocalOpenId
@@ -98,7 +97,7 @@ class ChatViewModel(application: Application) : BaseViewModel(application) {
 			}
 			//.compose(dealLoading())
 			.compose(dealErrorCode())
-			.compose(dealError())
+			.compose(catchApiError())
 		}
 	
 }

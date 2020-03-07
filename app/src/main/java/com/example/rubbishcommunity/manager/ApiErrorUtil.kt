@@ -7,6 +7,7 @@ import com.example.rubbishcommunity.ui.utils.ErrorData
 import com.example.rubbishcommunity.ui.utils.ErrorType
 import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.utils.*
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import java.net.SocketTimeoutException
@@ -20,79 +21,94 @@ import java.net.SocketTimeoutException
 
 fun <T> Single<T>.catchApiError(): Single<T> =
 	compose(dealErrorCode())
-		.compose(dealError())
+		.compose(com.example.rubbishcommunity.manager.catchApiError())
+
 
 //resolve errorCode in Observable
 fun <T> dealErrorCode(): SingleTransformer<T, T> {
 	return SingleTransformer { obs ->
 		obs.doOnSuccess { result ->
-			when (result) {
-				is ResultModel<*> -> {//LeoWong的API错误
-					when (result.meta.code) {
-						in 1000..1999 -> {
-							return@doOnSuccess
-						}
-						else -> {
-							throw ApiError(result as ResultModel<*>)
-						}
-					}
-				}
-				
-				else -> {
-					return@doOnSuccess
-				}
-			}
+			if (judgeCodeIfIsSuccess(result)) return@doOnSuccess
+			else throw ApiError(result as ResultModel<*>)
 		}
 	}
 }
 
+private fun <T> judgeCodeIfIsSuccess(result: T): Boolean {
+	return when (result) {
+		is ResultModel<*> -> {//LeoWong的API错误
+			when (result.meta.code) {
+				in 1000..1999 -> true
+				else -> false
+			}
+		}
+		else -> true
+	}
+}
+
+
+private fun dealRetryError(reTryCount: Int, error: Throwable): Boolean {
+	return (error as? ApiError)?.result?.meta?.code == -1000 && reTryCount < 3
+}
+
+private fun catchApiError(error: Throwable){
+	when (error) {
+		is ApiError -> {
+			sendError(
+				ErrorType.API_ERROR,
+				error.result.meta.msg
+			)
+		}
+		is ServerError -> {
+			sendError(
+				ErrorType.SERVERERROR,
+				error.msg
+			)
+		}
+		is SocketTimeoutException -> {
+			sendError(
+				ErrorType.API_ERROR,
+				"请求超时～"
+			)
+		}
+		
+		is QiNiuUpLoadError -> {
+			sendError(
+				ErrorType.SERVERERROR,
+				error.responseInfo.error
+			)
+		}
+		
+		is HanLPInputError -> {
+			sendError(
+				ErrorType.UI_ERROR,
+				error.str
+			)
+		}
+		
+		else -> sendError(
+			ErrorData(
+				ErrorType.UNEXPECTED
+			)
+		)
+	}
+}
+
+fun <T>Observable<T>.catchApiError(): Observable<T> {
+	return retry { reTryCount, error ->
+		dealRetryError(reTryCount, error)
+	}.doOnError { error ->
+		catchApiError(error)
+	}
+}
 
 //处理错误信息
-fun <T> dealError(): SingleTransformer<T, T> {
+fun <T> catchApiError(): SingleTransformer<T, T> {
 	return SingleTransformer { obs ->
 		obs.retry { reTryCount, error ->
 			(error as? ApiError)?.result?.meta?.code == -1000 && reTryCount < 3
 		}.doOnError { error ->
-			when (error) {
-				is ApiError -> {
-					sendError(
-						ErrorType.API_ERROR,
-						error.result.meta.msg
-					)
-				}
-				is ServerError -> {
-					sendError(
-						ErrorType.SERVERERROR,
-						error.msg
-					)
-				}
-				is SocketTimeoutException -> {
-					sendError(
-						ErrorType.API_ERROR,
-						"请求超时～"
-					)
-				}
-				
-				is QiNiuUpLoadError -> {
-					sendError(
-						ErrorType.SERVERERROR,
-						error.responseInfo.error
-					)
-				}
-				
-				is HanLPInputError -> {
-					sendError(
-						ErrorType.UI_ERROR,
-						error.str
-					)
-				}
-				
-				else -> sendError(
-					ErrorData(
-						ErrorType.UNEXPECTED
-					)
-				)
-			}
+			catchApiError(error)
 		}
 	}
 }

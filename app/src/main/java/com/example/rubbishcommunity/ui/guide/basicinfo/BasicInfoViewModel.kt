@@ -1,12 +1,11 @@
 package com.example.rubbishcommunity.ui.guide.basicinfo
 
 import android.app.Application
-import android.location.Location
 import androidx.lifecycle.MutableLiveData
 import com.baidu.location.BDLocation
 import com.example.rubbishcommunity.manager.api.ImageService
 import com.example.rubbishcommunity.manager.api.UserService
-import com.example.rubbishcommunity.manager.dealError
+import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.model.api.ResultModel
@@ -49,7 +48,7 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 		return apiService.sendEmail(getLocalEmail())
 			.switchThread()
 			.compose(dealErrorCode())
-			.compose(dealError())
+			.compose(catchApiError())
 	}
 	
 	//完善用户信息
@@ -88,7 +87,7 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 				)
 			}
 				.compose(dealErrorCode())
-				.compose(dealError())
+				.compose(catchApiError())
 				.compose(dealLoading())
 		} else {
 			return null

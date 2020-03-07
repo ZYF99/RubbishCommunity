@@ -3,7 +3,7 @@ package com.example.rubbishcommunity.ui.guide.welcome
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.manager.api.RubbishService
-import com.example.rubbishcommunity.manager.dealError
+import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.search.SearchKeyConclusion
 import com.example.rubbishcommunity.persistence.getClassificationMap
@@ -11,8 +11,6 @@ import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.utils.switchThread
 import com.hankcs.hanlp.HanLP
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import org.kodein.di.generic.instance
 
 
@@ -39,7 +37,7 @@ class WelcomeViewModel(application: Application) : BaseViewModel(application) {
 					searchResultList.value = result.data
 				}
 				.compose(dealErrorCode())
-				.compose(dealError())
+				.compose(catchApiError())
 				.bindLife()
 		}
 	}

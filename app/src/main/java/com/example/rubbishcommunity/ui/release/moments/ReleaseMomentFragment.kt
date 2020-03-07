@@ -106,7 +106,9 @@ class ReleaseMomentFragment : BindingFragment<FragmentReleaseMomentBinding, Rele
 			.throttleFirst(2, TimeUnit.SECONDS)
 			.doOnNext {
 				//清理草稿箱
-				viewModel.clearDraft()
+				viewModel.clearDraft {
+					MyApplication.showSuccess("草稿已清理~")
+				}
 			}.bindLife()
 		
 		//退出点击事件
@@ -124,7 +126,7 @@ class ReleaseMomentFragment : BindingFragment<FragmentReleaseMomentBinding, Rele
 	@RequiresApi(Build.VERSION_CODES.Q)
 	override fun initData() {
 		//获取草稿
-		viewModel.getDraft()
+		viewModel.fetchDraft()
 		//获取位置
 		getLocation()
 	}

@@ -5,7 +5,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.manager.api.ImageService
 import com.example.rubbishcommunity.manager.api.UserService
-import com.example.rubbishcommunity.manager.dealError
+import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.persistence.getLocalUserInfo
@@ -41,7 +41,7 @@ class EditInfoViewModel(application: Application) : BaseViewModel(application) {
 			editUserInfo("avatar", getImageUrlFromServer(key))
 		}.switchThread()
 			.compose(dealErrorCode())
-			.compose(dealError())
+			.compose(catchApiError())
 			.bindLife()
 	}
 	
@@ -105,7 +105,7 @@ class EditInfoViewModel(application: Application) : BaseViewModel(application) {
 			hashMapOf(Pair(key, value.toString()))
 		).switchThread()
 			.compose(dealErrorCode())
-			.compose(dealError())
+			.compose(catchApiError())
 			.doOnSubscribe { isUpdating.postValue(true) }
 			.doFinally { isUpdating.postValue(false) }
 	}

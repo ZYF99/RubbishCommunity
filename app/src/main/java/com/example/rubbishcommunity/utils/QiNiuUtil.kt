@@ -2,7 +2,7 @@ package com.example.rubbishcommunity.utils
 
 
 import com.example.rubbishcommunity.manager.api.ImageService
-import com.example.rubbishcommunity.manager.dealError
+import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.model.api.GetQiNiuTokenRequestModel
 import com.example.rubbishcommunity.persistence.getLocalEmail
 import com.luck.picture.lib.entity.LocalMedia
@@ -14,7 +14,6 @@ import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 
 //七牛云工具
 class QiNiuUtil
@@ -50,7 +49,7 @@ fun ImageService.upLoadImage(
 						)
 					)
 				}
-			}.compose(dealError())
+			}.compose(catchApiError())
 			.subscribe()
 	}
 }
@@ -73,7 +72,6 @@ fun ImageService.upLoadImageList(
 		getQiNiuToken(GetQiNiuTokenRequestModel("dew", upKeyList))
 			.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread())
-			.compose(dealQiNiuErrorCode())
 			.doOnSuccess { tokenRsp ->
 				val resultKeyList = mutableListOf<String>()
 				tokenRsp.data.map { entry ->
@@ -82,11 +80,9 @@ fun ImageService.upLoadImageList(
 					UploadManager().put(
 						pathList[index], upKeyList[index], entry.value,
 						{ key, _, _ ->
-							if (index == imagePathList.size - 1) {
+							if (index == imagePathList.size-1) {
 								//已经全部上传成功，返回结果
-								resultKeyList.add(key)
-								Timber.d("~~~~~$resultKeyList")
-								emitter.onSuccess(resultKeyList)
+								emitter.onSuccess(upKeyList)
 							}
 						}, UploadOptions(
 							null, "test-type", true,
@@ -97,7 +93,9 @@ fun ImageService.upLoadImageList(
 						)
 					)
 				}
-			}.compose(dealError())
+			}
+			.compose(dealQiNiuErrorCode())
+			.compose(catchApiError())
 			.subscribe()
 	}
 }

@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.manager.api.JuheService
 import com.example.rubbishcommunity.manager.api.RubbishService
-import com.example.rubbishcommunity.manager.dealError
+import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.Photography
 import com.example.rubbishcommunity.model.api.News
@@ -36,7 +36,7 @@ class HomePageViewModel(application: Application) : BaseViewModel(application) {
 			.doOnSuccess {
 				newsList.value = it.result.data
 			}.compose(dealErrorCode())
-			.compose(dealError())
+			.compose(catchApiError())
 			.compose(dealRefresh())
 			.bindLife()
 	}
@@ -93,7 +93,7 @@ class HomePageViewModel(application: Application) : BaseViewModel(application) {
 		return rubbishService.searchClassification(str)
 			.switchThread()
 			.compose(dealErrorCode())
-			.compose(dealError())
+			.compose(catchApiError())
 	}
 	
 	

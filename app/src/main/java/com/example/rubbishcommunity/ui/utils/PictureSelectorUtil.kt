@@ -23,7 +23,7 @@ fun Fragment.showAlbum(
 		.isCamera(true)// 是否显示拍照按钮
 		.isZoomAnim(true)// 图片列表点击 缩放效果 默认true
 		//.setOutputCameraPath("/CustomPath")// 自定义拍照保存路径
-		.enableCrop(false)// 是否裁剪
+		.enableCrop(true)// 是否裁剪
 		.compress(false)// 是否压缩
 		//.sizeMultiplier(0.5f)// glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
 		.glideOverride(160, 160)// glide 加载宽高，越小图片列表越流畅，但会影响列表图片浏览的清晰度

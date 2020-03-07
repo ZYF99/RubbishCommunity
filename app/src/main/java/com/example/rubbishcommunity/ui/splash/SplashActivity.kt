@@ -28,15 +28,10 @@ class SplashActivity : BindingActivity<SplashBinding, SplashViewModel>() {
 		}.switchThread()
 			.bindLife()
 		
-		viewModel.initClassification()
-			.switchThread()
-			.doOnComplete {
-				startActivity(Intent(this, ContainerActivity::class.java))
-				finish()
-			}
-			.doOnError {
-				sendError(ErrorType.API_ERROR, it.message ?: "")
-			}.bindLife()
+		viewModel.fetchClassfycationInfo{
+			startActivity(Intent(this, ContainerActivity::class.java))
+			finish()
+		}
 		
 		
 	}

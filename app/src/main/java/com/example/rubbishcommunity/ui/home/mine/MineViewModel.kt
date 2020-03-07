@@ -3,7 +3,7 @@ package com.example.rubbishcommunity.ui.home.mine
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.manager.api.UserService
-import com.example.rubbishcommunity.manager.dealError
+import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.mine.UsrProfile
 import com.example.rubbishcommunity.persistence.getLocalUserInfo
@@ -31,7 +31,7 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 		userService.getUserProfile()
 			.switchThread()
 			.compose(dealErrorCode())
-			.compose(dealError())
+			.compose(catchApiError())
 			.doOnSuccess {
 				userInfo.postValue(it.data.usrProfile)
 				saveUserInfo(it.data.usrProfile)
@@ -43,7 +43,7 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 		return userService.logout()
 			.switchThread()
 			.compose(dealErrorCode())
-			.compose(dealError())
+			.compose(catchApiError())
 	}
 	
 	private fun <T> dealRefreshing(): SingleTransformer<T, T> {

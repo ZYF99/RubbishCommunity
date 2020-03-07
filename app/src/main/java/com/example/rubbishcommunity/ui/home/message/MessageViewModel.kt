@@ -4,12 +4,8 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.manager.api.ChatService
 import com.example.rubbishcommunity.ui.base.BaseViewModel
-import com.example.rubbishcommunity.manager.dealError
 import com.example.rubbishcommunity.model.Message
-import io.reactivex.Single
 import io.reactivex.SingleTransformer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import org.kodein.di.generic.instance
 
 class MessageViewModel(application: Application) : BaseViewModel(application) {

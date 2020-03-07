@@ -6,7 +6,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.manager.api.UserService
-import com.example.rubbishcommunity.manager.dealError
+import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
@@ -84,7 +84,7 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 						)
 					)
 				}.compose(dealErrorCode())
-				.compose(dealError())
+				.compose(catchApiError())
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				

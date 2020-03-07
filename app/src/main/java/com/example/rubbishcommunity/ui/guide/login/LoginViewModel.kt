@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.manager.api.UserService
-import com.example.rubbishcommunity.manager.dealError
+import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
@@ -18,8 +18,6 @@ import com.example.rubbishcommunity.ui.utils.*
 import com.example.rubbishcommunity.utils.switchThread
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import org.kodein.di.generic.instance
 import java.util.concurrent.TimeUnit
 
@@ -67,7 +65,7 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 			).delay(1, TimeUnit.SECONDS)
 				.switchThread()
 				.compose(dealErrorCode())
-				.compose(dealError())
+				.compose(catchApiError())
 				.doOnSuccess {
 					//持久化得到的token以及用户登录的信息
 					saveVerifyInfo(

@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.baidu.location.BDLocation
 import com.example.rubbishcommunity.manager.api.RubbishService
-import com.example.rubbishcommunity.manager.dealError
+import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.search.SearchKeyConclusion
@@ -44,7 +44,7 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
 				}.toMutableList()
 			}
 			.compose(dealErrorCode())
-			.compose(dealError())
+			.compose(catchApiError())
 			.compose(dealRefresh())
 	}
 	

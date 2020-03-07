@@ -28,7 +28,6 @@ class MomentsFragment(val classify: Int = CLASSIFY_DYNAMIC) :
 		}
 		
 		viewModel.momentList.observeNonNull {
-			Timber.d("~~~~~${it.map { it.pictures }}")
 			(binding.recDynamic.adapter as MomentsListAdapter).replaceData(it)
 		}
 		
@@ -39,7 +38,8 @@ class MomentsFragment(val classify: Int = CLASSIFY_DYNAMIC) :
 		
 		//上拉加载
 		binding.recDynamic.setOnLoadMoreListener {
-			if (viewModel.isLoadingMore.value != true && viewModel.isLastPage.value != true)
+			if (viewModel.isLoadingMore.value != true
+				&& viewModel.isLastPage.value != true)
 				viewModel.loadMoreMoments()
 		}
 		

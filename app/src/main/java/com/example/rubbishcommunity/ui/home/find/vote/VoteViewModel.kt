@@ -3,7 +3,7 @@ package com.example.rubbishcommunity.ui.home.find.vote
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.manager.api.MomentService
-import com.example.rubbishcommunity.manager.dealError
+import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.model.Vote
 import com.example.rubbishcommunity.utils.switchThread
@@ -34,7 +34,7 @@ class VoteViewModel(application: Application) : BaseViewModel(application) {
 			.doOnSuccess {
 				voteList.value = it
 			}
-			.compose(dealError())
+			.compose(catchApiError())
 			.bindLife()
 		
 		

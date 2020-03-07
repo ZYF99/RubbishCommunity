@@ -55,8 +55,6 @@ class MyApplication : MultiDexApplication(), KodeinAware {
 		instance = this
 		initHanLP()
 	}
-	
-	
 }
 
 /**
@@ -64,10 +62,9 @@ class MyApplication : MultiDexApplication(), KodeinAware {
  */
 fun initLocationClient(context: Context?): LocationClient {
 	//定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
-	return LocationClient(context).apply {
-		locOption = LocationClientOption().apply {
-			addrType = "all"
-			setIsNeedAddress(true)
-		}
-	}
+	val locationClient = LocationClient(context)
+	val option = LocationClientOption()
+	option.setIsNeedAddress(true)
+	locationClient.locOption = option
+	return locationClient
 }

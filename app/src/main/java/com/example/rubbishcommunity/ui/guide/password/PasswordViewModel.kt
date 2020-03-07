@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.manager.api.UserService
-import com.example.rubbishcommunity.manager.dealError
+import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.password.ResetPasswordRequestModel
@@ -43,7 +43,7 @@ class PasswordViewModel(application: Application) : BaseViewModel(application) {
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.compose(dealErrorCode())
-				.compose(dealError())
+				.compose(catchApiError())
 				.doOnSuccess {
 					//发送成功，将当前步骤设置为第二步输入验证码
 					currentStep.value = STEP_INPUT_CODE
@@ -92,7 +92,7 @@ class PasswordViewModel(application: Application) : BaseViewModel(application) {
 				)
 					.switchThread()
 					.compose(dealErrorCode())
-					.compose(dealError())
+					.compose(catchApiError())
 					.compose(dealLoading())
 			}
 			return null
