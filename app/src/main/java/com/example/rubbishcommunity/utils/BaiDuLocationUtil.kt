@@ -21,6 +21,7 @@ import androidx.core.app.ActivityCompat
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import io.reactivex.Observable
 import rx_activity_result2.RxActivityResult
+import timber.log.Timber
 
 
 //private const val GPS_REQUEST_CODE = 20
@@ -34,6 +35,7 @@ fun BindingFragment<*, *>.checkLocationPermissionAndGetLocation(
 	fun getLocation() = Observable.create<BDLocation?> {
 		locationClient.registerLocationListener(object : BDAbstractLocationListener() {
 			override fun onReceiveLocation(bdLocation: BDLocation) {
+				Timber.d("$bdLocation")
 				it.onNext(bdLocation)
 			}
 		})
@@ -57,6 +59,7 @@ fun BindingFragment<*, *>.checkLocationPermissionAndGetLocation(
 				myLocationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, object :
 					LocationListener {
 					override fun onLocationChanged(location: Location?) {
+						Timber.d("$location")
 						if (location != null)
 							emitter.onNext(location)
 					}

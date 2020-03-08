@@ -2,7 +2,9 @@ package com.example.rubbishcommunity.ui.guide.basicinfo
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.BasicInfoFragBinding
@@ -120,9 +122,8 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 	
 	
 	//获取定位
+	@RequiresApi(Build.VERSION_CODES.Q)
 	private fun getLocation() {
-
-		
 		checkLocationPermissionAndGetLocation(
 			initLocationClient(MyApplication.instance)
 		).doOnNext {
