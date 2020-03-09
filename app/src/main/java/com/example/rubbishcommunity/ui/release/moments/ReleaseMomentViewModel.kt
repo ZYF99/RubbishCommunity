@@ -1,10 +1,8 @@
 package com.example.rubbishcommunity.ui.release.moments
 
-
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.baidu.location.BDLocation
-import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.manager.api.MomentService
 import com.example.rubbishcommunity.manager.api.ImageService
 import com.example.rubbishcommunity.model.api.ResultModel
@@ -18,7 +16,6 @@ import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.utils.*
 import com.luck.picture.lib.entity.LocalMedia
 import io.reactivex.Single
-import io.reactivex.SingleTransformer
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
@@ -115,18 +112,17 @@ class ReleaseMomentViewModel(application: Application) : BaseViewModel(applicati
 		
 		//开始发布
 		when {
-			selectedList.value!!.isNotEmpty() ->            //有图片,上传图片至七牛云
+			selectedList.value!!.isNotEmpty() -> //有图片,上传图片至七牛云
 				getUploadImageListSingle()
 					.flatMap { resultKeyList ->
 						//上传图片列表成功
 						//开始保存草稿并上传动态
-						Timber.d("!!!!!$resultKeyList")
 						getSaveDraftAndReleaseSingle(resultKeyList)
 					}
 			else -> getSaveDraftAndReleaseSingle()//没有图片，直接存草稿
 		}.dealLoading()
 			.doOnApiSuccess {
-				onReleaseAction.invoke()
+				clearDraft { onReleaseAction.invoke() }
 			}
 	}
 	

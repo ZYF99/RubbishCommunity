@@ -11,7 +11,7 @@ class MomentsListGridImageAdapter(
 ) :BaseRecyclerAdapter<String,DynamicGridItemBinding>(
 	R.layout.item_dynamic_grid_image,
 	{},
-	list
+	baseList = list
 ) {
 	override fun bindData(binding: DynamicGridItemBinding, position: Int) {
 		binding.imgUrl = baseList[position]

@@ -37,7 +37,7 @@
 
             <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tab"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:background="@color/white"
@@ -60,7 +60,7 @@
                         android:id="@+id/tabItem"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="答题" />
+                        android:text="头脑风暴"/>
 
             </com.google.android.material.tabs.TabLayout>
 

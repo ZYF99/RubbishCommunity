@@ -12,7 +12,7 @@ class LikeListAdapter(
 ) :BaseRecyclerAdapter<SimpleProfileResp,CellCircleImgBinding>(
 	R.layout.cell_circle_img,
 	{},
-	list
+	baseList = list
 ) {
 	override fun bindData(binding: CellCircleImgBinding, position: Int) {
 		binding.liker = baseList[position]

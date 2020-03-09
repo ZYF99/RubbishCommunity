@@ -5,9 +5,11 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 fun RecyclerView.setOnLoadMoreListener(action: () -> Unit) {
+	
 	addOnScrollListener(object : RecyclerView.OnScrollListener() {
 		override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-			if (isVisBottom(this@setOnLoadMoreListener)) action.invoke()
+			if (!recyclerView.canScrollVertically(1))
+				action.invoke()
 		}
 	})
 	

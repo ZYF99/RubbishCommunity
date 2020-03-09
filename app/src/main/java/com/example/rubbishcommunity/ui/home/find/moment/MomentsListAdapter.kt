@@ -11,14 +11,16 @@ import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.CellMomentBinding
 import com.example.rubbishcommunity.model.api.SimpleProfileResp
 import com.example.rubbishcommunity.model.api.moments.MomentContent
+import com.example.rubbishcommunity.ui.adapter.BaseRecyclerAdapter
 import com.example.rubbishcommunity.ui.adapter.EmptyRecyclerAdapter
+import com.example.rubbishcommunity.ui.adapter.LoadMoreRecyclerAdapter
 import com.example.rubbishcommunity.ui.utils.showGallery
 
 
 class MomentsListAdapter(
 	onCellClick: (MomentContent) -> Unit,
 	val onHeaderClick: (SimpleProfileResp) -> Unit
-) : EmptyRecyclerAdapter<MomentContent, CellMomentBinding>(
+) : LoadMoreRecyclerAdapter<MomentContent, CellMomentBinding>(
 	R.layout.cell_moment,
 	onCellClick
 ) {
@@ -60,7 +62,7 @@ class MomentsListAdapter(
 			adapter = LikeListAdapter(likeList) {
 				//点赞头像的点击事件
 			}
-			if(itemDecorationCount<=0){
+			if (itemDecorationCount <= 0) {
 				addItemDecoration(object : RecyclerView.ItemDecoration() {
 					override fun getItemOffsets(
 						outRect: Rect,

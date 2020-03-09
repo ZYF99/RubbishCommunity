@@ -11,7 +11,8 @@ import kotlinx.android.synthetic.main.pop_gallery.*
 fun showGallery(context: Context, imgList: List<String>, currentPosition: Int) {
 	val gallery = FullScreenDialog(context, R.layout.pop_gallery)
 	gallery.show()
-	gallery.viewpager.adapter = ImagePagerAdapter(context, imgList, gallery.viewpager)
+	gallery.viewpager.adapter =
+		ImagePagerAdapter(context, imgList, gallery.viewpager) { gallery.dismiss() }
 	gallery.viewpager.currentItem = currentPosition
 	RxView.clicks(gallery.btn_back).doOnNext {
 		gallery.dismiss()

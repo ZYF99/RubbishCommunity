@@ -2,7 +2,6 @@ package com.example.rubbishcommunity.ui.utils
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
-import android.graphics.*
 import android.media.Image
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
@@ -10,17 +9,16 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
-import java.io.ByteArrayOutputStream
 import android.graphics.ImageFormat
 import com.example.rubbishcommunity.ui.home.mine.editinfo.getImageUrlFromServer
 
-fun judgeAndGetImageUrl(url:String) = when{
-	url.startsWith("http") || url.startsWith("upuphub") -> url
-	else -> getImageUrlFromServer(url)
+fun judgeAndGetImageUrl(url:String?) = when{
+	(url?:"").startsWith("http") || (url?:"").startsWith("upuphub") -> url
+	else -> getImageUrlFromServer(url?:"")
 }
 
 @BindingAdapter("imageUrl")
-fun loadImage(imageView: ImageView, url: String) {
+fun loadImage(imageView: ImageView, url: String?) {
 	Glide.with(imageView.context).load(judgeAndGetImageUrl(url))
 		.placeholder(R.color.white)
 		.skipMemoryCache(false)
@@ -29,7 +27,7 @@ fun loadImage(imageView: ImageView, url: String) {
 }
 
 @BindingAdapter("imageUrlWithAddIcon")
-fun loadImageWithAddIcon(imageView: ImageView, url: String) {
+fun loadImageWithAddIcon(imageView: ImageView, url: String?) {
 	Glide.with(imageView.context).load(judgeAndGetImageUrl(url))
 		.placeholder(R.drawable.icon_add_pic)
 		.centerCrop()

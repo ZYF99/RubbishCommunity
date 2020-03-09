@@ -27,7 +27,7 @@ class FindFragment :
 			val recoveryFragment = MomentsFragment(CLASSIFY_RECOVERY)
 			val fragList = listOf(
 				Pair(dynamicFragment, "动态"), Pair(recoveryFragment, "回收"),
-				Pair(VoteFragment(), "答题")
+				Pair(VoteFragment(), "头脑风暴")
 			)
 			adapter = FindPagerAdapter(childFragmentManager, fragList)
 		}

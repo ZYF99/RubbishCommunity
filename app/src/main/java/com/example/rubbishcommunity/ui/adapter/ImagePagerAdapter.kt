@@ -9,7 +9,11 @@ import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.example.rubbishcommunity.ui.utils.judgeAndGetImageUrl
 
-class ImagePagerAdapter(val context:Context, private val imgs :List<String>, private val pager:ViewPager) : PagerAdapter() {
+class ImagePagerAdapter(
+    val context:Context, private val imgs :List<String>,
+    private val pager:ViewPager,
+    private val onCellClick:()->Unit
+) : PagerAdapter() {
 
     private val imgViews = mutableListOf<ImageView>()
 
@@ -29,6 +33,9 @@ class ImagePagerAdapter(val context:Context, private val imgs :List<String>, pri
             //放在pager中
             pager.addView(imageView)
             Glide.with(context).load(judgeAndGetImageUrl(item)).centerInside().into(imageView)
+            imageView.setOnClickListener {
+                onCellClick.invoke()
+            }
         }
 
         return imageView

@@ -36,7 +36,7 @@ class MomentsViewModel(application: Application) : BaseViewModel(application) {
 				classify.value!!,
 				PageParam(startPage.value!!, 10)
 			)
-		).dealRefresh()
+		).dealLoading()
 			.doOnApiSuccess {
 				isLastPage.postValue(it.data.pageInfoResp.lastPage)
 				if (it.data.momentContentList.isNotEmpty())
@@ -53,12 +53,11 @@ class MomentsViewModel(application: Application) : BaseViewModel(application) {
 	
 	private fun <T> Single<T>.dealRefresh() =
 		doOnSubscribe { isRefreshing.postValue(true) }
-			.doOnSuccess { isRefreshing.postValue(false) }
-			.doOnError { isRefreshing.postValue(false) }
+			.doFinally { isRefreshing.postValue(false) }
+		
 	
 	private fun <T> Single<T>.dealLoading() =
 		doOnSubscribe { isLoadingMore.postValue(true) }
-			.doOnSuccess { isLoadingMore.postValue(false) }
-			.doOnError { isLoadingMore.postValue(false) }
+			.doFinally { isLoadingMore.postValue(false) }
 	
 }
