@@ -3,9 +3,8 @@ package com.example.rubbishcommunity.model.api.moments
 
 import com.example.rubbishcommunity.model.api.SimpleProfileResp
 import com.example.rubbishcommunity.model.api.mine.UsrProfile
+import com.example.rubbishcommunity.persistence.getLocalOpenId
 
-const val COMMENT_COMMENT = 0
-const val COMMENT_LIKE = 1
 
 data class GetMomentsResultModel(
 	val momentContentList: List<MomentContent>,
@@ -37,6 +36,10 @@ data class MomentContent(
 			return momentCommentList.filter { it.commentType == COMMENT_LIKE }
 		}
 	
+	val isLikedByMe: Boolean
+		get() {
+			return momentCommentList.find { it.commentator.openId == getLocalOpenId() && it.commentType == COMMENT_LIKE } != null
+		}
 }
 
 data class MomentComment(

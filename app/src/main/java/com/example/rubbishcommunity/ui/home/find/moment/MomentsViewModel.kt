@@ -3,10 +3,8 @@ package com.example.rubbishcommunity.ui.home.find.moment
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.manager.api.MomentService
-import com.example.rubbishcommunity.model.api.moments.GetMomentsByClassifyRequestModel
+import com.example.rubbishcommunity.model.api.moments.*
 import com.example.rubbishcommunity.ui.base.BaseViewModel
-import com.example.rubbishcommunity.model.api.moments.MomentContent
-import com.example.rubbishcommunity.model.api.moments.PageParam
 import io.reactivex.Single
 import org.kodein.di.generic.instance
 
@@ -50,11 +48,15 @@ class MomentsViewModel(application: Application) : BaseViewModel(application) {
 			}
 	}
 	
+	fun like(momentId: Long, onLikedAction: () -> Unit) {
+		momentService.pushCommentOrLike(MomentCommentRequestModel(COMMENT_LIKE, null, momentId))
+			.doOnApiSuccess { onLikedAction.invoke() }
+	}
 	
 	private fun <T> Single<T>.dealRefresh() =
 		doOnSubscribe { isRefreshing.postValue(true) }
 			.doFinally { isRefreshing.postValue(false) }
-		
+	
 	
 	private fun <T> Single<T>.dealLoading() =
 		doOnSubscribe { isLoadingMore.postValue(true) }

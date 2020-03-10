@@ -135,8 +135,8 @@ android {
         }
         debug {
             //LeoWong api
-            buildConfigField("String", "BASE_URL", '"https://debug.upuphub.com/"')
-            //buildConfigField("String", "BASE_URL", '"https://api.upuphub.com/"')
+            //buildConfigField("String", "BASE_URL", '"https://debug.upuphub.com/"')
+            buildConfigField("String", "BASE_URL", '"https://api.upuphub.com/"')
 
             //聚合 api
             buildConfigField("String", "JUHE_APPKEY", '"214dc714d14b8eb6341080f3e14bc139"')

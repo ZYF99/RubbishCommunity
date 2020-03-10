@@ -15,13 +15,13 @@ class AddDialog(context: Context, private val onAddDialogClickListener: OnAddDia
 	
 	lateinit var view: View
 	private lateinit var btnDynamic: LinearLayout
-	private lateinit var btnVote: LinearLayout
+	private lateinit var btnRecovery: LinearLayout
 
 	override fun getViewId(inflater: LayoutInflater): View {
 		view = inflater.inflate(R.layout.dialog_add, null)
 		
 		btnDynamic = view.findViewById(R.id.btn_dynamic)
-		btnVote = view.findViewById(R.id.btn_vote)
+		btnRecovery = view.findViewById(R.id.btn_recovery)
 
 		return view
 	}
@@ -34,8 +34,8 @@ class AddDialog(context: Context, private val onAddDialogClickListener: OnAddDia
 			dismiss()
 		}.subscribe()
 		
-		RxView.clicks(btnVote).throttleFirst(2,TimeUnit.SECONDS).doOnNext {
-			onAddDialogClickListener.onVoteClick()
+		RxView.clicks(btnRecovery).throttleFirst(2,TimeUnit.SECONDS).doOnNext {
+			onAddDialogClickListener.onRecoveryClick()
 			dismiss()
 		}.subscribe()
 		
@@ -54,7 +54,7 @@ class AddDialog(context: Context, private val onAddDialogClickListener: OnAddDia
 		fun onDynamicClick()
 		
 		//点击添加弹窗中的发起投票
-		fun onVoteClick()
+		fun onRecoveryClick()
 
 		//功能弹窗的dismiss
 		fun onDismiss()

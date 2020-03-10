@@ -5,6 +5,7 @@ import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.moments.GetMomentsByClassifyRequestModel
 import com.example.rubbishcommunity.model.api.moments.GetMomentsRequestModel
 import com.example.rubbishcommunity.model.api.moments.GetMomentsResultModel
+import com.example.rubbishcommunity.model.api.moments.MomentCommentRequestModel
 import com.example.rubbishcommunity.model.api.release.ReleaseMomentRequestModel
 import com.example.rubbishcommunity.model.api.release.ReleaseMomentResultModel
 import com.example.rubbishcommunity.model.api.release.draft.ClearDraftResultModel
@@ -12,6 +13,7 @@ import com.example.rubbishcommunity.model.api.release.draft.Draft
 import com.example.rubbishcommunity.model.api.release.draft.GetDraftResultModel
 import com.example.rubbishcommunity.model.api.release.draft.SaveDraftResultModel
 import io.reactivex.Single
+import okhttp3.ResponseBody
 import retrofit2.http.*
 
 /**
@@ -44,11 +46,19 @@ interface MomentService {
 	@POST("api/moments/publish")
 	fun releaseMoment(@Body releaseMomentRequestModel: ReleaseMomentRequestModel): Single<ResultModel<ReleaseMomentResultModel>>
 	
+	//按地理位置拉取moments列表
 	@POST("api/moments/location/fetch")
 	fun fetchMomentsByLocation(@Body getMomentsByLocationRequestModel: GetMomentsRequestModel): Single<ResultModel<GetMomentsResultModel>>
 	
+	//按classify拉取moments列表
 	@POST("api/moments/classify/fetch")
 	fun fetchMomentsByClassify(@Body getMomentsByClassifyRequestModel: GetMomentsByClassifyRequestModel): Single<ResultModel<GetMomentsResultModel>>
+	
+	//评论moments
+	@POST("api/moments/comment")
+	fun pushCommentOrLike(@Body momentCommentRequestModel: MomentCommentRequestModel):Single<ResponseBody>
+	
+	//点赞moments
 	
 	@GET("votes?")
 	fun getVoteList(@Query("offset") offset: Int): Single<MutableList<Vote>>

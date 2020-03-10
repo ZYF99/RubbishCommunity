@@ -1,7 +1,6 @@
 package com.example.rubbishcommunity.ui.home
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
@@ -13,7 +12,7 @@ import com.example.rubbishcommunity.persistence.getLocalNeedMoreInfo
 import com.example.rubbishcommunity.persistence.getLocalVerifiedEmail
 import com.example.rubbishcommunity.service.MqServiceConnection
 import com.example.rubbishcommunity.ui.container.jumpToBasicInfo
-import com.example.rubbishcommunity.ui.container.jumpToReleaseDynamic
+import com.example.rubbishcommunity.ui.container.jumpToReleaseMoments
 import com.example.rubbishcommunity.ui.home.message.MessageFragment
 import com.example.rubbishcommunity.ui.home.mine.MineFragment
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
@@ -22,8 +21,8 @@ import io.reactivex.Single
 import java.util.concurrent.TimeUnit
 import android.view.KeyEvent.KEYCODE_BACK
 import com.example.rubbishcommunity.ui.home.homepage.HomePageFragment
-import com.example.rubbishcommunity.service.MyMqttService
 import com.example.rubbishcommunity.ui.container.jumpToSearch
+import com.example.rubbishcommunity.ui.release.moments.MomentsType
 
 class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	override val clazz: Class<MainViewModel> = MainViewModel::class.java
@@ -154,11 +153,12 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 			object : AddDialog.OnAddDialogClickListener {
 				override fun onDynamicClick() {
 					//开启发布动态界面
-					jumpToReleaseDynamic(this@MainActivity)
+					jumpToReleaseMoments(this@MainActivity,MomentsType.TYPE_DYNAMIC)
 				}
 				
-				override fun onVoteClick() {
-				
+				override fun onRecoveryClick() {
+					//开启发布回收界面
+					jumpToReleaseMoments(this@MainActivity,MomentsType.TYPE_RECOVERY)
 				}
 				
 				override fun onDismiss() {

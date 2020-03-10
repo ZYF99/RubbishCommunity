@@ -11,13 +11,14 @@ import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.model.api.release.draft.Draft
 import com.example.rubbishcommunity.model.api.release.draft.SaveDraftResultModel
 import com.example.rubbishcommunity.persistence.SharedPreferencesUtils
+import com.example.rubbishcommunity.ui.home.find.moment.CLASSIFY_DYNAMIC
+import com.example.rubbishcommunity.ui.home.find.moment.CLASSIFY_RECOVERY
 import com.example.rubbishcommunity.ui.utils.ErrorType
 import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.utils.*
 import com.luck.picture.lib.entity.LocalMedia
 import io.reactivex.Single
 import org.kodein.di.generic.instance
-import timber.log.Timber
 
 /**
  * @author Zhangyf
@@ -25,8 +26,11 @@ import timber.log.Timber
  * @date 2019/9/28 21:10
  */
 class ReleaseMomentViewModel(application: Application) : BaseViewModel(application) {
+	
+	@MomentsType
+	var momentsType = MomentsType.TYPE_DYNAMIC
 	//Toolbar标题栏
-	val toolbarTitle = MutableLiveData("发布动态")
+	val toolbarTitle = MutableLiveData("")
 	//是否正在加载
 	val isLoading = MutableLiveData(false)
 	//已选图片列表
@@ -78,6 +82,7 @@ class ReleaseMomentViewModel(application: Application) : BaseViewModel(applicati
 		content.value = ""
 		momentService
 			.clearDraft()
+			.dealLoading()
 			.doOnApiSuccess {
 				onClearedAction.invoke()
 			}
@@ -141,7 +146,8 @@ class ReleaseMomentViewModel(application: Application) : BaseViewModel(applicati
 		SharedPreferencesUtils.putListData("draft_selectedList", selectedList.value!!)
 		return momentService.saveDraft(
 			Draft(
-				1,
+				if (momentsType == MomentsType.TYPE_DYNAMIC) CLASSIFY_DYNAMIC
+				else CLASSIFY_RECOVERY,
 				content.value ?: "",
 				location.value?.latitude ?: 0.0,
 				location.value?.longitude ?: 0.0,

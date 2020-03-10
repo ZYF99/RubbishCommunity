@@ -1,6 +1,5 @@
 package com.example.rubbishcommunity.ui.widget
 
-
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
@@ -9,10 +8,8 @@ import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.UserInfoDialogBinding
-import com.example.rubbishcommunity.model.api.mine.UsrProfile
 import android.graphics.drawable.ColorDrawable
 import com.example.rubbishcommunity.model.api.SimpleProfileResp
-
 
 class UserInfoDialog(
 	context: Context,
@@ -22,8 +19,6 @@ class UserInfoDialog(
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		
-		
 		val binding = DataBindingUtil.inflate<UserInfoDialogBinding>(
 			LayoutInflater.from(context),
 			R.layout.dialog_user_info,
@@ -37,7 +32,6 @@ class UserInfoDialog(
 			dismiss()
 			onDetailClick()
 		}
-		
 	}
 	
 }

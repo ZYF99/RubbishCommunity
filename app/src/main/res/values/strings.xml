@@ -26,6 +26,7 @@
     <string name="unit_comment">条回复</string>
     <string name="no_comment">此条无评论</string>
     <string name="like">赞</string>
+    <string name="alreadyLike">已赞</string>
     <string name="age">岁</string>
 
     <!--Homepage errorData dialog - No wifi-->

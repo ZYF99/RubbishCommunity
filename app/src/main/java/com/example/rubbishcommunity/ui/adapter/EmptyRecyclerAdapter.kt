@@ -50,7 +50,6 @@ constructor(
 		}
 		//如果不为0，按正常的流程跑
 		return super.getItemCount()
-		
 	}
 	
 	override fun getItemViewType(position: Int): Int {
@@ -59,12 +58,13 @@ constructor(
 			return VIEW_TYPE_EMPTY
 		}
 		//如果有数据，则使用ITEM的布局
-		return super.getItemViewType(position)
+		return VIEW_TYPE_ITEM
 	}
 	
 	override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 		if (holder !is EmptyViewHolder) {
 			super.onBindViewHolder(holder, position)
 		}
+		
 	}
 }

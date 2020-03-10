@@ -25,6 +25,7 @@ import com.example.rubbishcommunity.ui.home.homepage.newsdetail.NewsDetailFragme
 import com.example.rubbishcommunity.ui.home.homepage.search.SearchFragment
 import com.example.rubbishcommunity.ui.home.homepage.search.cameraSearch.CameraSearchFragment
 import com.example.rubbishcommunity.ui.home.mine.editinfo.EditInfoFragment
+import com.example.rubbishcommunity.ui.release.moments.MomentsType
 import com.example.rubbishcommunity.ui.release.moments.ReleaseMomentFragment
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
 import com.example.rubbishcommunity.utils.SoftKeyBroadManager
@@ -110,7 +111,7 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 					BasicInfoFragment()
 				"editUserInfo" -> //修改信息界面
 					EditInfoFragment()
-				"releaseDynamic" -> // 发布动态界面
+				"releaseMoments" -> // 发布动态界面
 					ReleaseMomentFragment()
 				"momentDetail" -> //动态详情界面
 					DynamicDetailFragment()
@@ -127,7 +128,6 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 		}
 	}
 }
-
 
 //跳转至登陆界面
 fun jumpToLogin(context: Context) {
@@ -157,13 +157,10 @@ fun jumpToEditInfo(context: Context) {
 	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }
 
-
-
 //跳转至完善基本信息的界面
 fun jumpToBasicInfo(context: Context) {
 	val bundle = Bundle()
 	bundle.putString("tag", "basicInfo")
-	
 	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }
 
@@ -204,9 +201,10 @@ fun jumpToCameraSearch(fragment: Fragment) {
 
 
 //跳转至发布动态界面界面
-fun jumpToReleaseDynamic(context: Context) {
+fun jumpToReleaseMoments(context: Context,@MomentsType type:String) {
 	val bundle = Bundle()
-	bundle.putString("tag", "releaseDynamic")
+	bundle.putString("tag", "releaseMoments")
+	bundle.putString("moments_type", type)
 	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }
 

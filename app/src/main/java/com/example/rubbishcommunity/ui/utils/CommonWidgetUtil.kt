@@ -14,7 +14,4 @@ fun showGallery(context: Context, imgList: List<String>, currentPosition: Int) {
 	gallery.viewpager.adapter =
 		ImagePagerAdapter(context, imgList, gallery.viewpager) { gallery.dismiss() }
 	gallery.viewpager.currentItem = currentPosition
-	RxView.clicks(gallery.btn_back).doOnNext {
-		gallery.dismiss()
-	}.subscribe()
 }

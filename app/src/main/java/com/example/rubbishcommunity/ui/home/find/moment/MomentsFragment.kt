@@ -47,7 +47,8 @@ class MomentsFragment(private val classify: Int = CLASSIFY_DYNAMIC) :
 		binding.recDynamic.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 			override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 				if (!recyclerView.canScrollVertically(1)
-					&& viewModel.momentList.value?.size ?: 0 > 0)
+					&& viewModel.momentList.value?.size ?: 0 > 0
+				)
 					if (viewModel.isLoadingMore.value == false) {
 						viewModel.loadMoreMoments()
 					}
@@ -59,17 +60,26 @@ class MomentsFragment(private val classify: Int = CLASSIFY_DYNAMIC) :
 			layoutManager = LinearLayoutManager(context)
 			adapter = MomentsListAdapter(
 				{ moment ->
+					//点击整个
 					//开启详情页
 					jumpToMomentDetail(context, moment)
-				},
-				{ publisher ->
+				}, { publisher ->
+					//点击头像
 					UserInfoDialog(
 						context,
 						publisher
-					) {
-						//TODO 点击后跳转主页
+					) { //TODO 点击后跳转主页
+					
 					}.show()
-				})
+				}, { moment -> //点击点赞
+					viewModel.like(moment.momentId){
+					
+					}
+				}, { moment ->//点击转发
+				
+				}
+			
+			)
 		}
 	}
 	

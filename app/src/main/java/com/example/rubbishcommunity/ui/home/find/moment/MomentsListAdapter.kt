@@ -19,7 +19,9 @@ import com.example.rubbishcommunity.ui.utils.showGallery
 
 class MomentsListAdapter(
 	onCellClick: (MomentContent) -> Unit,
-	val onHeaderClick: (SimpleProfileResp) -> Unit
+	val onHeaderClick: (SimpleProfileResp) -> Unit,
+	val onLikeClick: (MomentContent) -> Unit,
+	val onTransClick: (MomentContent) -> Unit
 ) : LoadMoreRecyclerAdapter<MomentContent, CellMomentBinding>(
 	R.layout.cell_moment,
 	onCellClick
@@ -27,7 +29,6 @@ class MomentsListAdapter(
 	override fun bindData(binding: CellMomentBinding, position: Int) {
 		val moment = baseList[position]
 		binding.moment = moment
-		
 		//宫格图
 		binding.recImg.run {
 			layoutManager = getMomentsPictureLayoutManager(context, moment.pictures.size)
@@ -40,19 +41,9 @@ class MomentsListAdapter(
 			}
 		}
 		
-		val ii = SimpleProfileResp(
-			avatar = "http://image.upuphub.com/LeoWong@upuphub.com/1583047084264",
-			openId = "fdgsfd",
-			name = "sdfds",
-			signature = "fgfdg",
-			country = "dsf",
-			province = "dfsdf",
-			city = "dsfd",
-			age = 10
-		)
+
 		
-		val likeList =
-			listOf(ii, ii, ii, ii, ii, ii, ii, ii)//moment.likeList.map { it.commentator }
+		val likeList = moment.likeList?.map { it.commentator }?: emptyList()
 		
 		//点赞头像列表
 		binding.recLike.run {
@@ -81,12 +72,13 @@ class MomentsListAdapter(
 		binding.likeString = when {
 			likeSize > 10 -> "等共${likeSize}人觉得很赞"
 			likeSize in 1..10 -> "共${likeSize}人觉得很赞"
-			else -> "没得人点赞它"
+			else -> " "
 		}
 		
-		binding.cellAuthorPortrait.setOnClickListener {
-			onHeaderClick(moment.publisher)
-		}
+		binding.cellAuthorPortrait.setOnClickListener { onHeaderClick(moment.publisher) }
+		binding.btnLike.setOnClickListener { onLikeClick(moment) }
+		binding.btnTrans.setOnClickListener { onTransClick(moment) }
+		
 	}
 }
 

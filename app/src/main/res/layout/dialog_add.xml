@@ -52,7 +52,7 @@
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/btn_vote"
+                android:id="@+id/btn_recovery"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"

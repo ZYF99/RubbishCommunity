@@ -19,25 +19,27 @@ import com.example.rubbishcommunity.utils.checkLocationPermissionAndGetLocation
 import com.example.rubbishcommunity.ui.utils.showAlbum
 import com.example.rubbishcommunity.utils.checkStoragePermission
 import com.example.rubbishcommunity.utils.showLocationServiceDialog
-import com.jakewharton.rxbinding2.view.RxView
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
-import java.util.concurrent.TimeUnit
 
+annotation class MomentsType {
+	companion object {
+		const val TYPE_DYNAMIC = "dynamic"
+		const val TYPE_RECOVERY = "recovery"
+	}
+}
 
 class ReleaseMomentFragment : BindingFragment<FragmentReleaseMomentBinding, ReleaseMomentViewModel>(
 	ReleaseMomentViewModel::class.java, R.layout.fragment_release_moment
 ) {
-	
 	
 	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
 	}
 	
 	override fun onSoftKeyboardClosed() {
 	}
-	
 	
 	//添加图片按钮点击事件
 	private val onAddPicClick: () -> Unit = {
@@ -71,10 +73,15 @@ class ReleaseMomentFragment : BindingFragment<FragmentReleaseMomentBinding, Rele
 		viewModel.selectedList.value?.removeAt(position)
 	}
 	
-	
 	override
 	fun initBefore() {
 		binding.vm = viewModel
+		viewModel.momentsType = activity?.intent?.getStringExtra("moments_type")!!
+		viewModel.toolbarTitle.value = when (viewModel.momentsType) {
+			MomentsType.TYPE_DYNAMIC -> "发布动态"
+			MomentsType.TYPE_RECOVERY -> "发布回收"
+			else -> ""
+		}
 	}
 	
 	override fun initWidget() {
@@ -82,9 +89,7 @@ class ReleaseMomentFragment : BindingFragment<FragmentReleaseMomentBinding, Rele
 		binding.imgRec.run {
 			layoutManager = GridLayoutManager(context, 3)
 			//FullyGridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
-			attachItemSwipe(ITEM_SWIPE_FREE, {}, {
-			
-			})
+			attachItemSwipe(ITEM_SWIPE_FREE, {}, {})
 			adapter = ReleaseDynamicGridImageAdapter(
 				context,
 				viewModel.selectedList.value ?: mutableListOf(),
@@ -95,21 +100,22 @@ class ReleaseMomentFragment : BindingFragment<FragmentReleaseMomentBinding, Rele
 		}
 		
 		//发布按钮
-		RxView.clicks(binding.btnRelease)
-			.throttleFirst(2, TimeUnit.SECONDS)
-			.doOnNext {
-				release()
-			}.bindLife()
+		binding.btnRelease.setOnClickListener {
+			//真实发布
+			viewModel.release {
+				//发布成功
+				MyApplication.showSuccess("发布成功")
+				activity!!.finish()
+			}
+		}
 		
 		//清除草稿按钮
-		RxView.clicks(binding.btnClearDraft)
-			.throttleFirst(2, TimeUnit.SECONDS)
-			.doOnNext {
-				//清理草稿箱
-				viewModel.clearDraft {
-					MyApplication.showSuccess("草稿已清理~")
-				}
-			}.bindLife()
+		binding.btnClearDraft.setOnClickListener {
+			//清理草稿箱
+			viewModel.clearDraft {
+				MyApplication.showSuccess("草稿已清理~")
+			}
+		}
 		
 		//退出点击事件
 		binding.toolbar.toolbar.setNavigationOnClickListener {
@@ -145,23 +151,6 @@ class ReleaseMomentFragment : BindingFragment<FragmentReleaseMomentBinding, Rele
 			}
 		}.bindLife()
 	}
-	
-	
-	//发布
-	private fun release() {
-		context!!.checkNet().doOnComplete {
-			//真实发布
-			viewModel.release {
-				//发布成功
-				MyApplication.showSuccess("发布成功")
-				activity!!.finish()
-			}
-		}.doOnError {
-			//没有网络
-			viewModel.isLoading.postValue(false)
-		}.bindLife()
-	}
-	
 	
 	//选图后的回调
 	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

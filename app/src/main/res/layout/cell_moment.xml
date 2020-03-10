@@ -179,34 +179,12 @@
                             android:gravity="center"
                             android:paddingTop="12dp"
                             android:paddingBottom="12dp"
-                            android:text="赞"
+                            android:text="@{moment.likedByMe?@string/alreadyLike:@string/like}"
                             android:textColor="@color/black"
                             tools:targetApi="lollipop" />
 
                     <View
                             android:id="@+id/view4"
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0"
-                            android:background="#7CE2E2E2" />
-
-                    <TextView
-                            android:id="@+id/btn_comment"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:gravity="center"
-                            android:paddingTop="12dp"
-                            android:paddingBottom="12dp"
-                            android:text="评论"
-                            android:textColor="@color/black"
-                            tools:targetApi="lollipop" />
-
-                    <View
-                            android:id="@+id/view6"
                             android:layout_width="1dp"
                             android:layout_height="match_parent"
                             android:layout_weight="0"
