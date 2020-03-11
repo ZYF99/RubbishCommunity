@@ -5,6 +5,6 @@ const val COMMENT_LIKE = 1 // 点赞
 
 data class MomentCommentRequestModel(
 	val commentType: Int? = COMMENT_COMMENT,
-	val content: String?,
+	val content: String? = "favor",
 	val momentId: Long?
 )

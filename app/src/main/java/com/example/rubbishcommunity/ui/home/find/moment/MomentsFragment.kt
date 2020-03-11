@@ -1,15 +1,14 @@
 package com.example.rubbishcommunity.ui.home.find.moment
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.FragmentMomentsBinding
-import com.example.rubbishcommunity.ui.adapter.EndlessRecyclerOnScrollListener
-import com.example.rubbishcommunity.ui.base.setOnLoadMoreListener
 import com.example.rubbishcommunity.ui.container.jumpToMomentDetail
 import com.example.rubbishcommunity.ui.widget.UserInfoDialog
-import timber.log.Timber
 
 const val CLASSIFY_DYNAMIC = 1
 const val CLASSIFY_RECOVERY = 2
@@ -23,6 +22,7 @@ class MomentsFragment(private val classify: Int = CLASSIFY_DYNAMIC) :
 		viewModel.classify.value = classify
 	}
 	
+	@RequiresApi(Build.VERSION_CODES.N)
 	override fun initWidget() {
 		
 		viewModel.isRefreshing.observeNonNull { isRefreshing ->
@@ -68,15 +68,21 @@ class MomentsFragment(private val classify: Int = CLASSIFY_DYNAMIC) :
 					UserInfoDialog(
 						context,
 						publisher
-					) { //TODO 点击后跳转主页
-					
+					) {
+						//TODO 点击后跳转主页
+						
 					}.show()
-				}, { moment -> //点击点赞
-					viewModel.like(moment.momentId){
-					
+				}, { moment, position ->
+					//点击'赞'或'已赞'
+					viewModel.like(moment.momentId) { commentId ->
+						(binding.recDynamic.adapter as MomentsListAdapter).like(
+							commentId,
+							position
+						)
 					}
-				}, { moment ->//点击转发
-				
+				}, { moment ->
+					//点击转发
+					viewModel.forward(moment)
 				}
 			
 			)

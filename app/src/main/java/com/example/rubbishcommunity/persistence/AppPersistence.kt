@@ -3,6 +3,7 @@ package com.example.rubbishcommunity.persistence
 
 import android.annotation.SuppressLint
 import com.baidu.location.BDLocation
+import com.example.rubbishcommunity.model.api.SimpleProfileResp
 import com.example.rubbishcommunity.model.api.mine.UsrProfile
 import com.example.rubbishcommunity.model.api.search.Category
 import com.example.rubbishcommunity.utils.getAgeByBirth
@@ -73,6 +74,18 @@ fun saveUserInfo(usrProfile: UsrProfile) {
 	)
 }
 
+fun getUserSimpleProfile():SimpleProfileResp{
+	return SimpleProfileResp(
+		getLocalOpenId(),
+		getLocalUserInfo().name,
+		getLocalUserInfo().avatar,
+		getLocalUserInfo().signature,
+		getLocalUserInfo().country,
+		getLocalUserInfo().province,
+		getLocalUserInfo().city,
+		getLocalUserInfo().age
+	)
+}
 
 //存储分类信息
 fun saveClassificationMap(map: List<Category>) {

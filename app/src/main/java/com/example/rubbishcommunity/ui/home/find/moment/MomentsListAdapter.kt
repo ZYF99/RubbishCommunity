@@ -3,24 +3,31 @@ package com.example.rubbishcommunity.ui.home.find.moment
 
 import android.content.Context
 import android.graphics.Rect
+import android.os.Build
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.CellMomentBinding
 import com.example.rubbishcommunity.model.api.SimpleProfileResp
+import com.example.rubbishcommunity.model.api.moments.COMMENT_LIKE
+import com.example.rubbishcommunity.model.api.moments.MomentComment
 import com.example.rubbishcommunity.model.api.moments.MomentContent
+import com.example.rubbishcommunity.persistence.getLocalOpenId
+import com.example.rubbishcommunity.persistence.getUserSimpleProfile
 import com.example.rubbishcommunity.ui.adapter.BaseRecyclerAdapter
 import com.example.rubbishcommunity.ui.adapter.EmptyRecyclerAdapter
 import com.example.rubbishcommunity.ui.adapter.LoadMoreRecyclerAdapter
 import com.example.rubbishcommunity.ui.utils.showGallery
+import timber.log.Timber
 
 
 class MomentsListAdapter(
 	onCellClick: (MomentContent) -> Unit,
 	val onHeaderClick: (SimpleProfileResp) -> Unit,
-	val onLikeClick: (MomentContent) -> Unit,
+	val onLikeClick: (MomentContent, Int) -> Unit,
 	val onTransClick: (MomentContent) -> Unit
 ) : LoadMoreRecyclerAdapter<MomentContent, CellMomentBinding>(
 	R.layout.cell_moment,
@@ -41,9 +48,8 @@ class MomentsListAdapter(
 			}
 		}
 		
-
 		
-		val likeList = moment.likeList?.map { it.commentator }?: emptyList()
+		val likeList = moment.likeList?.map { it.commentator } ?: emptyList()
 		
 		//点赞头像列表
 		binding.recLike.run {
@@ -62,7 +68,10 @@ class MomentsListAdapter(
 						state: RecyclerView.State
 					) {
 						super.getItemOffsets(outRect, view, parent, state)
-						if (parent.getChildAdapterPosition(view) != (likeList.size - 1))
+						if (
+							parent.getChildAdapterPosition(view) != (likeList.size - 1)
+							&& parent.getChildAdapterPosition(view) != (0)
+						)
 							outRect.right = -6
 					}
 				})
@@ -76,10 +85,38 @@ class MomentsListAdapter(
 		}
 		
 		binding.cellAuthorPortrait.setOnClickListener { onHeaderClick(moment.publisher) }
-		binding.btnLike.setOnClickListener { onLikeClick(moment) }
+		binding.btnLike.setOnClickListener { onLikeClick(moment, position) }
 		binding.btnTrans.setOnClickListener { onTransClick(moment) }
 		
 	}
+	
+	//点赞或取消点赞
+	@RequiresApi(Build.VERSION_CODES.N)
+	fun like(commentId: Long, momentPosition: Int) {
+		val moment = baseList[momentPosition]
+		val changedMoment =
+			moment.copy(momentCommentList = moment.momentCommentList.toMutableList().apply {
+				when {
+					moment.isLikedByMe -> removeIf {
+						it.commentator.openId == getLocalOpenId() && it.commentType == COMMENT_LIKE
+					}
+					else -> add(
+						MomentComment(
+							commentId,
+							COMMENT_LIKE,
+							commentator = getUserSimpleProfile(),
+							commentDate = 0.toLong(),
+							commentReplyList = emptyList()
+						)
+					)
+				}
+			})
+		changeData(
+			changedMoment,
+			momentPosition
+		)
+	}
+	
 }
 
 fun getMomentsPictureLayoutManager(context: Context, size: Int) =

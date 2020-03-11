@@ -58,7 +58,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-
                             android:background="@drawable/bg_corner_rect"
                             android:backgroundTint="#43FFFFFF"
                             android:elevation="10dp"
@@ -256,11 +255,6 @@
                                 android:textSize="12sp"
                                 tools:text="签名" />
                     </LinearLayout>
-
-
-
-
-
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

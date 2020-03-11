@@ -45,7 +45,7 @@ data class MomentContent(
 data class MomentComment(
 	val commentId: Long,
 	val commentType: Int,
-	val content: String,
+	val content: String = "favor",
 	val commentator: SimpleProfileResp,
 	val commentDate: Long,
 	val commentReplyList: List<CommentReply>

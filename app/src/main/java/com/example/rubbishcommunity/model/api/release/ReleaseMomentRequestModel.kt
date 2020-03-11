@@ -13,7 +13,7 @@ package com.example.rubbishcommunity.model.api.release
 
 const val PUBLISH_TYPE_DEFAULT = 0 //默认
 const val PUBLISH_TYPE_ORIGIN = 1 //原创
-const val PUBLISH_TYPE_TRANS = 2 //转发
+const val PUBLISH_TYPE_FORWARD = 2 //转发
 
 data class ReleaseMomentRequestModel(
 	val latitude: Double?,

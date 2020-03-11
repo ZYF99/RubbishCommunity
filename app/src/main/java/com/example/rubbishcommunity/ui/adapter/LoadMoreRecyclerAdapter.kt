@@ -16,7 +16,7 @@ abstract class LoadMoreRecyclerAdapter<Bean, Binding : ViewDataBinding>
 	(
 	private val layoutRes: Int,
 	private val onCellClick: (Bean) -> Unit,
-	val loadMoreEnabled: Boolean = true,
+	private val loadMoreEnabled: Boolean = true,
 	var baseList: List<Bean> = emptyList()
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 	private var headerView: View? = null
@@ -153,6 +153,11 @@ abstract class LoadMoreRecyclerAdapter<Bean, Binding : ViewDataBinding>
 	fun replaceData(newList: List<Bean>) {
 		baseList = newList
 		notifyDataSetChanged()
+	}
+	
+	fun changeData(data:Bean,position:Int){
+		baseList = baseList.toMutableList().apply { set(position,data) }
+		notifyItemChanged(position)
 	}
 	
 	fun onItemMove(fromPosition: Int, toPosition: Int) {

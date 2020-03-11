@@ -2,10 +2,7 @@ package com.example.rubbishcommunity.manager.api
 
 import com.example.rubbishcommunity.model.Vote
 import com.example.rubbishcommunity.model.api.ResultModel
-import com.example.rubbishcommunity.model.api.moments.GetMomentsByClassifyRequestModel
-import com.example.rubbishcommunity.model.api.moments.GetMomentsRequestModel
-import com.example.rubbishcommunity.model.api.moments.GetMomentsResultModel
-import com.example.rubbishcommunity.model.api.moments.MomentCommentRequestModel
+import com.example.rubbishcommunity.model.api.moments.*
 import com.example.rubbishcommunity.model.api.release.ReleaseMomentRequestModel
 import com.example.rubbishcommunity.model.api.release.ReleaseMomentResultModel
 import com.example.rubbishcommunity.model.api.release.draft.ClearDraftResultModel
@@ -56,7 +53,7 @@ interface MomentService {
 	
 	//评论moments
 	@POST("api/moments/comment")
-	fun pushCommentOrLike(@Body momentCommentRequestModel: MomentCommentRequestModel):Single<ResponseBody>
+	fun pushCommentOrLike(@Body momentCommentRequestModel: MomentCommentRequestModel):Single<ResultModel<MomentCommentResultModel>>
 	
 	//点赞moments
 	
