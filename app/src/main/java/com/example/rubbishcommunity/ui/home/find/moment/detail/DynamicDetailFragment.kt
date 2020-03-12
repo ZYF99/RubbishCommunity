@@ -29,7 +29,7 @@ class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetai
 	}
 	
 	//发送信息的index
-	var replyPosition: Int? = null
+	private var replyPosition: Int? = null
 	
 	//弹出键盘及输入框
 	private fun showInputDialog() {
@@ -129,12 +129,20 @@ class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetai
 			if (!viewModel.inputComment.value.isNullOrEmpty()) {
 				viewModel.inputComment.postValue("")
 				when (replyPosition) {
-					null -> MyApplication.showToast("回复原文 ：${viewModel.inputComment.value}")
-					else -> MyApplication.showToast("回复第${replyPosition}条评论 ：${viewModel.inputComment.value}")
+					null -> viewModel.pushComment(viewModel.moment.value?.momentId ?: 0.toLong()) {
+						MyApplication.showSuccess("评论成功")
+					}
+					else -> viewModel.replyComment(
+						viewModel.moment.value?.momentCommentList?.get(
+							replyPosition!!
+						)?.commentId
+					) {
+						MyApplication.showSuccess("回复成功")
+					}
 				}
 				activity!!.hideSoftKeyBoard()
 			} else {
-				MyApplication.showToast("回复不能为空")
+				MyApplication.showWarning(   "回复不能为空")
 			}
 		}
 	}

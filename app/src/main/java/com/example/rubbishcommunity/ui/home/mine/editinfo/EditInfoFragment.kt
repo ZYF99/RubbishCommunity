@@ -6,7 +6,7 @@ import android.content.Intent
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.EditInfoFragmentBinding
 import com.example.rubbishcommunity.ui.base.BindingFragment
-import com.example.rubbishcommunity.ui.utils.showSingleAlbum
+import com.example.rubbishcommunity.ui.utils.showAvatarAlbum
 import com.example.rubbishcommunity.ui.widget.DatePopView
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
@@ -28,7 +28,7 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 		
 		//修改头像按钮
 		binding.btnAvatar.setOnClickListener {
-			showSingleAlbum()
+			showAvatarAlbum()
 		}
 		
 		//修改昵称按钮
@@ -36,7 +36,7 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 			showEditDialog(
 				"昵称",
 				viewModel.name.value!!,
-				8
+				12
 			) {
 				viewModel.name.value = it
 				viewModel.editName()
@@ -64,7 +64,7 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 			showEditDialog(
 				"个人签名",
 				viewModel.signature.value!!,
-				30
+				40
 			) {
 				viewModel.signature.value = it
 				viewModel.editSignature()
@@ -76,7 +76,7 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 			showEditDialog(
 				"职业",
 				viewModel.profession.value!!,
-				10
+				20
 			) {
 				viewModel.profession.value = it
 				viewModel.editProfession()
@@ -88,7 +88,7 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 			showEditDialog(
 				"分类宣言",
 				viewModel.aboutMe.value!!,
-				30
+				40
 			) {
 				viewModel.aboutMe.value = it
 				viewModel.editAboutMe()

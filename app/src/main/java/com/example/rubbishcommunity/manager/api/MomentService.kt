@@ -51,11 +51,13 @@ interface MomentService {
 	@POST("api/moments/classify/fetch")
 	fun fetchMomentsByClassify(@Body getMomentsByClassifyRequestModel: GetMomentsByClassifyRequestModel): Single<ResultModel<GetMomentsResultModel>>
 	
-	//评论moments
+	//评论或点赞moments
 	@POST("api/moments/comment")
 	fun pushCommentOrLike(@Body momentCommentRequestModel: MomentCommentRequestModel):Single<ResultModel<MomentCommentResultModel>>
 	
-	//点赞moments
+	//回复Comment
+	@POST("api/moments/comment/reply")
+	fun replyComment(@Body replyCommentRequestModel: ReplyCommentRequestModel):Single<ResponseBody>
 	
 	@GET("votes?")
 	fun getVoteList(@Query("offset") offset: Int): Single<MutableList<Vote>>

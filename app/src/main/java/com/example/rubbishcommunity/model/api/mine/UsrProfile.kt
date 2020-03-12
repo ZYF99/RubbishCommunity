@@ -1,6 +1,6 @@
 package com.example.rubbishcommunity.model.api.mine
 
-class UsrProfile(
+data class UsrProfile(
 	val name: String,
 	val avatar: String,
 	val country: String,

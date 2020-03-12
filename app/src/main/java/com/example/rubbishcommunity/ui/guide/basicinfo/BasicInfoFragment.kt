@@ -14,7 +14,7 @@ import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.ui.container.jumpToLogin
 import com.example.rubbishcommunity.ui.guide.AnimatorUtils
 import com.example.rubbishcommunity.ui.widget.DatePopView
-import com.example.rubbishcommunity.ui.utils.showSingleAlbum
+import com.example.rubbishcommunity.ui.utils.showAvatarAlbum
 import com.example.rubbishcommunity.utils.*
 import com.jakewharton.rxbinding2.view.RxView
 import com.luck.picture.lib.PictureSelector
@@ -69,7 +69,7 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 		
 		//头像图片
 		binding.imgAvatar.setOnClickListener {
-			showSingleAlbum()
+			showAvatarAlbum()
 		}
 		
 		//性别图片

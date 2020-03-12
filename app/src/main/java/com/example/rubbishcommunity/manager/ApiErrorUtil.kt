@@ -19,9 +19,7 @@ import java.net.SocketTimeoutException
  * */
 
 
-fun <T> Single<T>.catchApiError(): Single<T> =
-	compose(dealErrorCode())
-		.compose(com.example.rubbishcommunity.manager.catchApiError())
+
 
 
 //resolve errorCode in Observable
@@ -101,6 +99,10 @@ fun <T>Observable<T>.catchApiError(): Observable<T> {
 		catchApiError(error)
 	}
 }
+
+fun <T> Single<T>.catchApiError(): Single<T> =
+	compose(dealErrorCode())
+		.compose(com.example.rubbishcommunity.manager.catchApiError())
 
 //处理错误信息
 fun <T> catchApiError(): SingleTransformer<T, T> {

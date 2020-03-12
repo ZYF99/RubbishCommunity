@@ -104,8 +104,7 @@ class EditInfoViewModel(application: Application) : BaseViewModel(application) {
 		return userService.editUserInfo(
 			hashMapOf(Pair(key, value.toString()))
 		).switchThread()
-			.compose(dealErrorCode())
-			.compose(catchApiError())
+			.catchApiError()
 			.doOnSubscribe { isUpdating.postValue(true) }
 			.doFinally { isUpdating.postValue(false) }
 	}
