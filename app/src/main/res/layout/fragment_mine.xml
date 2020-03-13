@@ -197,7 +197,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -216,11 +216,11 @@
                             imageUrl="@{vm.userInfo.avatar}"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:layout_marginStart="16dp"
                             android:layout_marginBottom="24dp"
                             android:elevation="10dp"
                             app:civ_border_color="@color/white"
                             app:civ_border_width="2dp"
-                            android:layout_marginStart="16dp"
                             app:layout_behavior=".ui.home.mine.TransferHeaderBehavior"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/btn_setting"
@@ -243,11 +243,11 @@
                             android:id="@+id/linearLayout9"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="12dp"
+                            android:layout_marginBottom="12dp"
                             android:gravity="center"
                             android:orientation="horizontal"
-                            android:layout_marginStart="12dp"
-                            android:layout_marginBottom="12dp"
-                            android:layout_marginEnd="12dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/potrait">
@@ -281,13 +281,9 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
-
                 android:id="@+id/n_scroll_view"
-
                 android:layout_width="match_parent"
-
                 android:layout_height="match_parent"
-
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
@@ -390,6 +386,42 @@
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:srcCompat="@drawable/icon_dynamic" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginTop="30dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text="最近动态"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+
+                <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="40dp"
+                        android:layout_marginRight="40dp"
+                        android:background="@color/white"
+                        android:padding="10dp"
+                        app:cardCornerRadius="4dp"
+                        app:cardElevation="4dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rec_recent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            android:orientation="horizontal"
+                            tools:itemCount="3"
+                            tools:listitem="@layout/item_image_view" />
                 </androidx.cardview.widget.CardView>
 
 

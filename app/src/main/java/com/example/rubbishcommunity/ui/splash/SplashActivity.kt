@@ -3,13 +3,13 @@ package com.example.rubbishcommunity.ui.splash
 import android.content.Intent
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.SplashBinding
+import com.example.rubbishcommunity.persistence.getClassificationMap
 import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.ui.container.ContainerActivity
-import com.example.rubbishcommunity.ui.utils.ErrorType
-import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.utils.switchThread
 import com.hankcs.hanlp.HanLP
 import io.reactivex.Single
+import java.util.concurrent.TimeUnit
 
 
 class SplashActivity : BindingActivity<SplashBinding, SplashViewModel>() {
@@ -27,17 +27,20 @@ class SplashActivity : BindingActivity<SplashBinding, SplashViewModel>() {
 			HanLP.extractSummary("1", 1)
 		}.switchThread()
 			.bindLife()
-		
-		viewModel.fetchClassfycationInfo{
+	}
+	
+	override fun initData() {
+		fun jumpToWelcome() = run {
 			startActivity(Intent(this, ContainerActivity::class.java))
 			finish()
 		}
 		
+		if (getClassificationMap().isNullOrEmpty())
+			viewModel.fetchClassificationInfo { jumpToWelcome() }
+		else Single.timer(1, TimeUnit.SECONDS)
+			.doOnSuccess { jumpToWelcome() }.bindLife()
 		
-	}
-	
-	override fun initData() {
-	
+		
 	}
 	
 	

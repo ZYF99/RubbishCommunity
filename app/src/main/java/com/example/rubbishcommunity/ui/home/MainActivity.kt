@@ -169,7 +169,12 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	}
 	
 	override fun onDestroy() {
-		unbindService(mqServiceConnection)
+		try {
+			unbindService(mqServiceConnection)
+		}catch (e:Exception){
+			e.printStackTrace()
+		}
+		
 		super.onDestroy()
 	}
 	

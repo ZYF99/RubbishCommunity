@@ -65,7 +65,6 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 			).delay(1, TimeUnit.SECONDS)
 				.switchThread()
 				.compose(dealErrorCode())
-				.compose(catchApiError())
 				.doOnSuccess {
 					//持久化得到的token以及用户登录的信息
 					saveVerifyInfo(
@@ -84,6 +83,7 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 					//登陆状态置为true
 					saveLoginState(true)
 				}
+				.catchApiError()
 				.compose(dealLoading())
 		}
 		return null

@@ -3,7 +3,7 @@ package com.example.rubbishcommunity.model.api.guide
 import com.example.rubbishcommunity.model.api.mine.UsrProfile
 
 data class LoginOrRegisterResultModel(
-	val uin:Int,
+	val uin:Long,
 	val openId:String,
 	val token: String,
 	val profileCompletion:Int,

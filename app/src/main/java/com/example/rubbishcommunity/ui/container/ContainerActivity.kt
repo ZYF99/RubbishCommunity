@@ -1,6 +1,5 @@
 package com.example.rubbishcommunity.ui.container
 
-
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -10,7 +9,6 @@ import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ContainerBinding
-import com.example.rubbishcommunity.model.api.moments.CommentReply
 import com.example.rubbishcommunity.model.api.moments.MomentContent
 import com.example.rubbishcommunity.ui.base.SoftObservableFragment
 import com.example.rubbishcommunity.ui.guide.basicinfo.BasicInfoFragment
@@ -18,8 +16,7 @@ import com.example.rubbishcommunity.ui.guide.login.LoginFragment
 import com.example.rubbishcommunity.ui.guide.password.PasswordFragment
 import com.example.rubbishcommunity.ui.guide.register.RegisterFragment
 import com.example.rubbishcommunity.ui.guide.welcome.WelcomeFragment
-import com.example.rubbishcommunity.ui.home.find.moment.detail.DynamicDetailFragment
-import com.example.rubbishcommunity.ui.home.find.moment.detail.innercomment.InnerCommentFragment
+import com.example.rubbishcommunity.ui.home.find.moment.detail.MomentDetailFragment
 import com.example.rubbishcommunity.ui.home.message.chat.ChatFragment
 import com.example.rubbishcommunity.ui.home.homepage.newsdetail.NewsDetailFragment
 import com.example.rubbishcommunity.ui.home.homepage.search.SearchFragment
@@ -31,12 +28,9 @@ import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
 import com.example.rubbishcommunity.utils.SoftKeyBroadManager
 import com.example.rubbishcommunity.utils.globalGson
 import rx_activity_result2.RxActivityResult
-import java.io.Serializable
-
 
 class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(),
 	SoftKeyBroadManager.SoftKeyboardStateListener {
-	
 	
 	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
 		binding.root.scrollTo(0, keyboardHeightInPx)
@@ -55,7 +49,6 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 	fun replaceLogin() {
 		replaceFragment("login")
 	}
-	
 	
 	override val clazz: Class<ContainerViewModel> = ContainerViewModel::class.java
 	override val layRes: Int = R.layout.activity_container
@@ -114,9 +107,7 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 				"releaseMoments" -> // 发布动态界面
 					ReleaseMomentFragment()
 				"momentDetail" -> //动态详情界面
-					DynamicDetailFragment()
-				"innerComment" -> //内部评论列表界面
-					InnerCommentFragment()
+					MomentDetailFragment()
 				"chat" -> //聊天界面
 					ChatFragment()
 				else -> SoftObservableFragment()
@@ -201,7 +192,7 @@ fun jumpToCameraSearch(fragment: Fragment) {
 
 
 //跳转至发布动态界面界面
-fun jumpToReleaseMoments(context: Context,@MomentsType type:String) {
+fun jumpToReleaseMoments(context: Context, @MomentsType type: String) {
 	val bundle = Bundle()
 	bundle.putString("tag", "releaseMoments")
 	bundle.putString("moments_type", type)
@@ -215,18 +206,6 @@ fun jumpToMomentDetail(context: Context, moment: MomentContent) {
 	bundle.putSerializable(
 		"moment",
 		globalGson.toJson(moment)
-	)
-	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
-}
-
-
-//跳转至内部评论列表界面
-fun jumpToInnerComment(context: Context, commentList: List<CommentReply>) {
-	val bundle = Bundle()
-	bundle.putString("tag", "innerComment")
-	bundle.putSerializable(
-		"commentList",
-		commentList as Serializable
 	)
 	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }

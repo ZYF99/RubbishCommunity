@@ -11,7 +11,7 @@ import java.util.*
 
 //存储用于验证的信息
 fun saveVerifyInfo(
-	uin:Int,
+	uin:Long,
 	userName: String,
 	password: String,
 	token: String,
@@ -114,11 +114,11 @@ fun getLocalUserInfo(): UsrProfile {
 }
 
 //获取用户uin
-fun getLocalUin(): Int {
+fun getLocalUin(): Long {
 	return (SharedPreferencesUtils.getData(
 		"uin",
-		0
-	) as Int)
+		0.toLong()
+	) as Long)
 }
 
 //更新部分基本信息

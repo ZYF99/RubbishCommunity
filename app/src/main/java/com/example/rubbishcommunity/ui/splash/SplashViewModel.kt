@@ -18,9 +18,8 @@ class SplashViewModel(application: Application) : BaseViewModel(application) {
 	
 	private val rubbishService by instance<RubbishService>()
 	
-	fun fetchClassfycationInfo(action: () -> Unit) {
+	fun fetchClassificationInfo(action: () -> Unit) {
 		val categoryList = mutableListOf<Category>()
-		if(getClassificationMap().isNullOrEmpty()){
 			Observable.fromIterable(listOf(1, 2, 3, 4))
 				.flatMapSingle { num ->
 					rubbishService.searchCategoryByName(num)
@@ -35,7 +34,5 @@ class SplashViewModel(application: Application) : BaseViewModel(application) {
 					action.invoke()
 				}
 				.bindLife()
-		}else action.invoke()
-
 	}
 }

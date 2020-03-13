@@ -4,13 +4,13 @@
         xmlns:bind="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <data class="DynamicDetailBinding">
+    <data>
 
         <import type="android.view.View" />
 
         <variable
                 name="vm"
-                type="com.example.rubbishcommunity.ui.home.find.moment.detail.DynamicDetailViewModel" />
+                type="com.example.rubbishcommunity.ui.home.find.moment.detail.MomentDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

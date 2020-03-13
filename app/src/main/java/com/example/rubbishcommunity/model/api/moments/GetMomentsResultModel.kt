@@ -4,6 +4,7 @@ package com.example.rubbishcommunity.model.api.moments
 import com.example.rubbishcommunity.model.api.SimpleProfileResp
 import com.example.rubbishcommunity.model.api.mine.UsrProfile
 import com.example.rubbishcommunity.persistence.getLocalOpenId
+import java.io.Serializable
 
 
 data class GetMomentsResultModel(
@@ -56,7 +57,7 @@ data class CommentReply(
 	val content: String,
 	val replyBy: UsrProfile,
 	val replyDate: Long
-)
+):Serializable
 
 data class PageInfoResp(
 	val pageNum: Int,

@@ -7,6 +7,7 @@ import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.model.Vote
 import com.example.rubbishcommunity.utils.switchThread
+import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import org.kodein.di.generic.instance
 
@@ -29,15 +30,10 @@ class VoteViewModel(application: Application) : BaseViewModel(application) {
 	fun getVoteList() {
 		mockData()
 		dynamicService.getVoteList(0)
-			.switchThread()
-			.compose(dealRefresh())
-			.doOnSuccess {
+			.dealRefresh()
+			.doOnApiSuccess {
 				voteList.value = it
 			}
-			.compose(catchApiError())
-			.bindLife()
-		
-		
 	}
 	
 	private fun mockData() {
@@ -46,14 +42,11 @@ class VoteViewModel(application: Application) : BaseViewModel(application) {
 		voteList.value = mutableListOf(item, item, item, item, item, item)
 	}
 	
-	private fun <T> dealRefresh(): SingleTransformer<T, T> {
-		return SingleTransformer { obs ->
-			obs
-				.doOnSubscribe { refreshing.postValue(true) }
-				.doOnSuccess { refreshing.postValue(false) }
-				.doOnError { refreshing.postValue(false) }
-		}
-	}
+	
+	private fun <T> Single<T>.dealRefresh() =
+		doOnSubscribe { refreshing.postValue(true) }
+			.doFinally { refreshing.postValue(false) }
+	
 	
 	
 }

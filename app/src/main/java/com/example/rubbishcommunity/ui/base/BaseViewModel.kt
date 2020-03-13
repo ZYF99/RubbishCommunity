@@ -33,8 +33,8 @@ abstract class BaseViewModel(application: Application) :
 	
 	protected fun <T> Single<T>.doOnApiSuccess(action: (T) -> Unit) =
 		switchThread()
-			.doOnSuccess { action.invoke(it) }
 			.catchApiError()
+			.doOnSuccess { action.invoke(it) }
 			.bindLife()
 	
 	

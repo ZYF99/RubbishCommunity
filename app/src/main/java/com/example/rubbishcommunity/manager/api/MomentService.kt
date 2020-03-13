@@ -51,6 +51,11 @@ interface MomentService {
 	@POST("api/moments/classify/fetch")
 	fun fetchMomentsByClassify(@Body getMomentsByClassifyRequestModel: GetMomentsByClassifyRequestModel): Single<ResultModel<GetMomentsResultModel>>
 	
+	//按uin拉取moments列表
+	@POST("api/moments/uin/fetch")
+	fun fetchMomentsByUin(@Body getMomentsByUinRequestModel: GetMomentsByUinRequestModel): Single<ResultModel<GetMomentsResultModel>>
+	
+	
 	//评论或点赞moments
 	@POST("api/moments/comment")
 	fun pushCommentOrLike(@Body momentCommentRequestModel: MomentCommentRequestModel):Single<ResultModel<MomentCommentResultModel>>

@@ -63,7 +63,7 @@
                         android:paddingTop="4dp"
                         android:paddingEnd="12dp"
                         android:paddingBottom="4dp"
-                        android:text='@{"LV"+userInfo.signature}'
+                        android:text='@{userInfo.signature}'
                         android:textColor="@color/white"
                         android:textSize="12sp"
                         android:textStyle="bold"

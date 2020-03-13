@@ -5,10 +5,9 @@ import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
-import com.example.rubbishcommunity.databinding.DynamicDetailBinding
+import com.example.rubbishcommunity.databinding.FragmentMomentDetailBinding
 import com.example.rubbishcommunity.model.api.moments.MomentContent
 import com.example.rubbishcommunity.ui.base.BindingFragment
-import com.example.rubbishcommunity.ui.container.jumpToInnerComment
 import com.example.rubbishcommunity.ui.home.find.moment.MomentsListGridImageAdapter
 import com.example.rubbishcommunity.ui.home.find.moment.getMomentsPictureLayoutManager
 import com.example.rubbishcommunity.ui.utils.hideSoftKeyBoard
@@ -18,8 +17,8 @@ import com.example.rubbishcommunity.utils.globalGson
 import timber.log.Timber
 
 
-class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetailViewModel>(
-	DynamicDetailViewModel::class.java, R.layout.fragment_dynamic_detail
+class MomentDetailFragment : BindingFragment<FragmentMomentDetailBinding, MomentDetailViewModel>(
+	MomentDetailViewModel::class.java, R.layout.fragment_moment_detail
 ) {
 	//键盘收起的回调
 	override fun onSoftKeyboardClosed() {
@@ -85,16 +84,9 @@ class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetai
 		//评论列表
 		binding.commentRec.run {
 			val commentList = viewModel.moment.value?.realCommentList ?: emptyList()
-			Timber.d("~~~~~~~~${viewModel.moment.value?.momentCommentList}")
 			layoutManager = LinearLayoutManager(context)
 			adapter = CommentListAdapter(
 				{ position ->
-					//查看内部评论
-					jumpToInnerComment(
-						context,
-						commentList[position].commentReplyList
-					)
-				}, { position ->
 					showInputDialog()
 					replyPosition = position
 				},
@@ -142,7 +134,7 @@ class DynamicDetailFragment : BindingFragment<DynamicDetailBinding, DynamicDetai
 				}
 				activity!!.hideSoftKeyBoard()
 			} else {
-				MyApplication.showWarning(   "回复不能为空")
+				MyApplication.showWarning("回复不能为空")
 			}
 		}
 	}

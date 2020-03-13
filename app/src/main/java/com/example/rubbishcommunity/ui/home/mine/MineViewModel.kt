@@ -4,11 +4,16 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.manager.api.ImageService
+import com.example.rubbishcommunity.manager.api.MomentService
 import com.example.rubbishcommunity.manager.api.UserService
 import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.mine.UsrProfile
+import com.example.rubbishcommunity.model.api.moments.GetMomentsByUinRequestModel
+import com.example.rubbishcommunity.model.api.moments.MomentContent
+import com.example.rubbishcommunity.model.api.moments.PageParam
+import com.example.rubbishcommunity.persistence.getLocalUin
 import com.example.rubbishcommunity.persistence.getLocalUserInfo
 import com.example.rubbishcommunity.persistence.saveUserInfo
 import com.example.rubbishcommunity.ui.base.BaseViewModel
@@ -26,8 +31,9 @@ const val BACKGROUND_URL =
 class MineViewModel(application: Application) : BaseViewModel(application) {
 	
 	private val userService by instance<UserService>()
+	private val momentService by instance<MomentService>()
 	private val imageService by instance<ImageService>()
-	
+	val recentDynamicList = MutableLiveData(emptyList<MomentContent>())
 	val userInfo = MutableLiveData<UsrProfile>()
 	val isRefreshing = MutableLiveData<Boolean>()
 	
@@ -37,18 +43,29 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 		
 		//获取用户详细信息
 		userService.getUserProfile()
-			.switchThread()
-			.compose(dealErrorCode())
-			.compose(catchApiError())
-			.doOnSuccess {
+			.dealRefreshing()
+			.doOnApiSuccess {
 				val profile =
 					if (it.data.usrProfile.backgroundImage.isEmpty())
 						it.data.usrProfile.copy(backgroundImage = BACKGROUND_URL)
 					else it.data.usrProfile
 				userInfo.postValue(profile)
 				saveUserInfo(it.data.usrProfile)
-			}.compose(dealRefreshing())
-			.bindLife()
+			}
+		
+		//获取最近动态列表
+		momentService.fetchMomentsByUin(
+			GetMomentsByUinRequestModel(
+				getLocalUin(),
+				PageParam(
+					1,
+					5
+				)
+			)
+		).dealRefreshing()
+			.doOnApiSuccess {
+				recentDynamicList.postValue(it.data.momentContentList)
+			}
 	}
 	
 	//修改背景图
@@ -72,13 +89,10 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 			.compose(catchApiError())
 	}
 	
-	private fun <T> dealRefreshing(): SingleTransformer<T, T> {
-		return SingleTransformer { obs ->
-			obs.doOnSubscribe { isRefreshing.postValue(true) }
-				.doOnSuccess { isRefreshing.postValue(false) }
-				.doOnError { isRefreshing.postValue(false) }
-		}
-	}
+	private fun <T> Single<T>.dealRefreshing() =
+		doOnSubscribe { isRefreshing.postValue(true) }
+			.doFinally { isRefreshing.postValue(false) }
+	
 	
 	private fun <T> editUserInfo(key: String, value: T) = userService.editUserInfo(
 		hashMapOf(Pair(key, value.toString()))

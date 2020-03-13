@@ -10,7 +10,7 @@ import io.reactivex.SingleTransformer
 import org.kodein.di.generic.instance
 
 
-class DynamicDetailViewModel(application: Application) : BaseViewModel(application) {
+class MomentDetailViewModel(application: Application) : BaseViewModel(application) {
 	
 	private val momentService by instance<MomentService>()
 	val moment = MutableLiveData<MomentContent>()

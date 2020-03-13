@@ -10,6 +10,7 @@ import com.example.rubbishcommunity.persistence.saveLoginState
 import com.example.rubbishcommunity.ui.container.jumpToEditInfo
 import com.example.rubbishcommunity.ui.container.jumpToPassword
 import com.example.rubbishcommunity.ui.container.jumpToLogin
+import com.example.rubbishcommunity.ui.release.moments.ReleaseDynamicGridImageAdapter
 import com.example.rubbishcommunity.ui.utils.showBackgroundAlbum
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
@@ -33,6 +34,9 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 		//设置按钮
 		binding.btnSetting.setOnClickListener { jumpToEditInfo(context!!) }
 		
+		//最近动态列表
+		binding.recRecent.adapter = RecentDynamicImgsAdapter()
+		
 		//账号安全按钮
 		binding.btnSafe.setOnClickListener { jumpToPassword(context!!) }
 		
@@ -40,6 +44,12 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 		binding.btnLogout.setOnClickListener { logout() }
 		
 		binding.iv.setOnClickListener { showChooseBackGroundAlert() }
+		
+		viewModel.recentDynamicList.observeNonNull {
+			(binding.recRecent.adapter as RecentDynamicImgsAdapter).replaceData(it
+				.filter { it.pictures.isNotEmpty() }
+				.map { it.pictures[0] })
+		}
 	}
 	
 	private fun logout() {
