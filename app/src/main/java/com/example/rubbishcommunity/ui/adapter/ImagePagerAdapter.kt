@@ -10,42 +10,39 @@ import com.bumptech.glide.Glide
 import com.example.rubbishcommunity.ui.utils.judgeAndGetImageUrl
 
 class ImagePagerAdapter(
-    val context:Context, private val imgs :List<String>,
-    private val pager:ViewPager,
-    private val onCellClick:()->Unit
+	val context: Context, private val imgs: List<String>,
+	private val pager: ViewPager,
+	private val onCellClick: () -> Unit
 ) : PagerAdapter() {
-
-    private val imgViews = mutableListOf<ImageView>()
-
-    override fun isViewFromObject(view: View, `object`: Any): Boolean {
-        return view == `object`
-    }
-
-    override fun getCount() = imgs.size
-
-
-    override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val imageView = ImageView(context)
-        if(imgs.isNotEmpty()){
-            val item = imgs[position]
-            //存列表
-            imgViews.add(imageView)
-            //放在pager中
-            pager.addView(imageView)
-            Glide.with(context).load(judgeAndGetImageUrl(item)).centerInside().into(imageView)
-            imageView.setOnClickListener {
-                onCellClick.invoke()
-            }
-        }
-
-        return imageView
-
-    }
-
-    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-/*        if(imgViews.isNotEmpty())
-        pager.removeView(imgViews[position])*/
-    }
-
-
+	
+	private val imgViews = mutableListOf<ImageView>()
+	
+	override fun isViewFromObject(view: View, `object`: Any): Boolean {
+		return view == `object`
+	}
+	
+	override fun getCount() = imgs.size
+	
+	override fun instantiateItem(container: ViewGroup, position: Int): Any {
+		val imageView = ImageView(context)
+		if (imgs.isNotEmpty()) {
+			val item = imgs[position]
+			//存列表
+			imgViews.add(imageView)
+			//放在pager中
+			pager.addView(imageView)
+			Glide.with(context).load(judgeAndGetImageUrl(item)).centerInside().into(imageView)
+			imageView.setOnClickListener {
+				onCellClick.invoke()
+			}
+		}
+		return imageView
+	}
+	
+	override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+		if (imgViews.isNotEmpty())
+			pager.removeView(imgViews[position])
+	}
+	
+	
 }

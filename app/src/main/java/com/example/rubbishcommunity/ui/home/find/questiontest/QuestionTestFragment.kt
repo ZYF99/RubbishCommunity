@@ -1,20 +1,18 @@
-package com.example.rubbishcommunity.ui.home.find.vote
+package com.example.rubbishcommunity.ui.home.find.questiontest
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
-import com.example.rubbishcommunity.databinding.VoteBinding
+import com.example.rubbishcommunity.databinding.FragmentQuestionTestBinding
 
-
-class VoteFragment : BindingFragment<VoteBinding, VoteViewModel>(
-	VoteViewModel::class.java,
-	R.layout.fragment_vote
+class QuestionTestFragment : BindingFragment<FragmentQuestionTestBinding, QuestionTestViewModel>(
+	QuestionTestViewModel::class.java,
+	R.layout.fragment_question_test
 ) {
 	override fun initBefore() {
 	
 	
 	}
-	
 	
 	override fun initWidget() {
 		binding.vm = viewModel

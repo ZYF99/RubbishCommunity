@@ -1,18 +1,15 @@
-package com.example.rubbishcommunity.ui.home.find.vote
+package com.example.rubbishcommunity.ui.home.find.questiontest
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.manager.api.MomentService
-import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.model.Vote
-import com.example.rubbishcommunity.utils.switchThread
 import io.reactivex.Single
-import io.reactivex.SingleTransformer
 import org.kodein.di.generic.instance
 
 
-class VoteViewModel(application: Application) : BaseViewModel(application) {
+class QuestionTestViewModel(application: Application) : BaseViewModel(application) {
 	
 	
 	private val dynamicService by instance<MomentService>()
