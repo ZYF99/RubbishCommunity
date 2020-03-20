@@ -7,7 +7,7 @@ import com.example.rubbishcommunity.databinding.FindBinding
 import com.example.rubbishcommunity.ui.home.find.moment.CLASSIFY_DYNAMIC
 import com.example.rubbishcommunity.ui.home.find.moment.CLASSIFY_RECOVERY
 import com.example.rubbishcommunity.ui.home.find.moment.MomentsFragment
-import com.example.rubbishcommunity.ui.home.find.vote.VoteFragment
+import com.example.rubbishcommunity.ui.home.find.questiontest.QuestionTestFragment
 
 
 class FindFragment :
@@ -27,7 +27,7 @@ class FindFragment :
 			val recoveryFragment = MomentsFragment(CLASSIFY_RECOVERY)
 			val fragList = listOf(
 				Pair(dynamicFragment, "动态"), Pair(recoveryFragment, "回收"),
-				Pair(VoteFragment(), "头脑风暴")
+				Pair(QuestionTestFragment(), "头脑风暴")
 			)
 			adapter = FindPagerAdapter(childFragmentManager, fragList)
 		}

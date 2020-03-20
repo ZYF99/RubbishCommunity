@@ -38,9 +38,9 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
 			.switchThread()
 			.doOnSuccess {
 				it.data.map { searchKeyConclusion ->
-					searchKeyConclusion.category = getClassificationMap().filter { category ->
+					searchKeyConclusion.category = getClassificationMap().first { category ->
 						category.id == searchKeyConclusion.sortId
-					}[0]
+					}
 				}.toMutableList()
 			}
 			.compose(dealErrorCode())

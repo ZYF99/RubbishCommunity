@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+                name="testCard"
+                type="com.example.rubbishcommunity.model.TestCard" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+        <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                <LinearLayout
+                        android:id="@+id/linearLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="64dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="64dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                            android:id="@+id/tv_dynamic_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="@{testCard.name}"
+                            android:textColor="@color/black"
+                            android:textSize="32dp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Name" />
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="32dp"
+                            android:layout_marginRight="16dp"
+                            android:orientation="vertical">
+
+                        <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                            <com.example.rubbishcommunity.ui.widget.DragSeekBar
+                                    android:id="@+id/drag_sort_1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:progressDrawable="@drawable/bg_classfication_seekbar_1"
+                                    android:splitTrack="false"
+                                    android:thumb="@drawable/bg_drag_seekbar_circle"
+                                    android:thumbOffset="-6dp"
+                                    android:thumbTint="@color/colorAccent" />
+
+                            <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    android:gravity="center"
+                                    android:text="干垃圾"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/white"
+                                    android:textSize="18sp" />
+
+                            <com.github.chengang.library.TickView
+                                    android:id="@+id/tick_view_1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:radius="24dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_gravity="end"
+                                    app:check_base_color="@color/colorAccent"
+                                    app:rate="normal"
+                                    android:visibility="gone"
+                                    tools:visibility="visible"/>
+
+
+                        </FrameLayout>
+
+                        <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp">
+
+                            <com.example.rubbishcommunity.ui.widget.DragSeekBar
+                                    android:id="@+id/drag_sort_2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:progressDrawable="@drawable/bg_classfication_seekbar_2"
+                                    android:splitTrack="false"
+                                    android:thumb="@drawable/bg_drag_seekbar_circle"
+                                    android:thumbOffset="-6dp"
+                                    android:thumbTint="@color/colorAccent" />
+
+                            <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="湿垃圾"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/white"
+                                    android:textSize="18sp" />
+
+                            <com.github.chengang.library.TickView
+                                    android:id="@+id/tick_view_2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:radius="24dp"
+                                    android:layout_gravity="end"
+                                    android:layout_marginEnd="10dp"
+                                    app:check_base_color="@color/colorAccent"
+                                    app:rate="normal"
+                                    android:visibility="gone"
+                                    tools:visibility="visible"/>
+
+                        </FrameLayout>
+
+                        <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp">
+
+                            <com.example.rubbishcommunity.ui.widget.DragSeekBar
+                                    android:id="@+id/drag_sort_3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:progressDrawable="@drawable/bg_classfication_seekbar_3"
+                                    android:splitTrack="false"
+                                    android:thumb="@drawable/bg_drag_seekbar_circle"
+                                    android:thumbOffset="-6dp"
+                                    android:thumbTint="@color/colorAccent" />
+
+                            <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="有害垃圾"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/white"
+                                    android:textSize="18sp" />
+
+                            <com.github.chengang.library.TickView
+                                    android:id="@+id/tick_view_3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:radius="24dp"
+                                    android:layout_gravity="end"
+                                    android:layout_marginEnd="10dp"
+                                    app:check_base_color="@color/colorAccent"
+                                    app:rate="normal"
+                                    android:visibility="gone"
+                                    tools:visibility="visible"/>
+                        </FrameLayout>
+
+                        <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp">
+
+                            <com.example.rubbishcommunity.ui.widget.DragSeekBar
+                                    android:id="@+id/drag_sort_4"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:progressDrawable="@drawable/bg_classfication_seekbar_4"
+                                    android:splitTrack="false"
+                                    android:thumb="@drawable/bg_drag_seekbar_circle"
+                                    android:thumbOffset="-6dp"
+                                    android:thumbTint="@color/colorAccent" />
+
+                            <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="可回收物"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/white"
+                                    android:textSize="18sp" />
+
+                            <com.github.chengang.library.TickView
+                                    android:id="@+id/tick_view_4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:radius="24dp"
+                                    android:layout_gravity="end"
+                                    android:layout_marginEnd="10dp"
+                                    app:check_base_color="@color/colorAccent"
+                                    app:rate="normal"
+                                    android:visibility="gone"
+                                    tools:visibility="visible"/>
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

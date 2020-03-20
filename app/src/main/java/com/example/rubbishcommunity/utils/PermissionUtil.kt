@@ -52,16 +52,8 @@ fun BindingFragment<*, *>.checkIMEIPermission(onGetPermissionFailed: () -> Unit)
 
 
 //定位权限检查获取
-@RequiresApi(Build.VERSION_CODES.Q)
 fun BindingFragment<*, *>.checkLocationPermission(): Observable<Permission> =
 	rxCheckPermission(
-		Manifest.permission.READ_PHONE_STATE,
-		Manifest.permission.WRITE_EXTERNAL_STORAGE,
-		Manifest.permission.RECORD_AUDIO,
-		Manifest.permission.LOCATION_HARDWARE,
-		Manifest.permission.CHANGE_WIFI_STATE,
-		Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS,
-		Manifest.permission.ACCESS_WIFI_STATE,
 		Manifest.permission.ACCESS_COARSE_LOCATION,
 		Manifest.permission.ACCESS_BACKGROUND_LOCATION
 	) {}

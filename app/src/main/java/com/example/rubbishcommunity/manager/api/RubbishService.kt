@@ -2,10 +2,12 @@ package com.example.rubbishcommunity.manager.api
 
 
 import com.example.rubbishcommunity.LocationOutClass
+import com.example.rubbishcommunity.model.TestCard
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.search.Category
 import com.example.rubbishcommunity.model.api.search.SearchKeyConclusion
 import io.reactivex.Single
+import okhttp3.ResponseBody
 import retrofit2.http.*
 
 /**
@@ -30,6 +32,9 @@ interface RubbishService {
 	@GET("api/common/tools/{classNum}/categories")
 	fun searchCategoryByName(@Path("classNum") classNum: Int): Single<ResultModel<Category>>
 	
-
-
+	//随机拉取垃圾分类问题
+	@GET("api/common/tools/game/question")
+	fun fetchQuestions(): Single<ResultModel<List<TestCard>>>
+	
+	
 }

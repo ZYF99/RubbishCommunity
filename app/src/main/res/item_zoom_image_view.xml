@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://schemas.android.com/apk/res/android ">
+
+    <data>
+
+        <variable name="imgUrl" type="String" />
+    </data>
+
+    <ImageView imageUrl="@{imgUrl}" android:layout_width="match_parent"
+            android:layout_height="match_parent" android:scaleType="fitXY"
+            tools:src="@color/colorAccent" />
+
+
+</layout>
