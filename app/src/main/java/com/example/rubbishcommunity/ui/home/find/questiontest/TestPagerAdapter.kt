@@ -10,6 +10,8 @@ import com.example.rubbishcommunity.databinding.CellTestBinding
 import com.example.rubbishcommunity.model.TestCard
 import com.example.rubbishcommunity.ui.widget.DragSeekBar
 import com.github.chengang.library.TickView
+import io.reactivex.Completable
+import java.util.concurrent.TimeUnit
 
 
 class TestPagerAdapter(
@@ -17,7 +19,7 @@ class TestPagerAdapter(
 	var onAnswerCorrect: ((Int) -> Unit)? = null,
 	var onAnswerError: ((Int) -> Unit)? = null
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
+	
 	
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 		val view: View =
@@ -73,8 +75,10 @@ class TestPagerAdapter(
 			tickView?.isChecked = true
 			onAnswerCorrect?.invoke(position)
 		} else {//答错
-			seekBar?.progress = 0
-			onAnswerError?.invoke(position)
+			Completable.timer(2, TimeUnit.SECONDS).doOnComplete {
+				seekBar?.progress = 0
+				onAnswerError?.invoke(position)
+			}.subscribe()
 		}
 	}
 	
@@ -97,3 +101,4 @@ class TestPagerAdapter(
 		}?.dragSort4?.initWithBounce()
 	}
 }
+
