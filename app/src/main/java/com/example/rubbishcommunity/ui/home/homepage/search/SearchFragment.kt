@@ -20,7 +20,6 @@ import java.util.concurrent.TimeUnit
 class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 	SearchViewModel::class.java, R.layout.fragment_search
 ) {
-
 	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
 	}
 	

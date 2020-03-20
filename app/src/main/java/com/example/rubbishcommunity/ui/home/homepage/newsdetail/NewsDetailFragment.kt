@@ -1,10 +1,13 @@
 package com.example.rubbishcommunity.ui.home.homepage.newsdetail
 
-
-import com.example.rubbishcommunity.ui.base.BindingFragment
+import android.net.http.SslError
+import android.webkit.SslErrorHandler
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.NewsDetailBinding
-import com.zzhoujay.richtext.RichText
+import com.example.rubbishcommunity.ui.base.BindingFragment
 
 
 class NewsDetailFragment : BindingFragment<NewsDetailBinding, NewsDetailViewModel>(
@@ -21,17 +24,27 @@ class NewsDetailFragment : BindingFragment<NewsDetailBinding, NewsDetailViewMode
 		binding.btnBack.setOnClickListener {
 			activity?.finish()
 		}
-		RichText.initCacheDir(context)
+		binding.webView.webViewClient = object :WebViewClient(){
+			override fun onReceivedSslError(
+				view: WebView?,
+				handler: SslErrorHandler,
+				error: SslError?
+			) {
+				handler.proceed()
+				super.onReceivedSslError(view, handler, error)
+			}
+		}
+		binding.webView.settings.run {
+			javaScriptEnabled = true
+			mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+		}
 	}
 	
 	override fun initData() {
+
 		binding.webView.loadUrl(viewModel.newsUrl.value)
-		
-		
-/*		RichText.from(mockRichText()).bind(this)
-			.showBorder(true)
-			.size(ImageHolder.MATCH_PARENT, ImageHolder.WRAP_CONTENT)
-			.into(binding.richText)*/
+		//binding.webView.loadUrl("https://www.jianshu.com/p/6d46c89069f8")
+
 	}
 	
 	

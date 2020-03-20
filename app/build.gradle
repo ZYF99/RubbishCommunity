@@ -95,8 +95,8 @@ android {
                 srcDir 'src/main/proto'
             }
 /*            jniLibs.srcDir 'libs'*/
-                jniLibs.srcDir 'libs'
-                jni.srcDirs = []    //disable automatic ndk-build
+            jniLibs.srcDir 'libs'
+            jni.srcDirs = []    //disable automatic ndk-build
         }
     }
 
@@ -198,7 +198,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-
+    implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha01'
     // Use the most recent version of CameraX, currently that is alpha06.
 
     implementation "androidx.camera:camera-core:${camerax_version}"
@@ -217,6 +217,9 @@ dependencies {
 
     //upuphub
     implementation group: 'com.upuphub', name: 'quick-profile', version: '0.0.1'
+
+    //tickerView
+    implementation 'com.github.ChengangFeng:TickView:v1.0.2'
 
     //弹性布局
     implementation 'me.everything:overscroll-decor-android:1.0.4'

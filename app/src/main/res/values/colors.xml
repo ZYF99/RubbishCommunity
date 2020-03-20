@@ -27,6 +27,22 @@
 
     <color name="bg_title">#F5A623</color>
 
+    <!--可回收物-->
+    <color name="color_sort_1">#80014782</color>
+    <color name="bg_sort_1">#e9ffe6</color>
+
+    <!--有害垃圾-->
+    <color name="color_sort_2">#80E73322</color>
+    <color name="bg_sort_2">#c8e2f8</color>
+
+    <!--湿垃圾-->
+    <color name="color_sort_3">#80664035</color>
+    <color name="bg_sort_3">#d6d5d4</color>
+
+    <!--干垃圾-->
+    <color name="color_sort_4">#802C2B27</color>
+    <color name="bg_sort_4">#e9e8e6</color>
+
 
     <color name="bg_tab_selected">#F5A623</color>
     <color name="bg_tab_nor">#FFFFFF</color>

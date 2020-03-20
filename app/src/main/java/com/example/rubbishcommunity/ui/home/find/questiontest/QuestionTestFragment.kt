@@ -1,61 +1,53 @@
 package com.example.rubbishcommunity.ui.home.find.questiontest
 
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.view.View
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.FragmentQuestionTestBinding
+import io.reactivex.Single
+import java.util.concurrent.TimeUnit
 
 class QuestionTestFragment : BindingFragment<FragmentQuestionTestBinding, QuestionTestViewModel>(
 	QuestionTestViewModel::class.java,
 	R.layout.fragment_question_test
 ) {
 	override fun initBefore() {
-	
-	
+		binding.vm = viewModel
 	}
 	
 	override fun initWidget() {
-		binding.vm = viewModel
-		
-		//viewModel.isLoading.observe { binding.refreshlayout.isLoading = it!! }
-		
-		viewModel.init()
-		
-		binding.recVote.run {
-			layoutManager = LinearLayoutManager(context)
-			adapter = VoteListAdapter {
-			
-			}.apply { replaceData(viewModel.voteList.value!!) }
+		binding.pagerTest.adapter = TestPagerAdapter(
+			emptyList(),
+			onAnswerCorrect = { position ->
+				//答对后
+				val pager = binding.pagerTest
+				Single.timer(2, TimeUnit.SECONDS).doOnSuccess {
+					if (pager.currentItem != viewModel.pagerList.value?.size ?: 0 - 1)
+						pager.setCurrentItem(position + 1, true)
+				}.bindLife()
+			},
+			onAnswerError = { position ->
+				//答错后
+			}
+		)
+		binding.flTip.setOnClickListener { it.visibility = View.GONE }
+		viewModel.refreshing.observeNonNull { isRefreshing ->
+			binding.refreshLayout.isRefreshing = isRefreshing
 		}
 		
+		viewModel.pagerList.observeNonNull {
+			(binding.pagerTest.adapter as TestPagerAdapter).replaceData(it)
+		}
 		
 		binding.refreshLayout.setOnRefreshListener {
-			context!!.checkNet().doOnComplete {
-				viewModel.getVoteList()
-			}.doOnError {
-				showNetErrorSnackBar()
-				viewModel.refreshing.postValue(false)
-			}.bindLife()
-		}
-		
-		
-		viewModel.voteList.observe {
-			binding.recVote.run {
-				(adapter as VoteListAdapter).replaceData(it!!)
-			}
-		}
-		
-		viewModel.refreshing.observe { isRefreshing ->
-			binding.refreshLayout.run {
-				if (!isRefreshing!!) finishRefresh()
-			}
+			viewModel.fetchTestList()
 		}
 		
 		
 	}
 	
 	override fun initData() {
-	
+		viewModel.fetchTestList()
 	}
 	
 	

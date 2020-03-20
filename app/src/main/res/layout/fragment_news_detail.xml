@@ -72,30 +72,17 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.core.widget.NestedScrollView
-                android:id="@+id/scrollview"
+
+        <WebView
+                android:id="@+id/web_view"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:background="@color/colorLayoutBg"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/appbar">
+                app:layout_constraintTop_toBottomOf="@id/appbar" />
 
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:paddingTop="20dp">
-
-
-                <WebView
-                        android:id="@+id/web_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-            </LinearLayout>
-
-        </androidx.core.widget.NestedScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

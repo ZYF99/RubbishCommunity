@@ -79,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                <androidx.viewpager.widget.ViewPager
+                <com.example.rubbishcommunity.ui.widget.NoScrollViewPager
                         android:id="@+id/findpager"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />

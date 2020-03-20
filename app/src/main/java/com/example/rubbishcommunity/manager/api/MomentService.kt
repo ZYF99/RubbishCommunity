@@ -1,6 +1,5 @@
 package com.example.rubbishcommunity.manager.api
 
-import com.example.rubbishcommunity.model.Vote
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.moments.*
 import com.example.rubbishcommunity.model.api.release.ReleaseMomentRequestModel
@@ -63,9 +62,6 @@ interface MomentService {
 	//回复Comment
 	@POST("api/moments/comment/reply")
 	fun replyComment(@Body replyCommentRequestModel: ReplyCommentRequestModel):Single<ResponseBody>
-	
-	@GET("votes?")
-	fun getVoteList(@Query("offset") offset: Int): Single<MutableList<Vote>>
 	
 	
 }
