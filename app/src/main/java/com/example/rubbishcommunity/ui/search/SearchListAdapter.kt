@@ -1,10 +1,9 @@
-package com.example.rubbishcommunity.ui.home.homepage.search
+package com.example.rubbishcommunity.ui.search
 
 
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.SearchCellBinding
 import com.example.rubbishcommunity.model.api.search.SearchKeyConclusion
-import com.example.rubbishcommunity.ui.adapter.BaseRecyclerAdapter
 import com.example.rubbishcommunity.ui.adapter.EmptyRecyclerAdapter
 
 

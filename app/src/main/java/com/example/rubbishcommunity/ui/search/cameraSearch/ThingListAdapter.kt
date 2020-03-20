@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.home.homepage.search.cameraSearch
+package com.example.rubbishcommunity.ui.search.cameraSearch
 
 
 import com.example.rubbishcommunity.R

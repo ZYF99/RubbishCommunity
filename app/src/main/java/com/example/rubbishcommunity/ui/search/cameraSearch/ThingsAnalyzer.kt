@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.home.homepage.search.cameraSearch
+package com.example.rubbishcommunity.ui.search.cameraSearch
 
 
 import android.graphics.*
@@ -9,7 +9,6 @@ import androidx.camera.core.ImageProxy
 import java.util.concurrent.TimeUnit
 import android.media.Image
 import java.io.ByteArrayOutputStream
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 
 

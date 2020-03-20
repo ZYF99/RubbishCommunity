@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.home.homepage.search
+package com.example.rubbishcommunity.ui.search
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -15,7 +15,6 @@ import com.example.rubbishcommunity.utils.checkLocationPermissionAndGetLocation
 import com.example.rubbishcommunity.utils.showLocationServiceDialog
 import com.jakewharton.rxbinding2.widget.RxTextView
 import java.util.concurrent.TimeUnit
-
 
 class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 	SearchViewModel::class.java, R.layout.fragment_search

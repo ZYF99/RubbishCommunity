@@ -9,7 +9,7 @@
 
         <variable
                 name="vm"
-                type="com.example.rubbishcommunity.ui.home.homepage.search.SearchViewModel" />
+                type="com.example.rubbishcommunity.ui.search.SearchViewModel" />
 
     </data>
 
