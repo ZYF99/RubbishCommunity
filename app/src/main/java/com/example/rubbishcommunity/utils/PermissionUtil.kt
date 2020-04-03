@@ -28,9 +28,6 @@ fun BindingFragment<*, *>.rxCheckPermission(
 	onGetPermissionFailed: () -> Unit
 ): Observable<Permission> {
 	
-
-	
-	
 	return RxPermissions(activity!!).requestEach(*permissions)
 		.doOnNext {
 			when {

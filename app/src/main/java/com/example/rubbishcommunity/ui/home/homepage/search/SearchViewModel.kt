@@ -8,7 +8,7 @@ import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.search.SearchKeyConclusion
-import com.example.rubbishcommunity.persistence.getClassificationMap
+import com.example.rubbishcommunity.persistence.getClassificationList
 import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.utils.switchThread
 import com.hankcs.hanlp.HanLP
@@ -38,7 +38,9 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
 			.switchThread()
 			.doOnSuccess {
 				it.data.map { searchKeyConclusion ->
-					searchKeyConclusion.category = getClassificationMap().first { category ->
+					//将服务器返回的垃圾sortId拿到本地的HList中查询对应的垃圾分类信息
+					//将查到的垃圾分类对象赋值到当前searchKeyConclusion对象中
+					searchKeyConclusion.category = getClassificationList().first { category ->
 						category.id == searchKeyConclusion.sortId
 					}
 				}.toMutableList()
@@ -57,6 +59,15 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
 			}.doOnSuccess {
 				searchList.postValue(it.data)
 				shouldShowInput.postValue(false)
+			}.compose(dealRefresh())
+			.bindLife()
+	}
+	
+	fun testSearchKeyWord() {
+		search("水瓶")
+			.doOnSuccess {
+				searchList.postValue(it.data) //将查询的列表结果赋值给当前界面的列表
+				shouldShowInput.postValue(false) //控制软键盘的状态变量
 			}.compose(dealRefresh())
 			.bindLife()
 	}

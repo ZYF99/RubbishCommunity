@@ -26,11 +26,10 @@ fun sendSimpleNotification(context: Context, title: String, contentString: Strin
 	val contentIntent = PendingIntent.getActivity(
 		context, 0, Intent(context, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT
 	)
-
 	
 	//适配8.0service
 	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-		val mChannel =  NotificationChannel(CHANNEL_ID_STRING, "美社", NotificationManager.IMPORTANCE_HIGH);
+		val mChannel =  NotificationChannel(CHANNEL_ID_STRING, "美社", NotificationManager.IMPORTANCE_HIGH)
 		notificationManager?.createNotificationChannel(mChannel)
 		notificationManager?.notify(
 			2, NotificationCompat.Builder(

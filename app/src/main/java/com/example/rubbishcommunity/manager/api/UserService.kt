@@ -20,7 +20,9 @@ interface UserService {
 	
 	//登录或注册
 	@POST("api/account/login")
-	fun loginOrRegister(@Body loginOrRegisterRequestModel: LoginOrRegisterRequestModel): Single<ResultModel<LoginOrRegisterResultModel>>
+	fun loginOrRegister(
+		@Body loginOrRegisterRequestModel: LoginOrRegisterRequestModel
+	): Single<ResultModel<LoginOrRegisterResultModel>>
 	
 	//邮箱验证
 	@GET("api/common/tools/code/{email}/send")

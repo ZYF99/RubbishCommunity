@@ -40,15 +40,17 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 	}
 	
 	@RequiresApi(Build.VERSION_CODES.O)
+	
+	
+	
 	fun login(): Single<ResultModel<LoginOrRegisterResultModel>>? {
-		val versionName =
-			getVersionName(MyApplication.instance)
-		val deviceBrand = deviceBrand
-		val osVersion = systemVersion
-		val systemModel = systemModel
+		val versionName = getVersionName(MyApplication.instance) //APP版本号
+		val deviceBrand = deviceBrand //手机品牌
+		val osVersion = systemVersion //系统版本号
+		val systemModel = systemModel //系统
 		if (judgeLoginParams()) {
 			return apiService.loginOrRegister(
-				LoginOrRegisterRequestModel(
+				LoginOrRegisterRequestModel( //构造请求Body的Model
 					LoginOrRegisterRequestModel.DeviceInfo(
 						versionName?:"",
 						deviceBrand,

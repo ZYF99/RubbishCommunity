@@ -6,7 +6,7 @@ import com.example.rubbishcommunity.manager.api.RubbishService
 import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.search.SearchKeyConclusion
-import com.example.rubbishcommunity.persistence.getClassificationMap
+import com.example.rubbishcommunity.persistence.getClassificationList
 import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.utils.switchThread
 import com.hankcs.hanlp.HanLP
@@ -30,7 +30,7 @@ class WelcomeViewModel(application: Application) : BaseViewModel(application) {
 			}.switchThread()
 				.doOnSuccess { result ->
 					result.data.forEach { searchKeyConclusion ->
-						searchKeyConclusion.category = getClassificationMap().filter { category ->
+						searchKeyConclusion.category = getClassificationList().filter { category ->
 							category.id == searchKeyConclusion.sortId
 						}[0]
 					}

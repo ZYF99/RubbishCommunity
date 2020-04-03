@@ -97,7 +97,7 @@ fun saveClassificationMap(map: List<Category>) {
 
 //分类信息
 @SuppressLint("UseSparseArrays")
-fun getClassificationMap(): List<Category> {
+fun getClassificationList(): List<Category> {
 	return SharedPreferencesUtils.getListData(
 		"classificationMap",
 		Category::class.java
