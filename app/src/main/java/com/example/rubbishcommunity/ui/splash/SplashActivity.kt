@@ -3,7 +3,7 @@ package com.example.rubbishcommunity.ui.splash
 import android.content.Intent
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.SplashBinding
-import com.example.rubbishcommunity.persistence.getClassificationMap
+import com.example.rubbishcommunity.persistence.getClassificationList
 import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.ui.container.ContainerActivity
 import com.example.rubbishcommunity.utils.switchThread
@@ -35,7 +35,7 @@ class SplashActivity : BindingActivity<SplashBinding, SplashViewModel>() {
 			finish()
 		}
 		
-		if (getClassificationMap().isNullOrEmpty())
+		if (getClassificationList().isNullOrEmpty())
 			viewModel.fetchClassificationInfo { jumpToWelcome() }
 		else Single.timer(1, TimeUnit.SECONDS)
 			.doOnSuccess { jumpToWelcome() }.bindLife()

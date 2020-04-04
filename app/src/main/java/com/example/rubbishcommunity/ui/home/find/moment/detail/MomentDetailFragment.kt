@@ -116,21 +116,22 @@ class MomentDetailFragment : BindingFragment<FragmentMomentDetailBinding, Moment
 			showInputDialog()
 		}
 		
+		//点赞按钮
+		binding.btnLike.setOnClickListener{
+			viewModel.like()
+		}
+		
 		//发送按钮 回复原文
 		binding.linComment.btnSend.setOnClickListener {
 			if (!viewModel.inputComment.value.isNullOrEmpty()) {
 				viewModel.inputComment.postValue("")
 				when (replyPosition) {
-					null -> viewModel.pushComment(viewModel.moment.value?.momentId ?: 0.toLong()) {
-						MyApplication.showSuccess("评论成功")
-					}
+					null -> viewModel.pushComment(viewModel.moment.value?.momentId ?: 0.toLong())
 					else -> viewModel.replyComment(
 						viewModel.moment.value?.momentCommentList?.get(
 							replyPosition!!
 						)?.commentId
-					) {
-						MyApplication.showSuccess("回复成功")
-					}
+					)
 				}
 				activity!!.hideSoftKeyBoard()
 			} else {

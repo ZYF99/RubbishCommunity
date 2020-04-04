@@ -92,7 +92,7 @@
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     android:gravity="center"
-                                    android:text="干垃圾"
+                                    android:text="可回收物"
                                     android:textAlignment="center"
                                     android:textColor="@color/white"
                                     android:textSize="18sp" />
@@ -131,7 +131,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
-                                    android:text="湿垃圾"
+                                    android:text="有害垃圾"
                                     android:textAlignment="center"
                                     android:textColor="@color/white"
                                     android:textSize="18sp" />
@@ -169,7 +169,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
-                                    android:text="有害垃圾"
+                                    android:text="湿垃圾"
                                     android:textAlignment="center"
                                     android:textColor="@color/white"
                                     android:textSize="18sp" />
@@ -206,7 +206,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
-                                    android:text="可回收物"
+                                    android:text="干垃圾"
                                     android:textAlignment="center"
                                     android:textColor="@color/white"
                                     android:textSize="18sp" />

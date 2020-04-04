@@ -17,47 +17,44 @@ class MomentDetailViewModel(application: Application) : BaseViewModel(applicatio
 	val isRefreshing = MutableLiveData<Boolean>()
 	val inputComment = MutableLiveData<String>()
 	
+	//拉取单个动态
+	private fun fetchMomentDetail() {
+		momentService.fetchMomentsByMomentId(moment.value?.momentId?.toInt() ?: 0)
+			.doOnApiSuccess {
+				moment.postValue(it.data)
+			}
+	}
+	
 	//点赞或取消点赞
-	fun like(momentId: Long, onLikedAction: (Long) -> Unit) {
+	fun like() {
 		momentService.pushCommentOrLike(
 			MomentCommentRequestModel(
 				commentType = COMMENT_LIKE,
-				momentId = momentId
+				momentId = moment.value?.momentId
 			)
-		)
-			.doOnApiSuccess { onLikedAction.invoke(it.data.commentId) }
+		).doOnApiSuccess { fetchMomentDetail() }
 	}
 	
 	//评论
-	fun pushComment(momentId: Long, onLikedAction: (Long) -> Unit) {
+	fun pushComment(momentId: Long) {
 		momentService.pushCommentOrLike(
 			MomentCommentRequestModel(
 				commentType = COMMENT_COMMENT,
 				content = inputComment.value,
 				momentId = momentId
 			)
-		)
-			.doOnApiSuccess { onLikedAction.invoke(it.data.commentId) }
+		).doOnApiSuccess { fetchMomentDetail() }
 	}
 	
 	//回复评论
-	fun replyComment(commentId: Long?, onLikedAction: () -> Unit) {
+	fun replyComment(commentId: Long?) {
 		momentService.replyComment(
 			ReplyCommentRequestModel(
 				commentId = commentId,
-				content = inputComment.value?:""
+				content = inputComment.value ?: ""
 			)
 		)
-			.doOnApiSuccess { onLikedAction.invoke() }
-	}
-	
-	private fun <T> dealRefresh(): SingleTransformer<T, T> {
-		return SingleTransformer { obs ->
-			obs
-				.doOnSubscribe { isRefreshing.postValue(true) }
-				.doOnSuccess { isRefreshing.postValue(false) }
-				.doOnError { isRefreshing.postValue(false) }
-		}
+			.doOnApiSuccess { fetchMomentDetail() }
 	}
 	
 	
