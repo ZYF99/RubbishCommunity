@@ -6,7 +6,7 @@
 
         <variable
                 name="vm"
-                type="com.example.rubbishcommunity.ui.home.homepage.search.cameraSearch.CameraSearchViewModel" />
+                type="com.example.rubbishcommunity.ui.search.cameraSearch.CameraSearchViewModel" />
 
     </data>
 

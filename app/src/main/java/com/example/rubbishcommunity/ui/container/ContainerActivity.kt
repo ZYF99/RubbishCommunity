@@ -19,8 +19,8 @@ import com.example.rubbishcommunity.ui.guide.welcome.WelcomeFragment
 import com.example.rubbishcommunity.ui.home.find.moment.detail.MomentDetailFragment
 import com.example.rubbishcommunity.ui.home.message.chat.ChatFragment
 import com.example.rubbishcommunity.ui.home.homepage.newsdetail.NewsDetailFragment
-import com.example.rubbishcommunity.ui.home.homepage.search.SearchFragment
-import com.example.rubbishcommunity.ui.home.homepage.search.cameraSearch.CameraSearchFragment
+import com.example.rubbishcommunity.ui.search.SearchFragment
+import com.example.rubbishcommunity.ui.search.cameraSearch.CameraSearchFragment
 import com.example.rubbishcommunity.ui.home.mine.editinfo.EditInfoFragment
 import com.example.rubbishcommunity.ui.release.moments.MomentsType
 import com.example.rubbishcommunity.ui.release.moments.ReleaseMomentFragment

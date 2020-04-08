@@ -1,4 +1,4 @@
-package com.example.rubbishcommunity.ui.home.homepage.search
+package com.example.rubbishcommunity.ui.search
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
