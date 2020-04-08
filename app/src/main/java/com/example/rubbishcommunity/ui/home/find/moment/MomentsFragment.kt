@@ -8,6 +8,7 @@ import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.FragmentMomentsBinding
 import com.example.rubbishcommunity.ui.container.jumpToMomentDetail
+import com.example.rubbishcommunity.ui.container.jumpToUserInfo
 import com.example.rubbishcommunity.ui.widget.UserInfoDialog
 
 const val CLASSIFY_DYNAMIC = 1
@@ -69,8 +70,7 @@ class MomentsFragment(private val classify: Int = CLASSIFY_DYNAMIC) :
 						context,
 						publisher
 					) {
-						//TODO 点击后跳转主页
-						
+						jumpToUserInfo(context,publisher.openId)
 					}.show()
 				}, { moment, position ->
 					//点击'赞'或'已赞'

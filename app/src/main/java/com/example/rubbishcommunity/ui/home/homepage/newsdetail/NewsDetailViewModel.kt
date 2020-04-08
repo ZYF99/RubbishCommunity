@@ -7,6 +7,4 @@ import com.example.rubbishcommunity.ui.base.BaseViewModel
 
 class NewsDetailViewModel(application: Application) : BaseViewModel(application) {
 	val newsUrl = MutableLiveData<String>()
-	
-	
 }

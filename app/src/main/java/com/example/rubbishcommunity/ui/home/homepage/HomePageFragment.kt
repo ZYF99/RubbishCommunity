@@ -1,6 +1,7 @@
 package com.example.rubbishcommunity.ui.home.homepage
 
 
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
@@ -25,6 +26,8 @@ class HomePageFragment : BindingFragment<HomePageBinding, HomePageViewModel>(
 	
 	override fun initWidget() {
 		
+		binding.toolBar.setExpandedTitleColor(resources.getColor(R.color.transparent))
+		
 		//刷新状态监听
 		viewModel.isRefreshing.observeNonNull {
 			binding.swipe.isRefreshing = it
@@ -42,13 +45,9 @@ class HomePageFragment : BindingFragment<HomePageBinding, HomePageViewModel>(
 				start()
 			}
 		}
-		
-		
-		
-		
+
 		
 		binding.recyclerNews.apply {
-			layoutManager = LinearLayoutManager(context)
 			adapter = NewsListAdapter(
 				viewModel.newsList.value!!
 			) { news ->

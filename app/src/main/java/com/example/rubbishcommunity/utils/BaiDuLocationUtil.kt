@@ -34,8 +34,12 @@ fun BindingFragment<*, *>.checkLocationPermissionAndGetLocation(
 	//真实获取定位
 	fun getLocation() = Observable.create<BDLocation?> {
 		locationClient.registerLocationListener(object : BDAbstractLocationListener() {
+			override fun onLocDiagnosticMessage(p0: Int, p1: Int, p2: String?) {
+				super.onLocDiagnosticMessage(p0, p1, p2)
+			}
+			
 			override fun onReceiveLocation(bdLocation: BDLocation) {
-				Timber.d("$bdLocation")
+				Timber.d("${bdLocation.toString()}")
 				it.onNext(bdLocation)
 			}
 		})
@@ -59,7 +63,7 @@ fun BindingFragment<*, *>.checkLocationPermissionAndGetLocation(
 				myLocationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, object :
 					LocationListener {
 					override fun onLocationChanged(location: Location?) {
-						Timber.d("$location")
+						Timber.d("${location.toString()}")
 						if (location != null)
 							emitter.onNext(location)
 					}

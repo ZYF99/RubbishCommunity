@@ -8,7 +8,6 @@ import com.example.rubbishcommunity.manager.api.MomentService
 import com.example.rubbishcommunity.manager.api.UserService
 import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.manager.dealErrorCode
-import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.mine.UsrProfile
 import com.example.rubbishcommunity.model.api.moments.GetMomentsByUinRequestModel
 import com.example.rubbishcommunity.model.api.moments.MomentContent
@@ -21,7 +20,6 @@ import com.example.rubbishcommunity.ui.home.mine.editinfo.getImageUrlFromServer
 import com.example.rubbishcommunity.utils.switchThread
 import com.example.rubbishcommunity.utils.upLoadImage
 import io.reactivex.Single
-import io.reactivex.SingleTransformer
 import okhttp3.ResponseBody
 import org.kodein.di.generic.instance
 
@@ -42,7 +40,7 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 		userInfo.postValue(getLocalUserInfo())
 		
 		//获取用户详细信息
-		userService.getUserProfile()
+		userService.fetchUserProfile()
 			.dealRefreshing()
 			.doOnApiSuccess {
 				val profile =

@@ -42,32 +42,34 @@ class HomePageViewModel(application: Application) : BaseViewModel(application) {
 	
 	fun getPhotography() {
 		mockData()
-/*		juheService.getPhotography()
+		juheService.getPhotography()
 			.switchThread()
 			.doOnSuccess {
 				photographyList.value = it
 			}
-			.compose(dealError())
+			.catchApiError()
 			.compose(dealRefresh())
-			.bindLife()*/
+			.bindLife()
 	}
 	
 	private fun mockData() {
+		val src =
+			"https://img.iplaysoft.com/wp-content/uploads/2017/ios11_wallpapers/ios11_earth.jpg!0x0.webp"
 		photographyList.value = mutableListOf(
 			Photography(
 				"",
 				"",
-				"https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1198494063,2664295875&fm=26&gp=0.jpg"
+				src
 			),
 			Photography(
 				"",
 				"",
-				"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3242519757,1446733678&fm=26&gp=0.jpg"
+				src
 			),
 			Photography(
 				"",
 				"",
-				"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=472761312,239862010&fm=26&gp=0.jpg"
+				src
 			)
 		)
 	}

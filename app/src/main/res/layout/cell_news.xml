@@ -16,91 +16,80 @@
             android:id="@+id/cell"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:visibility="visible">
+            android:padding="4dp">
 
         <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 app:cardBackgroundColor="@color/colorWhite"
-                app:cardCornerRadius="6dp"
+                app:cardCornerRadius="4dp"
                 app:cardElevation="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                <androidx.cardview.widget.CardView
-                        android:id="@+id/cell_msg_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        app:cardCornerRadius="4dp"
-                        app:cardElevation="2dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                <ImageView
+                        android:id="@+id/img"
+                        imageUrl="@{news.thumbnail_pic_s}"
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:scaleType="centerCrop"
+                        tools:src="@drawable/bg"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                            imageUrl="@{news.thumbnail_pic_s}"
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            android:scaleType="centerCrop" />
-
-                </androidx.cardview.widget.CardView>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                         android:id="@+id/cell_msg_time"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:padding="4dp"
+                        android:layout_margin="8dp"
+                        android:padding="8dp"
                         android:text='@{news.date}'
-                        android:textColor="@color/text_second"
+                        android:textColor="#A8A8A8"
                         android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/cell_msg_icon"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/cell_msg_icon"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/img"
                         tools:ignore="RtlCompat"
                         tools:text="17:40" />
+
+                <TextView
+                        android:id="@+id/title_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:padding="8dp"
+                        android:text="@{news.title}"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cell_msg_time"
+                        tools:text="AAAA" />
 
                 <TextView
                         android:id="@+id/msg_text"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
+                        android:layout_margin="8dp"
+                        android:padding="8dp"
                         android:text='@{news.author_name}'
-                        android:textColor="@color/text_second"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/cell_msg_icon"
-                        app:layout_constraintEnd_toStartOf="@+id/cell_msg_time"
-                        app:layout_constraintStart_toStartOf="@+id/title_text"
-                        tools:text="AAAA" />
+                        android:textColor="#4A4A4A"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/title_text"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/title_text"
+                        tools:text="consduih fklgjk fhgh jigfjh igfjh gf gfi jipjipgjhiportjmhpoirtkmpkhrtfdgkolreggjhythj" />
 
-                <TextView
-                        android:id="@+id/title_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="4dp"
-                        android:ellipsize="end"
-                        android:maxEms="6"
-                        android:singleLine="true"
-                        android:text="@{news.title}"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toEndOf="@+id/cell_msg_icon"
-                        app:layout_constraintTop_toTopOf="@+id/cell_msg_icon"
-                        tools:text="AAAA" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -24,6 +24,7 @@ import com.example.rubbishcommunity.ui.search.cameraSearch.CameraSearchFragment
 import com.example.rubbishcommunity.ui.home.mine.editinfo.EditInfoFragment
 import com.example.rubbishcommunity.ui.release.moments.MomentsType
 import com.example.rubbishcommunity.ui.release.moments.ReleaseMomentFragment
+import com.example.rubbishcommunity.ui.userinfo.UserInfoFragment
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
 import com.example.rubbishcommunity.utils.SoftKeyBroadManager
 import com.example.rubbishcommunity.utils.globalGson
@@ -110,6 +111,8 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 					MomentDetailFragment()
 				"chat" -> //聊天界面
 					ChatFragment()
+				"userInfo" -> //用户主页界面
+					UserInfoFragment()
 				else -> SoftObservableFragment()
 			}
 			supportFragmentManager.beginTransaction()
@@ -206,6 +209,17 @@ fun jumpToMomentDetail(context: Context, moment: MomentContent) {
 	bundle.putSerializable(
 		"moment",
 		globalGson.toJson(moment)
+	)
+	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
+}
+
+//跳转至动态详情界面
+fun jumpToUserInfo(context: Context, openId: String) {
+	val bundle = Bundle()
+	bundle.putString("tag", "userInfo")
+	bundle.putString(
+		"openId",
+		openId
 	)
 	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }

@@ -9,7 +9,6 @@ import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.NewsDetailBinding
 import com.example.rubbishcommunity.ui.base.BindingFragment
 
-
 class NewsDetailFragment : BindingFragment<NewsDetailBinding, NewsDetailViewModel>(
 	NewsDetailViewModel::class.java, R.layout.fragment_news_detail
 ) {
@@ -41,10 +40,8 @@ class NewsDetailFragment : BindingFragment<NewsDetailBinding, NewsDetailViewMode
 	}
 	
 	override fun initData() {
-
-		//binding.webView.loadUrl(viewModel.newsUrl.value)
-		binding.webView.loadUrl("https://github.com/CyC2018/CS-Notes/blob/master/notes/Java%20%E5%9F%BA%E7%A1%80.md")
-
+		binding.webView.loadUrl(viewModel.newsUrl.value)
+		//binding.webView.loadUrl("https://github.com/CyC2018/CS-Notes/blob/master/notes/Java%20%E5%9F%BA%E7%A1%80.md")
 	}
 	
 	

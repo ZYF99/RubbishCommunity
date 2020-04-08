@@ -38,11 +38,11 @@ interface UserService {
 	
 	//刷新用户详细信息
 	@GET("api/account/profile/refresh")
-	fun getUserProfile(): Single<ResultModel<UsrProfileResp>>
+	fun fetchUserProfile(): Single<ResultModel<UsrProfileResp>>
 	
 	//获取用户卡片信息（头像 名字 签名等基本信息）
-	@GET("api/account/info/{uid}/get")
-	fun getUserCard(@Path("uid") uid: String): Single<ResultModel<UserCardResultModel>>
+	@GET("api/account/info/{openId}/get")
+	fun fetchUserInfoByOpenId(@Path("openId") openId: String?): Single<ResultModel<UsrProfileResp>>
 	
 	//注销
 	@POST("api/account/logout")
