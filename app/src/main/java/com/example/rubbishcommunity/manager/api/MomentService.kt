@@ -56,7 +56,7 @@ interface MomentService {
 	
 	//按momentsId拉取moments
 	@GET("api/moments/moment/fetch")
-	fun fetchMomentsByMomentId(@Query ("momentId")momentId: Int): Single<ResultModel<MomentContent>>
+	fun fetchMomentsByMomentId(@Query ("momentId")momentId: Long): Single<ResultModel<MomentContent>>
 	
 	
 	//评论或点赞moments

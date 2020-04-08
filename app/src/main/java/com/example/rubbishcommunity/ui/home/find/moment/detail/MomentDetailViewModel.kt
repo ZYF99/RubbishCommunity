@@ -2,13 +2,13 @@ package com.example.rubbishcommunity.ui.home.find.moment.detail
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.manager.api.MomentService
-import com.example.rubbishcommunity.manager.api.UserService
 import com.example.rubbishcommunity.model.api.moments.*
+import com.example.rubbishcommunity.model.api.release.PUBLISH_TYPE_FORWARD
+import com.example.rubbishcommunity.model.api.release.ReleaseMomentRequestModel
 import com.example.rubbishcommunity.ui.base.BaseViewModel
-import io.reactivex.SingleTransformer
 import org.kodein.di.generic.instance
-
 
 class MomentDetailViewModel(application: Application) : BaseViewModel(application) {
 	
@@ -19,7 +19,7 @@ class MomentDetailViewModel(application: Application) : BaseViewModel(applicatio
 	
 	//拉取单个动态
 	private fun fetchMomentDetail() {
-		momentService.fetchMomentsByMomentId(moment.value?.momentId?.toInt() ?: 0)
+		momentService.fetchMomentsByMomentId(moment.value?.momentId ?: 0)
 			.doOnApiSuccess {
 				moment.postValue(it.data)
 			}
@@ -33,6 +33,18 @@ class MomentDetailViewModel(application: Application) : BaseViewModel(applicatio
 				momentId = moment.value?.momentId
 			)
 		).doOnApiSuccess { fetchMomentDetail() }
+	}
+	
+	//转发
+	fun forward(momentId: Long) {
+		momentService.releaseMoment(
+			ReleaseMomentRequestModel(
+				0.toDouble(),
+				0.toDouble(),
+				momentId,
+				PUBLISH_TYPE_FORWARD
+			)
+		).doOnApiSuccess { MyApplication.showSuccess("转发成功") }
 	}
 	
 	//评论

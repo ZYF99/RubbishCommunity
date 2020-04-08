@@ -42,8 +42,8 @@ class NewsDetailFragment : BindingFragment<NewsDetailBinding, NewsDetailViewMode
 	
 	override fun initData() {
 
-		binding.webView.loadUrl(viewModel.newsUrl.value)
-		//binding.webView.loadUrl("https://www.jianshu.com/p/6d46c89069f8")
+		//binding.webView.loadUrl(viewModel.newsUrl.value)
+		binding.webView.loadUrl("https://github.com/CyC2018/CS-Notes/blob/master/notes/Java%20%E5%9F%BA%E7%A1%80.md")
 
 	}
 	

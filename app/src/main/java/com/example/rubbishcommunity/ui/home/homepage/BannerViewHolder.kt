@@ -13,7 +13,7 @@ class BannerViewHolder(
 	val list: MutableList<Photography>
 ) : MZViewHolder<Photography> {
 	
-	lateinit var photographyBinding: PhotographyCellBinding
+	private lateinit var photographyBinding: PhotographyCellBinding
 	
 	override fun createView(context: Context): View {
 		photographyBinding = DataBindingUtil.inflate(

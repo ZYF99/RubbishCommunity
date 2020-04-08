@@ -64,6 +64,7 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 			.skip(1)
 			.doOnNext {
 				searchKey()
+				Int
 			}.bindLife()
 		
 		//结果列表

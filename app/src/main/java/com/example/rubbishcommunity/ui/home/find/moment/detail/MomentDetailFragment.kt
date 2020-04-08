@@ -56,11 +56,14 @@ class MomentDetailFragment : BindingFragment<FragmentMomentDetailBinding, Moment
 					"moment"
 				), MomentContent::class.java
 			)
-		
+		binding.vm = viewModel
 	}
 	
 	override fun initWidget() {
-		binding.vm = viewModel
+		viewModel.moment.observeNonNull {
+			(binding.imgRec.adapter as MomentsListGridImageAdapter).replaceData(it.pictures)
+			(binding.commentRec.adapter as CommentListAdapter).replaceData(it.realCommentList?: emptyList())
+		}
 		//照片列表
 		binding.imgRec.run {
 			val pictures = viewModel.moment.value?.pictures
@@ -138,6 +141,12 @@ class MomentDetailFragment : BindingFragment<FragmentMomentDetailBinding, Moment
 				MyApplication.showWarning("回复不能为空")
 			}
 		}
+		
+		//转发按钮
+		binding.btnTrans.setOnClickListener{
+			viewModel.forward(viewModel.moment.value?.momentId?:0)
+		}
+		
 	}
 	
 	override fun initData() {
