@@ -38,10 +38,7 @@ interface MomentService {
 	//----------------------------------------------------------------------------------------------
 	
 	
-	//发布动态
-	@POST("api/moments/publish")
-	fun releaseMoment(@Body releaseMomentRequestModel: ReleaseMomentRequestModel): Single<ResultModel<ReleaseMomentResultModel>>
-	
+
 	//按地理位置拉取moments列表
 	@POST("api/moments/location/fetch")
 	fun fetchMomentsByLocation(@Body getMomentsByLocationRequestModel: GetMomentsRequestModel): Single<ResultModel<GetMomentsResultModel>>
@@ -54,10 +51,13 @@ interface MomentService {
 	@POST("api/moments/uin/fetch")
 	fun fetchMomentsByUin(@Body getMomentsByUinRequestModel: GetMomentsByUinRequestModel): Single<ResultModel<GetMomentsResultModel>>
 	
+	//发布动态
+	@POST("api/moments/publish")
+	fun releaseMoment(@Body releaseMomentRequestModel: ReleaseMomentRequestModel): Single<ResultModel<ReleaseMomentResultModel>>
+	
 	//按momentsId拉取moments
 	@GET("api/moments/moment/fetch")
 	fun fetchMomentsByMomentId(@Query ("momentId")momentId: Int): Single<ResultModel<MomentContent>>
-	
 	
 	//评论或点赞moments
 	@POST("api/moments/comment")

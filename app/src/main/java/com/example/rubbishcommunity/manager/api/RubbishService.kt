@@ -22,11 +22,9 @@ interface RubbishService {
 	@Headers("Content-Type: application/x-protobuf;charset=UTF-8", "Accept: application/x-protobuf")
 	fun protobufGetTest(): Single<LocationOutClass.Location>
 	
-	
 	//根据物品名称搜索分类
 	@GET("api/common/tools/{searchKey}/search")
 	fun searchClassification(@Path("searchKey") searchKey: String): Single<ResultModel<MutableList<SearchKeyConclusion>>>
-	
 	
 	//根据sortId搜索分类信息
 	@GET("api/common/tools/{classNum}/categories")

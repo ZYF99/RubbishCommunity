@@ -45,8 +45,7 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
 					}
 				}.toMutableList()
 			}
-			.compose(dealErrorCode())
-			.compose(catchApiError())
+			.catchApiError()
 			.compose(dealRefresh())
 	}
 	

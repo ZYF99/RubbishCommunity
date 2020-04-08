@@ -120,11 +120,13 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 			.doOnNext {
 				//supportActionBar
 				when (it.errorType) {
+					//弹Toast
 					ErrorType.UI_ERROR -> MyApplication.showWarning(it.errorContent)
 					ErrorType.API_ERROR -> MyApplication.showError(it.errorContent)
 					ErrorType.SERVERERROR -> MyApplication.showError(it.errorContent)
 					else -> {
 						if (errorDialog?.isShowing != true) {
+							//弹未知错误弹窗
 							showUnexpectedDialog()
 						}
 					}

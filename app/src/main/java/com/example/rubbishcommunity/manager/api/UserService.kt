@@ -33,10 +33,8 @@ interface UserService {
 	fun completeInfo(@Body completeInfoRequestModel: CompleteInfoRequestModel): Single<ResultModel<String>>
 	
 	//修改用户信息
-	//修改用户昵称
 	@PUT("api/account/profile/modify")
 	fun editUserInfo(@Body modifyMap: HashMap<String, String>): Single<ResultModel<String>>
-	
 	
 	//刷新用户详细信息
 	@GET("api/account/profile/refresh")

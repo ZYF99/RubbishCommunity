@@ -53,8 +53,7 @@ class MomentDetailViewModel(application: Application) : BaseViewModel(applicatio
 				commentId = commentId,
 				content = inputComment.value ?: ""
 			)
-		)
-			.doOnApiSuccess { fetchMomentDetail() }
+		).doOnApiSuccess { fetchMomentDetail() }
 	}
 	
 	

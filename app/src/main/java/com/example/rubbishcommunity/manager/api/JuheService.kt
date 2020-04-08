@@ -13,7 +13,7 @@ import retrofit2.http.GET
  */
 interface JuheService {
 	
-	//获取新闻
+	//获取资讯
 	@GET("index?type=top&key=${BuildConfig.JUHE_APPKEY}")
 	fun getNews(): Single<NewsResult>
 	

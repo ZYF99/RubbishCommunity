@@ -18,10 +18,6 @@ import java.net.SocketTimeoutException
  *
  * */
 
-
-
-
-
 //resolve errorCode in Observable
 fun <T> dealErrorCode(): SingleTransformer<T, T> {
 	return SingleTransformer { obs ->
@@ -92,17 +88,19 @@ private fun catchApiError(error: Throwable){
 	}
 }
 
+
+fun <T> Single<T>.catchApiError(): Single<T> =
+	compose(dealErrorCode())
+		.compose(com.example.rubbishcommunity.manager.catchApiError())
+
 fun <T>Observable<T>.catchApiError(): Observable<T> {
 	return retry { reTryCount, error ->
+		//服务器返回meta的code为-1000时需要进行至多3次重试
 		dealRetryError(reTryCount, error)
 	}.doOnError { error ->
 		catchApiError(error)
 	}
 }
-
-fun <T> Single<T>.catchApiError(): Single<T> =
-	compose(dealErrorCode())
-		.compose(com.example.rubbishcommunity.manager.catchApiError())
 
 //处理错误信息
 fun <T> catchApiError(): SingleTransformer<T, T> {

@@ -35,8 +35,7 @@ class HomePageViewModel(application: Application) : BaseViewModel(application) {
 			.switchThread()
 			.doOnSuccess {
 				newsList.value = it.result.data
-			}.compose(dealErrorCode())
-			.compose(catchApiError())
+			}.catchApiError()
 			.compose(dealRefresh())
 			.bindLife()
 	}

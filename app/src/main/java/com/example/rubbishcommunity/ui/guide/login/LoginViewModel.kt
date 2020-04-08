@@ -9,7 +9,6 @@ import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.manager.api.UserService
 import com.example.rubbishcommunity.manager.catchApiError
-import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
@@ -31,7 +30,7 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 	//是否正在登陆
 	val isLoading = MutableLiveData<Boolean>()
 	
-	private val apiService by instance<UserService>()
+	private val userService by instance<UserService>()
 	
 	fun init() {
 		//必须初始化控件上的值
@@ -49,7 +48,7 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 		val osVersion = systemVersion //系统版本号
 		val systemModel = systemModel //系统
 		if (judgeLoginParams()) {
-			return apiService.loginOrRegister(
+			return userService.loginOrRegister(
 				LoginOrRegisterRequestModel( //构造请求Body的Model
 					LoginOrRegisterRequestModel.DeviceInfo(
 						versionName?:"",
@@ -66,7 +65,7 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 				)
 			).delay(1, TimeUnit.SECONDS)
 				.switchThread()
-				.compose(dealErrorCode())
+				.catchApiError()
 				.doOnSuccess {
 					//持久化得到的token以及用户登录的信息
 					saveVerifyInfo(
