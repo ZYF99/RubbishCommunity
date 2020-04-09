@@ -38,11 +38,10 @@ class EditInfoViewModel(application: Application) : BaseViewModel(application) {
 			//onProgress
 			uploadProgress.postValue(it)
 		}.flatMap { key ->
-			editUserInfo("avatar", getImageUrlFromServer(key))
-		}.switchThread()
-			.compose(dealErrorCode())
-			.compose(catchApiError())
-			.bindLife()
+			val url = getImageUrlFromServer(key)
+			avatar.postValue(url)
+			editUserInfo("avatar", url)
+		}.doOnApiSuccess {}
 	}
 	
 	//修改昵称

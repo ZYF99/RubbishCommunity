@@ -1,6 +1,5 @@
 package com.example.rubbishcommunity.ui.base
 
-
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -10,10 +9,8 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.manager.UiError
@@ -25,7 +22,7 @@ import io.reactivex.disposables.CompositeDisposable
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.support.closestKodein
 
-abstract class BindingFragment<Bind : ViewDataBinding, VM : AndroidViewModel>
+abstract class BindingFragment<Bind : ViewDataBinding, VM : BaseViewModel>
 constructor(
 	private val clazz: Class<VM>,
 	private val bindingCreator: (LayoutInflater, ViewGroup?) -> Bind
@@ -36,11 +33,8 @@ constructor(
 		DataBindingUtil.inflate(inflater, layoutRes, group, false)
 	})
 	
-	val viewModel: VM by lazy {
-		ViewModelProviders.of(
-			this
-			, ViewModelProvider.AndroidViewModelFactory.getInstance(activity!!.application)
-		).get(clazz)
+	protected open val viewModel: VM by lazy {
+		ViewModelProviders.of(this).get(clazz)
 	}
 	override val kodein by closestKodein()
 	
@@ -67,7 +61,10 @@ constructor(
 		binding.lifecycleOwner = this
 		initBefore()
 		initWidget()
-		initData()
+		if (!viewModel.vmInit) {
+			initData()
+			viewModel.vmInit = true
+		}
 	}
 	
 	

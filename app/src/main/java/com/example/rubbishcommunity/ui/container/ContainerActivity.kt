@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BindingActivity
@@ -72,6 +73,10 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 			replaceFragment("welcome")
 		} else {
 			replaceFragment(intent.getSerializableExtra("tag") as String)
+		}
+		//退出点击事件
+		findViewById<Toolbar>(R.id.tool_bar)?.setNavigationOnClickListener {
+			finish()
 		}
 	}
 	

@@ -30,8 +30,8 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="7dp"
                 android:background="@color/white"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="2dp"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,6 +54,18 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                        recentTime="@{moment.publishedDate}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:textColor="#888888"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/cell_author_portrait"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/cell_author_portrait"
+                        tools:text="昨天" />
+
                 <LinearLayout
                         android:id="@+id/linearLayout2"
                         android:layout_width="wrap_content"
@@ -69,15 +81,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{moment.publisher.name}"
-                            android:textColor="@color/black" />
-
-                    <TextView
-                            android:id="@+id/tv_vote_date"
-                            time="@{moment.publishedDate}"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:textColor="@color/black"
-                            android:textSize="12sp" />
+                            tools:text="秋风"/>
+
+
 
                 </LinearLayout>
 
@@ -103,7 +110,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="24dp"
                         android:lineSpacingExtra="4dp"
                         android:text="@{moment.content}"
@@ -117,7 +124,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="32dp"
                         android:nestedScrollingEnabled="false"
@@ -131,10 +138,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        android:layout_marginTop="8dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="32dp"
+                        android:visibility="@{likeString.length()>0?View.VISIBLE:View.GONE}"
                         app:layout_constraintBottom_toTopOf="@id/lin_btn"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -163,6 +170,7 @@
                         android:id="@+id/lin_btn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:gravity="center"
                         android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -183,7 +191,8 @@
                             android:paddingBottom="12dp"
                             android:text="@{moment.likedByMe?@string/alreadyLike:@string/like}"
                             android:textColor="@color/black"
-                            tools:targetApi="lollipop" />
+                            tools:targetApi="lollipop"
+                            tools:text="赞"/>
 
                     <View
                             android:id="@+id/view4"

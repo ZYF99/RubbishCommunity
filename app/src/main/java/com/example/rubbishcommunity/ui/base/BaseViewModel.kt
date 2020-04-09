@@ -19,7 +19,7 @@ abstract class BaseViewModel(application: Application) :
 	
 	override val kodein: Kodein by lazy { (application as MyApplication).kodein }
 	override val compositeDisposable = CompositeDisposable()
-	
+	var vmInit = false
 	
 	//fun for set default value
 	fun <T : Any?> MutableLiveData<T>.default(initialValue: T) = apply { setValue(initialValue) }

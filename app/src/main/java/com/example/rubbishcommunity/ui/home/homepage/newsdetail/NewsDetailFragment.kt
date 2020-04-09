@@ -20,9 +20,6 @@ class NewsDetailFragment : BindingFragment<NewsDetailBinding, NewsDetailViewMode
 	
 	override fun initWidget() {
 		binding.vm = viewModel
-		binding.btnBack.setOnClickListener {
-			activity?.finish()
-		}
 		binding.webView.webViewClient = object :WebViewClient(){
 			override fun onReceivedSslError(
 				view: WebView?,

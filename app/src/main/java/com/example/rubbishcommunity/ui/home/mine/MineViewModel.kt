@@ -54,8 +54,7 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 		//获取最近动态列表
 		momentService.fetchMomentsByUin(
 			GetMomentsByUinRequestModel(
-				getLocalUin(),
-				PageParam(
+				pageParamRequest = PageParam(
 					1,
 					5
 				)

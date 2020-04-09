@@ -76,8 +76,6 @@ class ChatFragment : BindingFragment<ChatBinding, ChatViewModel>(
 			}
 		}
 		
-		
-		
 		RxView.clicks(binding.btnSend)
 			.throttleFirst(1, TimeUnit.SECONDS)
 			.doOnNext {
@@ -86,11 +84,6 @@ class ChatFragment : BindingFragment<ChatBinding, ChatViewModel>(
 					
 					}.bindLife()
 			}.bindLife()
-		
-		//退出点击事件
-		binding.toolbar.setNavigationOnClickListener {
-			activity?.finish()
-		}
 		
 		viewModel.chatList.observeNonNull { list ->
 			binding.recChat.run {

@@ -40,7 +40,9 @@ class ImagePagerAdapter(
 	}
 	
 	override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-		if (imgViews.isNotEmpty())
+		if (imgViews.isNotEmpty()
+			&& position < imgViews.size
+		)
 			pager.removeView(imgViews[position])
 	}
 	
