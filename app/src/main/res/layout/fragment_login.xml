@@ -36,19 +36,12 @@
         <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
                 android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="@id/lin_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-            <ImageView
-                    android:id="@+id/icon_app"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-
-                    app:srcCompat="@drawable/logo" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_register">
 
             <TextView
                     android:id="@+id/appname"
@@ -235,23 +228,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lin_content"
-                tools:targetApi="lollipop" />
-
-        <Button
-                android:id="@+id/btn_pass"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginTop="32dp"
-                android:elevation="10dp"
-                android:background="@drawable/bg_cornerbtn_nor"
-                android:textColor="@color/colorGuideBack"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:text="游客登入"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_login"
                 tools:targetApi="lollipop" />
 
         <LinearLayout

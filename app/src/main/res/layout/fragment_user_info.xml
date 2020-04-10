@@ -52,26 +52,23 @@
                     <ImageView
                             android:id="@+id/btn_back"
                             android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_height="0dp"
                             android:layout_marginStart="16dp"
                             android:layout_weight="0"
-                            android:src="@drawable/icn_back"
-                            android:tint="@color/white"
+                            android:src="@drawable/ic_arrow_back_white_24dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/lin_city"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="@+id/lin_city" />
 
                     <LinearLayout
                             android:id="@+id/lin_city"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
-                            android:elevation="10dp"
                             android:gravity="center"
                             android:orientation="horizontal"
-                            android:paddingLeft="10dp"
-                            android:paddingTop="5dp"
-                            android:paddingRight="10dp"
-                            android:paddingBottom="5dp"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
@@ -87,7 +84,7 @@
                                 android:id="@+id/tv_city"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
+                                android:layout_marginStart="10dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 android:gravity="center"
@@ -265,186 +262,65 @@
                 android:id="@+id/n_scroll_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="-12dp"
+                android:fillViewport="true"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:gravity="center_horizontal"
                     android:orientation="vertical">
-
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginStart="40dp"
-                        android:layout_marginTop="30dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:text="最近动态"
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rec_recent_moment"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="40dp"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="40dp"
-                        android:layout_marginRight="40dp"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:itemCount="3"
-                        tools:listitem="@layout/cell_moment" />
-
 
                 <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginRight="40dp"
-                        app:cardCornerRadius="4dp"
-                        app:cardElevation="4dp">
+                        app:cardCornerRadius="16dp">
 
                     <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/white"
+                            android:gravity="center_horizontal"
                             android:orientation="vertical">
 
-
-                        <LinearLayout
-                                android:id="@+id/btn_dynamic"
-                                android:layout_width="match_parent"
+                        <TextView
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="?android:attr/selectableItemBackground"
+                                android:layout_gravity="start"
+                                android:layout_marginStart="40dp"
+                                android:layout_marginTop="30dp"
                                 android:clickable="true"
                                 android:focusable="true"
-                                android:gravity="center"
-                                android:orientation="horizontal"
-                                android:paddingLeft="20dp"
-                                android:paddingTop="20dp"
-                                android:paddingRight="20dp"
-                                android:paddingBottom="10dp">
+                                android:text="最近动态"
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
 
-
-                            <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:clickable="true"
-                                    android:focusable="true"
-                                    android:gravity="center"
-                                    android:text="我的动态"
-                                    android:textColor="@color/black"
-                                    android:textSize="18sp" />
-
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                                android:id="@+id/btn_recovery"
+                        <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rec_recent"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="?android:attr/selectableItemBackground"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:gravity="center"
-                                android:orientation="horizontal"
-                                android:paddingLeft="20dp"
-                                android:paddingTop="10dp"
-                                android:paddingRight="20dp"
-                                android:paddingBottom="10dp">
+                                android:layout_marginStart="40dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="40dp"
+                                android:orientation="vertical"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                tools:itemCount="3"
+                                tools:listitem="@layout/item_image_view" />
 
-
-                            <TextView
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:clickable="true"
-                                    android:focusable="true"
-                                    android:gravity="center"
-                                    android:text="我的投票"
-                                    android:textColor="@color/black"
-                                    android:textSize="18sp" />
-
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                                android:id="@+id/btn_safe"
+                        <Space
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="?android:attr/selectableItemBackground"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:gravity="center"
-                                android:orientation="horizontal"
-                                android:paddingLeft="20dp"
-                                android:paddingTop="10dp"
-                                android:paddingRight="20dp"
-                                android:paddingBottom="10dp">
-
-
-                            <TextView
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:clickable="true"
-                                    android:focusable="true"
-                                    android:gravity="center"
-                                    android:text="账号安全"
-                                    android:textColor="@color/black"
-                                    android:textSize="18sp" />
-
-
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                                android:id="@+id/btn_friends"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="?android:attr/selectableItemBackground"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:gravity="center"
-                                android:orientation="horizontal"
-                                android:paddingLeft="20dp"
-                                android:paddingTop="10dp"
-                                android:paddingRight="20dp"
-                                android:paddingBottom="20dp">
-
-
-                            <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:clickable="true"
-                                    android:focusable="true"
-                                    android:gravity="center"
-                                    android:text="我的好友"
-                                    android:textColor="@color/black"
-                                    android:textSize="18sp" />
-                        </LinearLayout>
+                                android:layout_height="120dp" />
 
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
 
 
-                <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp" />
-
             </LinearLayout>
+
         </androidx.core.widget.NestedScrollView>
 
-        <Toolbar
-                android:id="@+id/toolbar_hide"
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -452,7 +328,8 @@
                 android:elevation="4dp"
                 android:paddingTop="@dimen/statusBarSize"
                 android:textAlignment="center"
-                app:layout_behavior=".ui.home.mine.TranslucentBehavior">
+                app:layout_behavior=".ui.home.mine.TranslucentBehavior"
+                app:navigationIcon="@drawable/ic_arrow_back_black_24dp">
 
             <LinearLayout
                     android:layout_width="match_parent"
@@ -495,7 +372,7 @@
 
             </LinearLayout>
 
-        </Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

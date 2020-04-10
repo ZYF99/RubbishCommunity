@@ -5,7 +5,10 @@ import android.app.Activity
 import android.content.Intent
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.EditInfoFragmentBinding
+import com.example.rubbishcommunity.persistence.saveLoginState
 import com.example.rubbishcommunity.ui.base.BindingFragment
+import com.example.rubbishcommunity.ui.container.jumpToLogin
+import com.example.rubbishcommunity.ui.container.jumpToPassword
 import com.example.rubbishcommunity.ui.utils.showAvatarAlbum
 import com.example.rubbishcommunity.ui.widget.DatePopView
 import com.luck.picture.lib.PictureSelector
@@ -20,11 +23,6 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 	}
 	
 	override fun initWidget() {
-		
-		//返回按钮
-		binding.toolbar.toolbar.setNavigationOnClickListener {
-			activity!!.finish()
-		}
 		
 		//修改头像按钮
 		binding.btnAvatar.setOnClickListener {
@@ -95,6 +93,12 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 			}
 		}
 		
+		//修改密码按钮
+		binding.btnEditPassword.setOnClickListener { jumpToPassword(context!!) }
+		
+		//注销按钮
+		binding.btnLogout.setOnClickListener { logout() }
+		
 	}
 	
 	override fun initData() {
@@ -116,6 +120,17 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 		) {
 			onFinish(it)
 		}.show()
+	}
+	
+	private fun logout() {
+		viewModel.logout()
+			.doOnSuccess {
+				//注销成功
+				saveLoginState(false)
+				jumpToLogin(context!!)
+				activity?.finish()
+			}
+			.bindLife()
 	}
 	
 	//选图后的回调

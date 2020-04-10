@@ -9,4 +9,17 @@ data class SimpleProfileResp(
 	val province: String,
 	val city: String,
 	val age: Int
-)
+){
+	companion object{
+		fun getDefault() = SimpleProfileResp(
+			"fdmbhngsdbjsk",
+			"dsfhg",
+			"https://profile.csdnimg.cn/3/D/7/3_agsdfgdfhdf",
+			"似懂非懂时间，返回;ewf",
+			"中国",
+			"四川",
+			"成都",
+			20
+		)
+	}
+}

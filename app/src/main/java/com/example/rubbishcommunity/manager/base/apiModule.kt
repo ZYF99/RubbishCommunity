@@ -28,10 +28,13 @@ val apiModule = Kodein.Module {
 	
 	bind<RubbishService>() with singleton { instance<ApiClient>().createService(RubbishService::class.java) }
 	
+	bind<NewsService>() with singleton { instance<ApiClient>().createService(NewsService::class.java) }
+	
 	//聚合
 	bind<JuheClient>() with singleton { provideJuheClient() }
 	
 	bind<JuheService>() with singleton { instance<JuheClient>().createService(JuheService::class.java) }
+
 	
 	
 	//百度识别

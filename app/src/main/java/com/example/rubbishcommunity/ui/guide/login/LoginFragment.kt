@@ -68,14 +68,6 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 			}.bindLife()
 		}
 		
-		//登录按钮
-		binding.btnPass.setOnClickListener {
-			//游客身份进入
-			startActivity(Intent(context, MainActivity::class.java))
-			(context as Activity).finish()
-		}
-		
-		
 		//注册按钮
 		binding.btnRegister.setOnClickListener {
 			(activity as ContainerActivity).replaceRegister()

@@ -1,8 +1,6 @@
 package com.example.rubbishcommunity.model.api
 
-
-
-data class NewsResult(
+data class JuheNewsResult(
 	val reason:String,
 	val result:Result
 ){
@@ -21,4 +19,6 @@ val author_name:String,
 val url:String,
 val thumbnail_pic_s:String,
 val thumbnail_pic_s02:String
-)
+){
+	val imageList = listOf(thumbnail_pic_s,thumbnail_pic_s02)
+}

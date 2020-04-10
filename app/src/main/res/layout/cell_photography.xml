@@ -8,8 +8,8 @@
         <import type="android.view.View" />
 
         <variable
-                name="photography"
-                type="com.example.rubbishcommunity.model.Photography" />
+                name="news"
+                type="com.example.rubbishcommunity.model.api.news.NewsResult.News" />
 
     </data>
 <FrameLayout
@@ -21,22 +21,23 @@
             android:layout_height="match_parent"
             android:layout_margin="4dp"
             app:cardCornerRadius="6dp"
-            app:cardElevation="4dp">
+            app:cardElevation="2dp">
+
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
             <ImageView
                     android:id="@+id/gird_img"
-                    imageUrl="@{photography.imgUrl}"
+                    imageUrl="@{news.frontCoverImages.get(0)}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     android:elevation="4dp"
                     android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:src="@drawable/bg" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -79,12 +79,7 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 		}
 	}
 	
-	fun logout(): Single<ResponseBody> {
-		return userService.logout()
-			.switchThread()
-			.compose(dealErrorCode())
-			.compose(catchApiError())
-	}
+
 	
 	private fun <T> Single<T>.dealRefreshing() =
 		doOnSubscribe { isRefreshing.postValue(true) }

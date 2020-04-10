@@ -6,11 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MineFragmentBinding
-import com.example.rubbishcommunity.persistence.saveLoginState
 import com.example.rubbishcommunity.ui.container.jumpToEditInfo
-import com.example.rubbishcommunity.ui.container.jumpToPassword
-import com.example.rubbishcommunity.ui.container.jumpToLogin
-import com.example.rubbishcommunity.ui.release.moments.ReleaseDynamicGridImageAdapter
 import com.example.rubbishcommunity.ui.utils.showBackgroundAlbum
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
@@ -35,33 +31,17 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 		binding.btnSetting.setOnClickListener { jumpToEditInfo(context!!) }
 		
 		//最近动态列表
-		binding.recRecent.adapter = RecentDynamicImgsAdapter()
-		
-		//账号安全按钮
-		binding.btnSafe.setOnClickListener { jumpToPassword(context!!) }
-		
-		//注销按钮
-		binding.btnLogout.setOnClickListener { logout() }
+		binding.recRecent.adapter = RecentMomentsAdapter()
 		
 		binding.iv.setOnClickListener { showChooseBackGroundAlert() }
 		
 		viewModel.recentDynamicList.observeNonNull {
-			(binding.recRecent.adapter as RecentDynamicImgsAdapter).replaceData(it
-				.filter { it.pictures.isNotEmpty() }
-				.map { it.pictures[0] })
+			(binding.recRecent.adapter as RecentMomentsAdapter).replaceData(it
+				.filter { it.pictures.isNotEmpty() })
 		}
 	}
 	
-	private fun logout() {
-		viewModel.logout()
-			.doOnSuccess {
-				//注销成功
-				saveLoginState(false)
-				jumpToLogin(context!!)
-				activity?.finish()
-			}
-			.bindLife()
-	}
+
 	
 	override fun initData() {
 	

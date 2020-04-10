@@ -7,11 +7,12 @@ import androidx.databinding.DataBindingUtil
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.PhotographyCellBinding
 import com.example.rubbishcommunity.model.Photography
+import com.example.rubbishcommunity.model.api.news.NewsResult
 import com.zhouwei.mzbanner.holder.MZViewHolder
 
 class BannerViewHolder(
-	val list: MutableList<Photography>
-) : MZViewHolder<Photography> {
+	val list: List<NewsResult.News>
+) : MZViewHolder<NewsResult.News> {
 	
 	private lateinit var photographyBinding: PhotographyCellBinding
 	
@@ -24,8 +25,8 @@ class BannerViewHolder(
 		return photographyBinding.root
 	}
 	
-	override fun onBind(p0: Context?, p1: Int, data: Photography?) {
+	override fun onBind(p0: Context?, p1: Int, data: NewsResult.News?) {
 		// 数据绑定
-		photographyBinding.photography = data
+		photographyBinding.news = data
 	}
 }

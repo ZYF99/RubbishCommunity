@@ -1,15 +1,13 @@
 package com.example.rubbishcommunity.ui.home.homepage
 
-
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.HomePageBinding
 import com.example.rubbishcommunity.ui.container.jumpToNewsDetail
 import com.example.rubbishcommunity.ui.container.jumpToSearch
-import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
-
+import com.example.rubbishcommunity.ui.home.homepage.newsdetail.NewsImageBannerViewHolder
+import com.jakewharton.rxbinding2.view.RxView
+import java.util.concurrent.TimeUnit
 
 class HomePageFragment : BindingFragment<HomePageBinding, HomePageViewModel>(
 	HomePageViewModel::class.java, R.layout.fragment_home_page
@@ -28,6 +26,19 @@ class HomePageFragment : BindingFragment<HomePageBinding, HomePageViewModel>(
 		
 		binding.toolBar.setExpandedTitleColor(resources.getColor(R.color.transparent))
 		
+		binding.banner.setBannerPageClickListener { _, position ->
+			jumpToNewsDetail(
+				context!!,
+				viewModel.bannerList.value?.get(position)
+			)
+		}
+		
+		//搜索栏
+		binding.clSearch.setOnClickListener {
+			//跳转至搜索界面
+			jumpToSearch(context!!)
+		}
+		
 		//刷新状态监听
 		viewModel.isRefreshing.observeNonNull {
 			binding.swipe.isRefreshing = it
@@ -38,54 +49,42 @@ class HomePageFragment : BindingFragment<HomePageBinding, HomePageViewModel>(
 			(binding.recyclerNews.adapter as NewsListAdapter).replaceData(it)
 		}
 		
-		viewModel.photographyList.observeNonNull {
-			binding.banner.run {
-				pause()
-				setPages(it.toList()) { BannerViewHolder(it) }
-				start()
+		viewModel.bannerList.observeNonNull {
+			if (it.isNotEmpty()) {
+				binding.banner.run {
+					setPages(it.toList()) { BannerViewHolder(it) }
+				}
 			}
 		}
-
 		
 		binding.recyclerNews.apply {
-			adapter = NewsListAdapter(
-				viewModel.newsList.value!!
-			) { news ->
-				jumpToNewsDetail(context, news.url)
+			adapter = NewsListAdapter { news ->
+				jumpToNewsDetail(context, news)
 			}
 		}
 		
-		RxSwipeRefreshLayout.refreshes(binding.swipe).doOnNext {
-			refresh()
-		}.bindLife()
-		
+		binding.swipe.setOnRefreshListener {
+			viewModel.fetchNews()
+		}
 		
 	}
 	
 	override fun initData() {
-		refresh()
-	}
-	
-	private fun refresh() {
-		
-		context!!.checkNet().doOnComplete {
-			viewModel.getNews()
-			viewModel.getPhotography()
-		}.doOnError {
-			viewModel.isRefreshing.postValue(false)
-		}.bindLife()
-		
+		viewModel.fetchNews()
 	}
 	
 	override fun onResume() {
-		super.onResume()
 		binding.banner.start()
+		super.onResume()
 	}
 	
 	override fun onPause() {
-		super.onPause()
+		
 		binding.banner.pause()
+		super.onPause()
 	}
+	
+	
 }
 
 

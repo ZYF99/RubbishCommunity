@@ -14,14 +14,15 @@
             android:background="@color/white">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btn_search"
+                android:id="@+id/btn_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:tint="@color/white"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/icon_messasge_selected"
+                android:visibility="gone"
+                android:tint="@color/colorAccent"
                 app:layout_constraintBottom_toTopOf="@+id/fab_add"
-                app:layout_constraintEnd_toEndOf="@+id/bottomnavigation"
-                android:src="@drawable/icn_search" />
+                app:layout_constraintEnd_toEndOf="@+id/bottomnavigation" />
 
         <FrameLayout
                 android:id="@+id/maincontainer"
@@ -66,15 +67,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="36dp"
                 android:backgroundTint="@color/colorWhite"
+                android:elevation="6dp"
                 android:src="@android:drawable/ic_input_add"
                 android:tint="@color/black"
                 app:borderWidth="0dp"
-                android:elevation="6dp"
                 app:fabSize="normal"
                 app:layout_constraintBottom_toBottomOf="@+id/bottomnavigation"
                 app:layout_constraintEnd_toEndOf="@+id/bottomnavigation"
                 app:layout_constraintStart_toStartOf="@+id/bottomnavigation"
-                app:rippleColor="@color/colorAccent" />
+                app:rippleColor="@color/colorBlackTrans" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,7 +2,7 @@ package com.example.rubbishcommunity.manager.api
 
 import com.example.rubbishcommunity.BuildConfig
 import com.example.rubbishcommunity.model.Photography
-import com.example.rubbishcommunity.model.api.NewsResult
+import com.example.rubbishcommunity.model.api.JuheNewsResult
 import io.reactivex.Single
 import retrofit2.http.GET
 
@@ -14,11 +14,11 @@ import retrofit2.http.GET
 interface JuheService {
 	
 	//获取资讯
-	@GET("index?type=top&key=${BuildConfig.JUHE_APPKEY}")
-	fun getNews(): Single<NewsResult>
+	@GET("index?type=guoji&key=${BuildConfig.JUHE_APPKEY}")
+	fun getNews(): Single<JuheNewsResult>
 	
 	//获取杂图
-	@GET("index?type=top&key=${BuildConfig.JUHE_APPKEY}")
+	@GET("index?type=guoji&key=${BuildConfig.JUHE_APPKEY}")
 	fun getPhotography(): Single<MutableList<Photography>>
 	
 }

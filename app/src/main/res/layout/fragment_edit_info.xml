@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:bind="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
@@ -15,13 +16,28 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="@dimen/statusBarSize"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="@dimen/statusBarSize">
 
-        <include
+        <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                layout="@layout/toolbar"
-                bind:title="@{vm.toolbarTitle}" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:navigationIcon="@drawable/ic_arrow_back_black_24dp"
+                android:paddingTop="10dp"
+                app:elevation="10dp"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_arrow_back_black_24dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@{vm.toolbarTitle}"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+        </androidx.appcompat.widget.Toolbar>
 
         <TextView
                 android:id="@+id/tip_1"
@@ -322,5 +338,85 @@
                     tools:text="亲爱的热爱的" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="12dp"
+                android:text="帐号安全"
+                android:textColor="@color/colorAccent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_edit_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/selector_setting_cell"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="12dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="修改密码"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    bind:layout_constraintBottom_toBottomOf="parent"
+                    bind:layout_constraintStart_toStartOf="parent"
+                    bind:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+                android:id="@+id/btn_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_cornerbtn_nor"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/colorRed"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="50dp"
+                android:paddingTop="10dp"
+                android:paddingRight="50dp"
+                android:paddingBottom="10dp"
+                tools:targetApi="lollipop">
+
+            <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/icon_logout"
+                    android:tint="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:targetApi="lollipop" />
+
+            <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="切换账号/注销"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:targetApi="lollipop" />
+
+
+        </LinearLayout>
+
     </LinearLayout>
+
+
 </layout>

@@ -10,7 +10,9 @@ import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ContainerBinding
+import com.example.rubbishcommunity.model.api.News
 import com.example.rubbishcommunity.model.api.moments.MomentContent
+import com.example.rubbishcommunity.model.api.news.NewsResult
 import com.example.rubbishcommunity.ui.base.SoftObservableFragment
 import com.example.rubbishcommunity.ui.guide.basicinfo.BasicInfoFragment
 import com.example.rubbishcommunity.ui.guide.login.LoginFragment
@@ -74,10 +76,7 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 		} else {
 			replaceFragment(intent.getSerializableExtra("tag") as String)
 		}
-		//退出点击事件
-		findViewById<Toolbar>(R.id.tool_bar)?.setNavigationOnClickListener {
-			finish()
-		}
+
 	}
 	
 	override fun initData() {
@@ -164,10 +163,13 @@ fun jumpToBasicInfo(context: Context) {
 }
 
 //跳转至文章详情界面
-fun jumpToNewsDetail(context: Context, newsUrl: String) {
+fun jumpToNewsDetail(context: Context, news: NewsResult.News?) {
 	val bundle = Bundle()
 	bundle.putString("tag", "news")
-	bundle.putString("newsUrl", newsUrl)
+	bundle.putSerializable(
+		"news",
+		globalGson.toJson(news)
+	)
 	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }
 

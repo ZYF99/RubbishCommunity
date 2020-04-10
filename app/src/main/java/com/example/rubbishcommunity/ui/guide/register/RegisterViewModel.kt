@@ -16,6 +16,7 @@ import com.example.rubbishcommunity.persistence.saveUserInfo
 import com.example.rubbishcommunity.persistence.saveVerifyInfo
 import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.ui.utils.*
+import com.example.rubbishcommunity.utils.switchThread
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -49,11 +50,11 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 		val osVersion = systemVersion
 		val systemModel = systemModel
 		
-		if (judgeRegisterPrams(email.value!!,password.value!!)) {
+		if (judgeRegisterPrams(email.value!!, password.value!!)) {
 			return apiService.loginOrRegister(
 				LoginOrRegisterRequestModel(
 					LoginOrRegisterRequestModel.DeviceInfo(
-						versionName?:"",
+						versionName ?: "",
 						deviceBrand,
 						getPhoneIMEI(MyApplication.instance),
 						"Android",
@@ -71,29 +72,29 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 					return@flatMap apiService.loginOrRegister(
 						LoginOrRegisterRequestModel(
 							LoginOrRegisterRequestModel.DeviceInfo(
-								versionName?:"",
+								versionName ?: "",
 								deviceBrand,
 								getPhoneIMEI(MyApplication.instance),
 								"Android",
 								systemModel,
 								osVersion
 							), 0,
-							password.value?:"",
+							password.value ?: "",
 							false,
-							email.value?:""
+							email.value ?: ""
 						)
 					)
-				}.compose(dealErrorCode())
-				.compose(catchApiError())
-				.subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread())
+				}
 				
+				.switchThread()
+				.catchApiError()
+				.dealLoading()
 				.doOnSuccess {
 					//持久化得到的token以及用户登录的信息
 					saveVerifyInfo(
 						it.data.uin,
-						email.value?:"",
-						password.value?:"",
+						email.value ?: "",
+						password.value ?: "",
 						it.data.token,
 						it.data.openId,
 						it.data.usrStatusFlag.emailVerifiedFlag,
@@ -105,11 +106,10 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 					)
 					//登陆状态置为true
 					saveLoginState(true)
-				}.compose(dealLoading())
+				}
 		}
 		return null
 	}
-	
 	
 	
 	private fun judgeRegisterPrams(userName: String, password: String): Boolean {
@@ -136,18 +136,12 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 		}
 	}
 	
-	private fun <T> dealLoading(): SingleTransformer<T, T> {
-		return SingleTransformer { obs ->
-			obs.doOnSubscribe {
-				isLoading.postValue(true)
-			}
-				.doOnSuccess {
-					isLoading.postValue(false)
-				}
-				.doOnError {
-					isLoading.postValue(false)
-				}
-		}
+	private fun <T> Single<T>.dealLoading() = doOnSubscribe {
+		isLoading.postValue(true)
+	}.doOnSuccess {
+		isLoading.postValue(false)
+	}.doOnError {
+		isLoading.postValue(false)
 	}
 	
 	

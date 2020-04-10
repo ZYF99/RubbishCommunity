@@ -30,7 +30,6 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 	override fun initWidget() {
 		binding.vm = viewModel
 		
-		
 		//弹出软键盘
 		activity!!.openSoftKeyBoard(binding.searchEdit)
 		
@@ -77,15 +76,14 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 			}
 		}
 		
+		//返回按钮
+		binding.btnBack.setOnClickListener {
+			activity?.finish()
+		}
+		
 		//拍照搜索按钮
 		binding.btnCamera.setOnClickListener {
 			jumpToCameraSearch(this)
-		}
-		
-		//语音搜索按钮
-		binding.btnMac.setOnClickListener {
-		
-		
 		}
 	}
 	

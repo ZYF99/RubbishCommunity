@@ -4,11 +4,11 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <data class="NewsCellBinding">
+    <data>
 
         <variable
                 name="news"
-                type="com.example.rubbishcommunity.model.api.News" />
+                type="com.example.rubbishcommunity.model.api.news.NewsResult.News" />
     </data>
 
 
@@ -18,83 +18,84 @@
             android:layout_height="wrap_content"
             android:padding="4dp">
 
-        <androidx.cardview.widget.CardView
+
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                app:cardBackgroundColor="@color/colorWhite"
-                app:cardCornerRadius="4dp"
-                app:cardElevation="2dp"
+                android:layout_margin="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.cardview.widget.CardView
+                    android:id="@+id/card"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="0dp"
+                    app:cardBackgroundColor="@color/colorWhite"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="1dp"
+                    app:layout_constraintDimensionRatio="w,2:3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                         android:id="@+id/img"
-                        imageUrl="@{news.thumbnail_pic_s}"
+                        imageUrl="@{news.frontCoverImages.get(0)}"
                         android:layout_width="match_parent"
-                        android:layout_height="160dp"
+                        android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        tools:src="@drawable/bg"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/bg" />
 
-                <TextView
-                        android:id="@+id/cell_msg_time"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:padding="8dp"
-                        android:text='@{news.date}'
-                        android:textColor="#A8A8A8"
-                        android:textSize="12sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/img"
-                        tools:ignore="RtlCompat"
-                        tools:text="17:40" />
-
-                <TextView
-                        android:id="@+id/title_text"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:padding="8dp"
-                        android:text="@{news.title}"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/cell_msg_time"
-                        tools:text="AAAA" />
-
-                <TextView
-                        android:id="@+id/msg_text"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:padding="8dp"
-                        android:text='@{news.author_name}'
-                        android:textColor="#4A4A4A"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/title_text"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/title_text"
-                        tools:text="consduih fklgjk fhgh jigfjh igfjh gf gfi jipjipgjhiportjmhpoirtkmpkhrtfdgkolreggjhythj" />
+            </androidx.cardview.widget.CardView>
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                    android:id="@+id/title_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="@{news.title}"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/card"
+                    tools:text="黑纱晶 浪漫邂逅" />
 
+            <TextView
+                    android:id="@+id/msg_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text='@{news.authorProfile.name}'
+                    android:textColor="#4A4A4A"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/title_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title_text"
+                    tools:text="东方卫视" />
 
-        </androidx.cardview.widget.CardView>
+            <TextView
+                    android:id="@+id/cell_msg_time"
+                    recentTime="@{news.createData}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:textColor="#A8A8A8"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/msg_text"
+                    tools:ignore="RtlCompat"
+                    tools:text="17:40" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

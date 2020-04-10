@@ -13,6 +13,7 @@ import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.utils.switchThread
 import com.example.rubbishcommunity.utils.upLoadImage
 import io.reactivex.Single
+import okhttp3.ResponseBody
 import org.kodein.di.generic.instance
 
 class EditInfoViewModel(application: Application) : BaseViewModel(application) {
@@ -84,6 +85,13 @@ class EditInfoViewModel(application: Application) : BaseViewModel(application) {
 		editUserInfo("aboutMe", aboutMe.value!!)
 			.doOnSuccess {}
 			.bindLife()
+	}
+	
+	//注销
+	fun logout(): Single<ResponseBody> {
+		return userService.logout()
+			.switchThread()
+			.catchApiError()
 	}
 	
 	fun initData() {
