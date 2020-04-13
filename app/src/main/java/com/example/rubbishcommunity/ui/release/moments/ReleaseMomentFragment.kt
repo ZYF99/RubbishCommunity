@@ -117,11 +117,6 @@ class ReleaseMomentFragment : BindingFragment<FragmentReleaseMomentBinding, Rele
 			}
 		}
 		
-		//退出点击事件
-		binding.toolbar.toolbar.setNavigationOnClickListener {
-			exit()
-		}
-		
 		//监听选中列表的变化
 		viewModel.selectedList.observeNonNull {
 			(binding.imgRec.adapter as ReleaseDynamicGridImageAdapter).replaceData(it)

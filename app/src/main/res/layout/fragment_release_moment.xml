@@ -17,15 +17,30 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="10dp">
+            android:layout_height="match_parent">
 
-
-        <include
+        <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                layout="@layout/toolbar"
-                bind:title="@{vm.toolbarTitle}"
-                tools:layout_editor_absoluteY="10dp" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/actionBarSize"
+                android:navigationIcon="@drawable/ic_arrow_back_black_24dp"
+                app:elevation="10dp"
+                app:layout_collapseMode="pin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:navigationIcon="@drawable/ic_arrow_back_black_24dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@{vm.toolbarTitle}"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cons_content"
@@ -121,8 +136,8 @@
                                 android:hint="说说此刻的想法"
                                 android:inputType="text|textMultiLine"
                                 android:lineSpacingExtra="8dp"
-                                android:minHeight="150dp"
                                 android:maxLength="600"
+                                android:minHeight="150dp"
                                 android:text="@={vm.content}"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/text_second"

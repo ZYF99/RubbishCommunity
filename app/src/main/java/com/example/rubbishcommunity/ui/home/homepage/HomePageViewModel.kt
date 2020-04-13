@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.manager.api.NewsService
 import com.example.rubbishcommunity.manager.api.RubbishService
 import com.example.rubbishcommunity.manager.catchApiError
-import com.example.rubbishcommunity.model.Photography
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.SimpleProfileResp
 import com.example.rubbishcommunity.model.api.news.NewsResult
@@ -115,7 +114,7 @@ class HomePageViewModel(application: Application) : BaseViewModel(application) {
 	val mockBannerNews = NewsResult.News(
 		newsId = 0,
 		title = "黑纱会员 只要999",
-		createData = 16556000,
+		createDate = 16556000,
 		category = "头条",
 		authorProfile = SimpleProfileResp.getDefault(),
 		newsType = 1,
@@ -160,10 +159,10 @@ class HomePageViewModel(application: Application) : BaseViewModel(application) {
 			syncKey = syncKey
 		).dealRefresh()
 			.doOnApiSuccess {
-				if (it.data.newsList?.isNotEmpty() == true) {
-					syncKey = it.data.newsList.minBy { it.newsId }?.newsId
-					bannerList.postValue(it.data.newsList.filter { it.isBanner })
-					newsList.postValue(it.data.newsList.filter { !it.isBanner })
+				if (it.data.newsDetailList?.isNotEmpty() == true) {
+					syncKey = it.data.newsDetailList.minBy { it.newsId }?.newsId
+					bannerList.postValue(it.data.newsDetailList.filter { it.isBanner() })
+					newsList.postValue(it.data.newsDetailList.filter { !it.isBanner() })
 				}
 			}
 	}

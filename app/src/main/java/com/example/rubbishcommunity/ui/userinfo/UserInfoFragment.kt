@@ -74,5 +74,4 @@ class UserInfoFragment : BindingFragment<FragmentUserInfoBinding, UserInfoViewMo
 		return false
 	}
 	
-	
 }

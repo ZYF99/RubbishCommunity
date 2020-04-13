@@ -58,13 +58,13 @@ class NewsDetailFragment : BindingFragment<NewsDetailBinding, NewsDetailViewMode
 		//加载新闻
 		when {
 			//HTML的url
-			news?.isURL ?: false -> {
+			news?.isURL() ?: false -> {
 				binding.webView.visibility = View.VISIBLE
 				binding.tvRichText.visibility = View.GONE
 				binding.webView.loadUrl(news?.payload)
 			}
 			//文字
-			(news?.isTEXT ?: false) || news?.isHTML ?: false -> {
+			(news?.isTEXT() ?: false) || news?.isHTML() ?: false -> {
 				binding.webView.visibility = View.VISIBLE
 				binding.tvRichText.visibility = View.GONE
 				binding.webView.loadData(
@@ -74,7 +74,7 @@ class NewsDetailFragment : BindingFragment<NewsDetailBinding, NewsDetailViewMode
 				)
 			}
 			//MD文档
-			news?.isMD ?: false -> {
+			news?.isMD() ?: false -> {
 				binding.webView.visibility = View.GONE
 				binding.tvRichText.visibility = View.VISIBLE
 				RichText.fromMarkdown(news?.payload)
