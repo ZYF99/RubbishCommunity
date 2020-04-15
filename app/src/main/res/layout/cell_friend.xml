@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@{person.name}"
-                tools:text="fsdgefdsgrethtrhtrhetr"
+                tools:text="大熊"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/friend_portrait"

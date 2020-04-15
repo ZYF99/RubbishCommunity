@@ -27,10 +27,12 @@ class HomePageFragment : BindingFragment<HomePageBinding, HomePageViewModel>(
 		binding.toolBar.setExpandedTitleColor(resources.getColor(R.color.transparent))
 		
 		binding.banner.setBannerPageClickListener { _, position ->
-			jumpToNewsDetail(
-				context!!,
-				viewModel.bannerList.value?.get(position)
-			)
+			if(viewModel.bannerList.value?.isNotEmpty() == true){
+				jumpToNewsDetail(
+					context!!,
+					viewModel.bannerList.value?.get(position)
+				)
+			}
 		}
 		
 		//搜索栏

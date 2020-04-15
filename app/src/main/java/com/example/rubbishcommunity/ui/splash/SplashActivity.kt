@@ -37,7 +37,7 @@ class SplashActivity : BindingActivity<SplashBinding, SplashViewModel>() {
 		
 		if (getClassificationList().isNullOrEmpty())
 			viewModel.fetchClassificationInfo { jumpToWelcome() }
-		else Single.timer(1, TimeUnit.SECONDS)
+		else Single.timer(3, TimeUnit.SECONDS)
 			.doOnSuccess { jumpToWelcome() }.bindLife()
 		
 		

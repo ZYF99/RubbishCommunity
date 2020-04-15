@@ -14,7 +14,7 @@ import org.kodein.di.generic.instance
 class SplashViewModel(application: Application) : BaseViewModel(application) {
 	
 	val imgUrl =
-		MutableLiveData("http://n.sinaimg.cn/news/1_img/upload/cf3881ab/63/w1000h663/20200302/7298-iqfqmat4356985.jpg")
+		MutableLiveData("http://222.186.12.239:10010/chuangyiwen_20190402/005.jpg")
 	
 	private val rubbishService by instance<RubbishService>()
 	

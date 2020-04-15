@@ -5,9 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import java.lang.Exception
 import java.util.*
 
 
@@ -46,9 +46,12 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 	
 	abstract fun bindData(binding: Binding, position: Int)
 	
-	fun replaceData(newList: List<Bean>) {
-		baseList = newList
-		notifyDataSetChanged()
+	open fun replaceData(newList: List<Bean>) {
+		if(newList.isNotEmpty()){
+			val diffResult = DiffUtil.calculateDiff(SingleBeanDiffCallBack(baseList, newList), true)
+			baseList = newList
+			diffResult.dispatchUpdatesTo(this)
+		}
 	}
 	
 	fun onItemMove(fromPosition: Int, toPosition: Int) {
@@ -60,9 +63,32 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 			} catch (e: Exception) {
 				e.printStackTrace()
 			}
-			
 		}
 	}
+}
+
+class SingleBeanDiffCallBack<Bean>(
+	val oldDatas:List<Bean>,
+	val newDatas:List<Bean>
+): DiffUtil.Callback() {
+	override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+		return true
+	}
+	
+	override fun getOldListSize(): Int {
+		return oldDatas.size
+	}
+	
+	override fun getNewListSize(): Int {
+		return newDatas.size
+	}
+	
+	override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+		val oldData = oldDatas[oldItemPosition]
+		val newData = newDatas[newItemPosition]
+		return oldData == newData
+	}
+	
 }
 
 

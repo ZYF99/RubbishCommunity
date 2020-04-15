@@ -52,6 +52,7 @@
                 android:id="@+id/friendlsit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:layout_marginBottom="64dp"
                 tools:listitem="@layout/cell_friend" />
     </LinearLayout>

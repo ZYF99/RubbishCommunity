@@ -2,14 +2,14 @@ package com.example.rubbishcommunity.ui.search
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.baidu.location.BDLocation
+import com.example.rubbishcommunity.manager.api.IpService
 import com.example.rubbishcommunity.manager.api.RubbishService
 import com.example.rubbishcommunity.manager.catchApiError
-import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.search.SearchKeyConclusion
 import com.example.rubbishcommunity.persistence.getClassificationList
 import com.example.rubbishcommunity.ui.base.BaseViewModel
+import com.example.rubbishcommunity.utils.getAddressFromIp
 import com.example.rubbishcommunity.utils.switchThread
 import com.hankcs.hanlp.HanLP
 import io.reactivex.Single
@@ -20,6 +20,7 @@ import org.kodein.di.generic.instance
 class SearchViewModel(application: Application) : BaseViewModel(application) {
 	
 	private val rubbishService by instance<RubbishService>()
+	private val ipService by instance<IpService>()
 	
 	val isLoading = MutableLiveData(false)
 	
@@ -28,7 +29,7 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
 	val searchKey = MutableLiveData("")
 	
 	//位置
-	val location = MutableLiveData<BDLocation>()
+	val city = MutableLiveData<String>()
 	
 	val shouldShowInput = MutableLiveData<Boolean>()
 	
@@ -81,6 +82,11 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
 		}
 	}
 
+	fun getAddress(){
+		getAddressFromIp(ipService){
+			city.postValue(it)
+		}
+	}
 
 /*	fun protobufTest(){
 		apiService.protobufGetTest()

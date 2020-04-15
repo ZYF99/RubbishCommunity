@@ -1,11 +1,9 @@
 package com.example.rubbishcommunity.ui.home.message
 
-
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MsgCellBinding
 import com.example.rubbishcommunity.model.Message
 import com.example.rubbishcommunity.ui.adapter.EmptyRecyclerAdapter
-
 
 class MessageListAdapter(
 	val onCellClick: (Message) -> Unit,

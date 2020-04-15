@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.KeyEvent
 import android.view.KeyEvent.KEYCODE_BACK
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MainBinding
@@ -27,6 +28,8 @@ import java.util.concurrent.TimeUnit
 
 
 class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
+	//纪录第一次点击back时的时间戳（以毫秒为单位的时间）
+	private var quiteTime: Long = System.currentTimeMillis()
 	override val clazz: Class<MainViewModel> = MainViewModel::class.java
 	override val layRes: Int = R.layout.activity_main
 	private var currentFragment: Fragment? = HomePageFragment()
@@ -110,7 +113,6 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 		
 	}
 	
-	
 	private fun replaceFragment(tag: String) {
 		if (currentFragment != null) {
 			supportFragmentManager.beginTransaction().hide(currentFragment!!).commit()
@@ -169,7 +171,7 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 		super.onDestroy()
 	}
 	
-	override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+/*	override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
 		if (keyCode == KEYCODE_BACK) {
 			val intent = Intent(Intent.ACTION_MAIN)
 			intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -178,5 +180,17 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 			return true
 		}
 		return super.onKeyDown(keyCode, event)
+	}*/
+	
+	override fun onBackPressed() {
+		if (System.currentTimeMillis() - quiteTime > 3000) {
+			Toast.makeText(
+				this, "再次点击返回键退出APP", Toast.LENGTH_SHORT
+			).show()
+			quiteTime = System.currentTimeMillis()
+		} else {
+			finish()
+		}
 	}
+	
 }

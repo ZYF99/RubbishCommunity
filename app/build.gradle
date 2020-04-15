@@ -113,6 +113,9 @@ android {
             buildConfigField("String", "JUHE_APPKEY", '"214dc714d14b8eb6341080f3e14bc139"')
             buildConfigField("String", "JUHE_URL", '"http://v.juhe.cn/toutiao/"')
 
+            //ip address api
+            buildConfigField("String", "IP_ADDRESS_URL", '"http://pv.sohu.com/"')
+
             //天行 api
             buildConfigField("String", "TIANXING_URL", '"http://api.tianapi.com/txapi/"')
 
@@ -142,6 +145,9 @@ android {
             buildConfigField("String", "JUHE_APPKEY", '"214dc714d14b8eb6341080f3e14bc139"')
             buildConfigField("String", "JUHE_URL", '"http://v.juhe.cn/toutiao/"')
 
+            //ip address api
+            buildConfigField("String", "IP_ADDRESS_URL", '"http://pv.sohu.com/"')
+
             //天行 api
             buildConfigField("String", "TIANXING_URL", '"http://api.tianapi.com/txapi/"')
 
@@ -169,6 +175,13 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
 
     dataBinding {
         enabled true
@@ -208,6 +221,9 @@ dependencies {
     api 'com.google.protobuf:protobuf-java:3.6.1'
     api 'com.google.protobuf:protoc:3.10.1'
     implementation 'com.squareup.retrofit2:converter-protobuf:2.2.0'
+
+    //ip定位
+    implementation 'com.maxmind.geoip2:geoip2:2.13.1'
 
     //coverFlow
     implementation 'com.github.lishide:ImgCoverFlow:v1.0.1'

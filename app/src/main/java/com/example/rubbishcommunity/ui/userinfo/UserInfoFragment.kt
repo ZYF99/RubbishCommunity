@@ -4,7 +4,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.FragmentUserInfoBinding
 import com.example.rubbishcommunity.ui.base.BindingFragment
-import com.example.rubbishcommunity.ui.home.find.moment.MomentsListAdapter
 import com.example.rubbishcommunity.ui.home.mine.RecentMomentsAdapter
 
 class UserInfoFragment : BindingFragment<FragmentUserInfoBinding, UserInfoViewModel>(

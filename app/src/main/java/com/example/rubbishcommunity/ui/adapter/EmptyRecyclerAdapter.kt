@@ -1,10 +1,8 @@
 package com.example.rubbishcommunity.ui.adapter
 
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rubbishcommunity.R
@@ -18,14 +16,13 @@ private const val VIEW_TYPE_EMPTY = 0
 
 abstract class EmptyRecyclerAdapter<Bean, Binding : ViewDataBinding>
 constructor(
-	private val layoutRes: Int,
-	private val onCellClick: (Bean) -> Unit
+	layoutRes: Int,
+	onCellClick: (Bean) -> Unit
 ) : BaseRecyclerAdapter<Bean, Binding>(
 	layoutRes,
 	onCellClick
 ) {
 	class EmptyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-	
 	
 	override fun onCreateViewHolder(
 		parent: ViewGroup,

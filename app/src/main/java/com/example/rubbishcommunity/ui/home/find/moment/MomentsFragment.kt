@@ -74,12 +74,7 @@ class MomentsFragment(private val classify: Int = CLASSIFY_DYNAMIC) :
 					}.show()
 				}, { moment, position ->
 					//点击'赞'或'已赞'
-					viewModel.like(moment.momentId) { commentId ->
-						(binding.recDynamic.adapter as MomentsListAdapter).like(
-							commentId,
-							position
-						)
-					}
+					viewModel.like(moment.momentId)
 				}, { moment ->
 					//点击转发
 					viewModel.forward(moment)

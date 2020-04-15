@@ -30,9 +30,12 @@ val apiModule = Kodein.Module {
 	
 	bind<NewsService>() with singleton { instance<ApiClient>().createService(NewsService::class.java) }
 	
+	//ip获取地址
+	bind<IpClient>() with singleton { provideIpClient() }
+	bind<IpService>() with singleton { instance<IpClient>().createService(IpService::class.java) }
+	
 	//聚合
 	bind<JuheClient>() with singleton { provideJuheClient() }
-	
 	bind<JuheService>() with singleton { instance<JuheClient>().createService(JuheService::class.java) }
 
 	
@@ -72,6 +75,23 @@ fun provideApiClient(): ApiClient {
 
 fun provideJuheClient(): JuheClient {
 	val client = JuheClient.Builder()
+	val logInterceptor = HttpLoggingInterceptor()
+	logInterceptor.level = HttpLoggingInterceptor.Level.BODY
+	
+	client.okBuilder
+		//.addInterceptor(HeaderInterceptor())
+		.addInterceptor(NetErrorInterceptor())
+		.apply {
+			if (BuildConfig.DEBUG)
+				addInterceptor(logInterceptor)
+		}
+		.readTimeout(10, TimeUnit.SECONDS)
+	
+	return client.build()
+}
+
+fun provideIpClient(): IpClient {
+	val client = IpClient.Builder()
 	val logInterceptor = HttpLoggingInterceptor()
 	logInterceptor.level = HttpLoggingInterceptor.Level.BODY
 	

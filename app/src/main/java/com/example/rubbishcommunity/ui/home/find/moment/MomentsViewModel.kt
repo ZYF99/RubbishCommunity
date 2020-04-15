@@ -54,14 +54,15 @@ class MomentsViewModel(application: Application) : BaseViewModel(application) {
 	}
 	
 	//点赞或取消点赞
-	fun like(momentId: Long, onLikedAction: (Long) -> Unit) {
+	fun like(momentId: Long) {
 		momentService.pushCommentOrLike(
 			MomentCommentRequestModel(
 				commentType = COMMENT_LIKE,
 				momentId = momentId
 			)
-		)
-			.doOnApiSuccess { onLikedAction.invoke(it.data.commentId) }
+		).doAfterManageSuccess {
+			
+			}
 	}
 	
 	//转发
@@ -73,7 +74,15 @@ class MomentsViewModel(application: Application) : BaseViewModel(application) {
 				moment.momentId,
 				PUBLISH_TYPE_FORWARD
 			)
-		).doOnApiSuccess { MyApplication.showSuccess("转发成功") }
+		).doAfterManageSuccess{ MyApplication.showSuccess("转发成功") }
+	}
+	
+	//对动态进行操作成功后，先刷新列表
+	private fun <T>Single<T>.doAfterManageSuccess(action: ((T)->Unit)?){
+		doOnApiSuccess {
+			refreshMoments()
+			action?.invoke(it)
+		}
 	}
 	
 	private fun <T> Single<T>.dealRefresh() =
