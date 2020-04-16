@@ -6,13 +6,10 @@ import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.manager.api.ImageService
 import com.example.rubbishcommunity.manager.api.MomentService
 import com.example.rubbishcommunity.manager.api.UserService
-import com.example.rubbishcommunity.manager.catchApiError
-import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.mine.UsrProfile
 import com.example.rubbishcommunity.model.api.moments.GetMomentsByUinRequestModel
 import com.example.rubbishcommunity.model.api.moments.MomentContent
 import com.example.rubbishcommunity.model.api.moments.PageParam
-import com.example.rubbishcommunity.persistence.getLocalUin
 import com.example.rubbishcommunity.persistence.getLocalUserInfo
 import com.example.rubbishcommunity.persistence.saveUserInfo
 import com.example.rubbishcommunity.ui.base.BaseViewModel
@@ -20,7 +17,6 @@ import com.example.rubbishcommunity.ui.home.mine.editinfo.getImageUrlFromServer
 import com.example.rubbishcommunity.utils.switchThread
 import com.example.rubbishcommunity.utils.upLoadImage
 import io.reactivex.Single
-import okhttp3.ResponseBody
 import org.kodein.di.generic.instance
 
 const val BACKGROUND_URL =
@@ -31,9 +27,12 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 	private val userService by instance<UserService>()
 	private val momentService by instance<MomentService>()
 	private val imageService by instance<ImageService>()
-	val recentDynamicList = MutableLiveData(emptyList<MomentContent>())
+	val recentMomentList = MutableLiveData(emptyList<MomentContent>())
 	val userInfo = MutableLiveData<UsrProfile>()
 	val isRefreshing = MutableLiveData<Boolean>()
+	private val isLastPage = MutableLiveData(false)
+	private val startPage = MutableLiveData(1)
+	val isLoadingMore = MutableLiveData(false)
 	
 	fun refreshUserInfo() {
 		//获取用户详细信息
@@ -61,7 +60,7 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 			)
 		).dealRefreshing()
 			.doOnApiSuccess {
-				recentDynamicList.postValue(it.data.momentContentList)
+				recentMomentList.postValue(it.data.momentContentList)
 			}
 	}
 	
@@ -79,6 +78,26 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 		}
 	}
 	
+	///加载更多
+	fun loadMoreMoments() {
+		momentService.fetchMomentsByUin(
+			GetMomentsByUinRequestModel(
+				pageParamRequest = PageParam(
+					pageNum = startPage.value?:1
+				)
+			)
+		).doOnApiSuccess {
+				isLastPage.postValue(it.data.pageInfoResp.lastPage)
+				if (it.data.momentContentList.isNotEmpty())
+					recentMomentList.postValue(
+						recentMomentList.value
+							?.toMutableList()
+							?.apply {
+								addAll(it.data.momentContentList)
+							})
+				startPage.postValue(startPage.value!! + 1)
+			}
+	}
 
 	
 	private fun <T> Single<T>.dealRefreshing() =

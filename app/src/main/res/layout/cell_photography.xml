@@ -29,7 +29,7 @@
 
             <ImageView
                     android:id="@+id/gird_img"
-                    imageUrl="@{news.frontCoverImages.get(0)}"
+                    imageUrl="@{news.foregroundImage}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:elevation="4dp"

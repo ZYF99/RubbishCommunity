@@ -3,9 +3,11 @@ package com.example.rubbishcommunity.ui.home.mine
 import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.RecyclerView
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MineFragmentBinding
+import com.example.rubbishcommunity.model.sharedpref.SharedPrefModel
 import com.example.rubbishcommunity.ui.container.jumpToEditInfo
 import com.example.rubbishcommunity.ui.utils.showBackgroundAlbum
 import com.luck.picture.lib.PictureSelector
@@ -35,13 +37,24 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 		
 		binding.iv.setOnClickListener { showChooseBackGroundAlert() }
 		
-		viewModel.recentDynamicList.observeNonNull {
+		viewModel.recentMomentList.observeNonNull {
 			(binding.recRecent.adapter as RecentMomentsAdapter).replaceData(it
 				.filter { it.pictures.isNotEmpty() })
 		}
+		
+		//上拉加载
+		binding.recRecent.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+			override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+				if (!recyclerView.canScrollVertically(1)
+					&& viewModel.recentMomentList.value?.size ?: 0 > 0
+				)
+					if (viewModel.isLoadingMore.value == false) {
+						viewModel.loadMoreMoments()
+					}
+			}
+		})
+		
 	}
-	
-
 	
 	override fun initData() {
 	

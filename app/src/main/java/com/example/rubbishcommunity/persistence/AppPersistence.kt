@@ -1,8 +1,6 @@
 package com.example.rubbishcommunity.persistence
 
-
 import android.annotation.SuppressLint
-import com.baidu.location.BDLocation
 import com.example.rubbishcommunity.model.api.SimpleProfileResp
 import com.example.rubbishcommunity.model.api.mine.UsrProfile
 import com.example.rubbishcommunity.model.api.search.Category
@@ -127,17 +125,18 @@ fun updateSomeUserInfo(
 	gender: String,
 	name: String,
 	birthday: Long,
-	location: BDLocation
+	city:String
+	//location: BDLocation
 ) {
 	val oldUserInfo: UsrProfile = getLocalUserInfo()
 	saveUserInfo(
 		UsrProfile(
 			name,
 			avatar,
-			location.country?:"中国",
-			location.province?:"四川",
-			location.city?:"成都",
-			location.street?:"天府大道",
+			"默认国家",
+			"默认省份",
+			city,
+			"默认街道",
 			getAgeByBirth(Date(birthday)),
 			birthday,
 			oldUserInfo.profession,

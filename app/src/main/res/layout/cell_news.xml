@@ -42,7 +42,7 @@
 
                 <ImageView
                         android:id="@+id/img"
-                        imageUrl="@{news.frontCoverImages.get(0)}"
+                        imageUrlWithAddIcon="@{news.foregroundImage}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"

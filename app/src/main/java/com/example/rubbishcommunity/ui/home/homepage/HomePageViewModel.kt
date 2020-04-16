@@ -129,7 +129,7 @@ class HomePageViewModel(application: Application) : BaseViewModel(application) {
 	
 	val mockCommonNews = mockBannerNews.copy(newsType = 0)
 	
-	fun fetchNews() {
+	fun fetchNews(isRefresh:Boolean = false) {
 
 /*		juheService.getNews()
 			.switchThread()
@@ -139,28 +139,12 @@ class HomePageViewModel(application: Application) : BaseViewModel(application) {
 			.compose(dealRefresh())
 			.bindLife()*/
 		
-		bannerList.postValue(listOf(
-			mockBannerNews,
-			mockBannerNews,
-			mockBannerNews
-			))
-		
-		newsList.postValue(listOf(
-			mockCommonNews,
-			mockCommonNews,
-			mockCommonNews,
-			mockCommonNews,
-			mockCommonNews,
-			mockCommonNews,
-			mockCommonNews
-		))
-		
 		newsService.fetchNews(
-			syncKey = syncKey
+			syncKey = if(isRefresh) 0 else syncKey
 		).dealRefresh()
 			.doOnApiSuccess {
 				if (it.data.newsDetailList?.isNotEmpty() == true) {
-					syncKey = it.data.newsDetailList.minBy { it.newsId }?.newsId
+					syncKey = it.data.newsDetailList.minBy { it.newsId?:0 }?.newsId
 					bannerList.postValue(it.data.newsDetailList.filter { it.isBanner() })
 					newsList.postValue(it.data.newsDetailList.filter { !it.isBanner() })
 				}

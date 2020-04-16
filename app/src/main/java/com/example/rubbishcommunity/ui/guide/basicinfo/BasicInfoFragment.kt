@@ -2,13 +2,10 @@ package com.example.rubbishcommunity.ui.guide.basicinfo
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.BasicInfoFragBinding
-import com.example.rubbishcommunity.initLocationClient
 import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.ui.container.jumpToLogin
@@ -115,27 +112,11 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 				jumpToLogin(context!!)
 				(context as Activity).finish()
 			}.bindLife()
+		
 		//获取定位
-		getLocation()
+		
 		
 	}
-	
-	
-	//获取定位
-	@RequiresApi(Build.VERSION_CODES.Q)
-	private fun getLocation() {
-		checkLocationPermissionAndGetLocation(
-			initLocationClient(MyApplication.instance)
-		).doOnNext {
-			viewModel.location.postValue(it)
-		}.doOnError {
-			//当没有定位权限时
-			showLocationServiceDialog {
-				getLocation()
-			}
-		}.bindLife()
-	}
-	
 	
 	//初始化数据
 	override fun initData() {

@@ -2,7 +2,6 @@ package com.example.rubbishcommunity.ui.guide.basicinfo
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.baidu.location.BDLocation
 import com.example.rubbishcommunity.manager.api.ImageService
 import com.example.rubbishcommunity.manager.api.UserService
 import com.example.rubbishcommunity.manager.catchApiError
@@ -27,7 +26,7 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 	val verifyCode = MutableLiveData("")
 	val avatar = MutableLiveData("")
 	val gender = MutableLiveData("男")
-	val location = MutableLiveData<BDLocation>()
+	val city = MutableLiveData<String>()
 	val name = MutableLiveData("")
 	val birthday = MutableLiveData(23558400000) //1970-10-1 00:00:00
 	val isLoading = MutableLiveData(false)
@@ -63,13 +62,13 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 					gender.value!!,
 					0,
 					CompleteInfoRequestModel.LocationReq(
-						location.value?.city?:"成都",
-						location.value?.country?:"中国",
-						location.value?.district?:"高新区",
-						location.value?.latitude ?: 0.0,
-						location.value?.longitude ?: 0.0,
-						location.value?.province ?: "四川",
-						location.value?.street ?: "默认街道"
+						city.value?:"",
+						"默认国家",
+						"默认区县",
+						0.0,
+						 0.0,
+						 "默认省份",
+						"默认街道"
 					),
 					name.value!!
 				)
@@ -83,11 +82,10 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 					gender.value!!,
 					name.value!!,
 					birthday.value!!,
-					location.value ?: BDLocation()
+					city.value?:"默认城市"
 				)
 			}
-				.compose(dealErrorCode())
-				.compose(catchApiError())
+				.catchApiError()
 				.compose(dealLoading())
 		} else {
 			return null
@@ -126,7 +124,7 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 				sendInputError("请输入完整的验证码")
 				false
 			}
-			!(name.value!!.length in 3..10) -> {
+			name.value!!.length !in 3..10 -> {
 				sendInputError("昵称长度必须大于2位")
 				false
 			}

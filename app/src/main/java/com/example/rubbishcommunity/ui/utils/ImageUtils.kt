@@ -12,14 +12,19 @@ import com.example.rubbishcommunity.R
 import android.graphics.ImageFormat
 import com.example.rubbishcommunity.ui.home.mine.editinfo.getImageUrlFromServer
 
-fun judgeAndGetImageUrl(url:String?) = when{
-	(url?:"").startsWith("http") || (url?:"").startsWith("upuphub") -> url
-	else -> getImageUrlFromServer(url?:"")
+fun imageWithServerHost(key: String) = "http://image.upuphub.com/$key"
+
+fun getImageFromServer(url: String?) = when {
+	(url ?: "").startsWith("http")
+			|| (url ?: "").startsWith("upuphub")
+			|| (url ?: "").startsWith("/storage/emulated")
+	-> url
+	else -> imageWithServerHost(url ?: "")
 }
 
 @BindingAdapter("imageUrl")
 fun loadImage(imageView: ImageView, url: String?) {
-	Glide.with(imageView.context).load(judgeAndGetImageUrl(url))
+	Glide.with(imageView.context).load(getImageFromServer(url))
 		.placeholder(R.color.white)
 		.skipMemoryCache(false)
 		.centerCrop()
@@ -28,7 +33,7 @@ fun loadImage(imageView: ImageView, url: String?) {
 
 @BindingAdapter("imageUrlWithAddIcon")
 fun loadImageWithAddIcon(imageView: ImageView, url: String?) {
-	Glide.with(imageView.context).load(judgeAndGetImageUrl(url))
+	Glide.with(imageView.context).load(getImageFromServer(url))
 		.placeholder(R.drawable.icon_add_pic)
 		.centerCrop()
 		.into(imageView)

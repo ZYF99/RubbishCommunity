@@ -66,13 +66,13 @@ class HomePageFragment : BindingFragment<HomePageBinding, HomePageViewModel>(
 		}
 		
 		binding.swipe.setOnRefreshListener {
-			viewModel.fetchNews()
+			viewModel.fetchNews(isRefresh = true)
 		}
 		
 	}
 	
 	override fun initData() {
-		viewModel.fetchNews()
+		viewModel.fetchNews(isRefresh = true)
 	}
 	
 	override fun onResume() {
