@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class TranslucentBehavior extends CoordinatorLayout.Behavior<View> {
@@ -21,7 +22,9 @@ public class TranslucentBehavior extends CoordinatorLayout.Behavior<View> {
 
     @Override
     public boolean layoutDependsOn(CoordinatorLayout parent, View child, View dependency) {
-        return dependency instanceof NestedScrollView || dependency instanceof SwipeRefreshLayout;
+        return dependency instanceof NestedScrollView
+                || dependency instanceof SwipeRefreshLayout
+                || dependency instanceof RecyclerView;
     }
 
     /**

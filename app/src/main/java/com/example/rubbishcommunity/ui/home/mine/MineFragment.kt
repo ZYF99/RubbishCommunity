@@ -2,12 +2,14 @@ package com.example.rubbishcommunity.ui.home.mine
 
 import android.app.Activity
 import android.content.Intent
+import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
+import com.example.rubbishcommunity.databinding.HeaderMineBinding
 import com.example.rubbishcommunity.databinding.MineFragmentBinding
-import com.example.rubbishcommunity.model.sharedpref.SharedPrefModel
 import com.example.rubbishcommunity.ui.container.jumpToEditInfo
 import com.example.rubbishcommunity.ui.utils.showBackgroundAlbum
 import com.luck.picture.lib.PictureSelector
@@ -29,30 +31,46 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 		//刷新状态监听
 		viewModel.isRefreshing.observeNonNull { binding.rootLayout.isEnabled = !it }
 		
-		//设置按钮
-		binding.btnSetting.setOnClickListener { jumpToEditInfo(context!!) }
-		
-		//最近动态列表
-		binding.recRecent.adapter = RecentMomentsAdapter()
-		
-		binding.iv.setOnClickListener { showChooseBackGroundAlert() }
-		
+		//动态列表
 		viewModel.recentMomentList.observeNonNull {
-			(binding.recRecent.adapter as RecentMomentsAdapter).replaceData(it
+			(binding.recRecent.adapter as MineMomentAdapter).replaceData(it
 				.filter { it.pictures.isNotEmpty() })
 		}
 		
+		val headerViewBinding = DataBindingUtil.inflate<HeaderMineBinding>(
+			LayoutInflater.from(context),
+			R.layout.header_mine,
+			null,
+			false
+		)
+		
+		//设置按钮
+		binding.btnSetting.setOnClickListener { jumpToEditInfo(context!!) }
+		
+		//背景
+		binding.iv.setOnClickListener { showChooseBackGroundAlert() }
+		
+		//最近动态列表
+		binding.recRecent.adapter = MineMomentAdapter(
+			headerViewBinding
+		) {
+		
+		}
+		
 		//上拉加载
-		binding.recRecent.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-			override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-				if (!recyclerView.canScrollVertically(1)
-					&& viewModel.recentMomentList.value?.size ?: 0 > 0
-				)
-					if (viewModel.isLoadingMore.value == false) {
-						viewModel.loadMoreMoments()
-					}
-			}
-		})
+		binding.recRecent.apply {
+			
+			addOnScrollListener(object : RecyclerView.OnScrollListener() {
+				override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+					if (!recyclerView.canScrollVertically(1)
+						&& viewModel.recentMomentList.value?.size ?: 0 > 0
+					)
+						if (viewModel.isLoadingMore.value == false) {
+							viewModel.loadMoreMoments()
+						}
+				}
+			})
+		}
 		
 	}
 	

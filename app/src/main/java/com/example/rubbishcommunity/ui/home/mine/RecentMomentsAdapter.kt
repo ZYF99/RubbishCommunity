@@ -1,6 +1,5 @@
 package com.example.rubbishcommunity.ui.home.mine
 
-import androidx.recyclerview.widget.DiffUtil
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ItemRecentMomentBinding
 import com.example.rubbishcommunity.model.api.moments.MomentContent

@@ -19,7 +19,6 @@ class NewsDetailFragment : BindingFragment<NewsDetailBinding, NewsDetailViewMode
 	NewsDetailViewModel::class.java, R.layout.fragment_news_detail
 ) {
 	
-	
 	override fun initBefore() {
 		viewModel.news.value = globalGson.fromJson<NewsResult.News>(
 			activity!!.intent.getStringExtra(

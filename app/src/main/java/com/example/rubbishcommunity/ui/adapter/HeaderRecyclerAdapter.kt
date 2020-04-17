@@ -6,17 +6,26 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.example.rubbishcommunity.R
 import java.util.*
 
-abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
+abstract class HeaderRecyclerAdapter<Bean, Binding : ViewDataBinding, HeaderBinding : ViewDataBinding>
 	(
 	private val layoutRes: Int,
 	private val onCellClick: (Bean) -> Unit,
 	var baseList: List<Bean> = emptyList()
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-	class BaseSimpleViewHolder<Binding : ViewDataBinding>(
+	
+	private var headerView: View? = null
+	
+	companion object {
+		private const val ITEM_TYPE_HEADER = 0
+		private const val ITEM_TYPE_CONTENT = 1
+		private const val FOOTER_SIZE = 1
+	}
+	
+	inner class ContentViewHolder(
 		itemView: View
 	) : RecyclerView.ViewHolder(itemView) {
 		val binding: Binding? by lazy {
@@ -24,29 +33,83 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 		}
 	}
 	
+	inner class HeaderViewHolder(
+		itemView: View
+	) : RecyclerView.ViewHolder(itemView) {
+		val binding: HeaderBinding? by lazy {
+			DataBindingUtil.bind<HeaderBinding>(itemView)
+		}
+	}
+	
+/*	inner class FooterViewHolder(
+		itemView: View
+	) : RecyclerView.ViewHolder(itemView) {
+		val binding: ItemFooterProgressbarBinding? by lazy {
+			DataBindingUtil.bind<ItemFooterProgressbarBinding>(itemView)
+		}
+	}*/
+	
 	override fun onCreateViewHolder(
 		parent: ViewGroup,
 		viewType: Int
 	): RecyclerView.ViewHolder {
-		return BaseSimpleViewHolder<Binding>(
-			LayoutInflater.from(parent.context).inflate(layoutRes, parent, false)
-		)
+		return when (viewType) {
+			ITEM_TYPE_CONTENT -> ContentViewHolder(
+				LayoutInflater.from(parent.context).inflate(
+					layoutRes,
+					parent,
+					false
+				)
+			)
+			ITEM_TYPE_HEADER -> HeaderViewHolder(
+				LayoutInflater.from(parent.context).inflate(
+					R.layout.header_mine,
+					parent,
+					false
+				)
+			)
+/*			ITEM_TYPE_LOAD_MORE -> FooterViewHolder(
+				ItemFooterProgressbarBinding.inflate(
+					LayoutInflater.from(parent.context), parent, false
+				).root
+			)*/
+			else -> throw RuntimeException("no such ViewType")
+		}
+
 	}
 	
 	override fun getItemCount() = baseList.size
 	
 	override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-		holder as BaseSimpleViewHolder<Binding>
-		holder.binding!!.root.setOnClickListener {
-			onCellClick(baseList[position])
+		when (getItemViewType(position)) {
+			ITEM_TYPE_CONTENT -> {
+				holder as HeaderRecyclerAdapter<*, *, *>.ContentViewHolder
+				holder.binding?.root?.setOnClickListener {
+					onCellClick(baseList[position])
+				}
+				bindData(holder.binding as Binding?, position)
+			}
+			ITEM_TYPE_HEADER -> onHeaderInit()
+/*			ITEM_TYPE_LOAD_MORE -> onLoadMore()*/
 		}
-		bindData(holder.binding!!, position)
 	}
 	
-	abstract fun bindData(binding: Binding, position: Int)
+	override fun getItemViewType(position: Int): Int {
+		return when {
+			position == 0  -> ITEM_TYPE_HEADER
+			position>0 && position<baseList.size -> ITEM_TYPE_CONTENT
+			else -> ITEM_TYPE_HEADER
+			/*else -> ITEM_TYPE_LOAD_MORE*/
+		}
+	}
+	
+	
+	abstract fun bindData(binding: Binding?, position: Int)
+	abstract fun onHeaderInit()
+	
 	
 	open fun replaceData(newList: List<Bean>) {
-		if(newList.isNotEmpty()){
+		if (newList.isNotEmpty()) {
 			val diffResult = DiffUtil.calculateDiff(SingleBeanDiffCallBack(baseList, newList), true)
 			baseList = newList
 			diffResult.dispatchUpdatesTo(this)
@@ -66,7 +129,7 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 	}
 }
 
-class SingleBeanDiffCallBack<Bean>(
+/*class SingleBeanDiffCallBack<Bean>(
 	val oldDatas:List<Bean>,
 	val newDatas:List<Bean>
 ): DiffUtil.Callback() {
@@ -88,9 +151,10 @@ class SingleBeanDiffCallBack<Bean>(
 		return oldData == newData
 	}
 	
-}
+}*/
 
 
+/*
 const val ITEM_SWIPE_VERTICAL = 0
 const val ITEM_SWIPE_HORIZONTAL = 1
 const val ITEM_SWIPE_FREE = 2
@@ -162,4 +226,4 @@ fun RecyclerView.attachItemSwipe(decoration: Int, onSwipeStart: () -> Unit, onSw
 	}).attachToRecyclerView(this)
 	
 	
-}
+}*/

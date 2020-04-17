@@ -15,11 +15,13 @@
             android:layout_height="match_parent">
 
         <ImageView
+                android:id="@+id/img"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 imageUrl="@{url}"
                 android:foreground="#41000000"
-                android:scaleType="centerInside"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/bg"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="w,3:2"
                 app:layout_constraintEnd_toEndOf="parent"

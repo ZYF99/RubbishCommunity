@@ -6,7 +6,6 @@ import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.PhotographyCellBinding
-import com.example.rubbishcommunity.model.Photography
 import com.example.rubbishcommunity.model.api.news.NewsResult
 import com.zhouwei.mzbanner.holder.MZViewHolder
 

@@ -1,13 +1,17 @@
 package com.example.rubbishcommunity.ui.home.mine
 
 import android.app.Application
+import androidx.arch.core.util.Function
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.manager.api.ImageService
 import com.example.rubbishcommunity.manager.api.MomentService
 import com.example.rubbishcommunity.manager.api.UserService
+import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.mine.UsrProfile
+import com.example.rubbishcommunity.model.api.mine.UsrProfileResp
 import com.example.rubbishcommunity.model.api.moments.GetMomentsByUinRequestModel
+import com.example.rubbishcommunity.model.api.moments.GetMomentsResultModel
 import com.example.rubbishcommunity.model.api.moments.MomentContent
 import com.example.rubbishcommunity.model.api.moments.PageParam
 import com.example.rubbishcommunity.persistence.getLocalUserInfo
@@ -17,7 +21,10 @@ import com.example.rubbishcommunity.ui.home.mine.editinfo.getImageUrlFromServer
 import com.example.rubbishcommunity.utils.switchThread
 import com.example.rubbishcommunity.utils.upLoadImage
 import io.reactivex.Single
+import io.reactivex.functions.BiFunction
 import org.kodein.di.generic.instance
+import timber.log.Timber
+import java.util.*
 
 const val BACKGROUND_URL =
 	"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583989375777&di=e0b2e3ec7dd59e4f3ec5d295fcc5abce&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201612%2F11%2F125901gs0055sdf10fzw1d.jpg"
@@ -38,7 +45,29 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 		//获取用户详细信息
 		userInfo.postValue(getLocalUserInfo())
 		
-		//获取用户详细信息
+		Single.zip<ResultModel<UsrProfileResp>,ResultModel<GetMomentsResultModel>,Pair<UsrProfileResp,GetMomentsResultModel>>(
+			userService.fetchUserProfile(),
+			momentService.fetchMomentsByUin(
+				GetMomentsByUinRequestModel(
+					pageParamRequest = PageParam(
+						1
+					)
+				)
+			), BiFunction { f, s ->
+				Pair(f.data,s.data)
+			}
+		).dealRefreshing()
+			.doOnApiSuccess {
+				val profile =
+					if (it.first.usrProfile.backgroundImage.isEmpty())
+						it.first.usrProfile.copy(backgroundImage = BACKGROUND_URL)
+					else it.first.usrProfile
+				userInfo.postValue(profile)
+				saveUserInfo(it.first.usrProfile)
+				recentMomentList.postValue(it.second.momentContentList)
+			}
+		
+/*		//获取用户详细信息
 		userService.fetchUserProfile()
 			.dealRefreshing()
 			.doOnApiSuccess {
@@ -48,20 +77,20 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 					else it.data.usrProfile
 				userInfo.postValue(profile)
 				saveUserInfo(it.data.usrProfile)
-			}
+			}*/
 		
-		//获取最近动态列表
+/*		//获取最近动态列表
 		momentService.fetchMomentsByUin(
 			GetMomentsByUinRequestModel(
 				pageParamRequest = PageParam(
-					1,
-					5
+					1
 				)
 			)
 		).dealRefreshing()
 			.doOnApiSuccess {
 				recentMomentList.postValue(it.data.momentContentList)
-			}
+			}*/
+		
 	}
 	
 	//修改背景图

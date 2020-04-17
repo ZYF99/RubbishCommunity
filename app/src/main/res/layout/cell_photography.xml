@@ -32,13 +32,25 @@
                     imageUrl="@{news.foregroundImage}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:elevation="4dp"
                     android:scaleType="centerCrop"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:src="@drawable/bg" />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@id/gird_img"
+                    app:layout_constraintStart_toStartOf="@id/gird_img"
+                    app:layout_constraintEnd_toEndOf="@id/gird_img"
+                    android:layout_margin="8dp"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:text="@{news.title}"
+                    tools:text="@string/app_name"
+                    android:textColor="@color/white"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
