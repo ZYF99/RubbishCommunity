@@ -23,6 +23,7 @@ import org.kodein.di.android.closestKodein
 import timber.log.Timber
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.manager.catchApiError
+import com.example.rubbishcommunity.ui.container.jumpToLogin
 import com.example.rubbishcommunity.utils.BindLife
 import com.example.rubbishcommunity.ui.utils.*
 import com.example.rubbishcommunity.utils.switchThread
@@ -123,6 +124,7 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 					//弹Toast
 					ErrorType.UI_ERROR -> MyApplication.showWarning(it.errorContent)
 					ErrorType.API_ERROR -> MyApplication.showError(it.errorContent)
+					ErrorType.TOKEN_INVALID -> jumpToLogin(this)
 					ErrorType.SERVERERROR -> MyApplication.showError(it.errorContent)
 					else -> {
 						if (errorDialog?.isShowing != true) {

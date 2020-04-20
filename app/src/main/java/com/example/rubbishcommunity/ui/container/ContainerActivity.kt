@@ -76,7 +76,7 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 		} else {
 			replaceFragment(intent.getSerializableExtra("tag") as String)
 		}
-
+		
 	}
 	
 	override fun initData() {
@@ -131,7 +131,12 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 fun jumpToLogin(context: Context) {
 	val bundle = Bundle()
 	bundle.putString("tag", "login")
-	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
+	context.startActivity(
+		Intent(
+			context,
+			ContainerActivity::class.java
+		).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+	).putExtras(bundle))
 }
 
 //跳转至注册界面

@@ -7,7 +7,7 @@ import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.WelcomeBinding
 import com.example.rubbishcommunity.persistence.getLoginState
 import com.example.rubbishcommunity.ui.adapter.PagerScaleTransformer
-import com.example.rubbishcommunity.ui.adapter.PhotographyPagerAdapter
+import com.example.rubbishcommunity.ui.adapter.ClassificationPagerAdapter
 import com.example.rubbishcommunity.ui.container.jumpToRegister
 import com.example.rubbishcommunity.ui.home.MainActivity
 import com.jakewharton.rxbinding2.view.RxView
@@ -55,8 +55,8 @@ class WelcomeFragment : BindingFragment<WelcomeBinding, WelcomeViewModel>(
 			
 			viewModel.searchResultList.observeNonNull {
 				binding.photographyPager.adapter =
-					PhotographyPagerAdapter(context!!, viewModel.searchResultList.value ?: listOf())
-				(binding.photographyPager.adapter as PhotographyPagerAdapter).notifyDataSetChanged()
+					ClassificationPagerAdapter(context!!, viewModel.searchResultList.value ?: listOf())
+				(binding.photographyPager.adapter as ClassificationPagerAdapter).notifyDataSetChanged()
 			}
 	}
 	

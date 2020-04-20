@@ -174,7 +174,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
                                 android:layout_weight="0"
-                                android:text="@{vm.location.addrStr}"
+                                android:text="@{vm.city}"
                                 android:textColor="@color/text_second"
                                 android:textSize="14sp" />
 

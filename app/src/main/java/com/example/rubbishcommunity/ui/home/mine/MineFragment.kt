@@ -11,6 +11,7 @@ import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.HeaderMineBinding
 import com.example.rubbishcommunity.databinding.MineFragmentBinding
 import com.example.rubbishcommunity.ui.container.jumpToEditInfo
+import com.example.rubbishcommunity.ui.container.jumpToMomentDetail
 import com.example.rubbishcommunity.ui.utils.showBackgroundAlbum
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
@@ -40,7 +41,7 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 		val headerViewBinding = DataBindingUtil.inflate<HeaderMineBinding>(
 			LayoutInflater.from(context),
 			R.layout.header_mine,
-			null,
+			binding.recRecent,
 			false
 		)
 		
@@ -51,10 +52,10 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 		binding.iv.setOnClickListener { showChooseBackGroundAlert() }
 		
 		//最近动态列表
-		binding.recRecent.adapter = MineMomentAdapter(
-			headerViewBinding
-		) {
-		
+		binding.recRecent.adapter = MineMomentAdapter {
+			context?.run { jumpToMomentDetail(this, it) }
+		}.apply {
+			headerView = headerViewBinding.root
 		}
 		
 		//上拉加载
@@ -75,19 +76,14 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 	}
 	
 	override fun initData() {
-	
-	}
-	
-	override fun onResume() {
-		super.onResume()
-		//回到该页面时重新加载数据
 		viewModel.refreshUserInfo()
 	}
 	
 	private fun showChooseBackGroundAlert() {
-		AlertDialog.Builder(context!!).setTitle("更换背景").setPositiveButton("从相册选择") { _, _ ->
-			showBackgroundAlbum()
-		}.show()
+		AlertDialog.Builder(context!!).setTitle("更换背景")
+			.setPositiveButton("从相册选择") { _, _ ->
+				showBackgroundAlbum()
+			}.show()
 	}
 	
 	//选图后的回调

@@ -30,10 +30,10 @@ class MomentsFragment(private val classify: Int = CLASSIFY_DYNAMIC) :
 			binding.refreshLayout.isRefreshing = isRefreshing
 		}
 		
-		viewModel.isLoadingMore.observeNonNull {
+/*		viewModel.isLoadingMore.observeNonNull {
 			if (binding.recDynamic.adapter != null)
 				(binding.recDynamic.adapter as MomentsListAdapter).onLoadMore = it
-		}
+		}*/
 		
 		viewModel.momentList.observeNonNull {
 			(binding.recDynamic.adapter as MomentsListAdapter).replaceData(it)

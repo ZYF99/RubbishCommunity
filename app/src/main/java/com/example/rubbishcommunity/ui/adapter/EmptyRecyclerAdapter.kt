@@ -13,7 +13,6 @@ import com.example.rubbishcommunity.R
 private const val VIEW_TYPE_ITEM = 1
 private const val VIEW_TYPE_EMPTY = 0
 
-
 abstract class EmptyRecyclerAdapter<Bean, Binding : ViewDataBinding>
 constructor(
 	layoutRes: Int,

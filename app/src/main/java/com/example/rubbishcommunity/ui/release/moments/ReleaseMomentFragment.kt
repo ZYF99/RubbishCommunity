@@ -88,7 +88,6 @@ class ReleaseMomentFragment : BindingFragment<FragmentReleaseMomentBinding, Rele
 		//已选图片列表
 		binding.imgRec.run {
 			layoutManager = GridLayoutManager(context, 3)
-			//FullyGridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
 			attachItemSwipe(ITEM_SWIPE_FREE, {}, {})
 			adapter = ReleaseDynamicGridImageAdapter(
 				context,
@@ -135,7 +134,8 @@ class ReleaseMomentFragment : BindingFragment<FragmentReleaseMomentBinding, Rele
 	//获取定位
 	@RequiresApi(Build.VERSION_CODES.Q)
 	private fun getLocation() {
-		checkLocationPermissionAndGetLocation(
+		viewModel.getCity()
+/*		checkLocationPermissionAndGetLocation(
 			initLocationClient(MyApplication.instance)
 		).doOnNext {
 			viewModel.location.postValue(it)
@@ -144,7 +144,7 @@ class ReleaseMomentFragment : BindingFragment<FragmentReleaseMomentBinding, Rele
 			showLocationServiceDialog {
 				getLocation()
 			}
-		}.bindLife()
+		}.bindLife()*/
 	}
 	
 	//选图后的回调

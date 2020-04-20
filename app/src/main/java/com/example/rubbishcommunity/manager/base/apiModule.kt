@@ -2,6 +2,8 @@ package com.example.rubbishcommunity.manager.base
 
 import com.example.rubbishcommunity.BuildConfig
 import com.example.rubbishcommunity.manager.api.*
+import com.google.protobuf.Api
+import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -37,107 +39,53 @@ val apiModule = Kodein.Module {
 	//聚合
 	bind<JuheClient>() with singleton { provideJuheClient() }
 	bind<JuheService>() with singleton { instance<JuheClient>().createService(JuheService::class.java) }
-
-	
 	
 	//百度识别
-	bind<BaiduIdentifyClient>() with singleton { provideBaiDuIdentifyClient() }
+	bind<BaiduIdentifyClient>() with singleton { provideBaiduIdentifyClient() }
 	
-	bind<BaiDuIdentifyService>() with singleton { instance<BaiduIdentifyClient>().createService(BaiDuIdentifyService::class.java) }
-	
-	//天行识别
-	bind<TianXingClient>() with singleton { provideTianXingClient() }
-	
-	bind<TianXingService>() with singleton { instance<TianXingClient>().createService(TianXingService::class.java) }
+	bind<BaiDuIdentifyService>() with singleton {
+		instance<BaiduIdentifyClient>().createService(
+			BaiDuIdentifyService::class.java
+		)
+	}
 	
 	
 }
 
 
-fun provideApiClient(): ApiClient {
-	val client = ApiClient.Builder()
+fun OkHttpClient.Builder.init() {
 	val logInterceptor = HttpLoggingInterceptor()
 	logInterceptor.level = HttpLoggingInterceptor.Level.BODY
-	
-	client.okBuilder
-		//.addInterceptor(HeaderInterceptor())
-		.addInterceptor(NetErrorInterceptor())
+	//addInterceptor(HeaderInterceptor())
+	addInterceptor(NetErrorInterceptor())
 		.addInterceptor(ProtoInterceptor())
 		.apply {
 			if (BuildConfig.DEBUG)
 				addInterceptor(logInterceptor)
 		}
 		.readTimeout(10, TimeUnit.SECONDS)
-	
-	return client.build()
 }
 
-
-fun provideJuheClient(): JuheClient {
-	val client = JuheClient.Builder()
-	val logInterceptor = HttpLoggingInterceptor()
-	logInterceptor.level = HttpLoggingInterceptor.Level.BODY
-	
-	client.okBuilder
-		//.addInterceptor(HeaderInterceptor())
-		.addInterceptor(NetErrorInterceptor())
-		.apply {
-			if (BuildConfig.DEBUG)
-				addInterceptor(logInterceptor)
-		}
-		.readTimeout(10, TimeUnit.SECONDS)
-	
+fun provideApiClient(): ApiClient {
+	val client = ApiClient.Builder()
+	client.okBuilder.init()
 	return client.build()
 }
 
 fun provideIpClient(): IpClient {
 	val client = IpClient.Builder()
-	val logInterceptor = HttpLoggingInterceptor()
-	logInterceptor.level = HttpLoggingInterceptor.Level.BODY
-	
-	client.okBuilder
-		//.addInterceptor(HeaderInterceptor())
-		.addInterceptor(NetErrorInterceptor())
-		.apply {
-			if (BuildConfig.DEBUG)
-				addInterceptor(logInterceptor)
-		}
-		.readTimeout(10, TimeUnit.SECONDS)
-	
+	client.okBuilder.init()
 	return client.build()
 }
 
-fun provideBaiDuIdentifyClient(): BaiduIdentifyClient {
+fun provideJuheClient(): JuheClient {
+	val client = JuheClient.Builder()
+	client.okBuilder.init()
+	return client.build()
+}
+
+fun provideBaiduIdentifyClient(): BaiduIdentifyClient {
 	val client = BaiduIdentifyClient.Builder()
-	val logInterceptor = HttpLoggingInterceptor()
-	logInterceptor.level = HttpLoggingInterceptor.Level.BODY
-	
-	client.okBuilder
-		//.addInterceptor(HeaderInterceptor())
-		.addInterceptor(NetErrorInterceptor())
-		.apply {
-			if (BuildConfig.DEBUG)
-				addInterceptor(logInterceptor)
-		}
-		.readTimeout(10, TimeUnit.SECONDS)
-	
-	return client.build()
-}
-
-fun provideTianXingClient(): TianXingClient {
-	val client = TianXingClient.Builder()
-	val logInterceptor = HttpLoggingInterceptor()
-	logInterceptor.level = HttpLoggingInterceptor.Level.BODY
-	
-	client.okBuilder
-		//.addInterceptor(HeaderInterceptor())
-		.addInterceptor(NetErrorInterceptor())
-		.addInterceptor(ProtoInterceptor())
-		.apply {
-			if (BuildConfig.DEBUG)
-				addInterceptor(logInterceptor)
-		}
-		.readTimeout(10, TimeUnit.SECONDS)
-	
+	client.okBuilder.init()
 	return client.build()
 }

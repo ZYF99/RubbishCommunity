@@ -39,7 +39,9 @@ class QuestionTestFragment : BindingFragment<FragmentQuestionTestBinding, Questi
 							AlertDialog.Builder(context).setMessage("本轮答题结束，是否开启新的一轮答题").setPositiveButton(
 								"开启"
 							) { _, _ ->
-								viewModel.fetchTestList()
+								viewModel.fetchTestList{
+									binding.pagerTest.setCurrentItem(0,true)
+								}
 							}.create().show()
 					}.bindLife()
 			},
@@ -47,14 +49,13 @@ class QuestionTestFragment : BindingFragment<FragmentQuestionTestBinding, Questi
 				//答错后
 			}
 		)
-		binding.flTip.setOnClickListener { it.visibility = View.GONE }
+		binding.flTip.setOnClickListener { viewModel.shouldShowTip.postValue(false) }
 		viewModel.refreshing.observeNonNull { isRefreshing ->
 			binding.refreshLayout.isRefreshing = isRefreshing
 		}
 		
 		viewModel.pagerList.observeNonNull {
 			(binding.pagerTest.adapter as TestPagerAdapter).replaceData(it)
-			binding.pagerTest.setCurrentItem(0,true)
 		}
 		
 		binding.refreshLayout.setOnRefreshListener {

@@ -6,8 +6,6 @@ import com.example.rubbishcommunity.persistence.getLocalToken
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.protobuf.ProtoConverterFactory
-import okhttp3.Interceptor
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import java.security.SecureRandom
@@ -20,22 +18,14 @@ import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 import kotlin.reflect.KClass
 
-/**
- * @author Zhangyf
- * @version 1.0
- * @date 2019/7/20 15：12
- */
-
-
-class ApiClient private constructor(val retrofit: Retrofit, val okHttpClient: OkHttpClient) {
-	
+class ApiClient(
+	private val retrofit: Retrofit
+) {
 	fun <S> createService(serviceClass: Class<S>): S = retrofit.create(serviceClass)
-	
 	fun <S : Any> createService(serviceClass: KClass<S>): S = createService(serviceClass.java)
 	
-	
 	class Builder(
-		val apiAuthorizations: MutableMap<String, Interceptor> = LinkedHashMap(),
+		//val apiAuthorizations: MutableMap<String, Interceptor> = LinkedHashMap(),
 		val okBuilder: OkHttpClient.Builder = OkHttpClient.Builder(),
 		val adapterBuilder: Retrofit.Builder = Retrofit.Builder()
 	) {
@@ -58,10 +48,7 @@ class ApiClient private constructor(val retrofit: Retrofit, val okHttpClient: Ok
 				}
 			}
 		
-		/**
-		 * すべての証明書を受け付ける信頼マネージャを作成
-		 * @return 信頼マネージャ
-		 */
+		//信任证书
 		private val trustManagerAllowAllCerts: X509TrustManager
 			get() = object : X509TrustManager {
 				override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf()
@@ -81,25 +68,22 @@ class ApiClient private constructor(val retrofit: Retrofit, val okHttpClient: Ok
 				}
 			}
 		
-		fun setAllowAllCerTificates(): Builder {
+		fun setAllowAllCerTificates(): ApiClient.Builder {
 			allowAllSSLSocketFactory?.apply {
 				okBuilder.sslSocketFactory(first, second)
 				okBuilder.hostnameVerifier(HostnameVerifier { _, _ -> true })
 			}
-			
 			return this
 		}
 		
-		fun build(baseUrl: String = BuildConfig.BASE_URL): ApiClient {
+		fun build(url: String? = null):ApiClient{
+			
+			val baseUrl = url ?: BuildConfig.BASE_URL
 			
 			adapterBuilder
 				.baseUrl(baseUrl)
-				.addConverterFactory(ProtoConverterFactory.create())//一定要在gsonconvert的前面
-				//.addConverterFactory(WireConverterFactory.create())
 				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 				.addConverterFactory(GsonConverterFactory.create())
-			
-			
 			val client = okBuilder.addInterceptor { chain ->
 				val origin = chain.request()
 				val request = origin
@@ -116,13 +100,12 @@ class ApiClient private constructor(val retrofit: Retrofit, val okHttpClient: Ok
 				setAllowAllCerTificates()
 			
 			val retrofit = adapterBuilder.client(client).build()
-			return ApiClient(retrofit, client)
+			return ApiClient(retrofit)
 		}
-	}
-	
-	companion object {
-		val defaultClient: ApiClient
-			get() = Builder().build()
 	}
 }
 
+/*	companion object {
+		val defaultClient: ApiClient
+			get() = NetClient.Builder<T>().build()
+	}*/

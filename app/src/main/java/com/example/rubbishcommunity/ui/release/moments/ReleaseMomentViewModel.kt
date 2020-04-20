@@ -2,9 +2,9 @@ package com.example.rubbishcommunity.ui.release.moments
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.baidu.location.BDLocation
 import com.example.rubbishcommunity.manager.api.MomentService
 import com.example.rubbishcommunity.manager.api.ImageService
+import com.example.rubbishcommunity.manager.api.IpService
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.release.ReleaseMomentRequestModel
 import com.example.rubbishcommunity.ui.base.BaseViewModel
@@ -40,11 +40,12 @@ class ReleaseMomentViewModel(application: Application) : BaseViewModel(applicati
 	//内容
 	val content = MutableLiveData("")
 	//位置
-	val location = MutableLiveData<BDLocation>()
+	val city = MutableLiveData<String>()
 	//进度
 	val progress = MutableLiveData(0)
 	private val imageService by instance<ImageService>()
 	private val momentService by instance<MomentService>()
+	private val ipService by instance<IpService>()
 	
 	//拉草稿
 	fun fetchDraft() {
@@ -101,8 +102,8 @@ class ReleaseMomentViewModel(application: Application) : BaseViewModel(applicati
 		//发布动态的流
 		fun getReleaseMomentSingle(momentsId: Long) = momentService.releaseMoment(
 			ReleaseMomentRequestModel(
-				location.value?.latitude,
-				location.value?.longitude,
+				0.0,
+				0.0,
 				momentsId
 			)
 		)
@@ -149,14 +150,18 @@ class ReleaseMomentViewModel(application: Application) : BaseViewModel(applicati
 				if (momentsType == MomentsType.TYPE_DYNAMIC) CLASSIFY_DYNAMIC
 				else CLASSIFY_RECOVERY,
 				content.value ?: "",
-				location.value?.latitude ?: 0.0,
-				location.value?.longitude ?: 0.0,
+				 0.0,
+				 0.0,
 				selectedImgList ?: emptyList(),
 				title.value!!,
 				"default_topic"
 			)
 		)
 		
+	}
+	
+	fun getCity(){
+		getAddressFromIp(ipService){city.postValue(it)}
 	}
 	
 	//处理loading

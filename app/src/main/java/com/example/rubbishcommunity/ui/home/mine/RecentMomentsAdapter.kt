@@ -2,6 +2,7 @@ package com.example.rubbishcommunity.ui.home.mine
 
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ItemRecentMomentBinding
+import com.example.rubbishcommunity.model.api.SimpleProfileResp
 import com.example.rubbishcommunity.model.api.moments.MomentContent
 import com.example.rubbishcommunity.ui.adapter.BaseRecyclerAdapter
 
@@ -13,6 +14,7 @@ class RecentMomentsAdapter:BaseRecyclerAdapter<MomentContent, ItemRecentMomentBi
 		binding.moment = baseList[position]
 	}
 	
+
 /*	override fun replaceData(newList: List<MomentContent>) {
 		if(newList.isNotEmpty()){
 			val diffResult = DiffUtil.calculateDiff(MomentContentDiffCallBack(baseList, newList), true)

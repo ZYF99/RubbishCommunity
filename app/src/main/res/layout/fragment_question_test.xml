@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <variable
                 name="vm"
                 type="com.example.rubbishcommunity.ui.home.find.questiontest.QuestionTestViewModel" />
@@ -47,6 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:visibility="visible"
+                android:visibility="@{vm.shouldShowTip?View.VISIBLE:View.GONE}"
                 android:background="#A4000000">
 
             <TextView

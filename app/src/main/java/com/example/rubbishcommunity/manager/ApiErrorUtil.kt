@@ -48,10 +48,18 @@ private fun dealRetryError(reTryCount: Int, error: Throwable): Boolean {
 private fun catchApiError(error: Throwable){
 	when (error) {
 		is ApiError -> {
-			sendError(
-				ErrorType.API_ERROR,
-				error.result.meta.msg
-			)
+			if(error.result.meta.code == 10){//token失效
+				sendError(
+					ErrorType.TOKEN_INVALID,
+					error.result.meta.msg
+				)
+			}else{
+				sendError(
+					ErrorType.API_ERROR,
+					error.result.meta.msg
+				)
+			}
+
 		}
 		is ServerError -> {
 			sendError(

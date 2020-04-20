@@ -1,6 +1,5 @@
 package com.example.rubbishcommunity.ui.adapter
 
-
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
@@ -15,12 +14,10 @@ import com.example.rubbishcommunity.model.api.search.SearchKeyConclusion
 import com.jakewharton.rxbinding2.view.RxView
 import java.util.concurrent.TimeUnit
 
-
-class PhotographyPagerAdapter(
+class ClassificationPagerAdapter(
 	private val context: Context,
 	private val list: List<SearchKeyConclusion>
 ) : PagerAdapter() {
-	
 	
 	override fun instantiateItem(container: ViewGroup, position: Int): Any {
 		val root =
@@ -35,7 +32,6 @@ class PhotographyPagerAdapter(
 		return root
 	}
 	
-	
 	override fun isViewFromObject(view: View, `object`: Any): Boolean {
 		return view == `object`
 	}
@@ -47,7 +43,6 @@ class PhotographyPagerAdapter(
 	override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
 		container.removeView(`object` as View)
 	}
-	
 	
 	private fun startClickAnimation(root: View) {
 		val animatorSet = AnimatorSet()

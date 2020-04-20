@@ -14,12 +14,14 @@ class QuestionTestViewModel(application: Application) : BaseViewModel(applicatio
 	private val rubbishService by instance<RubbishService>()
 	val refreshing = MutableLiveData<Boolean>()
 	val pagerList = MutableLiveData<List<TestCard>>()
+	val shouldShowTip = MutableLiveData(true)
 	
-	fun fetchTestList() {
+	fun fetchTestList(action:(()->Unit)? = null) {
 		rubbishService.fetchQuestions()
 			.dealRefresh()
 			.doOnApiSuccess {
-				pagerList.postValue(it.data)
+				pagerList.value = it.data
+				action?.invoke()
 			}
 	}
 	

@@ -107,6 +107,7 @@ data class ErrorData(val errorType: ErrorType, val errorContent: String = "")
 enum class ErrorType {
 	UI_ERROR,
 	API_ERROR,
+	TOKEN_INVALID,
 	SERVERERROR,
 	UNEXPECTED,
 }

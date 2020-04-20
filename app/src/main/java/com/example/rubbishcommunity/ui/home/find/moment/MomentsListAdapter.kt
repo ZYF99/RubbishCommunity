@@ -18,10 +18,7 @@ import com.example.rubbishcommunity.model.api.moments.MomentContent
 import com.example.rubbishcommunity.persistence.getLocalOpenId
 import com.example.rubbishcommunity.persistence.getUserSimpleProfile
 import com.example.rubbishcommunity.ui.adapter.BaseRecyclerAdapter
-import com.example.rubbishcommunity.ui.adapter.EmptyRecyclerAdapter
-import com.example.rubbishcommunity.ui.adapter.LoadMoreRecyclerAdapter
 import com.example.rubbishcommunity.ui.utils.showGallery
-import timber.log.Timber
 
 
 class MomentsListAdapter(
@@ -29,7 +26,7 @@ class MomentsListAdapter(
 	val onHeaderClick: (SimpleProfileResp) -> Unit,
 	val onLikeClick: (MomentContent, Int) -> Unit,
 	val onTransClick: (MomentContent) -> Unit
-) : LoadMoreRecyclerAdapter<MomentContent, CellMomentBinding>(
+) : BaseRecyclerAdapter<MomentContent, CellMomentBinding>(
 	R.layout.cell_moment,
 	onCellClick
 ) {

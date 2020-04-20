@@ -266,7 +266,7 @@
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.example.rubbishcommunity.ui.widget.HeaderRecyclerView
                 android:id="@+id/rec_recent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

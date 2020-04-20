@@ -16,7 +16,16 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 	private val onCellClick: (Bean) -> Unit,
 	var baseList: List<Bean> = emptyList()
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-	class BaseSimpleViewHolder<Binding : ViewDataBinding>(
+	
+	var headerView: View? = null
+	
+	companion object {
+		private const val ITEM_TYPE_HEADER = 0
+		private const val ITEM_TYPE_CONTENT = 1
+		private const val FOOTER_SIZE = 1
+	}
+	
+	inner class ContentViewHolder(
 		itemView: View
 	) : RecyclerView.ViewHolder(itemView) {
 		val binding: Binding? by lazy {
@@ -24,34 +33,90 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 		}
 	}
 	
+	inner class HeaderViewHolder(
+		itemView: View
+	) : RecyclerView.ViewHolder(itemView) {
+	
+	}
+
+/*	class BaseSimpleViewHolder<Binding : ViewDataBinding>(
+		itemView: View
+	) : RecyclerView.ViewHolder(itemView) {
+		val binding: Binding? by lazy {
+			DataBindingUtil.bind<Binding>(itemView)
+		}
+	}*/
+	
 	override fun onCreateViewHolder(
 		parent: ViewGroup,
 		viewType: Int
 	): RecyclerView.ViewHolder {
-		return BaseSimpleViewHolder<Binding>(
-			LayoutInflater.from(parent.context).inflate(layoutRes, parent, false)
-		)
+		
+		return when (viewType) {
+			ITEM_TYPE_CONTENT -> ContentViewHolder(
+				LayoutInflater.from(parent.context).inflate(
+					layoutRes,
+					parent,
+					false
+				)
+			)
+			ITEM_TYPE_HEADER -> if (headerView != null) HeaderViewHolder(headerView!!)
+			else throw RuntimeException("no headerView")
+/*			ITEM_TYPE_LOAD_MORE -> FooterViewHolder(
+				ItemFooterProgressbarBinding.inflate(
+					LayoutInflater.from(parent.context), parent, false
+				).root
+			)*/
+			else -> throw RuntimeException("no such ViewType")
+		}
+		
 	}
 	
-	override fun getItemCount() = baseList.size
+	override fun getItemViewType(position: Int): Int {
+		if (position == 0 && headerView != null)
+			return ITEM_TYPE_HEADER
+		return ITEM_TYPE_CONTENT
+	}
+	
+	override fun getItemCount() = if (headerView == null) baseList.size else baseList.size + 1
 	
 	override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-		holder as BaseSimpleViewHolder<Binding>
-		holder.binding!!.root.setOnClickListener {
-			onCellClick(baseList[position])
+		when (getItemViewType(position)) {
+			ITEM_TYPE_CONTENT -> {
+				val pos = if (headerView != null) position - 1 else position
+				holder as BaseRecyclerAdapter<*, *>.ContentViewHolder
+				holder.binding?.root?.setOnClickListener {
+					onCellClick(baseList[pos])
+				}
+				bindData(
+					holder.binding as Binding,
+					pos
+				)
+			}
+			ITEM_TYPE_HEADER -> {
+			}
+/*			ITEM_TYPE_LOAD_MORE -> onLoadMore()*/
 		}
-		bindData(holder.binding!!, position)
+		
 	}
 	
 	abstract fun bindData(binding: Binding, position: Int)
 	
 	open fun replaceData(newList: List<Bean>) {
-		if(newList.isNotEmpty()){
+		if (newList.isNotEmpty()) {
 			val diffResult = DiffUtil.calculateDiff(SingleBeanDiffCallBack(baseList, newList), true)
 			baseList = newList
 			diffResult.dispatchUpdatesTo(this)
 		}
+/*		baseList = newList
+		notifyDataSetChanged()*/
 	}
+	
+	fun changeData(data: Bean, position: Int) {
+		baseList = baseList.toMutableList().apply { set(position, data) }
+		notifyItemChanged(position)
+	}
+	
 	
 	fun onItemMove(fromPosition: Int, toPosition: Int) {
 		//交换位置
@@ -67,9 +132,9 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 }
 
 class SingleBeanDiffCallBack<Bean>(
-	val oldDatas:List<Bean>,
-	val newDatas:List<Bean>
-): DiffUtil.Callback() {
+	val oldDatas: List<Bean>,
+	val newDatas: List<Bean>
+) : DiffUtil.Callback() {
 	override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
 		return true
 	}
@@ -87,9 +152,7 @@ class SingleBeanDiffCallBack<Bean>(
 		val newData = newDatas[newItemPosition]
 		return oldData == newData
 	}
-	
 }
-
 
 const val ITEM_SWIPE_VERTICAL = 0
 const val ITEM_SWIPE_HORIZONTAL = 1
