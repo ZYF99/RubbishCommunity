@@ -13,7 +13,9 @@ import com.example.rubbishcommunity.model.Person
 import com.example.rubbishcommunity.ui.adapter.ITEM_SWIPE_VERTICAL
 import com.example.rubbishcommunity.ui.adapter.attachItemSwipe
 import com.example.rubbishcommunity.ui.container.jumpToChat
+import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.home.message.friends.FriendListAdapter
+import com.google.android.material.appbar.AppBarLayout
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -42,6 +44,14 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
 				if (!isRefreshing) finishRefresh()
 			}
 		}
+		
+		//监听AppBar滑动隐藏下面的BottomNavigationView
+		binding.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+			(activity as? MainActivity)?.viewModel?.onAppBarOffsetChanged(
+				verticalOffset,
+				appbarHeight = binding.appbar.height.toFloat() - binding.toolbarHide.height
+			)
+		})
 		
 		//下拉刷新控件
 		binding.refreshLayout.setOnRefreshListener {

@@ -15,9 +15,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.manager.UiError
+import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.utils.ErrorType
 import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.utils.BindLife
+import com.google.android.material.appbar.AppBarLayout
 import io.reactivex.Completable
 import io.reactivex.disposables.CompositeDisposable
 import org.kodein.di.KodeinAware
@@ -63,11 +65,14 @@ constructor(
 		binding.lifecycleOwner = this
 		initBefore()
 		initWidget()
+		
 		//退出点击事件
 		view.findViewById<Toolbar>(R.id.toolbar)
 			?.setNavigationOnClickListener {
 				activity?.finish()
 			}
+		
+		
 		if (!viewModel.vmInit) {
 			initData()
 			viewModel.vmInit = true

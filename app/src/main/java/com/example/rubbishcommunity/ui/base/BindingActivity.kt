@@ -124,7 +124,13 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 					//弹Toast
 					ErrorType.UI_ERROR -> MyApplication.showWarning(it.errorContent)
 					ErrorType.API_ERROR -> MyApplication.showError(it.errorContent)
-					ErrorType.TOKEN_INVALID -> jumpToLogin(this)
+					ErrorType.TOKEN_INVALID -> {
+						AlertDialog.Builder(this)
+							.setMessage("登录失效，请重新登录")
+							.setPositiveButton("确定") { _, _ ->
+								jumpToLogin(this)
+							}.create().show()
+					}
 					ErrorType.SERVERERROR -> MyApplication.showError(it.errorContent)
 					else -> {
 						if (errorDialog?.isShowing != true) {

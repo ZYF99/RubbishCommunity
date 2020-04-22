@@ -115,7 +115,8 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 					pageNum = startPage.value?:1
 				)
 			)
-		).doOnApiSuccess {
+		).dealLoading()
+			.doOnApiSuccess {
 				isLastPage.postValue(it.data.pageInfoResp.lastPage)
 				if (it.data.momentContentList.isNotEmpty())
 					recentMomentList.postValue(
@@ -133,6 +134,9 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 		doOnSubscribe { isRefreshing.postValue(true) }
 			.doFinally { isRefreshing.postValue(false) }
 	
+	private fun <T> Single<T>.dealLoading() =
+		doOnSubscribe { isLoadingMore.postValue(true) }
+			.doFinally { isLoadingMore.postValue(false) }
 	
 	private fun <T> editUserInfo(key: String, value: T) = userService.editUserInfo(
 		hashMapOf(Pair(key, value.toString()))

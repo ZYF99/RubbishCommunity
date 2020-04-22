@@ -26,6 +26,11 @@ class UserInfoFragment : BindingFragment<FragmentUserInfoBinding, UserInfoViewMo
 	}
 	
 	override fun initWidget() {
+		
+		viewModel.isLoadingMore.observeNonNull {
+			(binding.recRecent.adapter as RecentMomentsAdapter).onLoadMore = it
+		}
+		
 		//返回按钮
 		binding.btnBack.setOnClickListener {
 			activity?.finish()

@@ -3,12 +3,16 @@ package com.example.rubbishcommunity.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.example.rubbishcommunity.R
+import com.example.rubbishcommunity.databinding.ItemFooterProgressbarBinding
 import java.util.*
+import kotlin.properties.Delegates
 
 abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 	(
@@ -19,9 +23,16 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 	
 	var headerView: View? = null
 	
+	var onLoadMore by Delegates.observable(
+		false,
+		onChange = { _, _, _ ->
+			notifyItemChanged(itemCount - 1)
+		})
+	
 	companion object {
 		private const val ITEM_TYPE_HEADER = 0
 		private const val ITEM_TYPE_CONTENT = 1
+		private const val ITEM_TYPE_LOAD_MORE = 2
 		private const val FOOTER_SIZE = 1
 	}
 	
@@ -35,8 +46,15 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 	
 	inner class HeaderViewHolder(
 		itemView: View
-	) : RecyclerView.ViewHolder(itemView) {
+	) : RecyclerView.ViewHolder(itemView)
 	
+	
+	inner class FooterViewHolder(
+		itemView: View
+	) : RecyclerView.ViewHolder(itemView){
+		fun onLoadMore(onLoadMore: Boolean){
+			itemView.findViewById<ProgressBar>(R.id.footer_progress_bar).visibility = if (onLoadMore) View.VISIBLE else View.GONE
+		}
 	}
 
 /*	class BaseSimpleViewHolder<Binding : ViewDataBinding>(
@@ -62,23 +80,30 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 			)
 			ITEM_TYPE_HEADER -> if (headerView != null) HeaderViewHolder(headerView!!)
 			else throw RuntimeException("no headerView")
-/*			ITEM_TYPE_LOAD_MORE -> FooterViewHolder(
+			ITEM_TYPE_LOAD_MORE -> FooterViewHolder(
 				ItemFooterProgressbarBinding.inflate(
 					LayoutInflater.from(parent.context), parent, false
 				).root
-			)*/
+			)
 			else -> throw RuntimeException("no such ViewType")
 		}
 		
 	}
 	
 	override fun getItemViewType(position: Int): Int {
-		if (position == 0 && headerView != null)
-			return ITEM_TYPE_HEADER
-		return ITEM_TYPE_CONTENT
+		return if (headerView != null) {
+			when {
+				position == 0 -> ITEM_TYPE_HEADER
+				position >= baseList.size + 1 -> ITEM_TYPE_LOAD_MORE
+				else -> ITEM_TYPE_CONTENT
+			}
+		} else {
+			if (position >= baseList.size) ITEM_TYPE_LOAD_MORE
+			else ITEM_TYPE_CONTENT
+		}
 	}
 	
-	override fun getItemCount() = if (headerView == null) baseList.size else baseList.size + 1
+	override fun getItemCount() = if (headerView == null) baseList.size + FOOTER_SIZE else baseList.size + 1 + FOOTER_SIZE
 	
 	override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 		when (getItemViewType(position)) {
@@ -95,7 +120,7 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 			}
 			ITEM_TYPE_HEADER -> {
 			}
-/*			ITEM_TYPE_LOAD_MORE -> onLoadMore()*/
+			ITEM_TYPE_LOAD_MORE -> (holder as BaseRecyclerAdapter<*, *>.FooterViewHolder).onLoadMore(onLoadMore)
 		}
 		
 	}
@@ -103,11 +128,19 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 	abstract fun bindData(binding: Binding, position: Int)
 	
 	open fun replaceData(newList: List<Bean>) {
-		if (newList.isNotEmpty()) {
-			val diffResult = DiffUtil.calculateDiff(SingleBeanDiffCallBack(baseList, newList), true)
+		if (baseList.isEmpty()) {
 			baseList = newList
-			diffResult.dispatchUpdatesTo(this)
+			notifyDataSetChanged()
+		} else {
+			if (newList.isNotEmpty()) {
+				val diffResult =
+					DiffUtil.calculateDiff(SingleBeanDiffCallBack(baseList, newList), true)
+				baseList = newList
+				diffResult.dispatchUpdatesTo(this)
+			}
 		}
+
+
 /*		baseList = newList
 		notifyDataSetChanged()*/
 	}

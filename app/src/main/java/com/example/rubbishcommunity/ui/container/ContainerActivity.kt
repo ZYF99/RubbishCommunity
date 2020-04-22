@@ -13,6 +13,7 @@ import com.example.rubbishcommunity.databinding.ContainerBinding
 import com.example.rubbishcommunity.model.api.News
 import com.example.rubbishcommunity.model.api.moments.MomentContent
 import com.example.rubbishcommunity.model.api.news.NewsResult
+import com.example.rubbishcommunity.persistence.saveLoginState
 import com.example.rubbishcommunity.ui.base.SoftObservableFragment
 import com.example.rubbishcommunity.ui.guide.basicinfo.BasicInfoFragment
 import com.example.rubbishcommunity.ui.guide.login.LoginFragment
@@ -129,6 +130,7 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 
 //跳转至登陆界面
 fun jumpToLogin(context: Context) {
+	saveLoginState(false)
 	val bundle = Bundle()
 	bundle.putString("tag", "login")
 	context.startActivity(

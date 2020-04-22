@@ -1,12 +1,19 @@
 package com.example.rubbishcommunity.ui.home
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.ui.base.BaseViewModel
-
+import kotlin.math.absoluteValue
 
 
 class MainViewModel(application: Application) : BaseViewModel(application) {
 	
+	val appBarOffsetBias = MutableLiveData(0F)
+	
+	//当fragment的appbar滑动时调用了此方法 ，这里应该改变BottomNavigationView的位置
+	fun onAppBarOffsetChanged(verticalOffset: Int, appbarHeight: Float) {
+		appBarOffsetBias.value = verticalOffset.absoluteValue.toFloat() / appbarHeight
+	}
 
 	
 /*	private val _parentKodein: Kodein by lazy { (application as MyApplication).kodein }

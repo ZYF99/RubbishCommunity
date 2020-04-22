@@ -1,9 +1,6 @@
 package com.example.rubbishcommunity.ui.home
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.view.KeyEvent
-import android.view.KeyEvent.KEYCODE_BACK
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.rubbishcommunity.R
@@ -14,18 +11,17 @@ import com.example.rubbishcommunity.service.MqServiceConnection
 import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.ui.container.jumpToBasicInfo
 import com.example.rubbishcommunity.ui.container.jumpToReleaseMoments
-import com.example.rubbishcommunity.ui.container.jumpToSearch
 import com.example.rubbishcommunity.ui.home.find.FindFragment
 import com.example.rubbishcommunity.ui.home.homepage.HomePageFragment
 import com.example.rubbishcommunity.ui.home.message.MessageFragment
 import com.example.rubbishcommunity.ui.home.mine.MineFragment
 import com.example.rubbishcommunity.ui.release.moments.MomentsType
+import com.example.rubbishcommunity.ui.utils.dp2px
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
 import com.jakewharton.rxbinding2.view.RxView
 import com.zzhoujay.richtext.RichText
 import io.reactivex.Single
 import java.util.concurrent.TimeUnit
-
 
 class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	//纪录第一次点击back时的时间戳（以毫秒为单位的时间）
@@ -47,6 +43,14 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 			FLAG_LAYOUT_NO_LIMITS,
 			FLAG_LAYOUT_NO_LIMITS
 		)*/
+		
+		viewModel.appBarOffsetBias.observeNonNull {
+			binding.bottomnavigation.translationY = it * (binding.bottomnavigation.height + dp2px(16f))
+/*				it.times(
+					binding.bottomnavigation.height
+				)*/
+		}
+		
 		
 		//不需要验证邮箱和完善信息,初始化home界面
 		supportFragmentManager.beginTransaction().apply {
@@ -96,7 +100,7 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	}
 	
 	override fun initData() {
-		
+
 /*		//启动mqtt服务
 		bindService(
 			Intent(this, MyMqttService::class.java),
@@ -146,12 +150,12 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 			object : AddDialog.OnAddDialogClickListener {
 				override fun onDynamicClick() {
 					//开启发布动态界面
-					jumpToReleaseMoments(this@MainActivity,MomentsType.TYPE_DYNAMIC)
+					jumpToReleaseMoments(this@MainActivity, MomentsType.TYPE_DYNAMIC)
 				}
 				
 				override fun onRecoveryClick() {
 					//开启发布回收界面
-					jumpToReleaseMoments(this@MainActivity,MomentsType.TYPE_RECOVERY)
+					jumpToReleaseMoments(this@MainActivity, MomentsType.TYPE_RECOVERY)
 				}
 				
 				override fun onDismiss() {
@@ -164,13 +168,13 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	override fun onDestroy() {
 		try {
 			unbindService(mqServiceConnection)
-		}catch (e:Exception){
+		} catch (e: Exception) {
 			e.printStackTrace()
 		}
 		RichText.recycle()
 		super.onDestroy()
 	}
-	
+
 /*	override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
 		if (keyCode == KEYCODE_BACK) {
 			val intent = Intent(Intent.ACTION_MAIN)

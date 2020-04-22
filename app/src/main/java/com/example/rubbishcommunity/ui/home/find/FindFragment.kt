@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.FindBinding
+import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.home.find.moment.CLASSIFY_DYNAMIC
 import com.example.rubbishcommunity.ui.home.find.moment.CLASSIFY_RECOVERY
 import com.example.rubbishcommunity.ui.home.find.moment.MomentsFragment
 import com.example.rubbishcommunity.ui.home.find.questiontest.QuestionTestFragment
+import com.google.android.material.appbar.AppBarLayout
 
 
 class FindFragment :
@@ -35,6 +37,13 @@ class FindFragment :
 			setupWithViewPager(binding.findpager)
 		}
 		
+		//监听AppBar滑动隐藏下面的BottomNavigationView
+		binding.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+			(activity as? MainActivity)?.viewModel?.onAppBarOffsetChanged(
+				verticalOffset,
+				appbarHeight = binding.appbar.height.toFloat() - binding.tab.height
+			)
+		})
 		
 	}
 	

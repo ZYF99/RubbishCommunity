@@ -1,11 +1,9 @@
 package com.example.rubbishcommunity.ui.home.mine.editinfo
 
-
 import android.app.Activity
 import android.content.Intent
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.EditInfoFragmentBinding
-import com.example.rubbishcommunity.persistence.saveLoginState
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.ui.container.jumpToLogin
 import com.example.rubbishcommunity.ui.container.jumpToPassword
@@ -126,9 +124,7 @@ class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewMo
 		viewModel.logout()
 			.doOnSuccess {
 				//注销成功
-				saveLoginState(false)
 				jumpToLogin(context!!)
-				activity?.finish()
 			}
 			.bindLife()
 	}

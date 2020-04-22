@@ -57,7 +57,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:menu="@menu/navigation"
-                app:shadow_length="8"
+                app:shadow_length="4"
                 tools:targetApi="lollipop" />
 
 
@@ -65,7 +65,7 @@
                 android:id="@+id/fab_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="36dp"
+                android:layout_marginBottom="39dp"
                 android:backgroundTint="@color/colorWhite"
                 android:elevation="6dp"
                 android:src="@android:drawable/ic_input_add"

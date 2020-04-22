@@ -6,7 +6,6 @@ import com.example.rubbishcommunity.manager.api.MomentService
 import com.example.rubbishcommunity.manager.api.UserService
 import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.model.api.mine.UsrProfile
-import com.example.rubbishcommunity.model.api.moments.GetMomentsByClassifyRequestModel
 import com.example.rubbishcommunity.model.api.moments.GetMomentsByUinRequestModel
 import com.example.rubbishcommunity.model.api.moments.MomentContent
 import com.example.rubbishcommunity.model.api.moments.PageParam
@@ -26,7 +25,7 @@ class UserInfoViewModel(application: Application) : BaseViewModel(application) {
 	
 	fun fetchUserInfo(openId: String?) {
 		userService.fetchUserProfile(openId)
-			.dealLoading()
+			.dealRefreshing()
 			.doOnApiSuccess {
 				userInfo.postValue(it.data.usrProfile)
 			}
@@ -38,7 +37,7 @@ class UserInfoViewModel(application: Application) : BaseViewModel(application) {
 			pageParamRequest = PageParam(
 				pageNum = startPage.value?:1
 			)
-		)).dealLoading()
+		)).dealRefreshing()
 			.doOnApiSuccess {
 				momentList.postValue(it.data.momentContentList)
 			}
@@ -54,7 +53,7 @@ class UserInfoViewModel(application: Application) : BaseViewModel(application) {
 					pageNum = startPage.value?:1
 				)
 			)
-		).dealLoading()
+		).dealLoadingMore()
 			.doOnApiSuccess {
 				isLastPage.postValue(it.data.pageInfoResp.lastPage)
 				if (it.data.momentContentList.isNotEmpty())
@@ -69,7 +68,7 @@ class UserInfoViewModel(application: Application) : BaseViewModel(application) {
 	}
 	
 	//刷新机制
-	private fun <T> Single<T>.dealLoading() =
+	private fun <T> Single<T>.dealRefreshing() =
 		doOnSubscribe {
 			isRefreshing.postValue(true)
 		}
@@ -80,5 +79,16 @@ class UserInfoViewModel(application: Application) : BaseViewModel(application) {
 				isRefreshing.postValue(false)
 			}
 	
+	//加载机制
+	private fun <T> Single<T>.dealLoadingMore() =
+		doOnSubscribe {
+			isLoadingMore.postValue(true)
+		}
+			.doOnSuccess {
+				isLoadingMore.postValue(false)
+			}
+			.doOnError {
+				isLoadingMore.postValue(false)
+			}
 	
 }

@@ -12,7 +12,9 @@ import com.example.rubbishcommunity.databinding.HeaderMineBinding
 import com.example.rubbishcommunity.databinding.MineFragmentBinding
 import com.example.rubbishcommunity.ui.container.jumpToEditInfo
 import com.example.rubbishcommunity.ui.container.jumpToMomentDetail
+import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.utils.showBackgroundAlbum
+import com.google.android.material.appbar.AppBarLayout
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.entity.LocalMedia
@@ -32,11 +34,25 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 		//刷新状态监听
 		viewModel.isRefreshing.observeNonNull { binding.rootLayout.isEnabled = !it }
 		
+		//加载状态监听
+		viewModel.isLoadingMore.observeNonNull {
+			if (binding.recRecent.adapter != null)
+				(binding.recRecent.adapter as MineMomentAdapter).onLoadMore = it
+		}
+		
 		//动态列表
 		viewModel.recentMomentList.observeNonNull {
 			(binding.recRecent.adapter as MineMomentAdapter).replaceData(it
 				.filter { it.pictures.isNotEmpty() })
 		}
+		
+		//监听AppBar滑动隐藏下面的BottomNavigationView
+		binding.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+			(activity as? MainActivity)?.viewModel?.onAppBarOffsetChanged(
+				verticalOffset,
+				appbarHeight = binding.appbar.height.toFloat() - binding.toolbarHide.height
+			)
+		})
 		
 		val headerViewBinding = DataBindingUtil.inflate<HeaderMineBinding>(
 			LayoutInflater.from(context),
