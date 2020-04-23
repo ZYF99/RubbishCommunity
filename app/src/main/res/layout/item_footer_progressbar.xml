@@ -5,13 +5,13 @@
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="100dp"
         android:orientation="vertical">
 
-        <ProgressBar
-            android:id="@+id/footer_progress_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+
+        <com.mingle.widget.LoadingView
+                android:id="@+id/footer_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
     </FrameLayout>
 </layout>

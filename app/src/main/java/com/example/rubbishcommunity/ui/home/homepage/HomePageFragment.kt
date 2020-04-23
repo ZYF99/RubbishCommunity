@@ -6,10 +6,7 @@ import com.example.rubbishcommunity.databinding.HomePageBinding
 import com.example.rubbishcommunity.ui.container.jumpToNewsDetail
 import com.example.rubbishcommunity.ui.container.jumpToSearch
 import com.example.rubbishcommunity.ui.home.MainActivity
-import com.example.rubbishcommunity.ui.home.homepage.newsdetail.NewsImageBannerViewHolder
 import com.google.android.material.appbar.AppBarLayout
-import com.jakewharton.rxbinding2.view.RxView
-import java.util.concurrent.TimeUnit
 
 class HomePageFragment : BindingFragment<HomePageBinding, HomePageViewModel>(
 	HomePageViewModel::class.java, R.layout.fragment_home_page

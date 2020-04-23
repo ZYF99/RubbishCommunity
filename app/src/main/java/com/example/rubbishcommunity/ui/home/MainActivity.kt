@@ -45,7 +45,9 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 		)*/
 		
 		viewModel.appBarOffsetBias.observeNonNull {
-			binding.bottomnavigation.translationY = it * (binding.bottomnavigation.height + dp2px(16f))
+			binding.bottomnavigation.translationY =
+				it * (binding.bottomnavigation.height + dp2px(16f))
+			binding.fabAdd.alpha = ((1 - (it * 0.5)).toFloat())
 /*				it.times(
 					binding.bottomnavigation.height
 				)*/

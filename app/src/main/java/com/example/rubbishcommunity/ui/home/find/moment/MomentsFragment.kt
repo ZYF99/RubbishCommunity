@@ -26,10 +26,14 @@ class MomentsFragment(private val classify: Int = CLASSIFY_DYNAMIC) :
 	@RequiresApi(Build.VERSION_CODES.N)
 	override fun initWidget() {
 		
+		viewModel.isLoadingMore.observeNonNull {
+			(binding.recDynamic.adapter as MomentsListAdapter).onLoadMore = it
+		}
+		
 		viewModel.isRefreshing.observeNonNull { isRefreshing ->
 			binding.refreshLayout.isRefreshing = isRefreshing
 		}
-		
+
 /*		viewModel.isLoadingMore.observeNonNull {
 			if (binding.recDynamic.adapter != null)
 				(binding.recDynamic.adapter as MomentsListAdapter).onLoadMore = it
@@ -70,7 +74,7 @@ class MomentsFragment(private val classify: Int = CLASSIFY_DYNAMIC) :
 						context,
 						publisher
 					) {
-						jumpToUserInfo(context,publisher.openId)
+						jumpToUserInfo(context, publisher.openId)
 					}.show()
 				}, { moment, position ->
 					//点击'赞'或'已赞'

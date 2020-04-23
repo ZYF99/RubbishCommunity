@@ -3,7 +3,6 @@ package com.example.rubbishcommunity.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
@@ -53,7 +52,7 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 		itemView: View
 	) : RecyclerView.ViewHolder(itemView){
 		fun onLoadMore(onLoadMore: Boolean){
-			itemView.findViewById<ProgressBar>(R.id.footer_progress_bar).visibility = if (onLoadMore) View.VISIBLE else View.GONE
+			itemView.findViewById<com.mingle.widget.LoadingView>(R.id.footer_progress_bar).visibility = if (onLoadMore) View.VISIBLE else View.GONE
 		}
 	}
 

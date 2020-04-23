@@ -21,7 +21,6 @@ class SplashActivity : BindingActivity<SplashBinding, SplashViewModel>() {
 		binding.vm = viewModel
 	}
 	
-	
 	override fun initWidget() {
 		Single.fromCallable {
 			HanLP.extractSummary("1", 1)
@@ -37,9 +36,8 @@ class SplashActivity : BindingActivity<SplashBinding, SplashViewModel>() {
 		
 		if (getClassificationList().isNullOrEmpty())
 			viewModel.fetchClassificationInfo { jumpToWelcome() }
-		else Single.timer(3, TimeUnit.SECONDS)
+		else Single.timer(1, TimeUnit.SECONDS)
 			.doOnSuccess { jumpToWelcome() }.bindLife()
-		
 		
 	}
 	
