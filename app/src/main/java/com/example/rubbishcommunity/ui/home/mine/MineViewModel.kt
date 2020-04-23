@@ -57,7 +57,7 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 			), BiFunction { f, s ->
 				Pair(f.data, s.data)
 			}
-		).dealLoading()
+		).dealLoadingMore()
 			.doOnApiSuccess {
 				val profile =
 					if (it.first.usrProfile.backgroundImage.isEmpty())
