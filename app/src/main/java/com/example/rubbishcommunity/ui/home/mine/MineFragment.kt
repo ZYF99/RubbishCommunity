@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
+import com.example.rubbishcommunity.databinding.DialogBindMachineBinding
 import com.example.rubbishcommunity.databinding.HeaderMineBinding
 import com.example.rubbishcommunity.databinding.MineFragmentBinding
 import com.example.rubbishcommunity.ui.container.jumpToEditInfo
@@ -23,6 +24,8 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 	MineViewModel::class.java, R.layout.fragment_mine
 ) {
 	
+	var bindAlertDialog: AlertDialog? = null
+	
 	override fun initBefore() {
 	
 	}
@@ -33,6 +36,12 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 		
 		//刷新状态监听
 		viewModel.isRefreshing.observeNonNull { binding.rootLayout.isEnabled = !it }
+		
+		//加载更多状态监听
+		viewModel.isLoadingMore.observeNonNull {
+			if (binding.recRecent.adapter != null)
+				(binding.recRecent.adapter as MineMomentAdapter).onLoadMore = it
+		}
 		
 		//加载状态监听
 		viewModel.isLoadingMore.observeNonNull {
@@ -60,6 +69,31 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 			binding.recRecent,
 			false
 		)
+		
+		val dialogBinding = DataBindingUtil.inflate<DialogBindMachineBinding>(
+			LayoutInflater.from(context),
+			R.layout.dialog_bind_machine,
+			null,
+			false
+		)
+		
+		//绑定设备按钮
+		headerViewBinding.btnBindMachine.setOnClickListener {
+			if (bindAlertDialog == null)
+				bindAlertDialog = AlertDialog.Builder(context!!)
+					.setTitle("绑定智能设备")
+					.setView(dialogBinding.root)
+					.setPositiveButton("绑定") { _, _ ->
+						viewModel.bindMachine(
+							dialogBinding.etBindKey.text.toString(),
+							dialogBinding.etMac.text.toString(),
+							dialogBinding.etNickName.text.toString()
+						)
+					}
+					.setNegativeButton("取消") { _, _ -> }
+					.create()
+			bindAlertDialog?.show()
+		}
 		
 		//设置按钮
 		binding.btnSetting.setOnClickListener { jumpToEditInfo(context!!) }

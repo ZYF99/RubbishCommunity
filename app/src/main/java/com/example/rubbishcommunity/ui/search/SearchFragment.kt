@@ -37,7 +37,7 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 		}
 		
 		//加载状态监听
-		viewModel.isLoading.observeNonNull {
+		viewModel.isSearching.observeNonNull {
 			binding.swipe.isRefreshing = it
 			binding.swipe.isEnabled = it
 			
@@ -96,7 +96,7 @@ class SearchFragment : BindingFragment<SearchBinding, SearchViewModel>(
 				viewModel.analysisAndSearch()
 			}
 		}.doOnError {
-			viewModel.isLoading.postValue(false)
+			viewModel.isSearching.postValue(false)
 		}.bindLife()
 	}
 	

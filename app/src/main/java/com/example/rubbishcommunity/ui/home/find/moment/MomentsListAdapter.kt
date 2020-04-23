@@ -78,7 +78,7 @@ class MomentsListAdapter(
 		binding.likeString = when {
 			likeSize > 10 -> "等共${likeSize}人觉得很赞"
 			likeSize in 1..10 -> "共${likeSize}人觉得很赞"
-			else -> " "
+			else -> ""
 		}
 		
 		binding.cellAuthorPortrait.setOnClickListener { onHeaderClick(moment.publisher) }

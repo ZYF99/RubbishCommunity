@@ -53,7 +53,7 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 	override fun initWidget() {
 		
 		//观测是否在Loading
-		viewModel.isLoading.observeNonNull {
+		viewModel.isRegisting.observeNonNull {
 			if (it) {
 				//开始登陆的动画
 				animationUtils.startTransAnimation()
@@ -159,7 +159,7 @@ class BasicInfoFragment : BindingFragment<BasicInfoFragBinding, BasicInfoViewMod
 				(context as Activity).finish()
 			}?.bindLife()
 		}.doOnError {
-			viewModel.isLoading.postValue(false)
+			viewModel.isRegisting.postValue(false)
 		}.bindLife()
 	}
 	

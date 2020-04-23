@@ -16,7 +16,7 @@ abstract class BaseViewModel(application: Application) :
 	AndroidViewModel(application),
 	KodeinAware,
 	BindLife {
-	
+	val isLoading = MutableLiveData(false)
 	override val kodein: Kodein by lazy { (application as MyApplication).kodein }
 	override val compositeDisposable = CompositeDisposable()
 	var vmInit = false
@@ -37,5 +37,8 @@ abstract class BaseViewModel(application: Application) :
 			.doOnSuccess { action.invoke(it) }
 			.bindLife()
 	
+	protected fun <T> Single<T>.dealLoading() =
+		doOnSubscribe { isLoading.postValue(true) }
+			.doFinally { isLoading.postValue(false) }
 	
 }

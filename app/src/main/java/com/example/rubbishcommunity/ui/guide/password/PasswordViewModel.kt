@@ -31,7 +31,7 @@ class PasswordViewModel(application: Application) : BaseViewModel(application) {
 	//邮箱验证码
 	val verifyCode = MutableLiveData<String>("")
 	//是否正在Loading
-	val isLoading = MutableLiveData<Boolean>(false)
+	val isEditing = MutableLiveData<Boolean>(false)
 	
 	private val apiService by instance<UserService>()
 	
@@ -138,9 +138,9 @@ class PasswordViewModel(application: Application) : BaseViewModel(application) {
 	
 	private fun <T> dealLoading(): SingleTransformer<T, T> {
 		return SingleTransformer { obs ->
-			obs.doOnSubscribe { isLoading.postValue(true) }
-				.doOnSuccess { isLoading.postValue(false) }
-				.doOnError { isLoading.postValue(false) }
+			obs.doOnSubscribe { isEditing.postValue(true) }
+				.doOnSuccess { isEditing.postValue(false) }
+				.doOnError { isEditing.postValue(false) }
 		}
 	}
 	

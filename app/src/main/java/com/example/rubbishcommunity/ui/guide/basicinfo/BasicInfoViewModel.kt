@@ -29,7 +29,7 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 	val city = MutableLiveData<String>()
 	val name = MutableLiveData("")
 	val birthday = MutableLiveData(23558400000) //1970-10-1 00:00:00
-	val isLoading = MutableLiveData(false)
+	val isRegisting = MutableLiveData(false)
 	private val apiService by instance<UserService>()
 	private val imageService by instance<ImageService>()
 	
@@ -98,13 +98,13 @@ class BasicInfoViewModel(application: Application) : BaseViewModel(application) 
 	private fun <T> dealLoading(): SingleTransformer<T, T> {
 		return SingleTransformer { obs ->
 			obs.doOnSubscribe {
-				isLoading.postValue(true)
+				isRegisting.postValue(true)
 			}
 				.doOnSuccess {
-					isLoading.postValue(false)
+					isRegisting.postValue(false)
 				}
 				.doOnError {
-					isLoading.postValue(false)
+					isRegisting.postValue(false)
 				}
 		}
 	}

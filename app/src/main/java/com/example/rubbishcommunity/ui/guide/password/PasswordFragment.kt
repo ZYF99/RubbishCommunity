@@ -46,7 +46,7 @@ class PasswordFragment : BindingFragment<PasswordFragBinding, PasswordViewModel>
 	@RequiresApi(Build.VERSION_CODES.O)
 	override fun initWidget() {
 		//观测是否在Loading
-		viewModel.isLoading.observeNonNull {
+		viewModel.isEditing.observeNonNull {
 			if (it) {
 				//开始登陆的动画
 				animationUtils.startTransAnimation()
@@ -96,7 +96,7 @@ class PasswordFragment : BindingFragment<PasswordFragBinding, PasswordViewModel>
 				//发送成功
 			}?.bindLife()
 		}.doOnError {
-			viewModel.isLoading.postValue(false)
+			viewModel.isEditing.postValue(false)
 		}.bindLife()
 		
 	}
@@ -108,7 +108,7 @@ class PasswordFragment : BindingFragment<PasswordFragBinding, PasswordViewModel>
 			//跳转至第三步
 			viewModel.judgeCodeAndGoStep3()
 		}.doOnError {
-			viewModel.isLoading.postValue(false)
+			viewModel.isEditing.postValue(false)
 		}.bindLife()
 	}
 	
@@ -121,7 +121,7 @@ class PasswordFragment : BindingFragment<PasswordFragBinding, PasswordViewModel>
 				//修改密码成功
 			}?.bindLife()
 		}.doOnError {
-			viewModel.isLoading.postValue(false)
+			viewModel.isEditing.postValue(false)
 		}.bindLife()
 		
 	}

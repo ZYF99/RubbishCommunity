@@ -32,6 +32,8 @@ val apiModule = Kodein.Module {
 	
 	bind<NewsService>() with singleton { instance<ApiClient>().createService(NewsService::class.java) }
 	
+	bind<MachineService>() with singleton { instance<ApiClient>().createService(MachineService::class.java) }
+	
 	//ip获取地址
 	bind<IpClient>() with singleton { provideIpClient() }
 	bind<IpService>() with singleton { instance<IpClient>().createService(IpService::class.java) }

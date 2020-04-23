@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -32,6 +33,8 @@ constructor(
 	private val bindingCreator: (LayoutInflater, ViewGroup?) -> Bind
 ) : SoftObservableFragment(), KodeinAware,
 	BindLife {
+	
+	var alertDialog: AlertDialog? = null
 	
 	constructor(clazz: Class<VM>, @LayoutRes layoutRes: Int) : this(clazz, { inflater, group ->
 		DataBindingUtil.inflate(inflater, layoutRes, group, false)
@@ -65,7 +68,26 @@ constructor(
 		binding.lifecycleOwner = this
 		initBefore()
 		initWidget()
-		
+		viewModel.isLoading.observeNonNull {
+			if (it) {
+				if (alertDialog == null) {
+					alertDialog = AlertDialog.Builder(context!!)
+						.setView(
+							LayoutInflater.from(context).inflate(
+								R.layout.dialog_loading,
+								null,
+								false
+							)
+						).create()
+				}
+				alertDialog?.show()
+			} else {
+				if (alertDialog != null) {
+					alertDialog?.dismiss()
+				}
+			}
+			
+		}
 		//退出点击事件
 		view.findViewById<Toolbar>(R.id.toolbar)
 			?.setNavigationOnClickListener {

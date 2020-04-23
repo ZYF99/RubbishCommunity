@@ -22,7 +22,7 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
 	private val rubbishService by instance<RubbishService>()
 	private val ipService by instance<IpService>()
 	
-	val isLoading = MutableLiveData(false)
+	val isSearching = MutableLiveData(false)
 	
 	val searchList = MutableLiveData<MutableList<SearchKeyConclusion>>()
 	
@@ -76,9 +76,9 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
 	private fun <T> dealRefresh(): SingleTransformer<T, T> {
 		return SingleTransformer { obs ->
 			obs
-				.doOnSubscribe { isLoading.postValue(true) }
-				.doOnSuccess { isLoading.postValue(false) }
-				.doOnError { isLoading.postValue(false) }
+				.doOnSubscribe { isSearching.postValue(true) }
+				.doOnSuccess { isSearching.postValue(false) }
+				.doOnError { isSearching.postValue(false) }
 		}
 	}
 

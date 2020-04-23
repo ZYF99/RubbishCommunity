@@ -28,7 +28,7 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 	//密码
 	val password = MutableLiveData<String>()
 	//是否正在登陆
-	val isLoading = MutableLiveData<Boolean>()
+	val isLoging = MutableLiveData<Boolean>()
 	
 	private val userService by instance<UserService>()
 	
@@ -124,9 +124,9 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 	
 	private fun <T> dealLoading(): SingleTransformer<T, T> {
 		return SingleTransformer { obs ->
-			obs.doOnSubscribe { isLoading.postValue(true) }
-				.doOnSuccess { isLoading.postValue(false) }
-				.doOnError { isLoading.postValue(false) }
+			obs.doOnSubscribe { isLoging.postValue(true) }
+				.doOnSuccess { isLoging.postValue(false) }
+				.doOnError { isLoging.postValue(false) }
 		}
 	}
 	

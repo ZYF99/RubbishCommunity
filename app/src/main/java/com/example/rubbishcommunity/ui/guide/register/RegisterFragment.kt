@@ -57,7 +57,7 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 			(context as Activity).finish()
 		} else {
 			//观测是否在Loading
-			viewModel.isLoading.observeNonNull {
+			viewModel.isRegistering.observeNonNull {
 				if (it) {
 					//开始登陆的动画
 					animationUtils.startTransAnimation()
@@ -100,7 +100,7 @@ class RegisterFragment : BindingFragment<RegisterFragBinding, RegisterViewModel>
 				/*jumpToBasicInfo(context!!)*/
 			}?.bindLife()
 		}.doOnError {
-			viewModel.isLoading.postValue(false)
+			viewModel.isRegistering.postValue(false)
 		}.bindLife()
 	}
 	

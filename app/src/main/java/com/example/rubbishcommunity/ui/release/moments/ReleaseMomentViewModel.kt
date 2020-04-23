@@ -32,7 +32,7 @@ class ReleaseMomentViewModel(application: Application) : BaseViewModel(applicati
 	//Toolbar标题栏
 	val toolbarTitle = MutableLiveData("")
 	//是否正在加载
-	val isLoading = MutableLiveData(false)
+	val isReading = MutableLiveData(false)
 	//已选图片列表
 	val selectedList = MutableLiveData(mutableListOf<LocalMedia>())
 	//标题
@@ -56,7 +56,7 @@ class ReleaseMomentViewModel(application: Application) : BaseViewModel(applicati
 		)
 		//获取草稿的流
 		momentService.getDraft()
-			.dealLoading()
+			.dealReading()
 			.doOnApiSuccess {
 				val draftData = it.data
 				title.postValue(draftData?.title ?: "")
@@ -83,7 +83,7 @@ class ReleaseMomentViewModel(application: Application) : BaseViewModel(applicati
 		content.value = ""
 		momentService
 			.clearDraft()
-			.dealLoading()
+			.dealReading()
 			.doOnApiSuccess {
 				onClearedAction.invoke()
 			}
@@ -126,7 +126,7 @@ class ReleaseMomentViewModel(application: Application) : BaseViewModel(applicati
 						getSaveDraftAndReleaseSingle(resultKeyList)
 					}
 			else -> getSaveDraftAndReleaseSingle()//没有图片，直接存草稿
-		}.dealLoading()
+		}.dealReading()
 			.doOnApiSuccess {
 				clearDraft { onReleaseAction.invoke() }
 			}
@@ -165,10 +165,10 @@ class ReleaseMomentViewModel(application: Application) : BaseViewModel(applicati
 	}
 	
 	//处理loading
-	private fun <T> Single<T>.dealLoading(): Single<T> {
-		return doOnSubscribe { isLoading.postValue(true) }
-			.doOnSuccess { isLoading.postValue(false) }
-			.doOnError { isLoading.postValue(false) }
+	private fun <T> Single<T>.dealReading(): Single<T> {
+		return doOnSubscribe { isReading.postValue(true) }
+			.doOnSuccess { isReading.postValue(false) }
+			.doOnError { isReading.postValue(false) }
 	}
 	
 }

@@ -49,7 +49,7 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 	@RequiresApi(Build.VERSION_CODES.O)
 	override fun initWidget() {
 		//观测是否在Loading
-		viewModel.isLoading.observeNonNull {
+		viewModel.isLoging.observeNonNull {
 			if (it) {
 				//开始登陆的动画
 				animationUtils.startTransAnimation()
@@ -96,7 +96,7 @@ class LoginFragment : BindingFragment<LoginFragBinding, LoginViewModel>(
 				(context as Activity).finish()
 			}?.bindLife()
 		}.doOnError {
-			viewModel.isLoading.postValue(false)
+			viewModel.isLoging.postValue(false)
 		}.bindLife()
 	}
 	

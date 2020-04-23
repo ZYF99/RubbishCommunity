@@ -18,9 +18,6 @@ import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.ui.utils.*
 import com.example.rubbishcommunity.utils.switchThread
 import io.reactivex.Single
-import io.reactivex.SingleTransformer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import org.kodein.di.generic.instance
 import java.util.concurrent.TimeUnit
 
@@ -30,7 +27,7 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 	val email = MutableLiveData<String>()
 	val password = MutableLiveData<String>()
 	
-	val isLoading = MutableLiveData<Boolean>()
+	val isRegistering = MutableLiveData<Boolean>()
 	
 	
 	private val apiService by instance<UserService>()
@@ -88,7 +85,7 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 				
 				.switchThread()
 				.catchApiError()
-				.dealLoading()
+				.dealRegistering()
 				.doOnSuccess {
 					//持久化得到的token以及用户登录的信息
 					saveVerifyInfo(
@@ -136,12 +133,12 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 		}
 	}
 	
-	private fun <T> Single<T>.dealLoading() = doOnSubscribe {
-		isLoading.postValue(true)
+	private fun <T> Single<T>.dealRegistering() = doOnSubscribe {
+		isRegistering.postValue(true)
 	}.doOnSuccess {
-		isLoading.postValue(false)
+		isRegistering.postValue(false)
 	}.doOnError {
-		isLoading.postValue(false)
+		isRegistering.postValue(false)
 	}
 	
 	
