@@ -72,13 +72,8 @@ constructor(
 			if (it) {
 				if (alertDialog == null) {
 					alertDialog = AlertDialog.Builder(context!!)
-						.setView(
-							LayoutInflater.from(context).inflate(
-								R.layout.dialog_loading,
-								null,
-								false
-							)
-						).create()
+						.setView(R.layout.dialog_loading)
+						.create()
 				}
 				alertDialog?.show()
 			} else {

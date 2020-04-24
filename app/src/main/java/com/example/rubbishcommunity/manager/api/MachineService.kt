@@ -5,6 +5,7 @@ import com.example.rubbishcommunity.model.api.guide.CompleteInfoRequestModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
 import com.example.rubbishcommunity.model.api.machine.BindMachineRequestModel
+import com.example.rubbishcommunity.model.api.machine.BindMachineResultModel
 import com.example.rubbishcommunity.model.api.mine.UserCardResultModel
 import com.example.rubbishcommunity.model.api.mine.UsrProfileResp
 import com.example.rubbishcommunity.model.api.password.ResetPasswordRequestModel
@@ -23,7 +24,10 @@ interface MachineService {
 	@POST("api/IoTDA/bind")
 	fun bindMachine(
 		@Body BindMachineRequestModel: BindMachineRequestModel
-	): Single<ResponseBody>
+	): Single<ResultModel<BindMachineResultModel?>>
 	
+	//获取硬件设备信息
+	@GET("api/IoTDA/health")
+	fun fetchMachineInfo(): Single<ResultModel<String>>
 	
 }

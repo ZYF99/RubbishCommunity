@@ -83,6 +83,7 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 				bindAlertDialog = AlertDialog.Builder(context!!)
 					.setTitle("绑定智能设备")
 					.setView(dialogBinding.root)
+					.setCancelable(false)
 					.setPositiveButton("绑定") { _, _ ->
 						viewModel.bindMachine(
 							dialogBinding.etBindKey.text.toString(),

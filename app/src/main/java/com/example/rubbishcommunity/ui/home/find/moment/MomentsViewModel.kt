@@ -62,7 +62,7 @@ class MomentsViewModel(application: Application) : BaseViewModel(application) {
 			)
 		).doAfterManageSuccess {
 			
-			}
+		}
 	}
 	
 	//转发
@@ -74,15 +74,16 @@ class MomentsViewModel(application: Application) : BaseViewModel(application) {
 				moment.momentId,
 				PUBLISH_TYPE_FORWARD
 			)
-		).doAfterManageSuccess{ MyApplication.showSuccess("转发成功") }
+		).doAfterManageSuccess { MyApplication.showSuccess("转发成功") }
 	}
 	
 	//对动态进行操作成功后，先刷新列表
-	private fun <T>Single<T>.doAfterManageSuccess(action: ((T)->Unit)?){
-		doOnApiSuccess {
-			refreshMoments()
-			action?.invoke(it)
-		}
+	private fun <T> Single<T>.doAfterManageSuccess(action: ((T) -> Unit)?) {
+		dealLoading()
+			.doOnApiSuccess {
+				refreshMoments()
+				action?.invoke(it)
+			}
 	}
 	
 	private fun <T> Single<T>.dealRefresh() =

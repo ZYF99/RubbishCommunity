@@ -23,6 +23,8 @@ import com.example.rubbishcommunity.utils.switchThread
 import com.example.rubbishcommunity.utils.upLoadImage
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function3
+import okhttp3.ResponseBody
 import org.kodein.di.generic.instance
 
 const val BACKGROUND_URL =
@@ -41,12 +43,14 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 	private val isLastPage = MutableLiveData(false)
 	private val startPage = MutableLiveData(1)
 	
-	
 	fun refreshUserInfo() {
 		//获取用户详细信息
 		userInfo.postValue(getLocalUserInfo())
 		
-		Single.zip<ResultModel<UsrProfileResp>, ResultModel<GetMomentsResultModel>, Pair<UsrProfileResp, GetMomentsResultModel>>(
+		Single.zip<ResultModel<UsrProfileResp>,
+				ResultModel<GetMomentsResultModel>,
+				ResultModel<String>,
+				Triple<UsrProfileResp, GetMomentsResultModel,String>>(
 			userService.fetchUserProfile(),
 			momentService.fetchMomentsByUin(
 				GetMomentsByUinRequestModel(
@@ -54,8 +58,10 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 						1
 					)
 				)
-			), BiFunction { f, s ->
-				Pair(f.data, s.data)
+			),
+			machineService.fetchMachineInfo(),
+			Function3 { f, s, qqq ->
+				Triple(f.data, s.data,qqq.data)
 			}
 		).dealLoadingMore()
 			.doOnApiSuccess {
@@ -82,9 +88,9 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 			)
 		).dealLoading()
 			.doOnApiSuccess {
-			
+				if(it.meta.code == 1001) MyApplication.showSuccess(it.meta.msg)
+				else MyApplication.showWarning(it.meta.msg)
 			}
-		
 	}
 	
 	//修改背景图
