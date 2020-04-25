@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.DialogBindMachineBinding
 import com.example.rubbishcommunity.databinding.HeaderMineBinding
 import com.example.rubbishcommunity.databinding.MineFragmentBinding
 import com.example.rubbishcommunity.ui.container.jumpToEditInfo
+import com.example.rubbishcommunity.ui.container.jumpToMachineDetail
 import com.example.rubbishcommunity.ui.container.jumpToMomentDetail
 import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.utils.showBackgroundAlbum
@@ -25,6 +27,7 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 ) {
 	
 	var bindAlertDialog: AlertDialog? = null
+	var headerViewBinding: HeaderMineBinding? = null
 	
 	override fun initBefore() {
 	
@@ -35,7 +38,10 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 		//binding.collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE)
 		
 		//刷新状态监听
-		viewModel.isRefreshing.observeNonNull { binding.rootLayout.isEnabled = !it }
+		viewModel.isRefreshing.observeNonNull {
+			if (it) alertDialog?.show() else alertDialog?.dismiss()
+			binding.rootLayout.isEnabled = !it
+		}
 		
 		//加载更多状态监听
 		viewModel.isLoadingMore.observeNonNull {
@@ -51,8 +57,12 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 		
 		//动态列表
 		viewModel.recentMomentList.observeNonNull {
-			(binding.recRecent.adapter as MineMomentAdapter).replaceData(it
-				.filter { it.pictures.isNotEmpty() })
+			(binding.recRecent.adapter as MineMomentAdapter).replaceData(it)
+		}
+		
+		//机器列表
+		viewModel.machineBannerList.observeNonNull {
+			(headerViewBinding?.recBannerMachine?.adapter as MachineBannerAdapter).replaceData(it)
 		}
 		
 		//监听AppBar滑动隐藏下面的BottomNavigationView
@@ -63,12 +73,18 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 			)
 		})
 		
-		val headerViewBinding = DataBindingUtil.inflate<HeaderMineBinding>(
+		headerViewBinding = DataBindingUtil.inflate(
 			LayoutInflater.from(context),
 			R.layout.header_mine,
 			binding.recRecent,
 			false
 		)
+		
+		headerViewBinding?.recBannerMachine?.apply {
+			adapter = MachineBannerAdapter {
+				jumpToMachineDetail(context, it)
+			}
+		}
 		
 		val dialogBinding = DataBindingUtil.inflate<DialogBindMachineBinding>(
 			LayoutInflater.from(context),
@@ -78,7 +94,7 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 		)
 		
 		//绑定设备按钮
-		headerViewBinding.btnBindMachine.setOnClickListener {
+		headerViewBinding?.btnBindMachine?.setOnClickListener {
 			if (bindAlertDialog == null)
 				bindAlertDialog = AlertDialog.Builder(context!!)
 					.setTitle("绑定智能设备")
@@ -106,12 +122,12 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 		binding.recRecent.adapter = MineMomentAdapter {
 			context?.run { jumpToMomentDetail(this, it) }
 		}.apply {
-			headerView = headerViewBinding.root
+			headerView = headerViewBinding?.root
 		}
 		
 		//上拉加载
 		binding.recRecent.apply {
-			
+			(itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 			addOnScrollListener(object : RecyclerView.OnScrollListener() {
 				override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 					if (!recyclerView.canScrollVertically(1)
@@ -123,7 +139,6 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 				}
 			})
 		}
-		
 	}
 	
 	override fun initData() {

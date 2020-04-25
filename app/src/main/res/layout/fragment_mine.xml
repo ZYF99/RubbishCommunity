@@ -263,19 +263,18 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <com.example.rubbishcommunity.ui.widget.HeaderRecyclerView
+        <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rec_recent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_detail"
                 android:layout_marginTop="-12dp"
+                android:background="@drawable/bg_detail"
                 android:orientation="vertical"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
                 tools:itemCount="3"
                 tools:listitem="@layout/item_recent_moment" />
 

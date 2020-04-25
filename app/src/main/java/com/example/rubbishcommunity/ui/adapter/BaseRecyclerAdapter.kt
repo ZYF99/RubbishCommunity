@@ -50,9 +50,10 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 	
 	inner class FooterViewHolder(
 		itemView: View
-	) : RecyclerView.ViewHolder(itemView){
-		fun onLoadMore(onLoadMore: Boolean){
-			itemView.findViewById<com.mingle.widget.LoadingView>(R.id.footer_progress_bar).visibility = if (onLoadMore) View.VISIBLE else View.GONE
+	) : RecyclerView.ViewHolder(itemView) {
+		fun onLoadMore(onLoadMore: Boolean) {
+			itemView.findViewById<com.mingle.widget.LoadingView>(R.id.footer_progress_bar)
+				.visibility = if (onLoadMore) View.VISIBLE else View.GONE
 		}
 	}
 
@@ -102,7 +103,8 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 		}
 	}
 	
-	override fun getItemCount() = if (headerView == null) baseList.size + FOOTER_SIZE else baseList.size + 1 + FOOTER_SIZE
+	override fun getItemCount() =
+		if (headerView == null) baseList.size + FOOTER_SIZE else baseList.size + 1 + FOOTER_SIZE
 	
 	override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 		when (getItemViewType(position)) {
@@ -119,7 +121,9 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 			}
 			ITEM_TYPE_HEADER -> {
 			}
-			ITEM_TYPE_LOAD_MORE -> (holder as BaseRecyclerAdapter<*, *>.FooterViewHolder).onLoadMore(onLoadMore)
+			ITEM_TYPE_LOAD_MORE -> (holder as BaseRecyclerAdapter<*, *>.FooterViewHolder).onLoadMore(
+				onLoadMore
+			)
 		}
 		
 	}
@@ -133,7 +137,12 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 		} else {
 			if (newList.isNotEmpty()) {
 				val diffResult =
-					DiffUtil.calculateDiff(SingleBeanDiffCallBack(baseList, newList), true)
+					DiffUtil.calculateDiff(
+						SingleBeanDiffCallBack(
+							baseList,
+							newList
+						), true
+					)
 				baseList = newList
 				diffResult.dispatchUpdatesTo(this)
 			}

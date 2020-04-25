@@ -1,14 +1,7 @@
 package com.example.rubbishcommunity.manager.api
 
 import com.example.rubbishcommunity.model.api.ResultModel
-import com.example.rubbishcommunity.model.api.guide.CompleteInfoRequestModel
-import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
-import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
-import com.example.rubbishcommunity.model.api.machine.BindMachineRequestModel
-import com.example.rubbishcommunity.model.api.machine.BindMachineResultModel
-import com.example.rubbishcommunity.model.api.mine.UserCardResultModel
-import com.example.rubbishcommunity.model.api.mine.UsrProfileResp
-import com.example.rubbishcommunity.model.api.password.ResetPasswordRequestModel
+import com.example.rubbishcommunity.model.api.machine.*
 import io.reactivex.Single
 import okhttp3.ResponseBody
 import retrofit2.http.*
@@ -26,8 +19,12 @@ interface MachineService {
 		@Body BindMachineRequestModel: BindMachineRequestModel
 	): Single<ResultModel<BindMachineResultModel?>>
 	
-	//获取硬件设备信息
+	//获取所有硬件设备信息
 	@GET("api/IoTDA/health")
-	fun fetchMachineInfo(): Single<ResultModel<String>>
+	fun fetchMachineInfo(): Single<ResultModel<FetchMachineInfoResultModel>>
+	
+	//获取设备历史
+	@POST("api/IoTDA/search/history")
+	fun fetchSearchHistoryInfo(@Body fetchMachineSearchHistoryResultModel: FetchMachineSearchHistoryRequestModel): Single<ResultModel<FetchMachineSearchHistoryResultModel>>
 	
 }

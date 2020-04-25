@@ -7,6 +7,7 @@ import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.utils.BindLife
 import com.example.rubbishcommunity.utils.switchThread
+import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import org.kodein.di.Kodein
@@ -39,6 +40,10 @@ abstract class BaseViewModel(application: Application) :
 	
 	protected fun <T> Single<T>.dealLoading() =
 		doOnSubscribe { isLoading.postValue(true) }
+			.doFinally { isLoading.postValue(false) }
+	
+	protected fun <T> Flowable<T>.dealLoading() =
+		doOnEach { isLoading.postValue(true) }
 			.doFinally { isLoading.postValue(false) }
 	
 }

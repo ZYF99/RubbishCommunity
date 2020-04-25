@@ -7,6 +7,7 @@ import com.example.rubbishcommunity.ui.utils.ErrorData
 import com.example.rubbishcommunity.ui.utils.ErrorType
 import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.utils.*
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
@@ -45,21 +46,21 @@ private fun dealRetryError(reTryCount: Int, error: Throwable): Boolean {
 	return (error as? ApiError)?.result?.meta?.code == -1000 && reTryCount < 3
 }
 
-private fun catchApiError(error: Throwable){
+private fun catchApiError(error: Throwable) {
 	when (error) {
 		is ApiError -> {
-				sendError(
-					ErrorType.API_ERROR,
-					error.result.meta.msg
-				)
+			sendError(
+				ErrorType.API_ERROR,
+				error.result.meta.msg
+			)
 		}
 		is ServerError -> {
-			if(error.code == 401){//token失效
+			if (error.code == 401) {//token失效
 				sendError(
 					ErrorType.TOKEN_INVALID,
 					error.msg
 				)
-			}else{
+			} else {
 				sendError(
 					ErrorType.SERVERERROR,
 					error.msg
@@ -100,7 +101,16 @@ fun <T> Single<T>.catchApiError(): Single<T> =
 	compose(dealErrorCode())
 		.compose(com.example.rubbishcommunity.manager.catchApiError())
 
-fun <T>Observable<T>.catchApiError(): Observable<T> {
+fun <T> Observable<T>.catchApiError(): Observable<T> {
+	return retry { reTryCount, error ->
+		//服务器返回meta的code为-1000时需要进行至多3次重试
+		dealRetryError(reTryCount, error)
+	}.doOnError { error ->
+		catchApiError(error)
+	}
+}
+
+fun <T> Flowable<T>.catchApiError(): Flowable<T> {
 	return retry { reTryCount, error ->
 		//服务器返回meta的code为-1000时需要进行至多3次重试
 		dealRetryError(reTryCount, error)

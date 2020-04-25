@@ -15,13 +15,15 @@ class RecentMomentsAdapter:BaseRecyclerAdapter<MomentContent, ItemRecentMomentBi
 	}
 	
 
-/*	override fun replaceData(newList: List<MomentContent>) {
+	override fun replaceData(newList: List<MomentContent>) {
 		if(newList.isNotEmpty()){
-			val diffResult = DiffUtil.calculateDiff(MomentContentDiffCallBack(baseList, newList), true)
 			baseList = newList
-			diffResult.dispatchUpdatesTo(this)
+			notifyDataSetChanged()
+			/*val diffResult = DiffUtil.calculateDiff(MomentContentDiffCallBack(baseList, newList), true)
+			baseList = newList
+			diffResult.dispatchUpdatesTo(this)*/
 		}
-	}*/
+	}
 }
 
 /*

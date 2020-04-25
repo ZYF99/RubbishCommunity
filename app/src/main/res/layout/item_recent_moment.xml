@@ -6,6 +6,12 @@
     <data>
 
         <variable
+                name="imgUrl"
+                type="String" />
+
+        <import type="android.view.View"/>
+
+        <variable
                 name="moment"
                 type="com.example.rubbishcommunity.model.api.moments.MomentContent" />
     </data>
@@ -33,10 +39,11 @@
 
             <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:visibility="@{moment.pictures.size()>0?View.VISIBLE:View.GONE}">
                 <ImageView
                         android:id="@+id/img"
-                        imageUrl="@{moment.pictures.get(0)}"
+                        imageUrl="@{imgUrl}"
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
                         android:scaleType="fitXY"

@@ -11,6 +11,7 @@ import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ContainerBinding
 import com.example.rubbishcommunity.model.api.News
+import com.example.rubbishcommunity.model.api.machine.FetchMachineInfoResultModel
 import com.example.rubbishcommunity.model.api.moments.MomentContent
 import com.example.rubbishcommunity.model.api.news.NewsResult
 import com.example.rubbishcommunity.persistence.saveLoginState
@@ -26,6 +27,7 @@ import com.example.rubbishcommunity.ui.home.homepage.newsdetail.NewsDetailFragme
 import com.example.rubbishcommunity.ui.search.SearchFragment
 import com.example.rubbishcommunity.ui.search.cameraSearch.CameraSearchFragment
 import com.example.rubbishcommunity.ui.home.mine.editinfo.EditInfoFragment
+import com.example.rubbishcommunity.ui.home.mine.machinedetail.MachineDetailFragment
 import com.example.rubbishcommunity.ui.release.moments.MomentsType
 import com.example.rubbishcommunity.ui.release.moments.ReleaseMomentFragment
 import com.example.rubbishcommunity.ui.userinfo.UserInfoFragment
@@ -114,6 +116,8 @@ class ContainerActivity : BindingActivity<ContainerBinding, ContainerViewModel>(
 					ReleaseMomentFragment()
 				"momentDetail" -> //动态详情界面
 					MomentDetailFragment()
+				"machineDetail" -> //机器详情界面
+					MachineDetailFragment()
 				"chat" -> //聊天界面
 					ChatFragment()
 				"userInfo" -> //用户主页界面
@@ -137,8 +141,10 @@ fun jumpToLogin(context: Context) {
 		Intent(
 			context,
 			ContainerActivity::class.java
-		).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-	).putExtras(bundle))
+		).setFlags(
+			Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+		).putExtras(bundle)
+	)
 }
 
 //跳转至注册界面
@@ -235,6 +241,14 @@ fun jumpToUserInfo(context: Context, openId: String) {
 		"openId",
 		openId
 	)
+	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
+}
+
+//跳转至机器详情界面
+fun jumpToMachineDetail(context: Context, machineInfo: FetchMachineInfoResultModel.MachineHeathInfo) {
+	val bundle = Bundle()
+	bundle.putString("tag", "machineDetail")
+	bundle.putString("machineInfo", globalGson.toJson(machineInfo))
 	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }
 

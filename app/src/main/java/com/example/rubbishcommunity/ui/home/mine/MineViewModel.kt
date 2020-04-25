@@ -9,6 +9,7 @@ import com.example.rubbishcommunity.manager.api.MomentService
 import com.example.rubbishcommunity.manager.api.UserService
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.machine.BindMachineRequestModel
+import com.example.rubbishcommunity.model.api.machine.FetchMachineInfoResultModel
 import com.example.rubbishcommunity.model.api.mine.UsrProfile
 import com.example.rubbishcommunity.model.api.mine.UsrProfileResp
 import com.example.rubbishcommunity.model.api.moments.GetMomentsByUinRequestModel
@@ -36,21 +37,22 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 	private val momentService by instance<MomentService>()
 	private val machineService by instance<MachineService>()
 	private val imageService by instance<ImageService>()
+	val machineBannerList =
+		MutableLiveData(emptyList<FetchMachineInfoResultModel.MachineHeathInfo>())
 	val recentMomentList = MutableLiveData(emptyList<MomentContent>())
 	val userInfo = MutableLiveData<UsrProfile>()
 	val isRefreshing = MutableLiveData<Boolean>()
 	val isLoadingMore = MutableLiveData(false)
 	private val isLastPage = MutableLiveData(false)
 	private val startPage = MutableLiveData(1)
+
 	
 	fun refreshUserInfo() {
 		//获取用户详细信息
 		userInfo.postValue(getLocalUserInfo())
-		
 		Single.zip<ResultModel<UsrProfileResp>,
 				ResultModel<GetMomentsResultModel>,
-				ResultModel<String>,
-				Triple<UsrProfileResp, GetMomentsResultModel,String>>(
+				Pair<UsrProfileResp, GetMomentsResultModel>>(
 			userService.fetchUserProfile(),
 			momentService.fetchMomentsByUin(
 				GetMomentsByUinRequestModel(
@@ -59,9 +61,8 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 					)
 				)
 			),
-			machineService.fetchMachineInfo(),
-			Function3 { f, s, qqq ->
-				Triple(f.data, s.data,qqq.data)
+			BiFunction { f, s ->
+				Pair(f.data, s.data)
 			}
 		).dealLoadingMore()
 			.doOnApiSuccess {
@@ -72,6 +73,13 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 				userInfo.postValue(profile)
 				saveUserInfo(it.first.usrProfile)
 				recentMomentList.postValue(it.second.momentContentList)
+			}
+		
+		
+		machineService.fetchMachineInfo()
+			.dealRefreshing()
+			.doOnApiSuccess {
+				machineBannerList.postValue(it.data.machineHeathInfoList)
 			}
 	}
 	
@@ -88,7 +96,7 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 			)
 		).dealLoading()
 			.doOnApiSuccess {
-				if(it.meta.code == 1001) MyApplication.showSuccess(it.meta.msg)
+				if (it.meta.code == 1001) MyApplication.showSuccess(it.meta.msg)
 				else MyApplication.showWarning(it.meta.msg)
 			}
 	}

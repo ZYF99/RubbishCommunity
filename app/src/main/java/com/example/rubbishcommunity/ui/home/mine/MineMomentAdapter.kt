@@ -13,6 +13,7 @@ class MineMomentAdapter(
 ) {
 	override fun bindData(binding: ItemRecentMomentBinding, position: Int) {
 		binding.moment = baseList[position]
+		binding.imgUrl = baseList[position].pictures[0]
 	}
 	
 }

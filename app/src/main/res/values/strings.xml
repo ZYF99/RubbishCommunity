@@ -13,6 +13,8 @@
     <string name="gender_male">男</string>
     <string name="gender_female">女</string>
 
+    <string name="str_rate">%</string>
+
     <!--Homepage errorData dialog-->
 
     <string name="homepage_dialog_button_setting">设置wifi</string>
