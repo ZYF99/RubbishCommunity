@@ -1,5 +1,6 @@
 package com.example.rubbishcommunity.ui.search.cameraSearch
 
+import android.annotation.SuppressLint
 import android.graphics.Matrix
 import android.view.Surface
 import android.view.ViewGroup
@@ -65,6 +66,7 @@ class CameraSearchFragment : BindingFragment<CameraSearchBinding, CameraSearchVi
 	}
 	
 	
+	@SuppressLint("RestrictedApi")
 	private fun startCamera() {
 		
 		// Create configuration object for the viewfinder use case

@@ -3,11 +3,12 @@ package com.example.rubbishcommunity.ui.home.find.moment.detail
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.CommentCellBinding
+import com.example.rubbishcommunity.model.api.moments.CommentReply
 import com.example.rubbishcommunity.model.api.moments.MomentComment
 import com.example.rubbishcommunity.ui.adapter.BaseRecyclerAdapter
 
 class CommentListAdapter(
-	private val onReplyClick: (Int) -> Unit,
+	private val onReplyClick: (comment:MomentComment) -> Unit,
 	list: List<MomentComment>
 ) : BaseRecyclerAdapter<MomentComment, CommentCellBinding>(
 	R.layout.cell_comment,
@@ -22,7 +23,7 @@ class CommentListAdapter(
 		binding.comment = comment
 		//回复按钮
 		binding.btnReply.setOnClickListener {
-			onReplyClick(position)
+			onReplyClick(comment)
 		}
 		//评论回复的列表
 		binding.recCommentReply.run {

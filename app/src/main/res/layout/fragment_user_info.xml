@@ -272,7 +272,7 @@
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="3"
-                tools:listitem="@layout/cell_moment" />
+                tools:listitem="@layout/item_recent_moment" />
 
         <Space
                 android:layout_width="match_parent"

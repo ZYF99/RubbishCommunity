@@ -19,7 +19,7 @@
             <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:background="@color/transparent"
+                    android:background="@color/colorTrans"
                     app:cardCornerRadius="6dp"
                     app:cardElevation="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -61,8 +61,6 @@
                     android:id="@+id/tv_duration"
                     android:layout_width="80dp"
                     android:layout_height="0dp"
-                    android:background="@drawable/buybuybuy"
-                    android:drawableLeft="@drawable/video_icon"
                     android:drawablePadding="5dp"
                     android:gravity="center_vertical"
                     android:paddingLeft="5dp"

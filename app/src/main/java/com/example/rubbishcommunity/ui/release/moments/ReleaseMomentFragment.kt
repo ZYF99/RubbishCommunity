@@ -54,18 +54,14 @@ class ReleaseMomentFragment : BindingFragment<FragmentReleaseMomentBinding, Rele
 	private val onGridItemClick: (Int, View) -> Unit = { position, _ ->
 		//单项点击
 		val media = viewModel.selectedList.value!![position]
-		val picType = media.pictureType
-		when (PictureMimeType.pictureToVideo(picType)) {
-			1 -> {
-				showGallery(
-					context!!,
-					viewModel.selectedList.value!!.map {
-						it.path
-					},
-					position
-				)
-			}
-		}
+		//val picType = media.mimeType
+		showGallery(
+			context!!,
+			viewModel.selectedList.value!!.map {
+				it.path
+			},
+			position
+		)
 	}
 	
 	//单项图片删除

@@ -1,6 +1,7 @@
 package com.example.rubbishcommunity.ui.container
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -27,6 +28,7 @@ import com.example.rubbishcommunity.ui.home.homepage.newsdetail.NewsDetailFragme
 import com.example.rubbishcommunity.ui.search.SearchFragment
 import com.example.rubbishcommunity.ui.search.cameraSearch.CameraSearchFragment
 import com.example.rubbishcommunity.ui.home.mine.editinfo.EditInfoFragment
+import com.example.rubbishcommunity.ui.home.mine.editinfo.REQUEST_CODE_EDIT_USER_INFO
 import com.example.rubbishcommunity.ui.home.mine.machinedetail.MachineDetailFragment
 import com.example.rubbishcommunity.ui.release.moments.MomentsType
 import com.example.rubbishcommunity.ui.release.moments.ReleaseMomentFragment
@@ -165,7 +167,9 @@ fun jumpToPassword(context: Context) {
 fun jumpToEditInfo(context: Context) {
 	val bundle = Bundle()
 	bundle.putString("tag", "editUserInfo")
-	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
+	context.startActivity(
+		Intent(context, ContainerActivity::class.java).putExtras(bundle)
+	)
 }
 
 //跳转至完善基本信息的界面
@@ -245,7 +249,10 @@ fun jumpToUserInfo(context: Context, openId: String) {
 }
 
 //跳转至机器详情界面
-fun jumpToMachineDetail(context: Context, machineInfo: FetchMachineInfoResultModel.MachineHeathInfo) {
+fun jumpToMachineDetail(
+	context: Context,
+	machineInfo: FetchMachineInfoResultModel.MachineHeathInfo
+) {
 	val bundle = Bundle()
 	bundle.putString("tag", "machineDetail")
 	bundle.putString("machineInfo", globalGson.toJson(machineInfo))

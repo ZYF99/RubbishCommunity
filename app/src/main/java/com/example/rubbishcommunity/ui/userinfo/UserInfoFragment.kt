@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.FragmentUserInfoBinding
 import com.example.rubbishcommunity.ui.base.BindingFragment
-import com.example.rubbishcommunity.ui.home.mine.RecentMomentsAdapter
+import com.example.rubbishcommunity.ui.home.mine.RecentMomentAdapter
 
 class UserInfoFragment : BindingFragment<FragmentUserInfoBinding, UserInfoViewModel>(
 	UserInfoViewModel::class.java, R.layout.fragment_user_info
@@ -27,8 +27,14 @@ class UserInfoFragment : BindingFragment<FragmentUserInfoBinding, UserInfoViewMo
 	
 	override fun initWidget() {
 		
+		//加载更多的状态
 		viewModel.isLoadingMore.observeNonNull {
-			(binding.recRecent.adapter as RecentMomentsAdapter).onLoadMore = it
+			(binding.recRecent.adapter as RecentMomentAdapter).onLoadMore = it
+		}
+		
+		//最近动态
+		viewModel.momentList.observeNonNull {
+			(binding.recRecent.adapter as RecentMomentAdapter).replaceData(it.filter { it.pictures.isNotEmpty() })
 		}
 		
 		//返回按钮
@@ -36,20 +42,19 @@ class UserInfoFragment : BindingFragment<FragmentUserInfoBinding, UserInfoViewMo
 			activity?.finish()
 		}
 		
-		binding.recRecent.run {
-			adapter = RecentMomentsAdapter()
+		binding.recRecent.adapter = RecentMomentAdapter{
+		
 		}
 		
-		//最近动态
-		viewModel.momentList.observeNonNull {
-			(binding.recRecent.adapter as RecentMomentsAdapter).replaceData(it.filter { it.pictures.isNotEmpty() })
-		}
+		
+
 		
 		//上拉加载
 		binding.recRecent.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 			override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 				if (!recyclerView.canScrollVertically(1)
 					&& viewModel.momentList.value?.size ?: 0 > 0
+					&& viewModel.isLastPage.value == false
 				)
 					if (viewModel.isLoadingMore.value == false) {
 						viewModel.loadMoreMoments(openId)

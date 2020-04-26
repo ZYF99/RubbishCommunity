@@ -107,8 +107,8 @@
                         <de.hdodenhof.circleimageview.CircleImageView
                                 android:id="@+id/potrait"
                                 imageUrl="@{vm.userInfo.avatar}"
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
+                                android:layout_width="72dp"
+                                android:layout_height="72dp"
                                 app:civ_border_color="@color/white"
                                 app:civ_border_width="2dp"
                                 app:layout_behavior=".ui.home.mine.TransferHeaderBehavior"
@@ -189,14 +189,24 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
                             android:layout_gravity="bottom"
                             app:layout_collapseMode="parallax"
-                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintBottom_toBottomOf="@+id/anchorLocation"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/cl_center">
 
+                        <ImageView
+                                android:id="@+id/btn_setting"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_marginStart="16dp"
+                                android:src="@drawable/icon_setting"
+                                android:tint="@color/white"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/linearLayout9" />
 
                         <LinearLayout
                                 android:id="@+id/linearLayout9"
@@ -205,18 +215,11 @@
                                 android:layout_margin="16dp"
                                 android:gravity="center_vertical"
                                 android:orientation="horizontal"
-                                app:layout_constraintBottom_toBottomOf="parent"
+
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent">
 
-                            <ImageView
-                                    android:id="@+id/btn_setting"
-                                    android:layout_width="32dp"
-                                    android:layout_height="32dp"
-                                    android:layout_gravity="start"
-                                    android:src="@drawable/icon_setting"
-                                    android:tint="@color/white" />
 
                             <TextView
                                     android:id="@+id/tv_work"
@@ -227,7 +230,7 @@
                                     android:gravity="end"
                                     android:text="@{vm.userInfo.profession}"
                                     android:textColor="@color/colorWhite"
-                                    android:textSize="12sp"
+                                    android:textSize="14sp"
                                     android:textStyle="normal"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
@@ -254,7 +257,7 @@
                                     android:singleLine="false"
                                     android:text="@{vm.userInfo.signature}"
                                     android:textColor="@color/white"
-                                    android:textSize="12sp"
+                                    android:textSize="14sp"
                                     tools:text="签名" />
                         </LinearLayout>
 
@@ -389,5 +392,6 @@
         </androidx.appcompat.widget.Toolbar>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
 </layout>

@@ -63,8 +63,8 @@
         <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/bg_detail"
                 android:layout_marginTop="-12dp"
+                android:background="@drawable/bg_detail"
                 android:elevation="2dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -78,57 +78,77 @@
                     app:layout_constraintTop_toBottomOf="@id/appbar">
 
 
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="8dp">
 
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:padding="8dp">
+                            android:layout_height="wrap_content">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/img_avatar"
+                                imageUrl="@{vm.news.authorProfile.avatar}"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:layout_margin="8dp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                tools:src="@drawable/bg" />
 
                         <TextView
-                                android:id="@+id/tv_title"
-                                android:layout_width="match_parent"
+                                android:id="@+id/tv_author_name"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="16sp"
-                                android:layout_marginTop="32dp"
-                                android:layout_marginEnd="16dp"
-                                android:text="@{vm.news.title}"
-                                android:textColor="@color/black"
-                                android:textSize="24sp"
-                                android:textStyle="bold"
-                                tools:text="冰晶黑沙滩 私奔到尽头" />
-
-                        <TextView
-                                android:id="@+id/tv_author"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginTop="8dp"
-                                android:layout_marginEnd="16dp"
-                                android:text="@{vm.news.authorProfile.name}"
+                                android:layout_margin="8dp"
+                                android:text='@{vm.news.authorProfile.name}'
                                 android:textColor="@color/colorAccent"
-                                android:textStyle="bold"
-                                tools:text="独家收藏" />
+                                android:textSize="14sp"
+                                app:layout_constraintBottom_toBottomOf="@+id/img_avatar"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/img_avatar"
+                                app:layout_constraintTop_toTopOf="@+id/img_avatar"
+                                tools:text="东方卫视" />
 
-                        <WebView
-                                android:id="@+id/web_view"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@color/colorLayoutBg"
-                                android:visibility="gone" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <TextView
-                                android:id="@+id/tv_rich_text"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginTop="8dp"
-                                android:layout_marginEnd="16dp"
-                                android:textColor="@color/black"
-                                android:textIsSelectable="true"
-                                tools:text="MD文档" />
 
-                    </LinearLayout>
+                    <TextView
+                            android:id="@+id/tv_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16sp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="16dp"
+                            android:text="@{vm.news.title}"
+                            android:textColor="@color/black"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            tools:text="冰晶黑沙滩 私奔到尽头" />
+
+
+                    <WebView
+                            android:id="@+id/web_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorLayoutBg"
+                            android:visibility="gone" />
+
+                    <TextView
+                            android:id="@+id/tv_rich_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:textColor="@color/black"
+                            android:textIsSelectable="true"
+                            tools:text="MD文档" />
+
+                </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 

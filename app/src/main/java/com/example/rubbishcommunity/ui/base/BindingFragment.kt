@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
@@ -18,6 +19,7 @@ import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.manager.UiError
 import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.utils.ErrorType
+import com.example.rubbishcommunity.ui.utils.dp2px
 import com.example.rubbishcommunity.ui.utils.sendError
 import com.example.rubbishcommunity.utils.BindLife
 import com.google.android.material.appbar.AppBarLayout
@@ -73,9 +75,10 @@ constructor(
 				if (alertDialog == null) {
 					alertDialog = AlertDialog.Builder(context!!)
 						.setView(R.layout.dialog_loading)
+						.setCancelable(false)
 						.create()
 				}
-				alertDialog?.show()
+				alertDialog?.showContent()
 			} else {
 				if (alertDialog != null) {
 					alertDialog?.dismiss()
@@ -150,6 +153,14 @@ constructor(
 			ErrorType.UI_ERROR,
 			"没有网络"
 		)
+	}
+	
+	fun AlertDialog.showContent(){
+		show()
+		val params = this.window?.attributes
+		params?.width = context.dp2px(200f)
+		params?.height = context.dp2px(200f)
+		this.window?.attributes = params;
 	}
 	
 }

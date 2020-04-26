@@ -214,8 +214,10 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha01'
     // Use the most recent version of CameraX, currently that is alpha06.
 
+
     implementation "androidx.camera:camera-core:${camerax_version}"
     implementation "androidx.camera:camera-camera2:${camerax_version}"
+
 
     //加载动画
     implementation 'com.github.zzz40500:android-shapeLoadingView:1.0.3.2'
@@ -279,7 +281,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //PictureSelector
-    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.4'
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.7'
 
     //Log
     implementation 'com.jakewharton.timber:timber:4.7.0'

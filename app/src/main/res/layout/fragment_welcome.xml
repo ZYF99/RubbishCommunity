@@ -80,7 +80,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_weight="0"
-                        android:background="@color/bar_grey" />
+                        android:background="@color/black" />
 
 
                 <EditText
@@ -96,7 +96,7 @@
                         android:singleLine="true"
                         android:text='@={vm.searchWord}'
                         android:textColor="@color/black"
-                        android:textColorHint="@color/bar_grey_90"
+                        android:textColorHint="@color/black"
                         android:textSize="14sp" />
             </LinearLayout>
 

@@ -22,7 +22,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_margin="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -53,12 +53,38 @@
 
             </androidx.cardview.widget.CardView>
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_avatar"
+                    imageUrl="@{news.authorProfile.avatar}"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toStartOf="@+id/tv_time"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_time"
+                    tools:src="@drawable/bg" />
 
             <TextView
-                    android:id="@+id/title_text"
+                    android:id="@+id/tv_author_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
+                    android:text='@{news.authorProfile.name}'
+                    android:textColor="#4A4A4A"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/img_avatar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/img_avatar"
+                    app:layout_constraintTop_toTopOf="@+id/img_avatar"
+                    tools:text="东方卫视" />
+
+
+            <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:text="@{news.title}"
                     android:textColor="@color/black"
                     android:textSize="18sp"
@@ -68,21 +94,9 @@
                     app:layout_constraintTop_toBottomOf="@+id/card"
                     tools:text="黑纱晶 浪漫邂逅" />
 
-            <TextView
-                    android:id="@+id/msg_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:text='@{news.authorProfile.name}'
-                    android:textColor="#4A4A4A"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="@+id/title_text"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/title_text"
-                    tools:text="东方卫视" />
 
             <TextView
-                    android:id="@+id/cell_msg_time"
+                    android:id="@+id/tv_time"
                     recentTime="@{news.createDate}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -91,7 +105,7 @@
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/msg_text"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_title"
                     tools:ignore="RtlCompat"
                     tools:text="17:40" />
 

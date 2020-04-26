@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.manager.api.ImageService
 import com.example.rubbishcommunity.manager.api.UserService
 import com.example.rubbishcommunity.manager.catchApiError
-import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.persistence.getLocalUserInfo
 import com.example.rubbishcommunity.ui.base.BaseViewModel
+import com.example.rubbishcommunity.ui.utils.userInfoHasChanged
 import com.example.rubbishcommunity.utils.switchThread
 import com.example.rubbishcommunity.utils.upLoadImage
 import io.reactivex.Single
@@ -38,53 +38,60 @@ class EditInfoViewModel(application: Application) : BaseViewModel(application) {
 		) {
 			//onProgress
 			uploadProgress.postValue(it)
-		}.flatMap { key ->
-			val url = getImageUrlFromServer(key)
-			avatar.postValue(url)
-			editUserInfo("avatar", url)
-		}.doOnApiSuccess {}
+		}.doOnSubscribe { isUpdating.postValue(true) }
+			.doFinally { isUpdating.postValue(false) }
+			.flatMap { key ->
+				val url = getImageUrlFromServer(key)
+				avatar.postValue(url)
+				editUserInfo("avatar", url)?.switchThread()
+			}?.doOnApiSuccess {
+			
+			}
+		
 	}
 	
 	//修改昵称
 	fun editName() {
-		editUserInfo("name", name.value!!)
-			.doOnSuccess {}
-			.bindLife()
+		editUserInfo("name", name.value!!)?.doOnApiSuccess {
+		
+		}
 	}
 	
 	//修改性别
 	fun editGender() {
 		editUserInfo("gender", gender.value!!)
-			.doOnSuccess {}
-			.bindLife()
+			?.doOnApiSuccess {
+			
+			}
 	}
 	
 	//修改生日
 	@SuppressLint("SimpleDateFormat")
 	fun editBirthDay() {
-		editUserInfo("birthday", birthday.value.toString())
-			.bindLife()
+		editUserInfo("birthday", birthday.value.toString())?.doOnApiSuccess {
+		
+		}
 	}
 	
 	//修改个人签名
 	fun editSignature() {
-		editUserInfo("signature", signature.value!!)
-			.doOnSuccess {}
-			.bindLife()
+		editUserInfo("signature", signature.value!!)?.doOnApiSuccess {
+		
+		}
 	}
 	
 	//修改个人签名
 	fun editProfession() {
-		editUserInfo("profession", profession.value!!)
-			.doOnSuccess {}
-			.bindLife()
+		editUserInfo("profession", profession.value!!)?.doOnApiSuccess {
+		
+		}
 	}
 	
 	//修改分类宣言
 	fun editAboutMe() {
-		editUserInfo("aboutMe", aboutMe.value!!)
-			.doOnSuccess {}
-			.bindLife()
+		editUserInfo("aboutMe", aboutMe.value!!)?.doOnApiSuccess {
+		
+		}
 	}
 	
 	//注销
@@ -107,13 +114,14 @@ class EditInfoViewModel(application: Application) : BaseViewModel(application) {
 		}
 	}
 	
-	private fun <T> editUserInfo(key: String, value: T): Single<ResultModel<String>> {
+	private fun <T> editUserInfo(key: String, value: T): Single<ResultModel<String>>? {
 		return userService.editUserInfo(
 			hashMapOf(Pair(key, value.toString()))
-		).switchThread()
-			.catchApiError()
-			.doOnSubscribe { isUpdating.postValue(true) }
-			.doFinally { isUpdating.postValue(false) }
+		).dealLoading()
+			.doOnSuccess {
+				userInfoHasChanged = true
+			}
+		
 	}
 	
 }

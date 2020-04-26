@@ -28,7 +28,7 @@ class MomentDetailFragment : BindingFragment<FragmentMomentDetailBinding, Moment
 	}
 	
 	//发送信息的index
-	private var replyPosition: Int? = null
+	private var replyCommentId: Long? = null
 	
 	//弹出键盘及输入框
 	private fun showInputDialog() {
@@ -89,23 +89,12 @@ class MomentDetailFragment : BindingFragment<FragmentMomentDetailBinding, Moment
 			val commentList = viewModel.moment.value?.realCommentList ?: emptyList()
 			layoutManager = LinearLayoutManager(context)
 			adapter = CommentListAdapter(
-				{ position ->
+				{ comment ->
 					showInputDialog()
-					replyPosition = position
+					replyCommentId = comment.commentId
 				},
 				commentList
 			)
-		}
-		
-		//键盘上方的发送按钮
-		binding.linComment.btnSend.setOnClickListener {
-			if (!viewModel.inputComment.value.isNullOrEmpty()) {
-				viewModel.inputComment.postValue("")
-				MyApplication.showToast("回复原文：${viewModel.inputComment.value}")
-				activity!!.hideSoftKeyBoard()
-			} else {
-				MyApplication.showToast("回复不能为空")
-			}
 		}
 		
 		//返回按钮
@@ -115,7 +104,6 @@ class MomentDetailFragment : BindingFragment<FragmentMomentDetailBinding, Moment
 		
 		//评论按钮
 		binding.btnComment.setOnClickListener {
-			replyPosition = null
 			showInputDialog()
 		}
 		
@@ -128,13 +116,12 @@ class MomentDetailFragment : BindingFragment<FragmentMomentDetailBinding, Moment
 		binding.linComment.btnSend.setOnClickListener {
 			if (!viewModel.inputComment.value.isNullOrEmpty()) {
 				viewModel.inputComment.postValue("")
-				when (replyPosition) {
+				when (replyCommentId) {
 					null -> viewModel.pushComment(viewModel.moment.value?.momentId ?: 0.toLong())
-					else -> viewModel.replyComment(
-						viewModel.moment.value?.momentCommentList?.get(
-							replyPosition!!
-						)?.commentId
-					)
+					else -> {
+						viewModel.replyComment(replyCommentId)
+						replyCommentId = null
+					}
 				}
 				activity!!.hideSoftKeyBoard()
 			} else {

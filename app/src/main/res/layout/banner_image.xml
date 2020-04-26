@@ -19,7 +19,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 imageUrl="@{url}"
-                android:foreground="#41000000"
                 android:scaleType="centerCrop"
                 tools:src="@drawable/bg"
                 app:layout_constraintBottom_toBottomOf="parent"

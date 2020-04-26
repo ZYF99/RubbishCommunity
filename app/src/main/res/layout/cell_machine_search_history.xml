@@ -47,6 +47,20 @@
 
 
                 <TextView
+                        android:id="@+id/tv_tip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:padding="4dp"
+                        android:text="查询次数:"
+                        android:textColor="@color/text_second"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/cell_seach_name"
+                        app:layout_constraintTop_toBottomOf="@+id/cell_seach_name" />
+
+                <TextView
                         android:id="@+id/cell_seach_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -57,7 +71,7 @@
                         android:textColor="@color/text_second"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/cell_seach_name"
+                        app:layout_constraintStart_toEndOf="@+id/tv_tip"
                         app:layout_constraintTop_toBottomOf="@+id/cell_seach_name"
                         tools:ignore="RtlCompat"
                         tools:text="10" />

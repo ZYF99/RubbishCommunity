@@ -20,12 +20,12 @@ class UserInfoViewModel(application: Application) : BaseViewModel(application) {
 	private val momentService by instance<MomentService>()
 	val userInfo = MutableLiveData<UsrProfile>()
 	val momentList = MutableLiveData<List<MomentContent>>()
-	private val isLastPage = MutableLiveData(false)
+	val isLastPage = MutableLiveData(false)
 	private val startPage = MutableLiveData(1)
 	
 	fun fetchUserInfo(openId: String?) {
 		userService.fetchUserProfile(openId)
-			.dealRefreshing()
+			.dealLoading()
 			.doOnApiSuccess {
 				userInfo.postValue(it.data.usrProfile)
 			}
@@ -37,8 +37,10 @@ class UserInfoViewModel(application: Application) : BaseViewModel(application) {
 			pageParamRequest = PageParam(
 				pageNum = startPage.value?:1
 			)
-		)).dealRefreshing()
+		)).dealLoadingMore()
 			.doOnApiSuccess {
+				isLastPage.postValue(it.data.pageInfoResp.lastPage)
+				startPage.postValue(2)
 				momentList.postValue(it.data.momentContentList)
 			}
 	}

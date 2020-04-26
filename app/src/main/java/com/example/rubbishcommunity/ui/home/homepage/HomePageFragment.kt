@@ -23,7 +23,7 @@ class HomePageFragment : BindingFragment<HomePageBinding, HomePageViewModel>(
 	
 	override fun initWidget() {
 		
-		binding.toolBar.setExpandedTitleColor(resources.getColor(R.color.transparent))
+		binding.toolBar.setExpandedTitleColor(resources.getColor(R.color.colorTrans))
 		
 		binding.banner.setBannerPageClickListener { _, position ->
 			if(viewModel.bannerList.value?.isNotEmpty() == true){

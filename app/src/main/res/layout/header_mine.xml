@@ -18,12 +18,29 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-        <TextView
+        <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="智能设备"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="智能设备"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+            <ImageView
+                    android:id="@+id/btn_add_machine"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/icon_add" />
+
+        </LinearLayout>
+
 
         <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -53,7 +70,7 @@
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="14sp"
-                        android:visibility="@{hasMachine?View.GONE:View.GONE}"
+                        android:visibility="@{hasMachine?View.GONE:View.VISIBLE}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -61,8 +78,9 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rec_banner_machine"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="310dp"
+                        android:layout_height="317dp"
+                        android:nestedScrollingEnabled="false"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -73,6 +91,15 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="最近动态"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
     </LinearLayout>
 

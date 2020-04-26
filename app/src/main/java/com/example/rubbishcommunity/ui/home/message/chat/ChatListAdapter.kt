@@ -22,14 +22,14 @@ class ChatListAdapter(
 		val msg = list[position]
 		binding.chatMessage = msg
 		binding.localOpenId = getLocalOpenId()
-		binding.cellMsgTime.visibility = View.VISIBLE
+		binding.tvTime.visibility = View.VISIBLE
 		
 		if (lastMsg != null) {
 			if (lastMsg!!.openId == getLocalOpenId()) {
 				//上一条是我自己发的消息
 				if (Date(msg.time).minutes == Date(lastMsg!!.time).minutes) {
 					//这是一分钟之内我继续发的消息
-					binding.cellMsgTime.visibility = View.GONE
+					binding.tvTime.visibility = View.GONE
 				}
 			}
 		}

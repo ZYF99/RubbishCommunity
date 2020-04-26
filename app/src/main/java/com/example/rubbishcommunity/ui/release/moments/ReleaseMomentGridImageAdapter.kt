@@ -119,15 +119,15 @@ class ReleaseDynamicGridImageAdapter(
 					item.isCompressed || item.isCut && item.isCompressed -> item.compressPath// 压缩过,或者裁剪同时压缩过,以最终压缩过图片为准
 					else -> item.path// 原图
 				}
-			val pictureType = PictureMimeType.isPictureType(item.pictureType)
+/*			val pictureType = PictureMimeType.isPictureType(item.pictureType)*/
 			
-			val duration = item.duration
+/*			val duration = item.duration
 			holder.binding?.tvDuration?.visibility = when (pictureType) {
 				PictureConfig.TYPE_VIDEO -> View.VISIBLE
 				else -> View.GONE
-			}
+			}*/
 			
-			when (mimeType) {
+/*			when (mimeType) {
 				PictureMimeType.ofAudio() -> {
 					holder.binding?.tvDuration?.visibility = View.VISIBLE
 					val drawable = ContextCompat.getDrawable(context, R.drawable.picture_audio)
@@ -137,20 +137,29 @@ class ReleaseDynamicGridImageAdapter(
 					val drawable = ContextCompat.getDrawable(context, R.drawable.video_icon)
 					StringUtils.modifyTextViewDrawable(holder.binding?.tvDuration, drawable, 0)
 				}
-			}
-			holder.binding?.tvDuration?.text = DateUtils.timeParse(duration)
+			}*/
+/*			holder.binding?.tvDuration?.text = DateUtils.timeParse(duration)
 			if (mimeType == PictureMimeType.ofAudio()) {
 				holder.binding?.ivContent?.setImageResource(R.drawable.audio_placeholder)
 			} else {
 				val options = RequestOptions()
 					.centerCrop()
-					.placeholder(R.color.bar_grey_90)
+					.placeholder(R.color.colorPlaceHolder)
 					.diskCacheStrategy(DiskCacheStrategy.ALL)
 				Glide.with(context)
 					.load(path)
 					.apply(options)
 					.into(holder.binding?.ivContent!!)
-			}
+			}*/
+			val options = RequestOptions()
+				.centerCrop()
+				.placeholder(R.color.colorPlaceHolder)
+				.diskCacheStrategy(DiskCacheStrategy.ALL)
+			Glide.with(context)
+				.load(path)
+				.apply(options)
+				.into(holder.binding?.ivContent!!)
+			
 			//itemView 的点击事件
 			holder.binding?.root?.setOnClickListener { v ->
 				onGridItemClick(position, v)

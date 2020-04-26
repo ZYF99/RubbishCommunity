@@ -8,7 +8,7 @@
             <!--圆角-->
             <corners android:radius="48dp" />
             <!--背景-->
-            <solid android:color="@color/transparent" />
+            <solid android:color="@color/colorTrans" />
             <!--边框-->
             <stroke
                     android:width="2dp"

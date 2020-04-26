@@ -17,6 +17,7 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 	(
 	private val layoutRes: Int,
 	private val onCellClick: (Bean) -> Unit,
+	val hasLoadMore:Boolean = false,
 	var baseList: List<Bean> = emptyList()
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 	
@@ -52,8 +53,7 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 		itemView: View
 	) : RecyclerView.ViewHolder(itemView) {
 		fun onLoadMore(onLoadMore: Boolean) {
-			itemView.findViewById<com.mingle.widget.LoadingView>(R.id.footer_progress_bar)
-				.visibility = if (onLoadMore) View.VISIBLE else View.GONE
+			itemView.visibility = if (onLoadMore) View.VISIBLE else View.GONE
 		}
 	}
 
@@ -104,7 +104,12 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 	}
 	
 	override fun getItemCount() =
-		if (headerView == null) baseList.size + FOOTER_SIZE else baseList.size + 1 + FOOTER_SIZE
+		if (headerView == null) {
+			baseList.size + if(hasLoadMore)FOOTER_SIZE else 0
+		}
+		else {
+			baseList.size + 1 + if(hasLoadMore)FOOTER_SIZE else 0
+		}
 	
 	override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 		when (getItemViewType(position)) {

@@ -28,7 +28,8 @@ class MomentsListAdapter(
 	val onTransClick: (MomentContent) -> Unit
 ) : BaseRecyclerAdapter<MomentContent, CellMomentBinding>(
 	R.layout.cell_moment,
-	onCellClick
+	onCellClick,
+	hasLoadMore = true
 ) {
 	override fun bindData(binding: CellMomentBinding, position: Int) {
 		val moment = baseList[position]

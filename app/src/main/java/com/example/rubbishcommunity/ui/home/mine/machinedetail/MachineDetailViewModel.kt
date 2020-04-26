@@ -20,8 +20,9 @@ class MachineDetailViewModel(application: Application) : BaseViewModel(applicati
 	val machineInfo = MutableLiveData<FetchMachineInfoResultModel.MachineHeathInfo>()
 	val searchList = MutableLiveData<List<FetchMachineSearchHistoryResultModel.MachineSearchHistory.SearchCount>>()
 	
+	//拉取设备健康状态
 	fun fetchMachineHealthInfo() {
-		Flowable.interval(2, TimeUnit.SECONDS)
+		Flowable.interval(10, TimeUnit.SECONDS)
 			.flatMapSingle {
 				machineService.fetchMachineInfo()
 			}
@@ -34,6 +35,7 @@ class MachineDetailViewModel(application: Application) : BaseViewModel(applicati
 			}.bindLife()
 	}
 	
+	//拉取设备垃圾查询历史记录
 	fun fetchSearchHistory() {
 		machineService.fetchSearchHistoryInfo(
 			FetchMachineSearchHistoryRequestModel(

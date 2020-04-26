@@ -25,10 +25,10 @@
         <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="7dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
                 android:background="@color/white"
                 app:cardCornerRadius="2dp"
                 app:cardElevation="1dp"
@@ -54,17 +54,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                        recentTime="@{moment.publishedDate}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:textColor="#888888"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/cell_author_portrait"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/cell_author_portrait"
-                        tools:text="昨天" />
+
 
                 <LinearLayout
                         android:id="@+id/linearLayout2"
@@ -83,7 +73,13 @@
                             android:text="@{moment.publisher.name}"
                             android:textColor="@color/black"
                             tools:text="秋风"/>
-
+                    <TextView
+                            recentTime="@{moment.publishedDate}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#888888"
+                            android:textSize="12sp"
+                            tools:text="昨天" />
 
 
                 </LinearLayout>
@@ -97,6 +93,7 @@
                         android:layout_marginEnd="24dp"
                         android:lineSpacingExtra="4dp"
                         android:text="@{moment.title}"
+                        tools:text="标题"
                         android:textAlignment="textStart"
                         android:textColor="@color/black"
                         android:textSize="16sp"
@@ -114,6 +111,7 @@
                         android:layout_marginEnd="24dp"
                         android:lineSpacingExtra="4dp"
                         android:text="@{moment.content}"
+                        tools:text="正文"
                         android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -122,7 +120,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rec_img"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="wrap_content"
                         android:visibility="@{moment.pictures.size()>0?View.VISIBLE:View.GONE}"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
@@ -134,30 +132,43 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_dynamic_content" />
 
+                <TextView
+                        android:id="@+id/tv_topic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{moment.topic}"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/text_second"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="@+id/rec_img"
+                        app:layout_constraintTop_toBottomOf="@id/rec_img"
+                        tools:text="#古风经典" />
+
                 <LinearLayout
                         android:id="@+id/frame_like"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="24dp"
                         android:orientation="horizontal"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="4dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:gravity="center_vertical"
-                        android:visibility="@{likeString.length()>0?View.VISIBLE:View.GONE}"
+                        android:visibility="@{moment.likeList.size()>0?View.VISIBLE:View.GONE}"
                         app:layout_constraintBottom_toTopOf="@id/lin_btn"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/rec_img">
+                        app:layout_constraintTop_toBottomOf="@+id/tv_topic">
 
                     <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rec_like"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:nestedScrollingEnabled="false"
+                            tools:listitem="@layout/cell_circle_img"
                             android:scrollbars="none" />
                     <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginStart="4dp"
                             android:textSize="12sp"
                             android:gravity="center"
@@ -172,10 +183,10 @@
                         android:id="@+id/lin_btn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="4dp"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/frame_like"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent">
 

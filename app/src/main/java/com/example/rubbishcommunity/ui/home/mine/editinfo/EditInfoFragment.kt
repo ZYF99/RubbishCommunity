@@ -13,9 +13,13 @@ import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.entity.LocalMedia
 
+val REQUEST_CODE_EDIT_USER_INFO:Int = 200
+
 class EditInfoFragment : BindingFragment<EditInfoFragmentBinding, EditInfoViewModel>(
 	EditInfoViewModel::class.java, R.layout.fragment_edit_info
 ) {
+
+	
 	override fun initBefore() {
 		binding.vm = viewModel
 	}

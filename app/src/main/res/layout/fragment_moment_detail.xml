@@ -112,8 +112,6 @@
                         android:ems="10"
                         android:gravity="start"
                         android:lineSpacingExtra="8dp"
-                        android:maxLines="20"
-                        android:minHeight="100dp"
                         android:text="@{vm.moment.content}"
                         android:textColor="@color/black"
                         android:textColorHint="@color/text_second"
@@ -147,7 +145,7 @@
                             android:text="@{vm.moment.topic}"
                             android:textColor="@color/text_second"
                             android:textSize="12sp"
-                            tools:text="#gggg"/>
+                            tools:text="#古风经典"/>
 
 
                 </LinearLayout>
