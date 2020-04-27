@@ -1,6 +1,7 @@
 package com.example.rubbishcommunity.utils
 
 
+import android.os.Build
 import com.example.rubbishcommunity.manager.api.ImageService
 import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.model.api.GetQiNiuTokenRequestModel
@@ -64,7 +65,10 @@ fun ImageService.upLoadImageList(
 	val upKeyList = mutableListOf<String>()
 	var mill = System.currentTimeMillis()
 	imagePathList.map { media ->
-		pathList.add(media.path)
+		pathList.add(
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) media.androidQToPath
+			else media.cutPath
+		)
 		mill += 100
 		upKeyList.add("${getLocalEmail()}/$mill")
 	}
@@ -80,7 +84,7 @@ fun ImageService.upLoadImageList(
 					UploadManager().put(
 						pathList[index], upKeyList[index], entry.value,
 						{ key, _, _ ->
-							if (index == imagePathList.size-1) {
+							if (index == imagePathList.size - 1) {
 								//已经全部上传成功，返回结果
 								emitter.onSuccess(upKeyList)
 							}

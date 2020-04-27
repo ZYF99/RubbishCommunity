@@ -138,15 +138,23 @@
                         android:paddingTop="16dp"
                         android:paddingBottom="16dp">
 
+
                     <TextView
+                            android:id="@+id/tv_topic"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
+                            android:background="@drawable/bg_topic"
                             android:text="@{vm.moment.topic}"
-                            android:textColor="@color/text_second"
+                            android:layout_marginTop="8dp"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:textColor="@color/text_third"
                             android:textSize="12sp"
-                            tools:text="#古风经典"/>
-
+                            app:layout_constraintEnd_toEndOf="@+id/rec_img"
+                            app:layout_constraintTop_toBottomOf="@id/rec_img"
+                            tools:text="#古风经典" />
 
                 </LinearLayout>
 

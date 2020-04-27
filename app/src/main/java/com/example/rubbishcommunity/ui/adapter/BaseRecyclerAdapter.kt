@@ -8,7 +8,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ItemFooterProgressbarBinding
 import java.util.*
 import kotlin.properties.Delegates
@@ -150,6 +149,9 @@ abstract class BaseRecyclerAdapter<Bean, Binding : ViewDataBinding>
 					)
 				baseList = newList
 				diffResult.dispatchUpdatesTo(this)
+			}else{
+				baseList = newList
+				notifyDataSetChanged()
 			}
 		}
 

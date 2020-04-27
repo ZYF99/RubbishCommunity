@@ -22,7 +22,7 @@ class DatePopView(
 	
 	constructor(
 		context: Context,
-		birthLong: Long,
+		birthLong: Long?,
 		onFinishClick: (String, String, String, Long) -> Unit
 	) : this(
 		context,

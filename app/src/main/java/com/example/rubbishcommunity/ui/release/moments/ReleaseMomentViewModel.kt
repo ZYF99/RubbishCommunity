@@ -97,7 +97,7 @@ class ReleaseMomentViewModel(application: Application) : BaseViewModel(applicati
 		) {
 			//进度更新
 			progress.postValue(it)
-		}
+		}.switchThread()
 		
 		//发布动态的流
 		fun getReleaseMomentSingle(momentsId: Long) = momentService.releaseMoment(

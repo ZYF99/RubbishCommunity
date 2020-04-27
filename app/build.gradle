@@ -258,6 +258,9 @@ dependencies {
     implementation files('libs/utdid4all-1.1.5.3_proguard.jar')
     implementation files('libs/BaiduLBS_Android.jar')*/
 
+    //MP图表
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
     //百度识别
     implementation group: 'com.baidu.aip', name: 'java-sdk', version: '4.12.0'
 

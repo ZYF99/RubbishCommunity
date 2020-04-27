@@ -16,8 +16,6 @@ import com.example.rubbishcommunity.ui.container.jumpToEditInfo
 import com.example.rubbishcommunity.ui.container.jumpToMachineDetail
 import com.example.rubbishcommunity.ui.container.jumpToMomentDetail
 import com.example.rubbishcommunity.ui.home.MainActivity
-import com.example.rubbishcommunity.ui.home.mine.editinfo.REQUEST_CODE_EDIT_USER_INFO
-import com.example.rubbishcommunity.ui.utils.addDecoration
 import com.example.rubbishcommunity.ui.utils.showBackgroundAlbum
 import com.example.rubbishcommunity.ui.utils.userInfoHasChanged
 import com.google.android.material.appbar.AppBarLayout
@@ -30,8 +28,8 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 	MineViewModel::class.java, R.layout.fragment_mine
 ) {
 	
-	var bindAlertDialog: AlertDialog? = null
-	var headerViewBinding: HeaderMineBinding? = null
+	private var bindAlertDialog: AlertDialog? = null
+	private var headerViewBinding: HeaderMineBinding? = null
 	
 	override fun initBefore() {
 		binding.vm = viewModel

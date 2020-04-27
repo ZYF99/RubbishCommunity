@@ -11,7 +11,6 @@ import com.example.rubbishcommunity.ui.home.find.moment.MomentsFragment
 import com.example.rubbishcommunity.ui.home.find.questiontest.QuestionTestFragment
 import com.google.android.material.appbar.AppBarLayout
 
-
 class FindFragment :
 	BindingFragment<FindBinding, FindViewModel>(
 		FindViewModel::class.java, R.layout.fragment_find

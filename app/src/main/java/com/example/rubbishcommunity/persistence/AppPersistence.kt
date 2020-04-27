@@ -9,7 +9,7 @@ import java.util.*
 
 //存储用于验证的信息
 fun saveVerifyInfo(
-	uin:Long,
+	uin: Long,
 	userName: String,
 	password: String,
 	token: String,
@@ -72,7 +72,7 @@ fun saveUserInfo(usrProfile: UsrProfile) {
 	)
 }
 
-fun getUserSimpleProfile():SimpleProfileResp{
+fun getUserSimpleProfile(): SimpleProfileResp {
 	return SimpleProfileResp(
 		getLocalOpenId(),
 		getLocalUserInfo().name,
@@ -125,7 +125,7 @@ fun updateSomeUserInfo(
 	gender: String,
 	name: String,
 	birthday: Long,
-	city:String
+	city: String
 	//location: BDLocation
 ) {
 	val oldUserInfo: UsrProfile = getLocalUserInfo()
@@ -203,3 +203,36 @@ fun getLocalNeedMoreInfo(): Boolean {
 	return (SharedPreferencesUtils.getData("needMoreInfoFlag", false) as Boolean)
 }
 
+
+/*智能硬件*/
+
+//存储用户搜索机器历史的开始时间
+fun saveMachineSearchHistoryStartTime(startTime: Long) {
+	SharedPreferencesUtils.putData(
+		"startTime",
+		startTime
+	)
+}
+
+//存储用户搜索机器历史的开始时间
+fun getMachineSearchHistoryStartTime() =
+	SharedPreferencesUtils.getData(
+		"startTime",
+		1.toLong()
+	) as Long
+
+
+//存储用户搜索机器历史的开始时间
+fun saveMachineSearchHistoryEndTime(endTime: Long) {
+	SharedPreferencesUtils.putData(
+		"endTime",
+		endTime
+	)
+}
+
+//存储用户搜索机器历史的开始时间
+fun getMachineSearchHistoryEndTime() =
+	SharedPreferencesUtils.getData(
+		"endTime",
+		Date().time
+	) as Long

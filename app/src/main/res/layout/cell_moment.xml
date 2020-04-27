@@ -136,9 +136,14 @@
                         android:id="@+id/tv_topic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_topic"
                         android:text="@{moment.topic}"
-                        android:layout_marginTop="4dp"
-                        android:textColor="@color/text_second"
+                        android:layout_marginTop="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:textColor="@color/text_third"
                         android:textSize="12sp"
                         app:layout_constraintEnd_toEndOf="@+id/rec_img"
                         app:layout_constraintTop_toBottomOf="@id/rec_img"
@@ -149,7 +154,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="24dp"
                         android:orientation="horizontal"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:gravity="center_vertical"
@@ -230,13 +235,6 @@
                             tools:ignore="NewApi" />
 
                 </LinearLayout>
-
-                <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="16dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/lin_btn" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

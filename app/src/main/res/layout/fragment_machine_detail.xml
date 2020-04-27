@@ -11,97 +11,181 @@
                 type="com.example.rubbishcommunity.ui.home.mine.machinedetail.MachineDetailViewModel" />
     </data>
 
-    <LinearLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_marginTop="@dimen/statusBarSize">
 
-        <include layout="@layout/toolbar" />
 
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="设备状态"
-                android:layout_marginStart="16dp"
-                android:textColor="@color/black" />
-
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="2dp">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/actionBarSize"
+                    android:navigationIcon="@drawable/ic_arrow_back_black_24dp"
+                    app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
+                    app:title="@{vm.machineInfo.nikeName}">
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:orientation="vertical">
 
                 <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="设备状态"
+                        android:textColor="@color/black" />
+
+                <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{vm.machineInfo.nikeName}"
-                        android:textColor="@color/black"
-                        tools:text="sadgasfhj" />
+                        android:layout_margin="16dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="2dp">
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@{vm.machineInfo.nikeName + vm.machineInfo.machineVersion}"
+                                android:textColor="@color/black"
+                                tools:text="设备别名" />
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                tools:text="设备厂名"
+                                android:text="@{vm.machineInfo.machineName}" />
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                tools:text="设备Mac地址"
+                                android:text='@{"Mac：" + vm.machineInfo.machineMacAddress}' />
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                tools:text="设备类型"
+                                android:text='@{"type:" + String.valueOf(vm.machineInfo.machineType)}' />
+
+
+                        <com.github.mikephil.charting.charts.LineChart
+                                android:id="@+id/lin_rate_chart"
+                                android:layout_width="match_parent"
+                                android:layout_height="240dp"/>
+
+                        <com.github.mikephil.charting.charts.LineChart
+                                android:id="@+id/lin_temp_chart"
+                                android:layout_width="match_parent"
+                                android:layout_height="240dp"/>
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
 
                 <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{vm.machineInfo.machineName}" />
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@{vm.machineInfo.machineMacAddress}" />
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@{String.valueOf(vm.machineInfo.machineType)}" />
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@{String.valueOf(vm.machineInfo.machineVersion)}" />
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@{String.valueOf(vm.machineInfo.healthInfoResult.cpuUsageRate)}" />
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@{String.valueOf(vm.machineInfo.healthInfoResult.cpuTemperature)}" />
+                        android:layout_marginStart="16dp"
+                        android:text="历史查询"
+                        android:textColor="@color/black" />
 
 
             </LinearLayout>
 
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:layout_gravity="bottom"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-        </androidx.cardview.widget.CardView>
+                <TextView
+                        android:id="@+id/btn_start_time"
+                        time="@{vm.startTime}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:maxLength="16"
+                        android:padding="12dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/text_hint"
+                        android:textSize="14sp"
+                        tools:text="2020年4月22日" />
 
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:maxLength="16"
+                        android:padding="12dp"
+                        android:text="—"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/text_hint"
+                        android:textSize="14sp" />
 
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="垃圾查询历史"
-                android:layout_marginStart="16dp"
-                android:textColor="@color/black" />
+                <TextView
+                        android:id="@+id/btn_end_time"
+                        time="@{vm.endTime}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:maxLength="16"
+                        android:padding="12dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/text_hint"
+                        android:textSize="14sp"
+                        tools:text="2020年4月22日" />
 
+            </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rec_search_history"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                tools:itemCount="2"
-                tools:listitem="@layout/cell_machine_search_history" />
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rec_search_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/cell_machine_search_history" />
 
+            </LinearLayout>
 
-    </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 </layout>

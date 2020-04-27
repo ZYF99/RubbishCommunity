@@ -11,17 +11,13 @@ import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.FragmentReleaseMomentBinding
-import com.example.rubbishcommunity.initLocationClient
 import com.example.rubbishcommunity.ui.adapter.ITEM_SWIPE_FREE
 import com.example.rubbishcommunity.ui.adapter.attachItemSwipe
 import com.example.rubbishcommunity.ui.utils.showGallery
-import com.example.rubbishcommunity.utils.checkLocationPermissionAndGetLocation
 import com.example.rubbishcommunity.ui.utils.showAlbum
 import com.example.rubbishcommunity.utils.checkStoragePermission
-import com.example.rubbishcommunity.utils.showLocationServiceDialog
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
-import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
 
 annotation class MomentsType {

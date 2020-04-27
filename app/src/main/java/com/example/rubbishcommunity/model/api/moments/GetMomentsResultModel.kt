@@ -4,7 +4,6 @@ package com.example.rubbishcommunity.model.api.moments
 import com.example.rubbishcommunity.model.api.SimpleProfileResp
 import com.example.rubbishcommunity.model.api.mine.UsrProfile
 import com.example.rubbishcommunity.persistence.getLocalOpenId
-import com.example.rubbishcommunity.ui.utils.equalsList
 import java.io.Serializable
 
 

@@ -78,6 +78,18 @@ fun getTimeShort(date: Date): String {
 	return formatter.format(date)
 }
 
+/**
+ * 获取时间 小时:分 mm:ss 以Float返回
+ *
+ * @return
+ */
+fun getTimeShortFloat(date: Date): Float {
+	
+	val formatter = SimpleDateFormat("mm:ss")
+	val str = formatter.format(date)
+	val resStr = str.replace(":",".")
+	return resStr.toFloat()
+}
 
 @BindingAdapter("recentTime")
 fun getRecentTime(textView: TextView, timeStamp: Long) {
