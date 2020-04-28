@@ -10,6 +10,7 @@ import org.eclipse.paho.client.mqttv3.IMqttActionListener
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.*
+import android.util.Base64
 import androidx.annotation.RequiresApi
 import com.example.rubbishcommunity.ui.splash.SplashActivity
 import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions
@@ -20,19 +21,22 @@ import org.eclipse.paho.android.service.MqttAndroidClient
 import androidx.core.app.NotificationCompat
 import com.example.rubbishcommunity.BuildConfig
 import com.example.rubbishcommunity.MyApplication
+import com.example.rubbishcommunity.NotifyMessageOutClass
 import com.example.rubbishcommunity.R
+import com.example.rubbishcommunity.persistence.getLinkKey
 import com.example.rubbishcommunity.persistence.getLocalEmail
 import com.example.rubbishcommunity.persistence.getLocalUin
 import com.example.rubbishcommunity.ui.utils.sendSimpleNotification
+import com.example.rubbishcommunity.utils.globalGson
+import timber.log.Timber
 
 /**
  * @author Zhangyf
  */
 
-const val TAG = "nlgMqttService"
-const val TOPIC_TO_QA = "/s2c/task_quality/"
 const val CHANNEL_ID_STRING = "用于显示即使消息"
-val PUBLISH_TOPIC = "UA:${getLocalUin()}"
+val SUBSCRIBE_TOPIC = "${getLocalUin()}@${getLinkKey()}"//订阅topic
+const val DEW_MQTT_HEART_BEAT_TOPIC = "DEW_MQTT_HEART_BEAT_TOPIC"//后台心跳发送topic
 
 class MyMqttService : Service() {
 	private var mqttAndroidClient: MqttAndroidClient? = null
@@ -48,19 +52,20 @@ class MyMqttService : Service() {
 	
 	override fun onCreate() {
 		super.onCreate()
-		//mqtt服务器的地址
-		val serverUri = BuildConfig.MQTT_URL
 		//新建Client,以设备ID作为client ID
-		mqttAndroidClient =
-			MqttAndroidClient(this@MyMqttService, serverUri, "UA:${getLocalUin()}")
+		mqttAndroidClient = MqttAndroidClient(
+			this@MyMqttService,
+			BuildConfig.MQTT_URL,
+			"${getLocalUin()}@${getLinkKey()}"
+		)
 		mqttAndroidClient?.setCallback(object : MqttCallbackExtended {
 			override fun connectComplete(reconnect: Boolean, serverURI: String) {
 				//连接成功
 				if (reconnect) {
 					// 由于clean Session ，我们需要重新订阅
 					try {
-						subscribeToTopic(PUBLISH_TOPIC)
-					}catch (e:Exception){
+						subscribeToTopic()
+					} catch (e: Exception) {
 					
 					}
 				}
@@ -72,8 +77,12 @@ class MyMqttService : Service() {
 			
 			override fun messageArrived(topic: String, message: MqttMessage) {
 				//订阅的消息送达，推送notify
+				val resBytes = Base64.decode(message.payload, Base64.NO_WRAP)
 				
-				sendSimpleNotification(applicationContext, topic, message.toString())
+		
+				val notifyMessage = NotifyMessageOutClass.NotifyMessage.parseFrom(resBytes)
+				
+				sendSimpleNotification(applicationContext, topic, notifyMessage.payload)
 			}
 			
 			override fun deliveryComplete(token: IMqttDeliveryToken) {
@@ -85,7 +94,7 @@ class MyMqttService : Service() {
 		//断开后，是否自动连接
 		mqttConnectOptions.isAutomaticReconnect = true
 		//是否清空客户端的连接记录。若为true，则断开后，broker将自动清除该客户端连接信息
-		mqttConnectOptions.isCleanSession = false
+		mqttConnectOptions.isCleanSession = true
 		//设置Mq连接的userName
 		mqttConnectOptions.userName = getLocalEmail()
 		//设置超时时间，单位为秒
@@ -93,7 +102,7 @@ class MyMqttService : Service() {
 		//心跳时间，单位为秒。即多长时间确认一次Client端是否在线
 		mqttConnectOptions.keepAliveInterval = 2
 		//允许同时发送几条消息（未收到broker确认信息）
-		//mqttConnectOptions.setMaxInflight(10)
+		mqttConnectOptions.maxInflight = 2
 		//选择MQTT版本
 		mqttConnectOptions.mqttVersion = MqttConnectOptions.MQTT_VERSION_3_1_1
 		try {
@@ -104,10 +113,10 @@ class MyMqttService : Service() {
 					disconnectedBufferOptions.isBufferEnabled = true
 					disconnectedBufferOptions.bufferSize = 100
 					disconnectedBufferOptions.isPersistBuffer = false
-					disconnectedBufferOptions.isDeleteOldestMessages = false
+					disconnectedBufferOptions.isDeleteOldestMessages = true
 					mqttAndroidClient!!.setBufferOpts(disconnectedBufferOptions)
 					//成功连接以后开始订阅
-					subscribeToTopic(PUBLISH_TOPIC)
+					subscribeToTopic()
 				}
 				
 				override fun onFailure(asyncActionToken: IMqttToken, exception: Throwable) {
@@ -165,7 +174,7 @@ class MyMqttService : Service() {
 	
 	
 	//订阅消息
-	fun subscribeToTopic(subscriptionTopic: String) {
+	fun subscribeToTopic(subscriptionTopic: String = SUBSCRIBE_TOPIC) {
 		try {
 			mqttAndroidClient?.subscribe(subscriptionTopic, 1, "1", object : IMqttActionListener {
 				override fun onSuccess(asyncActionToken: IMqttToken) {
@@ -180,15 +189,20 @@ class MyMqttService : Service() {
 	}
 	
 	//发布消息
-	fun publishMessage(msg: String) {
+	fun publishMessage(
+		msg: String,
+		topic: String
+	) {
 		try {
 			val message = MqttMessage()
 			message.payload = msg.toByteArray()
-			mqttAndroidClient?.publish(PUBLISH_TOPIC, message)
+			mqttAndroidClient?.publish(topic, message)
 		} catch (e: MqttException) {
+			Timber.d("!!!!!!!!$e")
 			e.printStackTrace()
 		}
 	}
+	
 	
 	override fun onDestroy() {
 		//服务退出时client断开连接
@@ -204,6 +218,5 @@ class MyMqttService : Service() {
 		mqttAndroidClient?.unregisterResources()
 		return super.onUnbind(intent)
 	}
-	
 	
 }

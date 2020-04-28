@@ -1,6 +1,5 @@
 package com.example.rubbishcommunity.ui.base
 
-
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -22,13 +21,9 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import timber.log.Timber
 import com.example.rubbishcommunity.MyApplication
-import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.ui.container.jumpToLogin
 import com.example.rubbishcommunity.utils.BindLife
 import com.example.rubbishcommunity.ui.utils.*
-import com.example.rubbishcommunity.utils.switchThread
-import io.reactivex.Single
-
 
 abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 	: AppCompatActivity(), KodeinAware, BindLife {
@@ -150,7 +145,6 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 		errorDisposable?.dispose()
 		super.onDestroy()
 	}
-	
 	
 }
 

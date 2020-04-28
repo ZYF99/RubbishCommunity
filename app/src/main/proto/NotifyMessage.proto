@@ -1,0 +1,32 @@
+syntax = "proto3";
+package rubbishcommunity;
+option java_package = "com.example.rubbishcommunity";
+option java_outer_classname = "NotifyMessageOutClass";
+
+enum NotifyType{
+    ERROR_DEFAULT_TYPE = 0;
+    SYNC_MOMENTS_COMMENT = 1;
+    SYNC_MOMENTS_REPLY = 2;
+    SYNC_MOMENTS_FAVORITE = 3;
+    NOTIFY_MACHINE_SEARCH = 4;
+    SYNC_MACHINE_HEALTH = 5;
+}
+
+message NotifyMessage{
+    Header header = 1;
+    string payload = 2;
+}
+
+message Header{
+    NotifyType notifyType = 1;
+    int64 timestamp = 2;
+    string notifyUUID = 3;
+    int64 toUin = 4;
+    int32 version = 5;
+}
+
+message MachineNotifyMessage{
+    string searchKey = 1;
+    string nikeName = 2;
+    int64 timestamp = 3;
+}

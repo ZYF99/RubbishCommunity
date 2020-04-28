@@ -1,13 +1,22 @@
 package com.example.rubbishcommunity.ui.home
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.util.Base64
+import android.util.Base64.NO_WRAP
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.rubbishcommunity.MqttHeartBeatMessageOutClass
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MainBinding
+import com.example.rubbishcommunity.persistence.getLinkKey
 import com.example.rubbishcommunity.persistence.getLocalNeedMoreInfo
+import com.example.rubbishcommunity.persistence.getLocalUin
 import com.example.rubbishcommunity.persistence.getLocalVerifiedEmail
+import com.example.rubbishcommunity.service.DEW_MQTT_HEART_BEAT_TOPIC
 import com.example.rubbishcommunity.service.MqServiceConnection
+import com.example.rubbishcommunity.service.MyMqttService
 import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.ui.container.jumpToBasicInfo
 import com.example.rubbishcommunity.ui.container.jumpToReleaseMoments
@@ -20,6 +29,7 @@ import com.example.rubbishcommunity.ui.utils.dp2px
 import com.example.rubbishcommunity.ui.widget.statushelper.StatusBarUtil
 import com.jakewharton.rxbinding2.view.RxView
 import com.zzhoujay.richtext.RichText
+import io.reactivex.Observable
 import io.reactivex.Single
 import java.util.concurrent.TimeUnit
 
@@ -29,7 +39,26 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	override val clazz: Class<MainViewModel> = MainViewModel::class.java
 	override val layRes: Int = R.layout.activity_main
 	private var currentFragment: Fragment? = HomePageFragment()
-	private val mqServiceConnection = MqServiceConnection()
+	private val mqServiceConnection = MqServiceConnection { mqService ->
+		
+		//维持心跳
+		Observable.interval(3, 3, TimeUnit.SECONDS)
+			.doOnNext {
+				//发送心跳
+				mqService
+					.publishMessage(
+						Base64.encodeToString(
+							MqttHeartBeatMessageOutClass.MqttHeartBeatMessage.newBuilder()
+								.setLinkKey(getLinkKey())
+								.setUin(getLocalUin())
+								.setTimestamp(System.currentTimeMillis())
+								.build().toByteArray(),
+							NO_WRAP
+						),
+						DEW_MQTT_HEART_BEAT_TOPIC
+					)
+			}.bindLife()
+	}
 	
 	override fun initBefore() {
 	
@@ -39,20 +68,13 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	override fun initWidget() {
 		//状态栏字体黑色
 		StatusBarUtil.setStatusTextColor(true, this)
-/*		window.setFlags(
-			FLAG_LAYOUT_NO_LIMITS,
-			FLAG_LAYOUT_NO_LIMITS
-		)*/
 		
 		viewModel.appBarOffsetBias.observeNonNull {
 			binding.bottomnavigation.translationY =
 				it * (binding.bottomnavigation.height + dp2px(16f))
 			binding.fabAdd.alpha = ((1 - (it * 0.5)).toFloat())
-/*				it.times(
-					binding.bottomnavigation.height
-				)*/
+			
 		}
-		
 		
 		//不需要验证邮箱和完善信息,初始化home界面
 		supportFragmentManager.beginTransaction().apply {
@@ -102,20 +124,20 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	}
 	
 	override fun initData() {
-
-/*		//启动mqtt服务
+		
+		//启动mqtt服务
 		bindService(
 			Intent(this, MyMqttService::class.java),
 			mqServiceConnection,
 			Context.BIND_AUTO_CREATE
-		)*/
+		)
 		
 	}
 	
 	
 	private fun publishMqMsg(string: String) {
-/*		//发布消息
-		mqServiceConnection.getMqttService().publishMessage(string)*/
+		//发布消息
+		//mqServiceConnection.getMqttService().publishMessage(string)
 		
 	}
 	

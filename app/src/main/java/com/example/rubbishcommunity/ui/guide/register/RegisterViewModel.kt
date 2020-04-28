@@ -11,6 +11,7 @@ import com.example.rubbishcommunity.manager.dealErrorCode
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
+import com.example.rubbishcommunity.persistence.saveLinkKey
 import com.example.rubbishcommunity.persistence.saveLoginState
 import com.example.rubbishcommunity.persistence.saveUserInfo
 import com.example.rubbishcommunity.persistence.saveVerifyInfo
@@ -19,6 +20,7 @@ import com.example.rubbishcommunity.ui.utils.*
 import com.example.rubbishcommunity.utils.switchThread
 import io.reactivex.Single
 import org.kodein.di.generic.instance
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -101,6 +103,8 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 					saveUserInfo(
 						it.data.usrProfile
 					)
+					//存储linkKey
+					saveLinkKey()
 					//登陆状态置为true
 					saveLoginState(true)
 				}

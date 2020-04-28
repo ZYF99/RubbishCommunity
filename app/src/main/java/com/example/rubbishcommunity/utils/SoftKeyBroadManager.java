@@ -1,10 +1,8 @@
 package com.example.rubbishcommunity.utils;
 
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
-
 import java.util.LinkedList;
 import java.util.List;
 

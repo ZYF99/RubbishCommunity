@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.FragmentUserInfoBinding
 import com.example.rubbishcommunity.ui.base.BindingFragment
+import com.example.rubbishcommunity.ui.container.jumpToMomentDetail
 import com.example.rubbishcommunity.ui.home.mine.RecentMomentAdapter
 
 class UserInfoFragment : BindingFragment<FragmentUserInfoBinding, UserInfoViewModel>(
@@ -42,12 +43,9 @@ class UserInfoFragment : BindingFragment<FragmentUserInfoBinding, UserInfoViewMo
 			activity?.finish()
 		}
 		
-		binding.recRecent.adapter = RecentMomentAdapter{
-		
+		binding.recRecent.adapter = RecentMomentAdapter {
+			context?.let { contextTemp -> jumpToMomentDetail(contextTemp, it) }
 		}
-		
-		
-
 		
 		//上拉加载
 		binding.recRecent.addOnScrollListener(object : RecyclerView.OnScrollListener() {

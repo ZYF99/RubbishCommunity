@@ -9,7 +9,6 @@ import com.example.rubbishcommunity.R
 import io.reactivex.rxkotlin.ofType
 import io.reactivex.subjects.PublishSubject
 
-
 /**
  *  DialogUtil
  */

@@ -1,0 +1,10 @@
+syntax = "proto3";
+package rubbishcommunity;
+option java_package = "com.example.rubbishcommunity";
+option java_outer_classname = "MqttHeartBeatMessageOutClass";
+
+message MqttHeartBeatMessage{
+    int64 uin = 1;
+    string linkKey = 2;
+    int64 timestamp = 3;
+}

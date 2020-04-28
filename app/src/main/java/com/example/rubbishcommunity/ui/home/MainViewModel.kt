@@ -2,7 +2,11 @@ package com.example.rubbishcommunity.ui.home
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.ui.base.BaseViewModel
+import com.example.rubbishcommunity.utils.switchThread
+import io.reactivex.Flowable
+import java.util.concurrent.TimeUnit
 import kotlin.math.absoluteValue
 
 
@@ -14,7 +18,6 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
 	fun onAppBarOffsetChanged(verticalOffset: Int, appbarHeight: Float) {
 		appBarOffsetBias.value = verticalOffset.absoluteValue.toFloat() / appbarHeight
 	}
-
 	
 /*	private val _parentKodein: Kodein by lazy { (application as MyApplication).kodein }
 	

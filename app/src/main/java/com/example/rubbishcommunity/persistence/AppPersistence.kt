@@ -72,6 +72,7 @@ fun saveUserInfo(usrProfile: UsrProfile) {
 	)
 }
 
+//得到用户基本信息
 fun getUserSimpleProfile(): SimpleProfileResp {
 	return SimpleProfileResp(
 		getLocalOpenId(),
@@ -202,6 +203,23 @@ fun getLocalVerifiedEmail(): Boolean {
 fun getLocalNeedMoreInfo(): Boolean {
 	return (SharedPreferencesUtils.getData("needMoreInfoFlag", false) as Boolean)
 }
+
+//存储维持心跳所需的linkKey
+fun saveLinkKey(linkKey: String = UUID.randomUUID().toString().substring(0,5)) {
+	SharedPreferencesUtils.putData(
+		"linkKey",
+		linkKey
+	)
+}
+
+//得到维持心跳所需的linkKey
+fun getLinkKey() =
+	SharedPreferencesUtils.getData(
+		"linkKey",
+		"default"
+	) as String
+
+
 
 
 /*智能硬件*/

@@ -18,6 +18,7 @@ import com.example.rubbishcommunity.utils.switchThread
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import org.kodein.di.generic.instance
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -81,6 +82,8 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
 					saveUserInfo(
 						it.data.usrProfile
 					)
+					//存储linkKey
+					saveLinkKey()
 					//登陆状态置为true
 					saveLoginState(true)
 				}
