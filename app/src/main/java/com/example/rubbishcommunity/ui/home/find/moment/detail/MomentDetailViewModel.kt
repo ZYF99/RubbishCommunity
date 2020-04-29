@@ -18,8 +18,9 @@ class MomentDetailViewModel(application: Application) : BaseViewModel(applicatio
 	val inputComment = MutableLiveData<String>()
 	
 	//拉取单个动态
-	private fun fetchMomentDetail() {
+	fun fetchMomentDetail() {
 		momentService.fetchMomentsByMomentId(moment.value?.momentId ?: 0)
+			.dealLoading()
 			.doOnApiSuccess {
 				moment.postValue(it.data)
 			}

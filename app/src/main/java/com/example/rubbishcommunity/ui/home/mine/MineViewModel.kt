@@ -7,7 +7,6 @@ import com.example.rubbishcommunity.manager.api.ImageService
 import com.example.rubbishcommunity.manager.api.MachineService
 import com.example.rubbishcommunity.manager.api.MomentService
 import com.example.rubbishcommunity.manager.api.UserService
-import com.example.rubbishcommunity.manager.catchApiError
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.machine.BindMachineRequestModel
 import com.example.rubbishcommunity.model.api.machine.FetchMachineInfoResultModel
@@ -23,11 +22,9 @@ import com.example.rubbishcommunity.ui.base.BaseViewModel
 import com.example.rubbishcommunity.ui.home.mine.editinfo.getImageUrlFromServer
 import com.example.rubbishcommunity.utils.switchThread
 import com.example.rubbishcommunity.utils.upLoadImage
-import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import org.kodein.di.generic.instance
-import java.util.concurrent.TimeUnit
 
 const val BACKGROUND_URL =
 	"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583989375777&di=e0b2e3ec7dd59e4f3ec5d295fcc5abce&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201612%2F11%2F125901gs0055sdf10fzw1d.jpg"
@@ -64,7 +61,8 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 			BiFunction { f, s ->
 				Pair(f.data, s.data)
 			}
-		).dealLoadingMore()
+		).retry()
+			.dealLoadingMore()
 			.doOnApiSuccess {
 				val profile =
 					if (it.first.usrProfile.backgroundImage.isEmpty())
@@ -81,15 +79,9 @@ class MineViewModel(application: Application) : BaseViewModel(application) {
 	
 	//获取设备信息
 	fun refreshMachineInfo() {
-		Flowable.interval(1,10, TimeUnit.SECONDS)
-			.flatMapSingle {
-				machineService.fetchMachineInfo()
-			}
-			.switchThread()
-			.catchApiError()
-			.doOnNext {
-				machineBannerList.postValue(it.data.machineHeathInfoList)
-			}.bindLife()
+		machineService.fetchMachineInfo().doOnApiSuccess {
+			machineBannerList.postValue(it.data.machineHeathInfoList)
+		}
 	}
 	
 	//绑定设备

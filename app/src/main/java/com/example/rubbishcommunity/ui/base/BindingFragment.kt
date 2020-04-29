@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
@@ -17,25 +16,26 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.manager.UiError
-import com.example.rubbishcommunity.ui.home.MainActivity
-import com.example.rubbishcommunity.ui.utils.ErrorType
-import com.example.rubbishcommunity.ui.utils.dp2px
-import com.example.rubbishcommunity.ui.utils.sendError
+import com.example.rubbishcommunity.service.MQNotifyData
+import com.example.rubbishcommunity.service.getMQNotifyObs
+import com.example.rubbishcommunity.ui.utils.*
 import com.example.rubbishcommunity.utils.BindLife
-import com.google.android.material.appbar.AppBarLayout
 import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.support.closestKodein
+import timber.log.Timber
 
 
 abstract class BindingFragment<Bind : ViewDataBinding, VM : BaseViewModel>
 constructor(
 	private val clazz: Class<VM>,
 	private val bindingCreator: (LayoutInflater, ViewGroup?) -> Bind
-) : SoftObservableFragment(), KodeinAware,
-	BindLife {
+) : SoftObservableFragment(), KodeinAware, BindLife{
 	
+	var isVisibleToUser = true
 	var alertDialog: AlertDialog? = null
 	
 	constructor(clazz: Class<VM>, @LayoutRes layoutRes: Int) : this(clazz, { inflater, group ->
@@ -50,7 +50,7 @@ constructor(
 	lateinit var binding: Bind
 	
 	override val compositeDisposable = CompositeDisposable()
-	
+	private var notifyDisposable: Disposable? = null //MQ消息流
 	
 	//create view
 	override fun onCreateView(
@@ -95,6 +95,7 @@ constructor(
 		
 		if (!viewModel.vmInit) {
 			initData()
+			handleMQNotifyMessage()
 			viewModel.vmInit = true
 		}
 		
@@ -108,7 +109,6 @@ constructor(
 	
 	//data init
 	abstract fun initData()
-	
 	
 	//ext
 	protected fun <T> LiveData<T>.observe(observer: (T?) -> Unit) where T : Any =
@@ -155,12 +155,27 @@ constructor(
 		)
 	}
 	
-	fun AlertDialog.showContent(){
+	fun AlertDialog.showContent() {
 		show()
 		val params = this.window?.attributes
 		params?.width = context.dp2px(200f)
 		params?.height = context.dp2px(200f)
 		this.window?.attributes = params;
+	}
+	
+
+	//实际'MQ消息'处理者
+	private fun handleMQNotifyMessage() {
+		notifyDisposable = getMQNotifyObs()
+			.observeOn(AndroidSchedulers.mainThread())
+			.doOnNext {
+					onMQMessageArrived(it)
+			}.subscribe({}, { Timber.e(it) })
+	}
+	
+	//关于MQ消息的处理方法，需要实现的Fragment自行重写
+	protected open fun onMQMessageArrived(mqNotifyData: MQNotifyData) {
+	
 	}
 	
 }

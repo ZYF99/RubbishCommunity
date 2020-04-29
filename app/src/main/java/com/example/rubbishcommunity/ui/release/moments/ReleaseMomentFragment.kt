@@ -68,11 +68,21 @@ class ReleaseMomentFragment : BindingFragment<FragmentReleaseMomentBinding, Rele
 	override
 	fun initBefore() {
 		binding.vm = viewModel
-		viewModel.momentsType = activity?.intent?.getStringExtra("moments_type")!!
-		viewModel.toolbarTitle.value = when (viewModel.momentsType) {
-			MomentsType.TYPE_DYNAMIC -> "发布动态"
-			MomentsType.TYPE_RECOVERY -> "发布回收"
-			else -> ""
+		viewModel.momentsType = activity?.intent?.getStringExtra("moments_type")?:MomentsType.TYPE_DYNAMIC
+		when(viewModel.momentsType){
+			MomentsType.TYPE_DYNAMIC -> {
+				binding.isDynamic = true
+				binding.titleHint = "加个标题会有更多赞哦~"
+				viewModel.toolbarTitle.value = "发布动态"
+			}
+			MomentsType.TYPE_RECOVERY -> {
+				binding.isDynamic = false
+				binding.titleHint = "加个标题吸引更多收藏者吧~"
+				viewModel.toolbarTitle.value = "发布回收"
+			}
+			else -> {
+			
+			}
 		}
 	}
 	

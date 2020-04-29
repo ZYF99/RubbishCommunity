@@ -3,7 +3,6 @@ package com.example.rubbishcommunity.manager.api
 import com.example.rubbishcommunity.model.api.ResultModel
 import com.example.rubbishcommunity.model.api.machine.*
 import io.reactivex.Single
-import okhttp3.ResponseBody
 import retrofit2.http.*
 
 /**

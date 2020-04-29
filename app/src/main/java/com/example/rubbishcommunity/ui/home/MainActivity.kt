@@ -69,6 +69,10 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 		//状态栏字体黑色
 		StatusBarUtil.setStatusTextColor(true, this)
 		
+/*		machineSearchHistoryHasChanged.observeNonNull {
+			Timber.d("$it")
+		}*/
+		
 		viewModel.appBarOffsetBias.observeNonNull {
 			binding.bottomnavigation.translationY =
 				it * (binding.bottomnavigation.height + dp2px(16f))

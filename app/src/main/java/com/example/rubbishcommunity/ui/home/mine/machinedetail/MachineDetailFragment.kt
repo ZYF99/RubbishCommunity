@@ -1,13 +1,17 @@
 package com.example.rubbishcommunity.ui.home.mine.machinedetail
 
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.rubbishcommunity.NotifyMessageOutClass
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.FragmentMachineDetailBinding
 import com.example.rubbishcommunity.model.api.machine.FetchMachineInfoResultModel
 import com.example.rubbishcommunity.persistence.saveMachineSearchHistoryEndTime
 import com.example.rubbishcommunity.persistence.saveMachineSearchHistoryStartTime
+import com.example.rubbishcommunity.service.MQNotifyData
+import com.example.rubbishcommunity.service.parseDataToMachineNotifyMessage
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.ui.widget.DatePopView
+import com.example.rubbishcommunity.utils.getTimeShortFloat
 import com.example.rubbishcommunity.utils.globalGson
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.XAxis
@@ -17,9 +21,11 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.github.mikephil.charting.utils.ColorTemplate
+import io.reactivex.Observable
 import java.lang.StringBuilder
 import java.text.DecimalFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class MachineDetailFragment : BindingFragment<FragmentMachineDetailBinding, MachineDetailViewModel>(
 	MachineDetailViewModel::class.java, R.layout.fragment_machine_detail
@@ -33,15 +39,18 @@ class MachineDetailFragment : BindingFragment<FragmentMachineDetailBinding, Mach
 	
 	override fun initWidget() {
 		
+		//搜索历史观察
 		viewModel.searchList.observeNonNull {
 			(binding.recSearchHistory.adapter as SearchHistoryAdapter).replaceData(it)
 		}
 		
+		//配置搜索历史列表
 		binding.recSearchHistory.apply {
 			layoutManager = LinearLayoutManager(context)
 			adapter = SearchHistoryAdapter {}
 		}
 		
+		//开始时间
 		binding.btnStartTime.setOnClickListener {
 			DatePopView(
 				context!!,
@@ -53,6 +62,7 @@ class MachineDetailFragment : BindingFragment<FragmentMachineDetailBinding, Mach
 			}.show()
 		}
 		
+		//结束时间
 		binding.btnEndTime.setOnClickListener {
 			DatePopView(
 				context!!,
@@ -64,23 +74,54 @@ class MachineDetailFragment : BindingFragment<FragmentMachineDetailBinding, Mach
 			}.show()
 		}
 		
-		viewModel.lineRateData.observeNonNull {
-			updateRateLineChartData(it.first, it.second, it.third)
-		}
-		viewModel.lineTempData.observeNonNull {
-			updateTempLineChartData(it)
-		}
-		
+		//配置使用率折线图
 		setUpRateLineChart()
+		
+		//配置温度折线图
 		setUpTempLineChart()
 		
 	}
 	
 	override fun initData() {
-		viewModel.fetchMachineHealthInfo()
+		
+		//拉历史
 		viewModel.fetchSearchHistory()
+		
+		//拉健康状态
+		viewModel.fetchMachineHealthInfo {
+			//开始无限画折线图
+			Observable.interval(0, 1, TimeUnit.SECONDS)
+				.doOnNext {
+					val rateData = viewModel.lineRateData.value
+					val tempData = viewModel.lineTempData.value
+					val timeX = getTimeShortFloat(Date())
+					updateRateLineChartData(
+						Entry(timeX, rateData?.first ?: 0f),
+						Entry(timeX, rateData?.second ?: 0f),
+						Entry(timeX, rateData?.third ?: 0f)
+					)
+					updateTempLineChartData(Entry(timeX,tempData?:0f))
+				}.bindLife()
+		}
+		
 	}
 	
+	//接受到MQ消息
+	override fun onMQMessageArrived(mqNotifyData: MQNotifyData) {
+		when (mqNotifyData.mqNotifyType) {
+			NotifyMessageOutClass.NotifyType.NOTIFY_MACHINE_SEARCH -> { //搜索有更新
+				parseDataToMachineNotifyMessage(mqNotifyData)
+				viewModel.fetchSearchHistory()
+			}
+			NotifyMessageOutClass.NotifyType.SYNC_MACHINE_HEALTH -> { //健康状态有更新
+				//parseDataToMachineNotifyMessage(mqNotifyData)
+				viewModel.fetchMachineHealthInfo {}
+			}
+			else -> {
+			
+			}
+		}
+	}
 	
 	/**
 	 * 配置更新内存、硬盘、cpu使用率折线图
@@ -88,9 +129,9 @@ class MachineDetailFragment : BindingFragment<FragmentMachineDetailBinding, Mach
 	private fun setUpRateLineChart() {
 		binding.linRateChart.apply {
 			description = Description().apply { text = "内存、硬盘、CPU使用情况图" }
-			axisRight.isEnabled = false
-			setScaleEnabled(false)
+			setScaleEnabled(true)
 			xAxis.labelCount = 5
+			xAxis.spaceMin = 1f
 			xAxis.position = XAxis.XAxisPosition.BOTTOM
 			xAxis.valueFormatter = object : ValueFormatter() {
 				override fun getFormattedValue(value: Float): String {
@@ -121,8 +162,9 @@ class MachineDetailFragment : BindingFragment<FragmentMachineDetailBinding, Mach
 		binding.linTempChart.apply {
 			description = Description().apply { text = "CPU温度折线图" }
 			axisRight.isEnabled = false
-			setScaleEnabled(false)
+			setScaleEnabled(true)
 			xAxis.labelCount = 5
+			xAxis.spaceMin = 1f
 			xAxis.position = XAxis.XAxisPosition.BOTTOM
 			xAxis.valueFormatter = TimeValueFormatter()
 			data = LineData(
@@ -138,9 +180,9 @@ class MachineDetailFragment : BindingFragment<FragmentMachineDetailBinding, Mach
 	 * 更新内存、硬盘、cpu使用率折线图的数据
 	 */
 	private fun updateRateLineChartData(
-		memoryData: Entry,
-		diskData: Entry,
-		cpuData: Entry
+		memoryData: Entry?,
+		diskData: Entry?,
+		cpuData: Entry?
 	) {
 		val lineDataTemp = binding.linRateChart.data
 		lineDataTemp.addEntry(memoryData, 0)
@@ -156,7 +198,7 @@ class MachineDetailFragment : BindingFragment<FragmentMachineDetailBinding, Mach
 	 * cpu温度折线图的数据
 	 */
 	private fun updateTempLineChartData(
-		tempData: Entry
+		tempData: Entry?
 	) {
 		val lineDataTemp = binding.linTempChart.data
 		lineDataTemp.addEntry(tempData, 0)
@@ -178,6 +220,5 @@ class MachineDetailFragment : BindingFragment<FragmentMachineDetailBinding, Mach
 		setDrawCircles(false)
 		setDrawValues(false)
 	}
-	
 	
 }

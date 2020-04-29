@@ -32,7 +32,7 @@ fun sendSimpleNotification(context: Context, title: String, contentString: Strin
 		val mChannel =  NotificationChannel(CHANNEL_ID_STRING, "美社", NotificationManager.IMPORTANCE_HIGH)
 		notificationManager?.createNotificationChannel(mChannel)
 		notificationManager?.notify(
-			2, NotificationCompat.Builder(
+			Math.random().toInt(), NotificationCompat.Builder(
 				MyApplication.instance,
 				CHANNEL_ID_STRING
 			).setContentTitle(title)
@@ -49,7 +49,7 @@ fun sendSimpleNotification(context: Context, title: String, contentString: Strin
 		)
 	} else {
 		notificationManager?.notify(
-			2, NotificationCompat.Builder(MyApplication.instance)
+			Math.random().toInt(), NotificationCompat.Builder(MyApplication.instance)
 				.setContentTitle(title)
 				.setContentText(contentString)
 				.setWhen(System.currentTimeMillis())

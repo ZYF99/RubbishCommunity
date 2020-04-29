@@ -26,8 +26,6 @@ import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.persistence.getLinkKey
 import com.example.rubbishcommunity.persistence.getLocalEmail
 import com.example.rubbishcommunity.persistence.getLocalUin
-import com.example.rubbishcommunity.ui.utils.sendSimpleNotification
-import com.example.rubbishcommunity.utils.globalGson
 import timber.log.Timber
 
 /**
@@ -75,14 +73,17 @@ class MyMqttService : Service() {
 				//连接断开
 			}
 			
-			override fun messageArrived(topic: String, message: MqttMessage) {
-				//订阅的消息送达，推送notify
+			override fun messageArrived(topic: String, message: MqttMessage) {//订阅的消息送达，推送notify
+				
 				val resBytes = Base64.decode(message.payload, Base64.NO_WRAP)
 				
-		
+				//得到最外层的NotifyMessage对象
 				val notifyMessage = NotifyMessageOutClass.NotifyMessage.parseFrom(resBytes)
 				
-				sendSimpleNotification(applicationContext, topic, notifyMessage.payload)
+				//发送MQ事件，目前在BindingFragment中处理事件
+				sendMQData(MQNotifyData(notifyMessage.header.notifyType,notifyMessage.payload))
+				
+				
 			}
 			
 			override fun deliveryComplete(token: IMqttDeliveryToken) {

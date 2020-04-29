@@ -137,7 +137,7 @@ class MomentDetailFragment : BindingFragment<FragmentMomentDetailBinding, Moment
 	}
 	
 	override fun initData() {
-	
+		viewModel.fetchMomentDetail()
 	}
 	
 }

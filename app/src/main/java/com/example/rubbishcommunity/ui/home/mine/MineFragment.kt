@@ -7,10 +7,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.example.rubbishcommunity.NotifyMessageOutClass
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.DialogBindMachineBinding
 import com.example.rubbishcommunity.databinding.HeaderMineBinding
 import com.example.rubbishcommunity.databinding.MineFragmentBinding
+import com.example.rubbishcommunity.service.MQNotifyData
+import com.example.rubbishcommunity.service.parseDataToMachineNotifyMessage
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.ui.container.jumpToEditInfo
 import com.example.rubbishcommunity.ui.container.jumpToMachineDetail
@@ -145,7 +148,7 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 	}
 	
 	//弹出绑定设备弹窗
-	private fun showBindMachineDialog(dialogBinding:DialogBindMachineBinding){
+	private fun showBindMachineDialog(dialogBinding: DialogBindMachineBinding) {
 		if (bindAlertDialog == null)
 			bindAlertDialog = AlertDialog.Builder(context!!)
 				.setTitle("绑定智能设备")
@@ -163,28 +166,41 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 		bindAlertDialog?.show()
 	}
 	
+	//有MQ消息
+	override fun onMQMessageArrived(mqNotifyData: MQNotifyData) {
+		when (mqNotifyData.mqNotifyType) {
+			NotifyMessageOutClass.NotifyType.SYNC_MACHINE_HEALTH -> { //健康状态有更新
+				//parseDataToMachineNotifyMessage(mqNotifyData)
+				viewModel.refreshMachineInfo()
+			}
+			else -> {
+			
+			}
+		}
+	}
+	
 	//选图后的回调
 	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 		super.onActivityResult(requestCode, resultCode, data)
 		val images: List<LocalMedia>
-			when (requestCode) {
-				PictureConfig.CHOOSE_REQUEST -> {// 图片选择结果回调
-					images = PictureSelector.obtainMultipleResult(data)
-					if(images.isNotEmpty()){
-						viewModel.editBackground(images[0].cutPath)
-					}
-					
+		when (requestCode) {
+			PictureConfig.CHOOSE_REQUEST -> {// 图片选择结果回调
+				images = PictureSelector.obtainMultipleResult(data)
+				if (images.isNotEmpty()) {
+					viewModel.editBackground(images[0].cutPath)
 				}
-				else -> {
 				
-				}
 			}
+			else -> {
+				
+			}
+		}
 	}
 	
 	//从其他Acitivity回来 数据有无刷新
 	override fun onResume() {
 		super.onResume()
-		when{
+		when {
 			userInfoHasChanged == true -> {
 				viewModel.refreshUserInfo()
 				userInfoHasChanged = null

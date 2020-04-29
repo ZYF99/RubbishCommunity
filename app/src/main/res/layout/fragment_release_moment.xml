@@ -12,6 +12,13 @@
                 name="vm"
                 type="com.example.rubbishcommunity.ui.release.moments.ReleaseMomentViewModel" />
 
+        <variable
+                name="isDynamic"
+                type="Boolean" />
+
+        <variable
+                name="titleHint"
+                type="String" />
 
     </data>
 
@@ -110,7 +117,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@null"
                                 android:ems="10"
-                                android:hint='加个标题会有更多赞哦~'
+                                android:hint="@{titleHint}"
                                 android:inputType="text"
                                 android:maxLength="12"
                                 android:text="@={vm.title}"
@@ -133,7 +140,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@null"
                                 android:gravity="start"
-                                android:hint="说说此刻的想法"
+                                android:hint="写点什么吧～"
                                 android:inputType="text|textMultiLine"
                                 android:lineSpacingExtra="8dp"
                                 android:maxLength="600"

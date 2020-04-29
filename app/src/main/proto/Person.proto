@@ -1,0 +1,20 @@
+syntax = "proto3";
+package rubbishcommunity;
+option java_package = "com.example.rubbishcommunity";
+option java_outer_classname = "PersonOutClass";
+
+message Person {
+    string name = 1; // 姓名
+    int32 age = 2; // 年龄
+    int64 age1 = 3; // 年龄
+    int64 age2 = 4; // 年龄
+    int64 age3 = 5; // 年龄
+    int64 age4 = 6; // 年龄
+    int64 age5 = 7; // 年龄
+    int64 age6 = 8; // 年龄
+    int64 age7 = 9; // 年龄
+    int64 age8 = 10; // 年龄
+    int64 age9 = 11; // 年龄
+    int64 age10 = 12; // 年龄
+    int64 age11 = 13; // 年龄
+}
