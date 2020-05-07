@@ -12,6 +12,7 @@ import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ContainerBinding
 import com.example.rubbishcommunity.model.api.News
+import com.example.rubbishcommunity.model.api.SimpleProfileResp
 import com.example.rubbishcommunity.model.api.machine.FetchMachineInfoResultModel
 import com.example.rubbishcommunity.model.api.moments.MomentContent
 import com.example.rubbishcommunity.model.api.news.NewsResult
@@ -260,10 +261,10 @@ fun jumpToMachineDetail(
 }
 
 //跳转至聊天界面
-fun jumpToChat(context: Context, openId: String) {
+fun jumpToChat(context: Context, userProfile: SimpleProfileResp) {
 	val bundle = Bundle()
 	bundle.putString("tag", "chat")
-	bundle.putString("uid", openId)
+	bundle.putString("userProfile", globalGson.toJson(userProfile))
 	context.startActivity(Intent(context, ContainerActivity::class.java).putExtras(bundle))
 }
 

@@ -62,6 +62,10 @@ private fun parseMQData(
 		NotifyMessageOutClass.NotifyType.SYNC_MOMENTS_REPLY -> {//Moments的评论被回复
 		
 		}
+		NotifyMessageOutClass.NotifyType.NOTIFY_RELATION_CHANGE -> {//关系变化通知
+		
+		}
+		
 		NotifyMessageOutClass.NotifyType.ERROR_DEFAULT_TYPE -> {//
 		
 		}
@@ -70,8 +74,10 @@ private fun parseMQData(
 	}
 }
 
-//将NotifyMessageData解析成NotifyMessage的Model
+//将NotifyMessageData解析成MachineNotifyMessage的Model
 fun parseDataToMachineNotifyMessage(mqNotifyData: MQNotifyData) =
 	parseMQData(mqNotifyData) as NotifyMessageOutClass.MachineNotifyMessage
-	
 
+//将NotifyMessageData解析成RelationChangeMessage的Model
+fun parseDataToRelationChangeNotifyMessage(mqNotifyData: MQNotifyData) =
+	parseMQData(mqNotifyData) as NotifyMessageOutClass.RelationChangeMessage

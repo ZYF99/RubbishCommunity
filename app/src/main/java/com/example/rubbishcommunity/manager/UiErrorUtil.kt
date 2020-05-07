@@ -11,7 +11,6 @@ import io.reactivex.CompletableTransformer
  *
  * */
 
-
 //处理错误信息
 fun dealUiError(): CompletableTransformer {
 	return CompletableTransformer { obs ->
@@ -35,5 +34,4 @@ fun dealUiError(): CompletableTransformer {
 }
 
 //UI 异常
-data class UiError(val content: String) :
-	Throwable()
+data class UiError(val content: String) : Throwable()

@@ -122,6 +122,7 @@ abstract class BindingActivity<Bind : ViewDataBinding, VM : AndroidViewModel>
 					ErrorType.TOKEN_INVALID -> {
 						AlertDialog.Builder(this)
 							.setMessage("登录失效，请重新登录")
+							.setCancelable(false)
 							.setPositiveButton("确定") { _, _ ->
 								jumpToLogin(this)
 							}.create().show()

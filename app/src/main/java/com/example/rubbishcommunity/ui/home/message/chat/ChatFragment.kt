@@ -2,17 +2,20 @@ package com.example.rubbishcommunity.ui.home.message.chat
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.rubbishcommunity.NotifyMessageOutClass
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.ChatBinding
+import com.example.rubbishcommunity.model.api.SimpleProfileResp
+import com.example.rubbishcommunity.service.MQNotifyData
 import com.example.rubbishcommunity.ui.utils.hideSoftKeyBoard
 import com.example.rubbishcommunity.ui.utils.openSoftKeyBoard
+import com.example.rubbishcommunity.utils.globalGson
 import com.jakewharton.rxbinding2.view.RxView
 import me.everything.android.ui.overscroll.IOverScrollState.*
 import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator
 import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorAdapter
 import java.util.concurrent.TimeUnit
-
 
 class ChatFragment : BindingFragment<ChatBinding, ChatViewModel>(
 	ChatViewModel::class.java, R.layout.fragment_chat
@@ -20,7 +23,7 @@ class ChatFragment : BindingFragment<ChatBinding, ChatViewModel>(
 	
 	
 	override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
-		binding.consContent?.scrollTo(0, keyboardHeightInPx)
+		binding.consContent.scrollTo(0, keyboardHeightInPx)
 	}
 	
 	override fun onSoftKeyboardClosed() {
@@ -28,7 +31,8 @@ class ChatFragment : BindingFragment<ChatBinding, ChatViewModel>(
 	}
 	
 	override fun initBefore() {
-		viewModel.run { init((activity!!.intent.getSerializableExtra("uid")) as String) }
+		viewModel.receiver.value = globalGson.getAdapter(SimpleProfileResp::class.java).fromJson((activity!!.intent.getSerializableExtra("userProfile")) as String)
+		viewModel.init()
 	}
 	
 	override fun initWidget() {
@@ -80,14 +84,11 @@ class ChatFragment : BindingFragment<ChatBinding, ChatViewModel>(
 			.throttleFirst(1, TimeUnit.SECONDS)
 			.doOnNext {
 				viewModel.sendStringMsg()
-					.doOnSuccess {
-					
-					}.bindLife()
 			}.bindLife()
 		
 		viewModel.chatList.observeNonNull { list ->
 			binding.recChat.run {
-				adapter?.notifyItemInserted(list.size - 1)
+				(adapter as ChatListAdapter).replaceData(list)
 				scrollToPosition(list.size - 1)
 			}
 		}
@@ -110,7 +111,15 @@ class ChatFragment : BindingFragment<ChatBinding, ChatViewModel>(
 		if (mManager.isSoftKeyboardOpened) {
 			activity!!.hideSoftKeyBoard()
 		}
-		binding.consContent?.scrollTo(0, 0)
+		binding.consContent.scrollTo(0, 0)
+	}
+	
+	override fun onMQMessageArrived(mqNotifyData: MQNotifyData) {
+		when(mqNotifyData.mqNotifyType){
+			NotifyMessageOutClass.NotifyType.SYNC_NEW_MESSAGE -> {
+			
+			}
+		}
 	}
 
 /*    //create pop of jobPicker

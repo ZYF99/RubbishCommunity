@@ -1,14 +1,20 @@
 package com.example.rubbishcommunity.ui.home
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.util.Base64
 import android.util.Base64.NO_WRAP
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rubbishcommunity.MqttHeartBeatMessageOutClass
 import com.example.rubbishcommunity.R
+import com.example.rubbishcommunity.databinding.DialogFriendBinding
 import com.example.rubbishcommunity.databinding.MainBinding
 import com.example.rubbishcommunity.persistence.getLinkKey
 import com.example.rubbishcommunity.persistence.getLocalNeedMoreInfo
@@ -17,6 +23,7 @@ import com.example.rubbishcommunity.persistence.getLocalVerifiedEmail
 import com.example.rubbishcommunity.service.DEW_MQTT_HEART_BEAT_TOPIC
 import com.example.rubbishcommunity.service.MqServiceConnection
 import com.example.rubbishcommunity.service.MyMqttService
+import com.example.rubbishcommunity.ui.adapter.LikeFriendListAdapter
 import com.example.rubbishcommunity.ui.base.BindingActivity
 import com.example.rubbishcommunity.ui.container.jumpToBasicInfo
 import com.example.rubbishcommunity.ui.container.jumpToReleaseMoments
@@ -42,7 +49,7 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	private val mqServiceConnection = MqServiceConnection { mqService ->
 		
 		//维持心跳
-		Observable.interval(3, 3, TimeUnit.SECONDS)
+		Observable.interval(3, 1, TimeUnit.MINUTES)
 			.doOnNext {
 				//发送心跳
 				mqService
@@ -68,7 +75,7 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 	override fun initWidget() {
 		//状态栏字体黑色
 		StatusBarUtil.setStatusTextColor(true, this)
-		
+
 /*		machineSearchHistoryHasChanged.observeNonNull {
 			Timber.d("$it")
 		}*/
@@ -125,8 +132,25 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 			}.bindLife()
 		}
 		
+		binding.btnNotifyMessage.setOnClickListener {
+			showFriendsDialog()
+		}
+		
+		//好友请求列表变化
+		viewModel.likeRequestData.observeNonNull {
+			if (it.usrMatchRelationRespList?.isNotEmpty() == true) {
+				binding.btnNotifyMessage.visibility = View.VISIBLE
+				binding.tvLikeNotifyCount.text = it.usrMatchRelationRespList.size.toString()
+				binding.tvLikeNotifyCount.visibility = View.VISIBLE
+			} else {
+				binding.btnNotifyMessage.visibility = View.GONE
+				binding.tvLikeNotifyCount.visibility = View.GONE
+			}
+		}
+		
 	}
 	
+	@SuppressLint("RestrictedApi")
 	override fun initData() {
 		
 		//启动mqtt服务
@@ -135,6 +159,9 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 			mqServiceConnection,
 			Context.BIND_AUTO_CREATE
 		)
+		
+		//拉取好友请求
+		viewModel.fetchAllLikeRequest()
 		
 	}
 	
@@ -202,17 +229,6 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 		RichText.recycle()
 		super.onDestroy()
 	}
-
-/*	override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-		if (keyCode == KEYCODE_BACK) {
-			val intent = Intent(Intent.ACTION_MAIN)
-			intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-			intent.addCategory(Intent.CATEGORY_HOME)
-			startActivity(intent)
-			return true
-		}
-		return super.onKeyDown(keyCode, event)
-	}*/
 	
 	override fun onBackPressed() {
 		if (System.currentTimeMillis() - quiteTime > 3000) {
@@ -223,6 +239,38 @@ class MainActivity : BindingActivity<MainBinding, MainViewModel>() {
 		} else {
 			finish()
 		}
+	}
+	
+	private fun showFriendsDialog() {
+		val friendDialogBinding = DataBindingUtil.inflate<DialogFriendBinding>(
+			LayoutInflater.from(this),
+			R.layout.dialog_friend,
+			null,
+			false
+		)
+		friendDialogBinding.rvFriend.apply {
+			layoutManager = LinearLayoutManager(this@MainActivity)
+			adapter = LikeFriendListAdapter(
+				onReceiveClick ={
+					viewModel.receiveFriend(it.openId)
+				},
+				onRefuseClick = {
+					viewModel.refuseFriend(it.openId)
+				},
+				onCellClick = {
+				
+				}
+			).apply {
+				replaceData(
+					viewModel.likeRequestData.value?.usrMatchRelationRespList ?: emptyList()
+				)
+			}
+			
+		}
+		AlertDialog.Builder(this)
+			.setView(friendDialogBinding.root)
+			.create()
+			.show()
 	}
 	
 }

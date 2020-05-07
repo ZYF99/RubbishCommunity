@@ -3,13 +3,11 @@ package com.example.rubbishcommunity.ui.home.message
 import android.view.View
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.MessageBinding
-import com.example.rubbishcommunity.model.Person
 import com.example.rubbishcommunity.ui.adapter.ITEM_SWIPE_VERTICAL
 import com.example.rubbishcommunity.ui.adapter.attachItemSwipe
 import com.example.rubbishcommunity.ui.container.jumpToChat
@@ -40,11 +38,10 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
 		}
 		
 		viewModel.isRefreshing.observeNonNull { isRefreshing ->
-			binding.refreshLayout.run {
-				if (!isRefreshing) finishRefresh()
-			}
+			binding.refreshLayout.isRefreshing = isRefreshing
 		}
 		
+
 		//监听AppBar滑动隐藏下面的BottomNavigationView
 		binding.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
 			(activity as? MainActivity)?.viewModel?.onAppBarOffsetChanged(
@@ -56,6 +53,7 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
 		//下拉刷新控件
 		binding.refreshLayout.setOnRefreshListener {
 			viewModel.fetchMessageList()
+			viewModel.fetchFriendsList()
 		}
 		
 		//消息列表
@@ -65,7 +63,7 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
 					//if (!isDrawerOpen)//侧边栏未开启
 					jumpToChat(
 						context!!,
-						message.uid
+						message.user
 					)
 				},
 				{ position ->
@@ -129,16 +127,23 @@ class MessageFragment : BindingFragment<MessageBinding, MessageViewModel>(
 		
 		//好友列表
 		binding.rightSideLayout.findViewById<RecyclerView>(R.id.friendlsit).run {
-			adapter = FriendListAdapter { message ->
-				jumpToChat(context, message.uid)
+			adapter = FriendListAdapter { user ->
+				jumpToChat(context, user.recipientProfile)
 			}
 		}
+		
+		viewModel.friendsList.observeNonNull {
+			(binding.rightSideLayout.findViewById<RecyclerView>(R.id.friendlsit).adapter as FriendListAdapter)
+				.replaceData(it)
+		}
+		
 		
 	}
 	
 	//初始化数据
 	override fun initData() {
 		viewModel.fetchMessageList()
+		viewModel.fetchFriendsList()
 	}
 	
 }

@@ -10,6 +10,7 @@ import com.example.rubbishcommunity.persistence.saveMachineSearchHistoryStartTim
 import com.example.rubbishcommunity.service.MQNotifyData
 import com.example.rubbishcommunity.service.parseDataToMachineNotifyMessage
 import com.example.rubbishcommunity.ui.base.BindingFragment
+import com.example.rubbishcommunity.ui.home.MainActivity
 import com.example.rubbishcommunity.ui.widget.DatePopView
 import com.example.rubbishcommunity.utils.getTimeShortFloat
 import com.example.rubbishcommunity.utils.globalGson

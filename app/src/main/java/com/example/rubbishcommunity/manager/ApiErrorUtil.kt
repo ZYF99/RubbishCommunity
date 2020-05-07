@@ -33,7 +33,7 @@ private fun <T> judgeCodeIfIsSuccess(result: T): Boolean {
 	return when (result) {
 		is ResultModel<*> -> {//LeoWong的API错误
 			when (result.meta.code) {
-				1000 -> true
+				in 1000..1999 -> true
 				else -> false
 			}
 		}

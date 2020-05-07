@@ -78,6 +78,39 @@
                 app:rippleColor="@color/colorBlackTrans" />
 
 
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_notify_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:backgroundTint="@color/colorWhite"
+                android:src="@drawable/icon_mine_selected"
+                android:tint="@color/black"
+                app:borderWidth="0dp"
+                app:fabSize="normal"
+                app:layout_constraintBottom_toTopOf="@+id/fab_add"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:rippleColor="@color/colorBlackTrans" />
+
+        <TextView
+                android:id="@+id/tv_like_notify_count"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="32dp"
+                android:elevation="6dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textColor="@color/colorRed"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_notify_message"
+                app:layout_constraintEnd_toEndOf="@+id/btn_notify_message"
+                app:layout_constraintStart_toStartOf="@+id/btn_notify_message"
+                app:layout_constraintTop_toTopOf="@+id/btn_notify_message"
+                tools:text="3" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -72,7 +72,9 @@ class MomentsFragment(private val classify: Int = CLASSIFY_DYNAMIC) :
 					//点击头像
 					UserInfoDialog(
 						context,
-						publisher
+						publisher,{openId ->
+						viewModel.addFriends(openId)
+						}
 					) {
 						jumpToUserInfo(context, publisher.openId)
 					}.show()

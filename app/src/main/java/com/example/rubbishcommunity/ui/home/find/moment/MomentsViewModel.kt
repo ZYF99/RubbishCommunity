@@ -4,6 +4,9 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.rubbishcommunity.MyApplication
 import com.example.rubbishcommunity.manager.api.MomentService
+import com.example.rubbishcommunity.manager.api.RelationService
+import com.example.rubbishcommunity.manager.api.UserService
+import com.example.rubbishcommunity.model.api.message.AddFriendsRequestModel
 import com.example.rubbishcommunity.model.api.moments.*
 import com.example.rubbishcommunity.model.api.release.PUBLISH_TYPE_FORWARD
 import com.example.rubbishcommunity.model.api.release.ReleaseMomentRequestModel
@@ -13,6 +16,8 @@ import org.kodein.di.generic.instance
 
 class MomentsViewModel(application: Application) : BaseViewModel(application) {
 	private val momentService by instance<MomentService>()
+	private val relationService by instance<RelationService>()
+	private val userService by instance<UserService>()
 	val momentList = MutableLiveData<List<MomentContent>>()
 	private val startPage = MutableLiveData(1)
 	val isRefreshing = MutableLiveData(false)
@@ -83,6 +88,20 @@ class MomentsViewModel(application: Application) : BaseViewModel(application) {
 			.doOnApiSuccess {
 				refreshMoments()
 				action?.invoke(it)
+			}
+	}
+	
+	//加好友
+	fun addFriends(openId: String) {
+		userService.openIdToUin(openId)
+			.flatMap {
+				relationService.addFriends(
+					AddFriendsRequestModel(it.data.uin)
+				)
+				
+			}.dealLoading()
+			.doOnApiSuccess {
+			
 			}
 	}
 	

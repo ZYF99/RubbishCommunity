@@ -2,10 +2,12 @@ package com.example.rubbishcommunity.ui.home.homepage
 
 import android.util.Base64
 import android.util.Base64.NO_WRAP
+import com.example.rubbishcommunity.NotifyMessageOutClass
 import com.example.rubbishcommunity.PersonOutClass
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.R
 import com.example.rubbishcommunity.databinding.HomePageBinding
+import com.example.rubbishcommunity.service.MQNotifyData
 import com.example.rubbishcommunity.ui.container.jumpToNewsDetail
 import com.example.rubbishcommunity.ui.container.jumpToSearch
 import com.example.rubbishcommunity.ui.home.MainActivity
@@ -26,25 +28,6 @@ class HomePageFragment : BindingFragment<HomePageBinding, HomePageViewModel>(
 	}
 	
 	override fun initWidget() {
-		
-		val person = PersonOutClass.Person
-			.newBuilder()
-			.setName("Fenrir")
-			.setAge(34)
-			.setAge1(46)
-			.setAge2(56)
-			.setAge3(16)
-			.setAge4(56)
-			.setAge5(86)
-			.setAge6(66)
-			.setAge7(56)
-			.setAge8(86)
-			.setAge9(54)
-			.setAge10(66)
-			.setAge11(66)
-			.build()
-		val a = Base64.encodeToString(person.toByteArray(),NO_WRAP)
-		print(Arrays.toString(person.toByteArray()))
 		
 		binding.toolBar.setExpandedTitleColor(resources.getColor(R.color.colorTrans))
 		
@@ -116,6 +99,16 @@ class HomePageFragment : BindingFragment<HomePageBinding, HomePageViewModel>(
 		super.onPause()
 	}
 	
+	override fun onMQMessageArrived(mqNotifyData: MQNotifyData) {
+		when(mqNotifyData.mqNotifyType){
+			NotifyMessageOutClass.NotifyType.NOTIFY_RELATION_CHANGE -> { //关系有更新，在此处更新Activity中的View
+				(activity as MainActivity).viewModel.fetchAllLikeRequest()
+			}
+			else ->{
+			
+			}
+		}
+	}
 	
 }
 

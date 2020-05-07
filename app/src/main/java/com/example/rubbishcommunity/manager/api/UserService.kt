@@ -1,10 +1,11 @@
 package com.example.rubbishcommunity.manager.api
 
+import com.example.rubbishcommunity.model.api.OpenIdModel
 import com.example.rubbishcommunity.model.api.ResultModel
+import com.example.rubbishcommunity.model.api.UinModel
 import com.example.rubbishcommunity.model.api.guide.CompleteInfoRequestModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterRequestModel
 import com.example.rubbishcommunity.model.api.guide.LoginOrRegisterResultModel
-import com.example.rubbishcommunity.model.api.mine.UserCardResultModel
 import com.example.rubbishcommunity.model.api.mine.UsrProfileResp
 import com.example.rubbishcommunity.model.api.password.ResetPasswordRequestModel
 import io.reactivex.Single
@@ -52,5 +53,12 @@ interface UserService {
 	@PUT("api/account/password/modify")
 	fun editPassword(@Body passwordReq: ResetPasswordRequestModel): Single<ResultModel<String>>
 	
+	//openId转uin
+	@GET("api/common/tools/openId")
+	fun openIdToUin(@Query("openId")openId: String?): Single<ResultModel<UinModel>>
+	
+	//uin转openId
+	@GET("api/common/tools/openId")
+	fun uinToOpenId(@Query("uin")uin: Long?): Single<ResultModel<OpenIdModel>>
 	
 }

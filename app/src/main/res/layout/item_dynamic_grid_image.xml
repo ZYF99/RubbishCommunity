@@ -28,7 +28,6 @@
                 app:layout_constraintDimensionRatio="w,1:1"
                 app:cardBackgroundColor="#00FFFFFF"
                 app:cardCornerRadius="8dp"
-                app:cardElevation="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

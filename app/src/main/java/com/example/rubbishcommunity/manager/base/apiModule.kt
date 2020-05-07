@@ -34,6 +34,8 @@ val apiModule = Kodein.Module {
 	
 	bind<MachineService>() with singleton { instance<ApiClient>().createService(MachineService::class.java) }
 	
+	bind<RelationService>() with singleton { instance<ApiClient>().createService(RelationService::class.java) }
+	
 	//ip获取地址
 	bind<IpClient>() with singleton { provideIpClient() }
 	bind<IpService>() with singleton { instance<IpClient>().createService(IpService::class.java) }

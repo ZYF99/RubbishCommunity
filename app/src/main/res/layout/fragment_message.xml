@@ -49,8 +49,8 @@
                                 android:id="@+id/toolbar_hide"
                                 android:layout_width="match_parent"
                                 android:layout_height="?attr/actionBarSize"
-                                android:paddingTop="@dimen/statusBarSize"
-                                android:maxLength="3" />
+                                android:maxLength="3"
+                                android:paddingTop="@dimen/statusBarSize" />
 
                     </com.google.android.material.appbar.CollapsingToolbarLayout>
                 </com.google.android.material.appbar.AppBarLayout>
@@ -68,30 +68,19 @@
                             android:layout_height="match_parent"
                             android:orientation="vertical">
 
-
-                        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                                 android:id="@+id/refreshLayout"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                app:srlAccentColor="@color/colorApp"
-                                app:srlEnablePreviewInEditMode="true"
-                                app:srlHeaderTriggerRate="0.3">
-
-                            <!--            &lt;!&ndash;srlAccentColor srlPrimaryColor 将会改变 Header 和 Footer 的主题颜色&ndash;&gt;
-                                &lt;!&ndash;srlEnablePreviewInEditMode 可以开启和关闭预览功能&ndash;&gt;-->
-                            <com.scwang.smartrefresh.header.StoreHouseHeader
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    app:shhText="@string/brief" />
+                                android:layout_height="match_parent">
 
                             <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/rec_message"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 
-                        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+                        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
                         <Space
                                 android:layout_width="match_parent"

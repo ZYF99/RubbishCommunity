@@ -13,7 +13,6 @@ import com.example.rubbishcommunity.databinding.DialogBindMachineBinding
 import com.example.rubbishcommunity.databinding.HeaderMineBinding
 import com.example.rubbishcommunity.databinding.MineFragmentBinding
 import com.example.rubbishcommunity.service.MQNotifyData
-import com.example.rubbishcommunity.service.parseDataToMachineNotifyMessage
 import com.example.rubbishcommunity.ui.base.BindingFragment
 import com.example.rubbishcommunity.ui.container.jumpToEditInfo
 import com.example.rubbishcommunity.ui.container.jumpToMachineDetail
@@ -25,7 +24,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.entity.LocalMedia
-
 
 class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 	MineViewModel::class.java, R.layout.fragment_mine
@@ -173,6 +171,7 @@ class MineFragment : BindingFragment<MineFragmentBinding, MineViewModel>(
 				//parseDataToMachineNotifyMessage(mqNotifyData)
 				viewModel.refreshMachineInfo()
 			}
+			
 			else -> {
 			
 			}

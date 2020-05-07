@@ -154,7 +154,7 @@ class ReleaseMomentViewModel(application: Application) : BaseViewModel(applicati
 				 0.0,
 				selectedImgList ?: emptyList(),
 				title.value!!,
-				"default_topic"
+				"成都东软"
 			)
 		)
 		

@@ -10,6 +10,8 @@ enum NotifyType{
     SYNC_MOMENTS_FAVORITE = 3;
     NOTIFY_MACHINE_SEARCH = 4;
     SYNC_MACHINE_HEALTH = 5;
+    NOTIFY_RELATION_CHANGE = 6;
+    SYNC_NEW_MESSAGE = 7;
 }
 
 message NotifyMessage{
@@ -29,4 +31,11 @@ message MachineNotifyMessage{
     string searchKey = 1;
     string nikeName = 2;
     int64 timestamp = 3;
+}
+
+message RelationChangeMessage{
+    int64 sponsor = 1;
+    int32 relationType = 3;
+    int32 relationSource = 4;
+    int64 refreshTime = 5;
 }

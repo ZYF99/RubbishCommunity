@@ -1,6 +1,7 @@
 package com.example.rubbishcommunity.model
 
 
+import com.example.rubbishcommunity.model.api.SimpleProfileResp
 import java.io.Serializable
 
 data class Message(
@@ -8,10 +9,6 @@ data class Message(
 	val iconUrl: String,
 	val title: String,
 	val msg: String,
-	val time: String
-) : Serializable {
-	
-	override fun toString(): String {
-		return "Message(uid='$uid', iconUrl='$iconUrl', title='$title', msg='$msg', time='$time')"
-	}
-}
+	val time: String,
+	val user:SimpleProfileResp
+) : Serializable

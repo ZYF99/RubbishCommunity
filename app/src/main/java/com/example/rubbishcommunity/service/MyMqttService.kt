@@ -75,6 +75,7 @@ class MyMqttService : Service() {
 			
 			override fun messageArrived(topic: String, message: MqttMessage) {//订阅的消息送达，推送notify
 				
+				//先用Base64解码
 				val resBytes = Base64.decode(message.payload, Base64.NO_WRAP)
 				
 				//得到最外层的NotifyMessage对象
