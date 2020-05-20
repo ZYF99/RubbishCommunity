@@ -83,7 +83,6 @@ class AnimatorUtils(
 			
 			progressView.visibility = View.GONE
 			transView.visibility = View.VISIBLE
-			
 			btnReact.isEnabled = true
 			
 			val params = transView.layoutParams as ViewGroup.MarginLayoutParams

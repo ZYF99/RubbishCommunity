@@ -7,6 +7,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.protobuf.ProtoConverterFactory
 import timber.log.Timber
 import java.security.SecureRandom
 import java.security.cert.CertificateException
@@ -83,7 +84,9 @@ class ApiClient(
 			adapterBuilder
 				.baseUrl(baseUrl)
 				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+				.addConverterFactory(ProtoConverterFactory.create())
 				.addConverterFactory(GsonConverterFactory.create())
+			
 			val client = okBuilder.addInterceptor { chain ->
 				val origin = chain.request()
 				val request = origin

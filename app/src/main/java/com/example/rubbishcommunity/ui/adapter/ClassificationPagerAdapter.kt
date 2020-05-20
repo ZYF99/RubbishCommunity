@@ -24,8 +24,8 @@ class ClassificationPagerAdapter(
 			LayoutInflater.from(context)
 				.inflate(R.layout.cell_page_classification, container, false)
 		container.addView(root)
-		val binding: SearchKeyConclusionBinding = DataBindingUtil.bind(root)!!
-		binding.searchKeyConclusion = list[position]
+		val binding: SearchKeyConclusionBinding? = DataBindingUtil.bind(root)
+		binding?.searchKeyConclusion = list[position]
 		RxView.clicks(root).throttleFirst(1, TimeUnit.SECONDS).doOnNext {
 			startClickAnimation(root)
 		}.subscribe()
